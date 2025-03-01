@@ -2,12 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import {
   ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
 } from '@clerk/nextjs'
+import Navbar from "@/app/components/Navbar";
 
 export const metadata: Metadata = {
   title: "Unicareer",
@@ -27,13 +23,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={`antialiased`}>
           <header className="flex justify-end items-center p-4 gap-4 h-16">
-            <SignedOut>
-              <SignInButton />
-              <SignUpButton />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+          <Navbar />
           </header>
           {children}
         </body>

@@ -1,21 +1,20 @@
 import prisma from "./prisma";
 
 export interface ClerkUserCreatedEvent {
-  clerkId: string;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  photo?: string;
+  id: string;
+  email_addresses: Array<{ id: string; email_address: string }>;
+  first_name: string;
+  last_name: string;
+  image_url: string;
 }
 
 export async function storeUser(data: ClerkUserCreatedEvent) {
   const user = {
-    clerkId: data.clerkId,
-    email: data.email,
-    firstName: data.firstName || "",
-    lastName: data.lastName || "",
-    photo: data.photo || "",
-    updatedAt: new Date(),
+    clerkId: data.id,
+    email: data.email_addresses[0]?.email_address || "",
+    firstName: data.first_name || "",
+    lastName: data.last_name || "",
+    photo: data.image_url || "",
   };
 
   return prisma.user.upsert({
@@ -26,18 +25,13 @@ export async function storeUser(data: ClerkUserCreatedEvent) {
       firstName: user.firstName,
       lastName: user.lastName,
       photo: user.photo,
-      updatedAt: new Date(),
     },
     create: {
       clerkId: user.clerkId,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      password: "",
-      role: "CANDIDATE",
       photo: user.photo,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
   });
 }

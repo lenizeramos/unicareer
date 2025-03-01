@@ -42,14 +42,14 @@ export async function POST(req: Request) {
     });
   }
 
-  if (evt.type === "user.created" && "email" in evt.data) {
+  if (evt.type === "user.created" && "email_addresses" in evt.data) {
     try {
       const userData = {
-        clerkId: evt.data.id,
-        firstName: evt.data.first_name ?? "",
-        lastName: evt.data.last_name ?? "",
+        id: evt.data.id,
+        email_addresses: evt.data.email_addresses,
+        first_name: evt.data.first_name ?? "",
+        last_name: evt.data.last_name ?? "",
         image_url: evt.data.image_url ?? "",
-        email: evt.data.email as string,
       };
       await storeUser(userData);
       console.log("User stored in db 🔥");
