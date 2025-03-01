@@ -13,6 +13,116 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id String @id @default(cuid()) @map("_id")
+  email String @unique
+  password String
+  role Role
+  name String
+  profile Profile?
+  jobs Job[] @relation("PostedJobs")
+  applications Application[]
+  payments Payment[]
+  messagesSent Message[] @relation("SenderMessages")
+  messagesReceived Message[] @relation("ReceiverMessages")
+  jobRecommendations JobRecommendation[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("user")
+}
+
+model Profile {
+  id String @id @default(cuid()) @map("_id")
+  userId String @unique
+  user User @relation(fields: [userId], references: [id])
+  bio String?
+  skills String[]
+  resume String?
+  companyName String?
+  website String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  compatibilityScores CompatibilityScore[]
+  @@map("profile")
+}
+
+model Job {
+  id String @id @default(cuid()) @map("_id")
+  title String
+  description String
+  companyId String
+  company User @relation(fields: [companyId], references: [id], name: "PostedJobs")
+  applications Application[]
+  jobRecommendations JobRecommendation[]
+  compatibilityScores CompatibilityScore[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("job")
+}
+
+model Application {
+  id String @id @default(cuid()) @map("_id")
+  jobId String
+  job Job @relation(fields: [jobId], references: [id])
+  candidateId String
+  candidate User @relation(fields: [candidateId], references: [id])
+  status ApplicationStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  @@map("application")
+}
+
+model Payment {
+  id String @id @default(cuid()) @map("_id")
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  amount Float
+  status PaymentStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  @@map("payment")
+}
+
+model Message {
+  id String @id @default(cuid()) @map("_id")
+  senderId String
+  sender User @relation(fields: [senderId], references: [id], name: "SenderMessages")
+  receiverId String
+  receiver User @relation(fields: [receiverId], references: [id], name: "ReceiverMessages")
+  content String
+  createdAt DateTime @default(now())
+  @@map("message")
+}
+
+model Metric {
+  id String @id @default(cuid()) @map("_id")
+  totalUsers Int @default(0)
+  totalJobs Int @default(0)
+  totalApplications Int @default(0)
+  updatedAt DateTime @updatedAt
+  @@map("metric")
+}
+
+model JobRecommendation {
+  id String @id @default(cuid()) @map("_id")
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  jobId String
+  job Job @relation(fields: [jobId], references: [id])
+  compatibilityScore Float
+  generatedAt DateTime @default(now())
+  @@map("job_recommendation")
+}
+
+model CompatibilityScore {
+  id String @id @default(cuid()) @map("_id")
+  profileId String
+  profile Profile @relation(fields: [profileId], references: [id])
+  jobId String
+  job Job @relation(fields: [jobId], references: [id])
+  score Float
+  analysisDate DateTime @default(now())
+  @@map("compatibility_score")
+}
+
 enum Role {
   ADMIN
   COMPANY
@@ -29,72 +139,4 @@ enum PaymentStatus {
   PENDING
   COMPLETED
   FAILED
-}
-
-model User {
-  id           String        @id @default(cuid()) @map("_id")
-  clerkId      String        @unique
-  email        String        @unique
-  password     String
-  role         Role
-  name         String?
-  profile      Profile?
-  jobs         Job[]         @relation("PostedJobs")
-  applications Application[]
-  payments     Payment[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-
-  @@map("user")
-}
-
-model Profile {
-  id          String   @id @default(cuid()) @map("_id")
-  userId      String   @unique
-  user        User     @relation(fields: [userId], references: [id])
-  bio         String?
-  skills      String[]
-  resume      String?
-  companyName String?
-  website     String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@map("profile")
-}
-
-model Job {
-  id           String        @id @default(cuid()) @map("_id")
-  title        String
-  description  String
-  companyId    String
-  company      User          @relation(fields: [companyId], references: [id], name: "PostedJobs")
-  applications Application[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-
-  @@map("job")
-}
-
-model Application {
-  id          String            @id @default(cuid()) @map("_id")
-  jobId       String
-  job         Job               @relation(fields: [jobId], references: [id])
-  candidateId String
-  candidate   User              @relation(fields: [candidateId], references: [id])
-  status      ApplicationStatus @default(PENDING)
-  createdAt   DateTime          @default(now())
-
-  @@map("application")
-}
-
-model Payment {
-  id        String        @id @default(cuid()) @map("_id")
-  userId    String
-  user      User          @relation(fields: [userId], references: [id])
-  amount    Float
-  status    PaymentStatus @default(PENDING)
-  createdAt DateTime      @default(now())
-
-  @@map("payment")
 }
