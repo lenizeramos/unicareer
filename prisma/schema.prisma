@@ -15,10 +15,13 @@ datasource db {
 
 model User {
   id String @id @default(cuid()) @map("_id")
+  clerkId String @unique
   email String @unique
   password String
   role Role
-  name String
+  firstName String?
+  lastName String?
+  photo String?
   profile Profile?
   jobs Job[] @relation("PostedJobs")
   applications Application[]
