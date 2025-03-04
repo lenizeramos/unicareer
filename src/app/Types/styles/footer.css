@@ -1,0 +1,194 @@
+.footer {
+  background-color: #202430;
+  color: #d6ddeb;
+  padding: 40px 80px;
+  text-align: left;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.logo-container-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 50px;
+  margin-bottom: 15px;
+  margin-right: 0;
+}
+
+.description {
+  margin: 0;
+  max-width: 400px;
+}
+
+.links-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr;
+  gap: 2rem;
+}
+
+.wide-column {
+  flex: 2;
+}
+
+.narrow-column {
+  flex: 1;
+}
+
+.links {
+  list-style-type: none;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+p{
+    align-items: flex-start;
+}
+
+.subscribe {
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 15px;
+}
+
+.subscribe-form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 200px;
+  background-color: #fff;
+  color: #000;
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #4640de;
+  color: #fff;
+  cursor: pointer;
+}
+
+.bottom-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid #333;
+}
+
+.copyright {
+  margin-top: 0;
+}
+
+.social-icons {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.social-icons a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.social-icons span {
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.social-icons span:hover {
+  opacity: 0.8;
+}
+
+h4{
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: #fff;
+}
+
+span{
+    color: #fff;
+}   
+
+.app-name {
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.logo-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+
+@media screen and (max-width: 768px) {
+
+  .footer {
+    padding: 2rem 1rem;
+  }
+
+  .links-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .wide-column {
+    grid-column: 1 / -1;
+  }
+
+  .subscribe-form {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  .button {
+    width: 50%;
+  }
+
+  .bottom-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .social-icons{
+    gap: 80px;
+  }
+}
+
+
+
+
+
