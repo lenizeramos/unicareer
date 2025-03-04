@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { checkRole } from "@/utils/roles";
 import { SearchUsers } from "../components/SearchUsers";
 import { clerkClient } from "@clerk/nextjs/server";
-import { removeRole, setRole } from "./_actions";
+//import { removeRole, setRole } from "./_actions";
 
 export default async function AdminDashboard(params: {
   searchParams: Promise<{ search?: string }>;
@@ -48,7 +48,7 @@ export default async function AdminDashboard(params: {
               </div>
 
               <div className="mt-4 space-x-4">
-                <form action={setRole} className="inline-block">
+                {/* <form action={setRole} className="inline-block">
                   <input type="hidden" value={user.id} name="id" />
                   <input type="hidden" value="admin" name="role" />
                   <button
@@ -67,7 +67,7 @@ export default async function AdminDashboard(params: {
                   >
                     Remove Role
                   </button>
-                </form>
+                </form> */}
               </div>
             </div>
           ))}

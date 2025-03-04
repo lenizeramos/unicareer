@@ -2,6 +2,7 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { storeUser } from "../../../lib/userService";
+//import { clerkClient } from "@clerk/nextjs/server";
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -43,7 +44,13 @@ export async function POST(req: Request) {
   }
 
   if (evt.type === "user.created" && "email_addresses" in evt.data) {
+    //const userId = evt.data.id;
     try {
+     /*  const client = await clerkClient();
+      await client.users.updateUser(userId, {
+        publicMetadata: { role },
+      }); */
+
       const userData = {
         id: evt.data.id,
         email_addresses: evt.data.email_addresses,
