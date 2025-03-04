@@ -1,5 +1,76 @@
 @import "tailwindcss";
 
+:root {
+  --body-background: #FFFFFF;
+  --background: #F8F8FD;
+  --text-focus: #4640DE;
+  --text-not-focus: #7C8493;
+  --text-title: #25324B;
+  --light-border: #D6DDEB;
+  --item-focus: #E9EBFD;
+  --text-black: #000000;
+}
+
+/* Dark theme variables */
+/*@media (prefers-color-scheme: dark) {
+  :root {
+    --body-background: #1a1a1a;
+    --background: #1a1a1a;
+    --text-focus: #ffffff;
+    --text-not-focus: #a0a0a0;
+    --text-title: #3291ff;
+    --light-border: #D6DDEB;
+    --item-focus: #E9EBFD;
+  }
+}*/
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Inter, sans-serif;  
+  background-color: var(--body-background);
+}
+
+.text-black {
+  color: var(--text-black);
+}
+
+.sidebar {
+  background-color: var(--background);
+}
+
+.menu-item {
+  color: var(--text-not-focus);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.menu-item:hover {
+  background-color: var(--item-focus);
+  color: var(--text-focus);
+}
+
+.menu-item:hover span {
+  color: var(--text-focus);
+}
+
+.menu-item-focus {
+  background-color: var(--item-focus);
+  color: var(--text-focus);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.menu-item-no-focus-line {
+  padding-left: 4px;
+}
+
+.menu-item-focus-line {
+  border-left: 4px solid var(--text-focus);
+}
+
+.hover-icon-parent:hover .icon-hover {
+  color: var(--text-focus);
+}
+
+.border-light {
+  border-bottom: 1px solid var(--light-border);
 }
