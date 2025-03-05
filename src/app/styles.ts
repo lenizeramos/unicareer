@@ -6,11 +6,13 @@ const styles = {
   sectionHeadText: "",
   sectionSubText: "",
   sidebar: "h-screen w-64 text-white pt-4 pr-4 pb-4 fixed left-0 top-0 sidebar",
-  menuItemFocus: "menu-item-focus",
-  menuItem: "menu-item",
+  menuItemFocus: "color-menuItemFocus bg-menuItemFocus font-medium text-base",
+  menuItem: "color-menuItem text-base font-medium hover:color",
+  menuHover: "hover:text-menuHover",
   menuItemFocusLine: "menu-item-focus-line",
   menuItemNoFocusLine: "menu-item-no-focus-line",
   borderLight: "border-light",
+  dashboardTitle: "text-3xl font-bold mb-8 flex items-center gap-2 text-title-color pl-8 h-16 lg:h-auto",
 };
 
 export { styles };

@@ -5,9 +5,4 @@ interface IconProps {
     className?: string;
 }
 
-interface SVGIconProps {
-    color: string;
-    className?: string;
-}
-
-export type { IconProps, SVGIconProps };
+export type { IconProps };

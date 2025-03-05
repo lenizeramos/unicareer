@@ -5,22 +5,24 @@ import { usePathname } from 'next/navigation';
 import { DashboardType, SidebarProps } from '../Types/navigation';
 import { styles } from '../styles';
 import Icon from './Icon';
-import { DashboardIcon } from './icons/DashboardIcon';
-import { ApplicationsIcon } from './icons/ApplicationsIcon';
-import { SearchIcon } from './icons/SearchIcon';
-import { ProfileIcon } from './icons/ProfileIcon';
-import { CompaniesIcon } from './icons/CompaniesIcon';
-import { JobListingIcon } from './icons/JobListingIcon';
 import { dashboardMenus } from '../config/navigation';
 import React from 'react';
+import { MdOutlineSpaceDashboard } from "react-icons/md";
+import { TiDocumentText } from "react-icons/ti";
+import { IoSearchSharp } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
+import { FaRegBuilding } from "react-icons/fa";
+import { FiUsers } from "react-icons/fi";
+import { CiViewList } from "react-icons/ci";
 
-const iconComponents: { [key: string]: React.ComponentType<{ color: string, className?: string }> } = {
-  Dashboard: DashboardIcon,
-  Applications: ApplicationsIcon,
-  Search: SearchIcon,
-  Profile: ProfileIcon,
-  Companies: CompaniesIcon,
-  JobListing: JobListingIcon,
+const iconComponents = {
+    dashboard: MdOutlineSpaceDashboard,
+    document: TiDocumentText,
+    search: IoSearchSharp,
+    profile: CgProfile,
+    building: FaRegBuilding,
+    users: FiUsers,
+    list: CiViewList,
 };
 
 export default function Sidebar({ userType, isOpen = true, onClose }: SidebarProps) {
@@ -56,15 +58,18 @@ export default function Sidebar({ userType, isOpen = true, onClose }: SidebarPro
                                 }`}>
                                     <Link 
                                         href={item.path}
-                                        className={`block p-2 ml-6 hover:${styles.menuItemFocus} ${styles.menuItem} transition-colors ${
+                                        className={`block p-2 ml-6 ${styles.menuHover} ${styles.menuItem} transition-colors ${
                                             pathname === item.path ? styles.menuItemFocus : ''
                                         } flex items-center gap-2 hover-icon-parent`}
                                     >
                                         {(typeof item.iconName === 'string' && item.iconName in iconComponents) && 
-                                            React.createElement(iconComponents[item.iconName as keyof typeof iconComponents], {
-                                                color: "currentColor",
-                                                className: 'icon-hover transition-colors text-[--text-not-focus] hover:text-[--text-focus] [.hover-icon-parent:hover_&]:text-[--text-focus]'
-                                            })}
+                                            (() => {
+                                                const IconComponent = iconComponents[item.iconName as keyof typeof iconComponents];
+                                                return <IconComponent 
+                                                    className={`text-2xl ${styles.menuHover}`}
+                                                />;
+                                            })()
+                                        }
                                         <span>{item.title}</span>
                                     </Link>
                                 </div>

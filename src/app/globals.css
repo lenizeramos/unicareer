@@ -24,6 +24,12 @@
   }
 }*/
 
+@theme {
+  --color-menuItem: #7C8493;
+  --color-menuHover: #4640DE;
+  --color-menuItemFocus: #E9EBFD;
+}
+
 body {
   font-family: Inter, sans-serif;  
   background-color: var(--body-background);
@@ -33,14 +39,20 @@ body {
   color: var(--text-black);
 }
 
-.sidebar {
-  background-color: var(--background);
+.text-title-color {
+  color: var(--text-title);
 }
 
-.menu-item {
+.text-focus-color {
+  color: var(--text-focus);
+}
+
+.text-not-focus-color {
   color: var(--text-not-focus);
-  font-size: 16px;
-  font-weight: 500;
+}
+
+.sidebar {
+  background-color: var(--background);
 }
 
 .menu-item:hover {
@@ -50,13 +62,6 @@ body {
 
 .menu-item:hover span {
   color: var(--text-focus);
-}
-
-.menu-item-focus {
-  background-color: var(--item-focus);
-  color: var(--text-focus);
-  font-size: 16px;
-  font-weight: 500;
 }
 
 .menu-item-no-focus-line {

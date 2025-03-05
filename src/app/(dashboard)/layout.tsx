@@ -3,7 +3,7 @@
 import { dashboardMenus } from '../config/navigation';
 import Sidebar from '@/app/components/Sidebar';
 import { useState } from 'react';
-import MenuIcon from '@/app/components/icons/MenuIcon';
+import { RiMenu3Fill } from "react-icons/ri";
 import { styles } from '@/app/styles';
 
 export default function CandidateLayout({
@@ -29,7 +29,7 @@ export default function CandidateLayout({
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>  
                     ) : (
-                        <MenuIcon color="currentColor" />
+                        <RiMenu3Fill color="currentColor" />
                     )}
                 </button>
             </div>
@@ -42,7 +42,7 @@ export default function CandidateLayout({
             />
             
             {/* Main Content */}
-            <main className="flex-1 lg:ml-64 p-8 mt-16 lg:mt-0">
+            <main className="flex-1 p-8 mt-16 lg:mt-0">
                 {children}
             </main>
         </div>
