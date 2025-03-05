@@ -1,37 +1,26 @@
 import prisma from "./prisma";
+import { Role } from "@prisma/client";
 
-export interface ClerkUserCreatedEvent {
-  id: string;
-  email_addresses: Array<{ id: string; email_address: string }>;
-  first_name: string;
-  last_name: string;
+export interface User {
   image_url: string;
+  id: string;
+  email: string;
+  role: Role;
 }
 
-export async function storeUser(data: ClerkUserCreatedEvent) {
+export async function createUser(data: User) {
+  console.log(data, "data");
+
   const user = {
     clerkId: data.id,
-    email: data.email_addresses[0]?.email_address || "",
-    firstName: data.first_name || "",
-    lastName: data.last_name || "",
+    email: data.email || "",
     photo: data.image_url || "",
+    role: data.role,
   };
 
-  return prisma.user.upsert({
-    where: { clerkId: user.clerkId },
-    update: {
-      clerkId: user.clerkId,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      photo: user.photo,
-    },
-    create: {
-      clerkId: user.clerkId,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      photo: user.photo,
-    },
+  console.log(user, "user");
+
+  return prisma.user.create({
+    data: user,
   });
 }

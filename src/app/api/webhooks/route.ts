@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { storeUser } from "../../../lib/userService";
+//import { createCandidate } from "../../../lib/userService";
 //import { clerkClient } from "@clerk/nextjs/server";
 
 export async function POST(req: Request) {
@@ -51,14 +51,14 @@ export async function POST(req: Request) {
         publicMetadata: { role },
       }); */
 
-      const userData = {
+      /* const userData = {
         id: evt.data.id,
         email_addresses: evt.data.email_addresses,
         first_name: evt.data.first_name ?? "",
         last_name: evt.data.last_name ?? "",
         image_url: evt.data.image_url ?? "",
       };
-      await storeUser(userData);
+      await createCandidate(userData); */
       console.log("User stored in db 🔥");
     } catch (error) {
       console.error("Error storing user in DB:", error);

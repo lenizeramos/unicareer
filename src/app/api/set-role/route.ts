@@ -8,6 +8,7 @@ export async function POST(req: Request) {
     if (!role) return new NextResponse("Role not provided", { status: 400 });
 
     const { userId } = await auth();
+    console.log(userId, "hhhhhhhhhhh")
     if (!userId) return new NextResponse("Unauthorized", { status: 401 });
 
     const client = await clerkClient();

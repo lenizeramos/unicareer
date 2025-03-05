@@ -1,27 +1,95 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
+import CandidateForm from "../components/CandidateForm";
+import CompanyForm from "../components/CompanyForm";
+
 
 export default function SetRolePage() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
+  const [formType, setFormType] = useState<"candidate" | "company" | null>(
+    null
+  );
 
   useEffect(() => {
+    if (role === "candidate" || role === "company") {
+      setFormType(role);
+    } else {
+      setFormType(null);
+    }
     const setRole = async () => {
-      await fetch("/api/set-role", {
+      try {
+        const response = await fetch("/api/set-role", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ role }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to set role: ${response.statusText}`);
+        }
+      } catch (error) {
+        console.error("Error setting role:", error);
+      }
+    };
+
+    setRole();
+  }, [role]);
+
+  const handleCandidateFormSubmit = useCallback(async (formData: {
+    firstName: string;
+    lastName: string;
+    photo: File | null;
+  }) => {
+    console.log("Candidate Form Data:", formData);
+    try {
+      const response = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ role }),
+        body: JSON.stringify(formData),
       });
-      router.push("/dashboard");
-    };
 
-    setRole();
-  }, [router, role]);
+      if (!response.ok) {
+        throw new Error(`Registration error: ${response.statusText}`);
+      }
 
-  return <p>Definindo sua role...</p>;
+      const data = await response.json();
+      console.log("User registered successfully!", data);
+    } catch (error) {
+      console.error("Error registering the user:", error);
+      alert(`Failed to register the user: ${error.message}`);
+    }
+  }, []);
+
+  const handleCompanyFormSubmit = useCallback(async (formData: {
+    companyName: string;
+    industry: string;
+    logo: File | null;
+  }) => {
+    console.log("Company Form Data:", formData);
+  }, []);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="w-full max-w-2xl p-4">
+        <h1 className="text-2xl font-semibold text-center mb-6">
+          Choose a Form
+        </h1>
+
+        {formType === "candidate" && (
+          <CandidateForm onSubmit={handleCandidateFormSubmit} />
+        )}
+        {formType === "company" && (
+          <CompanyForm onSubmit={handleCompanyFormSubmit} />
+        )}
+        {formType === null && <p>Invalid role or missing parameter.</p>}
+      </div>
+    </div>
+  );
 }
