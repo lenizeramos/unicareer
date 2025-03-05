@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import CandidateForm from "../components/CandidateForm";
 import CompanyForm from "../components/CompanyForm";
 
-
 export default function SetRolePage() {
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
@@ -63,14 +62,15 @@ export default function SetRolePage() {
       console.log("User registered successfully!", data);
     } catch (error) {
       console.error("Error registering the user:", error);
-      alert(`Failed to register the user: ${error.message}`);
+      
+      
     }
   }, []);
 
   const handleCompanyFormSubmit = useCallback(async (formData: {
     companyName: string;
-    industry: string;
     logo: File | null;
+    bio: string;
   }) => {
     console.log("Company Form Data:", formData);
   }, []);
@@ -79,7 +79,7 @@ export default function SetRolePage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-2xl p-4">
         <h1 className="text-2xl font-semibold text-center mb-6">
-          Choose a Form
+          Registration Form
         </h1>
 
         {formType === "candidate" && (

@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { createUser } from "../../../lib/userService";
+import { createUserAndCandidate } from "../../../lib/candidateService";
 import { Role } from "@prisma/client";
 
 export async function POST(req: NextRequest) {
@@ -10,22 +10,20 @@ export async function POST(req: NextRequest) {
     if (!userId) return NextResponse.redirect(new URL("/sign-in", req.url));
 
     const user = await fetch(`https://api.clerk.com/v1/users/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
-        },
-      }).then((res) => res.json());
+      headers: {
+        Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
+      },
+    }).then((res) => res.json());
 
+    console.log(user, "userRRRRRRRRRRRRRR");
 
-      console.log(user, "userRRRRRRRRRRRRRR")
+    payload.id = userId;
+    payload.email = user.email_addresses[0]?.email_address || "Email not found";
+    payload.image_url = user.image_url;
+    payload.role = Role.CANDIDATE;
+    payload.skills = ["JAVA", "DEV"];
 
-      payload.id = userId;
-      payload.email = user.email_addresses[0]?.email_address || "Email not found";
-      payload.image_url = user.image_url
-      payload.role = Role.CANDIDATE
-
-    await createUser(payload);
-
-   
+    await createUserAndCandidate(payload);
 
     console.log("USERID:", userId, "EMAIL:", payload.email);
 
