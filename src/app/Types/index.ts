@@ -4,4 +4,9 @@ interface IButtton {
   width?: string;
 }
 
-export type { IButtton };
+interface ILogo {
+  logoSize?: number;
+  fontSize?: string;
+}
+
+export type { IButtton, ILogo };
