@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 
 export const metadata: Metadata = {
   title: "Unicareer",
@@ -20,7 +21,8 @@ export default function RootLayout({
       <body
         className={`antialiased`}
       >
-        {children}
+        <Navbar />
+          {children}
         <Footer />
       </body>
     </html>
