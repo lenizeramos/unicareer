@@ -31,6 +31,17 @@ enum PaymentStatus {
   FAILED
 }
 
+enum CategoriesJob {
+  DESIGN
+  SALES
+  MARKETING
+  BUSINESS
+  HUMAN_RESOURCE
+  FINANCE
+  ENGINEERING
+  TECHNOLOGY
+}
+
 model User {
   id           String        @id @default(cuid()) @map("_id")
   clerkId      String        @unique
@@ -70,6 +81,7 @@ model Job {
   companyId    String
   company      User          @relation(fields: [companyId], references: [id], name: "PostedJobs")
   applications Application[]
+  category     CategoriesJob
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 

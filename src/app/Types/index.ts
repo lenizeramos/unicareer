@@ -9,4 +9,11 @@ interface ILogo {
   fontSize?: string;
 }
 
-export type { IButtton, ILogo };
+interface ICards {
+  icon?: React.ElementType;
+  subicons?: React.ElementType;
+  title?: string;
+  subtitle?: string;
+  text?: string;
+}
+export type { IButtton, ILogo, ICards };
