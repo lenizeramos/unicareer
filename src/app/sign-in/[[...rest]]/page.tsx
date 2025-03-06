@@ -8,6 +8,7 @@ const SignInPage = () => {
         path="/sign-in"
         routing="path"
         signUpUrl="/sign-up"
+        forceRedirectUrl="/after-sign-in"
       />
     </div>
   );

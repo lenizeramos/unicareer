@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import CandidateForm from "../components/CandidateForm";
 import CompanyForm from "../components/CompanyForm";
 
-export default function SetRolePage() {
+export default function RegisterPage() {
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
   const [formType, setFormType] = useState<"candidate" | "company" | null>(

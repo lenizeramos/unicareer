@@ -1,7 +1,7 @@
 import { getRole } from "@/utils/roles";
 import { redirect } from "next/navigation";
 
-async function AfterSignin() {
+async function SSOCalback() {
   
 
   const role = await getRole()
@@ -12,4 +12,4 @@ async function AfterSignin() {
   return <div>page</div>;
 }
 
-export default AfterSignin;
+export default SSOCalback;

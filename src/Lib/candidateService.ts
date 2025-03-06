@@ -11,7 +11,7 @@ export interface User {
 export interface CandidateData {
   firstName: string;
   lastName: string;
-  skills?: string[]
+  skills?: string[];
   resume?: string;
   bio?: string;
 }
@@ -40,4 +40,25 @@ export async function createUserAndCandidate(data: User & CandidateData) {
   });
 
   return { user, candidate };
+}
+
+export async function getUserByClerkId(clerkId) {
+  console.log(clerkId, "clerkIdXXXXXXXXXXXXXXXXXXXXX");
+
+  if (!clerkId) {
+    console.error("Clerk ID is missing or undefined");
+    return null;
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        clerkId: clerkId,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+  }
 }
