@@ -1,12 +1,11 @@
 import { NextResponse, NextRequest } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 import { getUserByClerkId } from "../../../lib/usersService";
+import { getClerkUserId } from "@/utils/user";
 
 export async function GET(req: NextRequest) {
   try {
-    const { userId } = await auth();
+    const userId  = await getClerkUserId();
 
-    console.log("XXXX USER FROM CLERK", userId);
     if (!userId) return NextResponse.redirect(new URL("/sign-in", req.url));
 
     const user = await getUserByClerkId(userId);

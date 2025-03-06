@@ -1,15 +1,15 @@
 import { NextResponse, NextRequest } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 import {
   createUserAndCandidate,
   createUserAndCompany,
 } from "../../../lib/usersService";
+import { getClerkUserId } from "@/utils/user";
 
 export async function POST(req: NextRequest) {
   try {
     const payload = await req.json();
 
-    const { userId } = await auth();
+    const userId  = await getClerkUserId();
     if (!userId) return NextResponse.redirect(new URL("/sign-in", req.url));
 
     const user = await fetch(`https://api.clerk.com/v1/users/${userId}`, {
@@ -17,8 +17,6 @@ export async function POST(req: NextRequest) {
         Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
       },
     }).then((res) => res.json());
-
-    console.log(user, "userRRRRRRRRRRRRRR");
 
     payload.id = userId;
     payload.email = user.email_addresses[0]?.email_address || "Email not found";

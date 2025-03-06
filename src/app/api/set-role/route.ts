@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { getClerkUserId } from "@/utils/user";
 import { clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
@@ -7,8 +7,7 @@ export async function POST(req: Request) {
     const { role } = await req.json();
     if (!role) return new NextResponse("Role not provided", { status: 400 });
 
-    const { userId } = await auth();
-    console.log(userId, "hhhhhhhhhhh")
+    const userId  = await getClerkUserId();
     if (!userId) return new NextResponse("Unauthorized", { status: 401 });
 
     const client = await clerkClient();

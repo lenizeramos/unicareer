@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-export const getUser = async () => {
+export const getClerkUserId = async () => {
   const { userId } = await auth();
   return userId;
 };

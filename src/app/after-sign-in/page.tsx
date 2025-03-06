@@ -18,10 +18,7 @@ function AfterSignIn() {
 
       const user = await userResponse.json();
 
-      console.log("userAfterSignInPage:", user);
-
       if (user) {
-        console.log("UserId exists, redirecting to home");
         router.push("/");
         return;
       }
@@ -32,7 +29,6 @@ function AfterSignIn() {
       }
 
       const role = await roleResponse.json();
-      console.log("Redirecting to register with role:", role);
       router.push(`/register?role=${role}`);
     } catch (error) {
       console.error("Error during sign-in flow:", error);
@@ -41,6 +37,7 @@ function AfterSignIn() {
       setLoading(false);
     }
   }, [router]);
+
   useEffect(() => {
     verifyRegisteredUser();
   }, [verifyRegisteredUser]);

@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 
 interface CompanyFormProps {
-  onSubmit: (company: {
-    name: string;
-    logo: File | null;
-    bio: string;
-  }) => void;
+  onSubmit: (company: { name: string; logo: File | null; bio: string }) => void;
 }
 
 const CompanyForm: React.FC<CompanyFormProps> = ({ onSubmit }) => {
@@ -24,10 +20,7 @@ const CompanyForm: React.FC<CompanyFormProps> = ({ onSubmit }) => {
       className="max-w-md mx-auto p-4 bg-white shadow-lg rounded-lg space-y-4"
     >
       <div>
-        <label
-          htmlFor="name"
-          className="block text-gray-700 font-semibold"
-        >
+        <label htmlFor="name" className="block text-gray-700 font-semibold">
           Company Name
         </label>
         <input
@@ -35,7 +28,6 @@ const CompanyForm: React.FC<CompanyFormProps> = ({ onSubmit }) => {
           id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-       
           className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -60,7 +52,6 @@ const CompanyForm: React.FC<CompanyFormProps> = ({ onSubmit }) => {
           id="bio"
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-          
           className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         ></textarea>
       </div>

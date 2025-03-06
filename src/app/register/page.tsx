@@ -47,9 +47,8 @@ export default function RegisterPage() {
       photo: File | null;
       role?: string;
     }) => {
-      console.log("Candidate Form Data:", candidate);
       try {
-        candidate.role = "CANDIDATE"
+        candidate.role = "CANDIDATE";
         const response = await fetch("/api/register", {
           method: "POST",
           headers: {
@@ -62,8 +61,7 @@ export default function RegisterPage() {
           throw new Error(`Registration error: ${response.statusText}`);
         }
 
-        const data = await response.json();
-        console.log("User registered successfully!", data);
+        await response.json();
         router.push("/");
       } catch (error) {
         console.error("Error registering the user:", error);
@@ -73,14 +71,9 @@ export default function RegisterPage() {
   );
 
   const handleCompanyFormSubmit = useCallback(
-    async (company: {
-      name: string;
-      logo: File | null;
-      role?: string;
-    }) => {
-      console.log("Company Form Data:", company);
+    async (company: { name: string; logo: File | null; role?: string }) => {
       try {
-        company.role = "COMPANY"
+        company.role = "COMPANY";
         const response = await fetch("/api/register", {
           method: "POST",
           headers: {
@@ -93,8 +86,7 @@ export default function RegisterPage() {
           throw new Error(`Registration error: ${response.statusText}`);
         }
 
-        const data = await response.json();
-        console.log("User registered successfully!", data);
+        await response.json();
         router.push("/");
       } catch (error) {
         console.error("Error registering the user:", error);

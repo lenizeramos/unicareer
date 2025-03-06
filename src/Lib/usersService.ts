@@ -59,7 +59,7 @@ export async function createUserAndCandidate(data: User & Candidate) {
 
     return { user, candidate };
   } catch (error) {
-    console.error("Error creating user and candidate:", error.message);
+    console.error("Error creating user and candidate:", error);
     throw error;
   }
 }
@@ -68,10 +68,9 @@ export async function createUserAndCompany(data: User & Company) {
   try {
     const user = await createUser(data);
     const company = await createCompany(data, user.id);
-
     return { user, company };
   } catch (error) {
-    console.error("Error creating user and company:", error.message);
+    console.error("Error creating user and company:", error);
     throw error;
   }
 }
@@ -98,7 +97,7 @@ export async function getUserByClerkId(clerkId: string | undefined) {
   } catch (error) {
     console.error(
       `Error fetching user for Clerk ID: ${clerkId}`,
-      error.message
+      error
     );
     return null;
   }
