@@ -1,5 +1,56 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Big_Shoulder_Stencil";
+  src: url("/Fonts/Big_Shoulders_Stencil/BigShouldersStencil-VariableFont_opsz\,wght.ttf")
+    format("truetype");
+  font-weight: medium;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Big_Shoulders_Inline";
+  src: url("/Fonts/Big_Shoulders_Inline/BigShouldersInline-VariableFont_opsz\,wght.ttf")
+    format("truetype");
+  font-weight: medium;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Monomakh";
+  src: url("/Fonts/Monomakh/Monomakh-Regular.ttf") format("truetype");
+  font-weight: medium;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Shafarik";
+  src: url("/Fonts/Shafarik/Shafarik-Regular.ttf") format("truetype");
+  font-weight: medium;
+  font-style: normal;
+}
+
+@theme {
+  --font-bigShoulderStencil: "Big_Shoulder_Stencil", sans-serif;
+  --font-bigShoulderInline: "Big_Shoulders_Inline", sans-serif;
+  --font-shafarik: "Shafarik", sans-serif;
+  --font-monomakh: "Monomakh", sans-serif;
+  --color-landingDark: #202430;
+  --color-span: #26a4ff;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.logo-gradient {
+  background-image: linear-gradient(
+    to right,
+    #1f70b7,
+    #61246c,
+    #bd1522,
+    #f29100,
+    #39a934,
+    #027d73
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
