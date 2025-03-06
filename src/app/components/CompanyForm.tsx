@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 
 interface CompanyFormProps {
-  onSubmit: (formData: {
-    companyName: string;
+  onSubmit: (company: {
+    name: string;
     logo: File | null;
     bio: string;
   }) => void;
 }
 
 const CompanyForm: React.FC<CompanyFormProps> = ({ onSubmit }) => {
-  const [companyName, setCompanyName] = useState("");
+  const [name, setName] = useState("");
   const [logo, setLogo] = useState<File | null>(null);
   const [bio, setBio] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ companyName, logo, bio });
+    onSubmit({ name, logo, bio });
   };
 
   return (
@@ -25,17 +25,17 @@ const CompanyForm: React.FC<CompanyFormProps> = ({ onSubmit }) => {
     >
       <div>
         <label
-          htmlFor="companyName"
+          htmlFor="name"
           className="block text-gray-700 font-semibold"
         >
           Company Name
         </label>
         <input
           type="text"
-          id="companyName"
-          value={companyName}
-          onChange={(e) => setCompanyName(e.target.value)}
-          required
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+       
           className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -60,7 +60,7 @@ const CompanyForm: React.FC<CompanyFormProps> = ({ onSubmit }) => {
           id="bio"
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-          required
+          
           className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         ></textarea>
       </div>

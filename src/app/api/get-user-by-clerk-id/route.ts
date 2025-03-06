@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { getUserByClerkId } from "../../../lib/candidateService";
+import { getUserByClerkId } from "../../../lib/usersService";
 
 export async function GET(req: NextRequest) {
   try {

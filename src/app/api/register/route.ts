@@ -1,11 +1,14 @@
 import { NextResponse, NextRequest } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { createUserAndCandidate } from "../../../lib/candidateService";
-import { Role } from "@prisma/client";
+import {
+  createUserAndCandidate,
+  createUserAndCompany,
+} from "../../../lib/usersService";
 
 export async function POST(req: NextRequest) {
   try {
     const payload = await req.json();
+
     const { userId } = await auth();
     if (!userId) return NextResponse.redirect(new URL("/sign-in", req.url));
 
@@ -20,14 +23,28 @@ export async function POST(req: NextRequest) {
     payload.id = userId;
     payload.email = user.email_addresses[0]?.email_address || "Email not found";
     payload.image_url = user.image_url;
-    payload.role = Role.CANDIDATE;
-    payload.skills = ["JAVA", "DEV"];
 
-    await createUserAndCandidate(payload);
+    if (payload.role === "CANDIDATE") {
+      try {
+        payload.skills = ["JAVA", "DEV"];
+        await createUserAndCandidate(payload);
+        return NextResponse.json("Candidate created successfully");
+      } catch (error) {
+        console.error("Error", error);
+        return new NextResponse("Failed to create Candidate", { status: 500 });
+      }
+    }
 
-    console.log("USERID:", userId, "EMAIL:", payload.email);
-
-    return NextResponse.json({ userId, email: payload.email });
+    if (payload.role === "COMPANY") {
+      try {
+        await createUserAndCompany(payload);
+        return NextResponse.json("Company created successfully");
+      } catch (error) {
+        console.error("Error", error);
+        return new NextResponse("Failed to create Company", { status: 500 });
+      }
+    }
+    return new NextResponse("Error", { status: 500 });
   } catch (error) {
     console.error("Error", error);
     return new NextResponse("Error", { status: 500 });

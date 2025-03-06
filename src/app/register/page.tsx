@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import CandidateForm from "../components/CandidateForm";
 import CompanyForm from "../components/CompanyForm";
 
@@ -11,6 +11,7 @@ export default function RegisterPage() {
   const [formType, setFormType] = useState<"candidate" | "company" | null>(
     null
   );
+  const router = useRouter();
 
   useEffect(() => {
     if (role === "candidate" || role === "company") {
@@ -39,41 +40,68 @@ export default function RegisterPage() {
     setRole();
   }, [role]);
 
-  const handleCandidateFormSubmit = useCallback(async (formData: {
-    firstName: string;
-    lastName: string;
-    photo: File | null;
-  }) => {
-    console.log("Candidate Form Data:", formData);
-    try {
-      const response = await fetch("/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+  const handleCandidateFormSubmit = useCallback(
+    async (candidate: {
+      firstName: string;
+      lastName: string;
+      photo: File | null;
+      role?: string;
+    }) => {
+      console.log("Candidate Form Data:", candidate);
+      try {
+        candidate.role = "CANDIDATE"
+        const response = await fetch("/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(candidate),
+        });
 
-      if (!response.ok) {
-        throw new Error(`Registration error: ${response.statusText}`);
+        if (!response.ok) {
+          throw new Error(`Registration error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("User registered successfully!", data);
+        router.push("/");
+      } catch (error) {
+        console.error("Error registering the user:", error);
       }
+    },
+    [router]
+  );
 
-      const data = await response.json();
-      console.log("User registered successfully!", data);
-    } catch (error) {
-      console.error("Error registering the user:", error);
-      
-      
-    }
-  }, []);
+  const handleCompanyFormSubmit = useCallback(
+    async (company: {
+      name: string;
+      logo: File | null;
+      role?: string;
+    }) => {
+      console.log("Company Form Data:", company);
+      try {
+        company.role = "COMPANY"
+        const response = await fetch("/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(company),
+        });
 
-  const handleCompanyFormSubmit = useCallback(async (formData: {
-    companyName: string;
-    logo: File | null;
-    bio: string;
-  }) => {
-    console.log("Company Form Data:", formData);
-  }, []);
+        if (!response.ok) {
+          throw new Error(`Registration error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("User registered successfully!", data);
+        router.push("/");
+      } catch (error) {
+        console.error("Error registering the user:", error);
+      }
+    },
+    [router]
+  );
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
