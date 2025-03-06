@@ -1,6 +1,7 @@
 import React from 'react';
 import '../Types/styles/footer.css';
 import { FaFacebook, FaInstagram, FaLinkedin, FaXTwitter } from 'react-icons/fa6';
+import ButtonComp from './ButtonComp';
 
 const Footer = () => {
     return (
@@ -13,7 +14,7 @@ const Footer = () => {
                             alt="JobHuntly Logo"
                             className="logo"
                         />
-                        <span className="app-name">JobHuntly</span>
+                        <span className="app-name">UniCareer</span>
                     </div>
                     <p className="description">
                         Great platform for the job seeker that passionate about startups. Find your dream job easier.
@@ -43,13 +44,13 @@ const Footer = () => {
                     <p>The latest job news, articles, sent to your inbox weekly.</p>
                     <div className="subscribe-form">
                         <input className="input" type="email" placeholder="Email Address" />
-                        <button className="button">Subscribe</button>
+                        <ButtonComp text="Subscribe" IsWhite={false} />
                     </div>
                 </div>
             </div>
             <div className="bottom-container">
                 <div className="copyright">
-                    <p>2021 @ JobHuntly. All rights reserved.</p>
+                    <p>2025 @ UniCareer. All rights reserved.</p>
                 </div>
                 <div className="social-icons">
                     <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><span><FaFacebook /></span></a>

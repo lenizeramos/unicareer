@@ -75,13 +75,7 @@ gap: 15px;
   color: #000;
 }
 
-.button {
-  padding: 10px 20px;
-  border: none;
-  background-color: #4640de;
-  color: #fff;
-  cursor: pointer;
-}
+
 
 .bottom-container {
   display: flex;
