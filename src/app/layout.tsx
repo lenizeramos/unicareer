@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
+import Navbar from "@/app/components/Navbar";
+import Footer from "@/app/components/Footer";
+import { ClerkProvider } from '@clerk/nextjs'
 
 export const metadata: Metadata = {
   title: "Unicareer",
@@ -17,14 +18,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`antialiased`}
-      >
-        <Navbar />
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`antialiased`}>
+          <header>
+            <Navbar />
+          </header>
           {children}
-        <Footer />
-      </body>
-    </html>
-  );
+          <Footer />
+        </body>
+      </html>
+    </ClerkProvider>
+  )
 }
