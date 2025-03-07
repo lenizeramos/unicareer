@@ -39,9 +39,9 @@ export default function Sidebar({ userType, isOpen = true, onClose }: SidebarPro
             )}
             
             <div className={`
-                fixed top-0 left-0 h-full bg-white z-50 pt-6
+                fixed top-0 left-0 bg-lightBackground z-50 pt-6
                 transition-transform duration-300 ease-in-out
-                w-64 
+                w-64 h-screen
                 lg:translate-x-0 lg:static
                 ${isOpen ? 'translate-x-0' : '-translate-x-full'}
             `}>
@@ -54,7 +54,7 @@ export default function Sidebar({ userType, isOpen = true, onClose }: SidebarPro
                         {menuItems.map((item) => (
                             <li key={item.path}>
                                 <div className={`${
-                                    pathname === item.path ? styles.menuItemFocusLine : styles.menuItemNoFocusLine
+                                    pathname === item.path ? styles.menuItemFocusLine : ''
                                 }`}>
                                     <Link 
                                         href={item.path}
@@ -76,6 +76,11 @@ export default function Sidebar({ userType, isOpen = true, onClose }: SidebarPro
                             </li>
                         ))}
                     </ul>
+                    <div className="flex items-center justify-center mt-auto absolute bottom-0">
+                        <button className="bg-menuItemFocus text-white px-4 py-2 rounded-md">
+                            Logout
+                        </button>
+                    </div>
                 </nav>
             </div>
         </>

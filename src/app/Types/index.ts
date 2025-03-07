@@ -4,4 +4,21 @@ interface IButtton {
   width?: string;
 }
 
-export type { IButtton };
+interface ILogo {
+  logoSize?: number;
+  fontSize?: string;
+}
+
+export type { IButtton, ILogo };
+
+export interface IDashboardNavbar {
+  title: string;
+  backArrow?: boolean;
+  button?: IButtton;
+}
+
+export interface IDashboardWelcome {
+  greeting: string;
+  message: string;
+  date: string;
+}
