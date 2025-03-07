@@ -9,6 +9,10 @@ interface ILogo {
   fontSize?: string;
 }
 
+interface ICardId {
+  cardId: "category" | "perks";
+}
+
 interface ICards {
   icon?: React.ElementType;
   subicons?: React.ElementType;
@@ -16,4 +20,4 @@ interface ICards {
   subtitle?: string;
   text?: string;
 }
-export type { IButtton, ILogo, ICards };
+export type { IButtton, ILogo, ICards, ICardId };

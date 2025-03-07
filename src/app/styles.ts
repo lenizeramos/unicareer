@@ -1,4 +1,3 @@
-import { MdOutlineDesignServices } from "react-icons/md";
 
 const styles = {
   button:
@@ -14,10 +13,9 @@ const styles = {
   titleSectionSize: "md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]",
   sectionSubText: "font-shafarik",
   subTitleSectionSize: "sm:text-[20px] text-[14px] ",
+  iconsCards: "text-3xl",
+  subIconsCards: "text-xl",
 };
 
-const icons = [
-  {jobsCategory: [MdOutlineDesignServices]}
-]
 
-export { styles, icons };
+export { styles};

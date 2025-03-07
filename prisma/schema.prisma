@@ -42,6 +42,14 @@ enum CategoriesJob {
   TECHNOLOGY
 }
 
+enum TypeJob {
+  FULL_TIME
+  PART_TIME
+  REMOTE
+  INTERNSHIP
+  CONTRACT
+}
+
 model User {
   id           String        @id @default(cuid()) @map("_id")
   clerkId      String        @unique
@@ -82,8 +90,9 @@ model Job {
   company      User          @relation(fields: [companyId], references: [id], name: "PostedJobs")
   applications Application[]
   category     CategoriesJob
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  type         TypeJob
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("job")
 }

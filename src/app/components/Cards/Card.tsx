@@ -1,12 +1,31 @@
-import { ICards } from "@/app/Types";
+import { ICardId } from "@/app/Types";
+import { jobsCategories } from "@/app/constants";
+import CategoryPerks from "./Category&Perk";
 
+const Card = ({ cardId }: ICardId) => {
+  const renderCard = () => {
+    switch (cardId) {
+      case "category":
+      case "perks":
+        return (
+          <div className="flex flex-row gap-10 flex-wrap justify-center">
+            {jobsCategories.map((data, index) => {
+              return (
+                <div className="" key={index}>
+                  <CategoryPerks {...data} />
+                </div>
+              );
+            })}
+          </div>
+        );
 
-const Card:React.FC<ICards> = ({icon:Icon}) => {
+      default:
+        break;
+    }
+  };
   return (
     <>
-      <div className="w-fit bg-white hover:bg-primary">
-      {Icon && <Icon className={`text-5xl text-primary hover:text-white`}/>}
-      </div>
+      <div>{renderCard()}</div>
     </>
   );
 };
