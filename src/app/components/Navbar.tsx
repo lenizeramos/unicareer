@@ -49,7 +49,7 @@ const Navbar = () => {
             <SignedOut>
               <div className="navbar-auth desktop">
                 <a onClick={handleOnClick} className="nav-link">Login</a>
-                <ButtonComp text="Sign Up" IsWhite={false} width="w-[120px]" />
+                <ButtonComp text="Sign Up" IsWhite={false} width="w-[120px]" onClick={() => router.push("/sign-up")}/>
               </div>
             </SignedOut>
             <SignedIn>
@@ -72,7 +72,7 @@ const Navbar = () => {
                     <SignedOut>
                       <div className="navbar-auth desktop">
                         <a href="#login" className="nav-link">Login</a>
-                        <ButtonComp text="Sign Up" IsWhite={false} width="w-[120px]" />
+                        <ButtonComp text="Sign Up" IsWhite={false} width="w-[120px]" onClick={() => router.push("/sign-up")}/>
                       </div>
                     </SignedOut>
                     <SignedIn>

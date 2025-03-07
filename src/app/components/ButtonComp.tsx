@@ -1,7 +1,7 @@
 import { styles } from "../styles";
 import { IButtton } from "../Types";
 
-const ButtonComp = ({ text, IsWhite, width }: IButtton) => {
+const ButtonComp = ({ text, IsWhite, width, onClick  }: IButtton) => {
   const colorBtn = IsWhite ? "bg-white border border-[#4640de]" : "bg-[#4640de]";
   const colorText = IsWhite ? "text-[#4640de]" : "text-white";
   const widthBtn = width ? `${width}` : `w-fit`;
@@ -9,6 +9,7 @@ const ButtonComp = ({ text, IsWhite, width }: IButtton) => {
     <>
       <button
         className={`${colorText} ${colorBtn} ${widthBtn} ${styles.button}`}
+        onClick={onClick}
       >
         {text}
       </button>
