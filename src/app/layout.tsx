@@ -3,7 +3,8 @@ import "./globals.css";
 import {
   ClerkProvider,
 } from '@clerk/nextjs'
-import Navbar from "@/app/components/Navbar";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 
 export const metadata: Metadata = {
   title: "Unicareer",
@@ -22,12 +23,11 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`antialiased`}>
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
           <Navbar />
-          </header>
           {children}
+          <Footer />
         </body>
       </html>
     </ClerkProvider>
-  )
+  );
 }

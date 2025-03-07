@@ -13,7 +13,7 @@ export type { IButtton, ILogo };
 
 export interface IDashboardNavbar {
   title: string;
-  backArrow?: boolean;
+  backArrow?: boolean | string;
   button?: IButtton;
 }
 

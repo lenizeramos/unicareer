@@ -1,0 +1,132 @@
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #222;
+        padding: 10px 20px;
+        position: relative;
+    }
+    
+    .navbar-logo {
+        display: flex;
+        align-items: center;
+        color: white;
+        gap: 10px;
+    }
+    
+    .logo-icon {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .logo-text {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    
+    .navbar-links {
+        display: flex;
+        gap: 20px;
+    }
+    
+    .nav-link {
+        color: white;
+        text-decoration: none;
+        font-size: 1rem;
+    }
+    
+    .nav-link:hover {
+        color: #6a5acd;
+    }
+    
+    .navbar-auth {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .menu-container {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #222;
+        flex-direction: column;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: none;
+    }
+
+    .menu-container.show {
+        display: flex;
+    }
+
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 4px;
+    }
+
+    .hamburger span {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        transition: all 0.3s ease;
+        transform-origin: center;
+    }
+
+    .hamburger.open span:first-child {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger.open span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.open span:last-child {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #222;
+        padding: 20px;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .mobile-menu.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-menu-links {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .hamburger {
+            display: flex;
+            z-index: 100;
+        }
+
+        .navbar-links.desktop,
+        .navbar-auth.desktop {
+            display: none;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .hamburger,
+        .mobile-menu {
+            display: none;
+        }
+    }
