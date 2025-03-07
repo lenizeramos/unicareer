@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import {
+  ClerkProvider,
+} from '@clerk/nextjs'
+import Navbar from "@/app/components/Navbar";
 
 export const metadata: Metadata = {
   title: "Unicareer",
@@ -15,12 +19,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`antialiased`}>
+          <header className="flex justify-end items-center p-4 gap-4 h-16">
+          <Navbar />
+          </header>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
+  )
 }
