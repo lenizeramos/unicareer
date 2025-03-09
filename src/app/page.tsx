@@ -20,6 +20,7 @@ export default function Home() {
           </h2>
           <div className="flex flex-row gap-10 flex-wrap justify-center">
           <Card cardId="category" />;
+          <Card cardId="jobUpdates"/>
           </div>
         </div>
       </div>

@@ -1,4 +1,3 @@
-
 const styles = {
   button:
     "cursor-pointer rounded-sm px-4 py-2 font-semibold transition-all duration-300 ease-in-out hover:scale-105 hover:bg-[#5046feec] hover:text-gray-200 hover:shadow-lg font-shafarik",
@@ -15,7 +14,8 @@ const styles = {
   subTitleSectionSize: "sm:text-[20px] text-[14px] ",
   iconsCards: "text-3xl",
   subIconsCards: "text-xl",
+  categoryCard:
+    "bg-white p-5 text-primary rounded-xl group",
 };
 
-
-export { styles};
+export { styles };

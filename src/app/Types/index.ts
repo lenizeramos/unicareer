@@ -10,7 +10,14 @@ interface ILogo {
 }
 
 interface ICardId {
-  cardId: "category" | "perks";
+  cardId:
+    | "category"
+    | "perks"
+    | "latestJob"
+    | "recentApply"
+    | "openPositions"
+    | "featuredJob"
+    | "jobUpdates";
 }
 
 interface ICards {
@@ -19,5 +26,15 @@ interface ICards {
   title?: string;
   subtitle?: string;
   text?: string;
+  logo?: string;
+  alt?: string;
+  category?: string;
+  cardId: string;
 }
-export type { IButtton, ILogo, ICards, ICardId };
+
+interface ProgressBarProps {
+  totalLength: number;
+  value: number;
+}
+
+export type { IButtton, ILogo, ICards, ICardId,ProgressBarProps };
