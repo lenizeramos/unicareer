@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import {
-  ClerkProvider,
-} from '@clerk/nextjs'
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
+import { ClerkProvider } from '@clerk/nextjs'
 
 export const metadata: Metadata = {
   title: "Unicareer",
@@ -22,12 +18,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`antialiased`}>
-          <Navbar />
+        <body className="antialiased">
           {children}
-          <Footer />
         </body>
       </html>
     </ClerkProvider>
-  );
+  )
 }

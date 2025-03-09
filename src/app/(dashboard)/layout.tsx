@@ -1,12 +1,12 @@
 "use client"
 
-import { dashboardMenus } from '../config/navigation';
+import { dashboardMenus } from '@/app/config/navigation';
 import Sidebar from '@/app/components/Sidebar';
 import { useState } from 'react';
 import { RiMenu3Fill } from "react-icons/ri";
 import { styles } from '@/app/styles';
 
-export default function CandidateLayout({
+export default function DashboardLayout({
     children,
 }: {
     children: React.ReactNode;
@@ -15,6 +15,7 @@ export default function CandidateLayout({
 
     return (
         <div className="flex min-h-screen">
+            {/* Mobile Header */}
             <div className={`lg:hidden fixed top-0 left-0 right-0 h-16 z-50 flex items-center justify-between px-4 ${styles.borderLight}`}>
                 <div className="flex items-center gap-2">
                     <img src="/img/logo.svg" alt="UniCareer logo" className="w-8 h-8" />
