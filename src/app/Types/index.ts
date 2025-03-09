@@ -2,6 +2,7 @@ interface IButtton {
   text: string;
   IsWhite: boolean;
   width?: string;
+  onClick?: () => void;
 }
 
 interface ILogo {
