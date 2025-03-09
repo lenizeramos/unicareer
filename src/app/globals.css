@@ -68,8 +68,13 @@ body {
 }
 
 .border-light {
+  border: 1px solid var(--light-border);
+}
+
+.border-bottom-light {
   border-bottom: 1px solid var(--light-border);
 }
+
 @font-face {
   font-family: "Big_Shoulder_Stencil";
   src: url("/Fonts/Big_Shoulders_Stencil/BigShouldersStencil-VariableFont_opsz\,wght.ttf")

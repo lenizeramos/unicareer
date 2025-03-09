@@ -8,7 +8,7 @@ export default function DashboardWelcome({ greeting, message, date }: IDashboard
                 <h2 className="text-2xl text-title-color">{greeting}</h2>
                 <p className="text-base text-not-focus-color">{message}</p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 border-light p-4">
                 <p className="text-sm text-title-color">{date}</p>
                 <FaRegCalendarAlt color="#4640DE" />
             </div>
