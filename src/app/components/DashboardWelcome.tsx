@@ -3,7 +3,7 @@ import { IDashboardWelcome } from "../Types";
 
 export default function DashboardWelcome({ greeting, message, date }: IDashboardWelcome) {
     return (
-        <div className="flex justify-between items-center p-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-8 gap-4">
             <div className="flex flex-col gap-2">
                 <h2 className="text-2xl text-title-color">{greeting}</h2>
                 <p className="text-base text-not-focus-color">{message}</p>
