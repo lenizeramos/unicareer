@@ -5,7 +5,7 @@ export default function DashboardWelcome({ greeting, message, date }: IDashboard
     return (
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-8 gap-4">
             <div className="flex flex-col gap-2">
-                <h2 className="text-2xl text-title-color">{greeting}</h2>
+                <h2 className="text-2xl text-title-color font-bold">{greeting}</h2>
                 <p className="text-base text-not-focus-color">{message}</p>
             </div>
             <div className="flex items-center gap-2 border-light p-4">

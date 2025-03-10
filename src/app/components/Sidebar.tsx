@@ -14,6 +14,7 @@ import { CgProfile } from "react-icons/cg";
 import { FaRegBuilding } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import { CiViewList } from "react-icons/ci";
+import Image from 'next/image';
 
 const iconComponents = {
     dashboard: MdOutlineSpaceDashboard,
@@ -27,6 +28,7 @@ const iconComponents = {
 
 export default function Sidebar({ userType, isOpen = true, onClose }: SidebarProps) {
     const pathname = usePathname();
+    console.log(pathname);
     const menuItems = dashboardMenus[userType as DashboardType];
 
     return (
@@ -66,20 +68,30 @@ export default function Sidebar({ userType, isOpen = true, onClose }: SidebarPro
                                             (() => {
                                                 const IconComponent = iconComponents[item.iconName as keyof typeof iconComponents];
                                                 return <IconComponent 
-                                                    className={`text-2xl ${styles.menuHover}`}
+                                                    className={`text-2xl ${styles.menuHover} ${
+                                                        pathname === item.path ? 'text-menuHover' : ''
+                                                    }`}
                                                 />;
                                             })()
                                         }
-                                        <span>{item.title}</span>
+                                        <span className={`${
+                                            pathname === item.path ? 'text-menuHover' : ''
+                                        }`}>{item.title}</span>
                                     </Link>
                                 </div>
                             </li>
                         ))}
                     </ul>
-                    <div className="flex items-center justify-center mt-auto absolute bottom-0">
-                        <button className="bg-menuItemFocus text-white px-4 py-2 rounded-md">
-                            Logout
-                        </button>
+                    <div className="flex items-center justify-center mt-auto absolute bottom-0 p-8">
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2">
+                                <Image src="/img/Avatar.png" alt="Company Logo" width={40} height={40} />                                
+                            </div>
+                            <div>
+                                <p className="text-lg font-bold">Maria Kelly</p>
+                                <p className="text-sm text-not-focus-color">MariaKlly@email.com</p>
+                            </div>
+                        </div>
                     </div>
                 </nav>
             </div>
