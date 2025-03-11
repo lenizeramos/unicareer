@@ -1,6 +1,6 @@
-import { ProgressBarProps } from "../Types";
+import { IProgressBarProps } from "../Types";
 
-const ProgressBar: React.FC<ProgressBarProps> = ({
+const ProgressBar: React.FC<IProgressBarProps> = ({
   totalLength,
   value
 }) => {

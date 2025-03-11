@@ -14,8 +14,10 @@ interface ICardId {
     | "category"
     | "perks"
     | "latestJob"
-    | "recentApply"
     | "openPositions"
+    | "allJobs"
+    | "recentApply"
+    | "recentPosted"
     | "featuredJob"
     | "jobUpdates";
 }
@@ -29,12 +31,20 @@ interface ICards {
   logo?: string;
   alt?: string;
   category?: string;
+  company?: string;
   cardId: string;
 }
 
-interface ProgressBarProps {
+interface IProgressBarProps {
   totalLength: number;
   value: number;
 }
 
-export type { IButtton, ILogo, ICards, ICardId,ProgressBarProps };
+interface ITagComp {
+  bgColor?: string;
+  textColor: string;
+  text: string;
+  borderColor?: string;
+}
+
+export type { IButtton, ILogo, ICards, ICardId, IProgressBarProps, ITagComp };

@@ -3,6 +3,7 @@ import ButtonComp from "../ButtonComp";
 import { styles } from "@/app/styles";
 import Image from "next/image";
 import ProgressBar from "../ProgressBar";
+import TagComp from "../TagComp";
 
 const JobCard = ({
   logo,
@@ -11,6 +12,7 @@ const JobCard = ({
   text,
   alt,
   category,
+  company,
   cardId,
 }: ICards) => {
   return (
@@ -25,9 +27,11 @@ const JobCard = ({
           {cardId === "featuredJob" ? (
             <ButtonComp text="Full Time" IsWhite={true} />
           ) : (
-            <button className="text-teal-600 bg-teal-100 px-2 py-1 rounded-full text-sm font-shafarik ">
-              Full-Time
-            </button>
+            <TagComp
+              bgColor="bg-[#cbfbf1]"
+              textColor="text-[#009c8f]"
+              text="Full-Time"
+            />
           )}
         </div>
         <div className="">
@@ -45,10 +49,7 @@ const JobCard = ({
             </div>
           ) : (
             <div>
-              <ProgressBar
-                totalLength={10}
-                value={5}
-              />
+              <ProgressBar totalLength={10} value={5} />
               <p className="font-shafarik text-xs text-gray-400 text-center">
                 <span className="text-black">5 applied</span> of 10 capacity
               </p>
@@ -56,12 +57,16 @@ const JobCard = ({
           )}
 
           <div className="flex gap-5">
-            <p className={`p-1 rounded-xl bg-[#eefaf7] text-[#69d3b6]`}>
-              #tag1
-            </p>
-            <p className={`p-1 rounded-xl bg-[#e5e7eb] text-[#4a5565]`}>
-              #tag2
-            </p>
+            <TagComp
+              bgColor="bg-[#eefaf7]"
+              textColor="text-[#69d3b6]"
+              text="#tag1"
+            />
+            <TagComp
+              bgColor="bg-[#e5e7eb]"
+              textColor="text-[#4a5565]"
+              text="#tag2"
+            />
           </div>
         </div>
       </div>

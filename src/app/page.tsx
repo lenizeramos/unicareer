@@ -1,4 +1,4 @@
-import Card from "./components/Cards/Card";
+import CardsContainer from "./components/Cards/CardsContainer";
 import { styles } from "./styles";
 import { jobsCategories } from "./constants";
 
@@ -18,9 +18,13 @@ export default function Home() {
           >
             Cards Section
           </h2>
-          <div className="flex flex-row gap-10 flex-wrap justify-center">
-          <Card cardId="category" />;
-          <Card cardId="jobUpdates"/>
+          <div className="flex flex-col gap-10">
+            <div className="flex flex-row gap-10 flex-wrap justify-center">
+              <CardsContainer cardId="category" />;
+            </div>
+            <CardsContainer cardId="jobUpdates" />
+            <CardsContainer cardId="latestJob" />
+            <CardsContainer cardId="recentApply" />
           </div>
         </div>
       </div>
