@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import { Chips } from 'primereact/chips';
 
 interface CandidateFormProps {
   onSubmit: (formData: {
     firstName: string;
     lastName: string;
     photo: File | null;
-    skills: string;
+    skills: string[];
     resume: File | null;
     bio: string;
   }) => void;
@@ -15,9 +16,10 @@ const CandidateForm: React.FC<CandidateFormProps> = ({ onSubmit }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [photo, setPhoto] = useState<File | null>(null);
-  const [skills, setSkills] = useState("");
+  const [skills, setSkills] = useState<string[]>([]);
   const [resume, setResume] = useState<File | null>(null);
   const [bio, setBio] = useState("");
+  //const [value, setValue] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,16 +85,11 @@ const CandidateForm: React.FC<CandidateFormProps> = ({ onSubmit }) => {
         <label htmlFor="skills" className="block text-gray-700 font-semibold">
           Skills
         </label>
-        <input
-          type="text"
-          id="skills"
-          value={skills}
-          onChange={(e) => setSkills(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <small className="text-gray-500">
-          Separate skills with commas (e.g., JavaScript, React, Node.js)
-        </small>
+        <Chips className="p-chips	p-chips-token" itemTemplate={(skill) => (
+      <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-lg text-sm font-medium flex items-center gap-2">
+        {skill}
+      </div>
+    )} value={skills} onChange={(e) => setSkills(e.value ? e.value : [])} />
       </div>
 
       <div>
