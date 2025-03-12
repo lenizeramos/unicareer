@@ -11,4 +11,4 @@ export interface SidebarProps {
     menuItems?: MenuItem[];
 }
 
-export type DashboardType = 'CANDIDATE' | 'ADMIN' | 'COMPANY';
+export type DashboardType = 'candidate' | 'admin' | 'company';

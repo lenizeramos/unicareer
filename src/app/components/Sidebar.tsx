@@ -15,6 +15,9 @@ import { FaRegBuilding } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import { CiViewList } from "react-icons/ci";
 import Image from 'next/image';
+import { useUser, useClerk } from "@clerk/nextjs";
+import { CiLogout } from "react-icons/ci";
+
 
 const iconComponents = {
     dashboard: MdOutlineSpaceDashboard,
@@ -28,8 +31,13 @@ const iconComponents = {
 
 export default function Sidebar({ userType, isOpen = true, onClose }: SidebarProps) {
     const pathname = usePathname();
-    console.log(pathname);
     const menuItems = dashboardMenus[userType as DashboardType];
+    const { user } = useUser();
+    const { signOut } = useClerk();
+
+    const handleSignOut = () => {
+        signOut();
+    };
 
     return (
         <>
@@ -81,15 +89,32 @@ export default function Sidebar({ userType, isOpen = true, onClose }: SidebarPro
                                 </div>
                             </li>
                         ))}
+                        <li>
+                            <div className="w-full pl-6">
+                                <button 
+                                    onClick={handleSignOut} 
+                                    className={`block pt-2 pb-2 pl-2 w-full ${styles.menuHover} ${styles.menuItem} transition-colors flex items-center gap-2 cursor-pointer`}
+                                >
+                                    <CiLogout className="text-2xl" />
+                                    <span>Logout</span>
+                                </button>
+                            </div>
+                        </li>
                     </ul>
                     <div className="flex items-center justify-center mt-auto absolute bottom-0 p-8">
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
-                                <Image src="/img/Avatar.png" alt="Company Logo" width={40} height={40} />                                
+                                <Image 
+                                    src={user?.imageUrl || "/img/Avatar.png"} 
+                                    alt="User Avatar" 
+                                    width={60} 
+                                    height={60} 
+                                    className="rounded-full"
+                                />                                
                             </div>
                             <div>
-                                <p className="text-lg font-bold">Maria Kelly</p>
-                                <p className="text-sm text-not-focus-color">MariaKlly@email.com</p>
+                                <p className="text-md font-bold">{user?.firstName} {user?.lastName}</p>
+                                <p className="text-sm text-not-focus-color">{user?.emailAddresses[0].emailAddress}</p>
                             </div>
                         </div>
                     </div>

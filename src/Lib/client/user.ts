@@ -1,39 +1,54 @@
-"use client";
+import { useAuth } from "@clerk/nextjs";
+import { useState, useEffect } from "react";
 
-import { DashboardType } from "@/app/Types/navigation";
-
-export function getUserByRole(): Promise<DashboardType> {
-  return fetch("/api/get-user-by-clerk-id")
-    .then((userResponse) => {
-      if (!userResponse.ok) {
-        console.error("Failed to get user:", userResponse.statusText);
+export const getTokenClaims = async () => {
+    try {
+        const { getToken } = useAuth();
+        const token = await getToken();
+        
+        if (!token) return null;
+        
+        const claims = JSON.parse(atob(token.split('.')[1]));
+        return claims?.metadata?.role || null;
+    } catch (error) {
+        console.error('Error getting token claims:', error);
         return null;
-      }
-      return userResponse.json();
-    })
-    .then((user) => {
-      if (!user) {
-        return 'CANDIDATE'; // Default to CANDIDATE if no user found
-      }
-      
-      return fetch("/api/get-role")
-        .then(async (roleResponse) => {
-          console.log("roleResponse", roleResponse);
-          if (!roleResponse.ok) {
-            // Get the error message from the response
-            const errorText = await roleResponse.text();
-            console.error("Failed to get role:", roleResponse.status, errorText);
-            return 'CANDIDATE';
+    }
+};
+
+export const parseTokenClaims = (token: string) => {
+    try {
+        const claims = JSON.parse(atob(token.split('.')[1]));
+        return claims?.metadata?.role || null;
+    } catch (error) {
+        console.error('Error parsing token claims:', error);
+        return null;
+    }
+};
+
+export const useUserRole = () => {
+  const [role, setRole] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const { getToken } = useAuth();
+
+  useEffect(() => {
+      const fetchRole = async () => {
+          try {
+              const token = await getToken();
+              if (token) {
+                  const userRole = parseTokenClaims(token);
+                  setRole(userRole);
+              }
+          } catch (error) {
+              console.error('Error fetching user role:', error);
+              setRole(null);
+          } finally {
+              setIsLoading(false);
           }
-          return roleResponse.json();
-        })
-        .catch((error) => {
-          console.error("Error fetching role:", error);
-          return 'CANDIDATE'; // Default to CANDIDATE on any error
-        });
-    })
-    .catch((error) => {
-      console.error("Error in getUserByRole:", error);
-      return 'CANDIDATE'; // Default to CANDIDATE on any error
-    });
-}
+      };
+
+      fetchRole();
+  }, [getToken]);
+
+  return { role, isLoading };
+};
