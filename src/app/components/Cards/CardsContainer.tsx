@@ -76,19 +76,19 @@ const CardsContainer = ({ cardId }: ICardId) => {
         return (
           <>
             {cardId === "latestJob" ? (
-              <div className="flex flex-row gap-10 flex-wrap justify-center">
+              <div className="flex flex-row gap-5 flex-wrap justify-center">
                 <p className="text-white">cardId= latestJob</p>
                 <JobResumeCards cardId={cardId} />
                 <JobResumeCards cardId={cardId} />
               </div>
             ) : cardId === "openPositions" ? (
-              <div className="flex flex-row gap-10 flex-wrap justify-center">
+              <div className="flex flex-col gap-3 w-fit mx-auto">
                 <p className="text-white">cardId= openPositions</p>
                 <JobResumeCards cardId={cardId} />
                 <JobResumeCards cardId={cardId} />
               </div>
             ) : (
-              <div className="flex flex-row gap-10 flex-wrap justify-center">
+              <div className="flex flex-col gap-3 w-fit mx-auto">
                 <p className="text-white">cardId= allJobs</p>
                 <JobResumeCards cardId={cardId} />
                 <JobResumeCards cardId={cardId} />

@@ -14,8 +14,7 @@ const styles = {
   subTitleSectionSize: "sm:text-[20px] text-[14px] ",
   iconsCards: "text-3xl",
   subIconsCards: "text-xl",
-  categoryCard:
-    "bg-white p-5 text-primary rounded-xl group",
+  categoryCard: "bg-white p-5 text-primary border border-gray-400 group",
 };
 
 export { styles };
