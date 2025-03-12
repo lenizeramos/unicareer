@@ -1,14 +1,7 @@
 import { styles } from "../styles";
 import { IButtton } from "../Types";
 
-interface IButton {
-  text: string | React.ReactNode;
-  IsWhite: boolean;
-  width?: string;
-  onClick?: () => void;
-}
-
-const ButtonComp: React.FC<IButton> = ({ text, IsWhite, width, onClick }) => {
+const ButtonComp = ({ text, IsWhite, width, onClick  }: IButtton) => {
   const colorBtn = IsWhite ? "bg-white border border-[#4640de]" : "bg-[#4640de]";
   const colorText = IsWhite ? "text-[#4640de]" : "text-white";
   const widthBtn = width ? `${width}` : `w-fit`;

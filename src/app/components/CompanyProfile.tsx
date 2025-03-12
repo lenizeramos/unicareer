@@ -111,7 +111,97 @@ const CompanyProfile = () => {
 
       <hr className="my-4 border-t border-gray-200 w-full" />
 
-            
+      <div className="mt-4">
+        <h3 className="text-xl font-semibold mb-3">Image Gallery</h3>
+        <div className="grid grid-cols-3 gap-4">
+          <img 
+            src="/company-image-1.jpg" 
+            alt="Company image 1" 
+            className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
+          />
+          <img 
+            src="/company-image-2.jpg" 
+            alt="Company image 2" 
+            className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
+          />
+          <img 
+            src="/company-image-3.jpg" 
+            alt="Company image 3" 
+            className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
+          />
+          <img 
+            src="/company-image-4.jpg" 
+            alt="Company image 4" 
+            className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
+          />
+          <img 
+            src="/company-image-5.jpg" 
+            alt="Company image 5" 
+            className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
+          />
+          <img 
+            src="/company-image-6.jpg" 
+            alt="Company image 6" 
+            className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
+          />
+        </div>
+      </div>
+
+        <hr className="my-4 border-t border-gray-200 w-full" />
+
+        <div className="mt-4">
+          <h3 className="text-xl font-semibold mb-3">Our Team</h3>
+          <div className="flex flex-col gap-4">
+            {/* Team Member Card */}
+            <div className="bg-gray-50 rounded-lg p-4 flex items-center">
+              <img 
+                src="/team-member-1.jpg" 
+                alt="Team member" 
+                className="w-24 h-24 rounded-full object-cover"
+              />
+              <div className="ml-6">
+                <h4 className="font-semibold text-lg">John Doe</h4>
+                <p className="text-gray-600">CEO & Founder</p>
+                <p className="text-sm text-gray-500 mt-2">
+                  10+ years of experience in software development
+                </p>
+                <div className="flex gap-3 mt-3">
+                  <a href="#" className="text-blue-600 hover:text-blue-800">
+                    <FaLinkedinIn />
+                  </a>
+                  <a href="#" className="text-gray-600 hover:text-gray-800">
+                    <MdEmail />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-4 flex items-center">
+              <img 
+                src="/team-member-2.jpg" 
+                alt="Team member" 
+                className="w-24 h-24 rounded-full object-cover"
+              />
+              <div className="ml-6">
+                <h4 className="font-semibold text-lg">Jane Smith</h4>
+                <p className="text-gray-600">CTO</p>
+                <p className="text-sm text-gray-500 mt-2">
+                  8 years of experience in tech leadership
+                </p>
+                <div className="flex gap-3 mt-3">
+                  <a href="#" className="text-blue-600 hover:text-blue-800">
+                    <FaLinkedinIn />
+                  </a>
+                  <a href="#" className="text-gray-600 hover:text-gray-800">
+                    <MdEmail />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr className="my-4 border-t border-gray-200 w-full" />
     </div>
 </div>
   );
