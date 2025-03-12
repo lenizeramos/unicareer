@@ -13,13 +13,14 @@ interface ICardId {
   cardId:
     | "category"
     | "perks"
+    | "dashboardCard"
+    | "featuredJob"
+    | "jobUpdates"
     | "latestJob"
     | "openPositions"
     | "allJobs"
     | "recentApply"
-    | "recentPosted"
-    | "featuredJob"
-    | "jobUpdates";
+    | "recentPosted";
 }
 
 interface ICards {
@@ -32,6 +33,7 @@ interface ICards {
   alt?: string;
   category?: string;
   company?: string;
+  total?: number;
   cardId: string;
 }
 

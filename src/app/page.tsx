@@ -1,6 +1,5 @@
 import CardsContainer from "./components/Cards/CardsContainer";
 import { styles } from "./styles";
-import { jobsCategories } from "./constants";
 
 export default function Home() {
   return (
@@ -25,6 +24,9 @@ export default function Home() {
             <CardsContainer cardId="jobUpdates" />
             <CardsContainer cardId="latestJob" />
             <CardsContainer cardId="recentApply" />
+          </div>
+          <div>
+            <CardsContainer cardId="dashboardCard"/>
           </div>
         </div>
       </div>
