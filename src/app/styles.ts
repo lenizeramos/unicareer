@@ -1,6 +1,15 @@
 const styles = {
   button:
     "cursor-pointer rounded-sm px-4 py-2 font-semibold transition-all duration-300 ease-in-out hover:scale-105 hover:bg-[#5046feec] hover:text-gray-200 hover:shadow-lg font-shafarik",
+  sidebar: "h-screen w-64 text-white pt-4 pr-4 pb-4 fixed left-0 top-0 sidebar",
+  menuItemFocus: "color-menuItemFocus bg-menuItemFocus font-medium text-base",
+  menuItem: "color-menuItem text-base font-medium",
+  menuHover: "hover:text-menuHover hover:bg-menuItemFocus",
+  menuItemFocusLine: "menu-item-focus-line",
+  menuItemNoFocusLine: "menu-item-no-focus-line hover:bg-menuItemFocus",
+  borderLight: "border-light",
+  borderBottomLight: "border-bottom-light",
+  dashboardTitle: "text-3xl font-bold flex items-center gap-2 text-textTitle h-16 lg:h-auto",
   heroHeadText: "font-bigShoulderStencil text-black font-bold",
   heroHeadTextDark: "font-bigShoulderInline text-white",
   titleHeroSize: "lg:text-[5rem] md:text-[3.125rem] text-[2.5rem]",

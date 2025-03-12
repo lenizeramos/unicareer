@@ -1,5 +1,80 @@
 @import "tailwindcss";
 
+:root {
+  --body-background: #FFFFFF;
+  --background: #F8F8FD;
+  --text-focus: #4640DE;
+  --text-not-focus: #7C8493;
+  --text-title: #25324B;
+  --light-border: #D6DDEB;
+  --item-focus: #E9EBFD;
+  --text-black: #000000;
+}
+
+/* Dark theme variables */
+/*@media (prefers-color-scheme: dark) {
+  :root {
+    --body-background: #1a1a1a;
+    --background: #1a1a1a;
+    --text-focus: #ffffff;
+    --text-not-focus: #a0a0a0;
+    --text-title: #3291ff;
+    --light-border: #D6DDEB;
+    --item-focus: #E9EBFD;
+  }
+}*/
+
+body {
+  font-family: Inter, sans-serif;  
+  background-color: var(--body-background);
+}
+
+.text-black {
+  color: var(--text-black);
+}
+
+
+.text-focus-color {
+  color: var(--text-focus);
+}
+
+.text-not-focus-color {
+  color: var(--text-not-focus);
+}
+
+.sidebar {
+  background-color: var(--background);
+}
+
+.menu-item:hover {
+  background-color: var(--item-focus);
+  color: var(--text-focus);
+}
+
+.menu-item:hover span {
+  color: var(--text-focus);
+}
+
+.menu-item-no-focus-line {
+  padding-left: 4px;
+}
+
+.menu-item-focus-line {
+  border-left: 4px solid var(--text-focus);
+}
+
+.hover-icon-parent:hover .icon-hover {
+  color: var(--text-focus);
+}
+
+.border-light {
+  border: 1px solid var(--light-border);
+}
+
+.border-bottom-light {
+  border-bottom: 1px solid var(--light-border);
+}
+
 @font-face {
   font-family: "Big_Shoulder_Stencil";
   src: url("/Fonts/Big_Shoulders_Stencil/BigShouldersStencil-VariableFont_opsz\,wght.ttf")
@@ -35,6 +110,15 @@
   --color-landingDark: #202430;
   --color-span: #26a4ff;
   --color-primary: #4640de;
+  --color-menuItem: #7C8493;
+  --color-menuHover: #4640DE;
+  --color-menuItemFocus: #E9EBFD;
+  --color-textTitle: #25324B;
+  --color-lightBackground: #F8F8FD;
+  --color-liveColor: #56CDAD;
+  --color-closedColor: #FF6550;
+  --color-fulltimeColor: #4640DE;
+  --color-freelanceColor: #FFB836;
   --breakpoint-xs: 30rem;
 }
 
@@ -55,4 +139,38 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Add these utility classes for borders */
+.border-live {
+  border-color: var(--color-liveColor);
+}
+
+.border-closed {
+  border-color: var(--color-closedColor);
+}
+
+.border-fulltime {
+  border-color: var(--color-fulltimeColor);
+}
+
+.border-freelance {
+  border-color: var(--color-freelanceColor);
+}
+
+/* Add these utility classes for text colors */
+.text-liveColor {
+  color: var(--color-liveColor);
+}
+
+.text-closedColor {
+  color: var(--color-closedColor);
+}
+
+.text-fulltimeColor {
+  color: var(--color-fulltimeColor);
+}
+
+.text-freelanceColor {
+  color: var(--color-freelanceColor);
 }

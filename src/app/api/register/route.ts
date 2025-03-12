@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import {
   createUserAndCandidate,
   createUserAndCompany,
-} from "../../../lib/usersService";
+} from "../../../Lib/usersService";
 import { getClerkUserId } from "@/utils/user";
 
 export async function POST(req: NextRequest) {
