@@ -1,10 +1,11 @@
 "use client"
 
-import { dashboardMenus } from '@/app/config/navigation';
 import Sidebar from '@/app/components/Sidebar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { RiMenu3Fill } from "react-icons/ri";
 import { styles } from '@/app/styles';
+import { DashboardType } from '@/app/Types/navigation';
+import { getUserByRole } from '@/Lib/client/user';
 
 export default function DashboardLayout({
     children,
@@ -12,7 +13,14 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const userType = "company"; // TODO: get user type from clerk session (candidate, company, admin)
+    const [userType, setUserType] = useState<DashboardType>('CANDIDATE' as DashboardType);
+    console.log(userType);
+
+    useEffect(() => {
+        getUserByRole().then(role => {
+            if (role) setUserType(role);
+        });
+    }, []);
 
     return (
         <div className="flex min-h-screen">

@@ -102,3 +102,4 @@ export async function getUserByClerkId(clerkId: string | undefined) {
     return null;
   }
 }
+
