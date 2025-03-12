@@ -7,12 +7,13 @@ import TagComp from "../TagComp";
 
 const JobCard = ({
   logo,
-  subicons: Subicons,
   title,
+  subtitle,
   text,
   alt,
   category,
   company,
+  type,
   cardId,
 }: ICards) => {
   return (
@@ -23,20 +24,29 @@ const JobCard = ({
         <div className="flex items-center justify-between gap-5">
           <div className="">
             <Image src={"img/logo.svg"} alt={`${alt}`} width={40} height={40} />
+            {logo}
           </div>
           {cardId === "featuredJob" ? (
-            <ButtonComp text="Full Time" IsWhite={true} />
+            <ButtonComp text={`Full Time ${type}`} IsWhite={true} />
           ) : (
             <TagComp
               bgColor="bg-[#cbfbf1]"
               textColor="text-[#009c8f]"
-              text="Full-Time"
+              text={`Full-Time ${type}`}
             />
           )}
         </div>
         <div className="">
-          <h2 className={`${styles.sectionHeadText} text-black`}>Title</h2>
-          <h3 className={`${styles.sectionSubText} text-gray-600`}>SubTitle</h3>
+          <h2 className={`${styles.sectionHeadText} text-black`}>
+            Title{title}
+          </h2>
+          <h3
+            className={`${styles.sectionSubText} text-gray-600 flex items-center gap-2`}
+          >
+            Company{company}
+            <div className="w-1 h-1 rounded-full bg-gray-400" />
+            SubTitle{subtitle}
+          </h3>
         </div>
         <div className="flex flex-col gap-5">
           {cardId === "featuredJob" ? (
@@ -44,28 +54,23 @@ const JobCard = ({
               <p className="text-blak truncate text-gray-500">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem
                 ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum
-                dolor sit amet, consectetur adipiscing elit
+                dolor sit amet, consectetur adipiscing elit {text}
               </p>
             </div>
           ) : (
-            <div>
-              <ProgressBar totalLength={10} value={5} />
-              <p className="font-shafarik text-xs text-gray-400 text-center">
-                <span className="text-black">5 applied</span> of 10 capacity
-              </p>
-            </div>
+            <ProgressBar totalLength={10} value={5} />
           )}
 
           <div className="flex gap-5">
             <TagComp
               bgColor="bg-[#eefaf7]"
               textColor="text-[#69d3b6]"
-              text="#tag1"
+              text={`#tag1 ${category}`}
             />
             <TagComp
               bgColor="bg-[#e5e7eb]"
               textColor="text-[#4a5565]"
-              text="#tag2"
+              text={`#tag2 ${category}`}
             />
           </div>
         </div>

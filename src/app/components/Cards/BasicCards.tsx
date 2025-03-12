@@ -13,10 +13,10 @@ const BasicCards = ({
     <>
       {cardId === "dashboardCard" ? (
         <div
-          className={` ${styles.sectionSubText} ${styles.categoryCard} w-full`}
+          className={` ${styles.sectionSubText} ${styles.categoryCard} w-fit`}
         >
-          <h2 className={`text-black font-semibold`}>Title</h2>
-          <p className={`text-black text-3xl`}>Number</p>
+          <h2 className={`text-black font-semibold`}>Title {title}</h2>
+          <p className={`text-black text-3xl`}>Number {total}</p>
           <div className="text-3xl text-gray-400 relative w-full h-8">
             {Icon && <Icon className={`absolute right-3 top-0 z-10`} />}
             {Subicons && <Subicons className={`absolute right-0 top-4 `} />}
@@ -26,7 +26,7 @@ const BasicCards = ({
         <div
           className={` ${styles.sectionSubText} ${styles.categoryCard} cursor-pointer  hover:bg-primary`}
         >
-          <div>
+          <div> icon =
             {Icon && (
               <Icon className={`${styles.iconsCards} group-hover:text-white`} />
             )}
@@ -35,10 +35,10 @@ const BasicCards = ({
             <h3
               className={`text-xl font-bold my-5 text-black group-hover:text-white `}
             >
-              {title}
+              title = {title}
             </h3>
             <div className="flex items-center gap-5 text-gray-400">
-              <p className={`group-hover:text-white`}>{text} </p>
+              <p className={`group-hover:text-white`}>text ={text} </p>
               {Subicons && (
                 <Subicons
                   className={`${styles.subIconsCards} group-hover:text-white`}

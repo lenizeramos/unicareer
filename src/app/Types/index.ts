@@ -33,6 +33,9 @@ interface ICards {
   alt?: string;
   category?: string;
   company?: string;
+  type?: string;
+  date?:string;
+  progress?:string;
   total?: number;
   cardId: string;
 }

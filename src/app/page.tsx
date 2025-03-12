@@ -21,12 +21,15 @@ export default function Home() {
             <div className="flex flex-row gap-10 flex-wrap justify-center">
               <CardsContainer cardId="category" />;
             </div>
+            <CardsContainer cardId="dashboardCard" />
+            <CardsContainer cardId="perks" />
+            <CardsContainer cardId="featuredJob" />
             <CardsContainer cardId="jobUpdates" />
             <CardsContainer cardId="latestJob" />
+            <CardsContainer cardId="openPositions" />
+            <CardsContainer cardId="allJobs" />
+            <CardsContainer cardId="recentPosted" />
             <CardsContainer cardId="recentApply" />
-          </div>
-          <div>
-            <CardsContainer cardId="dashboardCard"/>
           </div>
         </div>
       </div>
