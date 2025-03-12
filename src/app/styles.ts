@@ -1,8 +1,8 @@
 const styles = {
   button:
     "cursor-pointer rounded-sm px-4 py-2 font-semibold transition-all duration-300 ease-in-out hover:scale-105 hover:bg-[#5046feec] hover:text-gray-200 hover:shadow-lg font-shafarik",
-  heroHeadText: "font-bigShoulderStencil text-white font-bold",
-  heroHeadTextDark: "font-bigShoulderInline text-black",
+  heroHeadText: "font-bigShoulderStencil text-black font-bold",
+  heroHeadTextDark: "font-bigShoulderInline text-white",
   titleHeroSize: "lg:text-[5rem] md:text-[3.125rem] text-[2.5rem]",
   heroHeadSpan: "text-span",
   heroSubText: "font-monomakh",
