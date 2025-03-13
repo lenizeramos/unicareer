@@ -4,10 +4,8 @@ import BasicCards from "./BasicCards";
 import JobCard from "./JobCard";
 import JobResumeCards from "./JobResumeCards";
 import RecentCard from "./RecentCard";
-import { LuMessageCircleQuestion } from "react-icons/lu";
-import { BiMessageRoundedDetail } from "react-icons/bi";
 
-const CardsContainer = ({ cardId }: ICardId) => {
+const CardsContainer = ({ cardId, params }: ICardId) => {
   const renderCard = () => {
     switch (cardId) {
       case "category":
@@ -17,11 +15,12 @@ const CardsContainer = ({ cardId }: ICardId) => {
           <>
             {cardId === "dashboardCard" ? (
               <div className="flex flex-row flex-wrap gap-5 justify-center">
-                <p className="text-white">cardId= dashboardCard</p>
                 <BasicCards
                   cardId="dashboardCard"
-                  icon={LuMessageCircleQuestion}
-                  subicons={BiMessageRoundedDetail}
+                  icon={params?.[0].icon}
+                  subicons={params?.[0].subicons}
+                  title={params?.[0].title}
+                  total={params?.[0].total}
                 />
               </div>
             ) : cardId === "category" ? (

@@ -56,7 +56,6 @@ export default function JobList({
                 </table>
             </div>
             
-            {/* Add pagination controls */}
             <div className="flex justify-between items-center p-8 border-top-light">
                 <div className="flex items-center gap-2">
                     <span className="text-lg text-not-focus-color">View</span>

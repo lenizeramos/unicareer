@@ -15,8 +15,8 @@ const BasicCards = ({
         <div
           className={` ${styles.sectionSubText} ${styles.categoryCard} w-fit`}
         >
-          <h2 className={`text-black font-semibold`}>Title {title}</h2>
-          <p className={`text-black text-3xl`}>Number {total}</p>
+          <h2 className={`text-black font-semibold`}>{title}</h2>
+          <p className={`text-black text-3xl`}>{total}</p>
           <div className="text-3xl text-gray-400 relative w-full h-8">
             {Icon && <Icon className={`absolute right-3 top-0 z-10`} />}
             {Subicons && <Subicons className={`absolute right-0 top-4 `} />}
