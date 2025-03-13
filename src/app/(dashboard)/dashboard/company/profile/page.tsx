@@ -1,10 +1,18 @@
 import React from 'react';
-import ButtonComp from './ButtonComp';
+import ButtonComp from '@/app/components/ButtonComp';
 import { FaBuilding, FaUsers, FaMapMarkerAlt, FaIndustry, FaCog, FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from 'react-icons/fa';
 import { BsGlobe } from 'react-icons/bs';
 import { MdEmail } from 'react-icons/md';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
-const CompanyProfile = () => {
+const CompanyProfile = async () => {
+  const session = await auth();
+
+  if (!session?.userId) {
+    redirect('/sign-in');
+  }
+
   return (
     <div className="bg-white shadow-lg rounded-lg p-5">
     <div className="flex items-center justify-between">

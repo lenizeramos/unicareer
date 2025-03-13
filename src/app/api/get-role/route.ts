@@ -3,7 +3,11 @@ import { getRole } from "@/utils/roles";
 
 export async function GET(req: NextRequest) {
   try {
+
+    console.log("get-role");
     const role = await getRole();
+
+    console.log(role);
 
     if (!role) return NextResponse.redirect(new URL("/sign-in", req.url));
 

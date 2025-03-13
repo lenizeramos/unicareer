@@ -83,7 +83,7 @@ export default function RegisterPage() {
         });
 
         if (!response.ok) {
-          throw new Error(`Registration error: ${response.statusText}`);
+          throw new Error(`Registration error: ${response}`);
         }
 
         await response.json();

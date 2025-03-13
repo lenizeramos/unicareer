@@ -1,10 +1,8 @@
-"use client"
-
-import { useState } from 'react';
-import ButtonComp from './ButtonComp';
+"use client";
 import { SignedIn, SignedOut, useClerk, UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-
+import { useState } from 'react';
+import ButtonComp from './ButtonComp';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

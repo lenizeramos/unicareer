@@ -8,6 +8,7 @@ const styles = {
   menuItemFocusLine: "menu-item-focus-line",
   menuItemNoFocusLine: "menu-item-no-focus-line hover:bg-menuItemFocus",
   borderLight: "border-light",
+  borderBottomLight: "border-bottom-light",
   dashboardTitle: "text-3xl font-bold flex items-center gap-2 text-textTitle h-16 lg:h-auto",
   heroHeadText: "font-bigShoulderStencil text-white font-bold",
   heroHeadTextDark: "font-bigShoulderInline text-black",

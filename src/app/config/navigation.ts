@@ -2,19 +2,19 @@ import { DashboardType, MenuItem } from '../Types/navigation';
 
 export const dashboardMenus: Record<DashboardType, MenuItem[]> = {
   candidate: [
-    { title: 'Dashboard', path: '/candidate', iconName: 'dashboard' },
-    { title: 'My Applications', path: '/candidate/applications', iconName: 'document' },
-    { title: 'Find Jobs', path: '/candidate/jobs', iconName: 'search' },
-    { title: 'My Public Profile', path: '/candidate/profile', iconName: 'profile' },
+    { title: 'Dashboard', path: '/dashboard/candidate', iconName: 'dashboard' },
+    { title: 'My Applications', path: '/dashboard/candidate/applications', iconName: 'document' },
+    { title: 'Find Jobs', path: '/dashboard/candidate/jobs', iconName: 'search' },
+    { title: 'My Public Profile', path: '/dashboard/candidate/profile', iconName: 'profile' },
   ],
   admin: [
-    { title: 'Dashboard', path: '/admin', iconName: 'dashboard' },
-    { title: 'Companies', path: '/admin/companies', iconName: 'building' },
-    { title: 'Candidates', path: '/admin/candidates', iconName: 'users' },
+    { title: 'Dashboard', path: '/dashboard/adminuser', iconName: 'dashboard' },
+    { title: 'Companies', path: '/dashboard/adminuser/companies', iconName: 'building' },
+    { title: 'Candidates', path: '/dashboard/adminuser/candidates', iconName: 'users' },
   ],
   company: [
-    { title: 'Dashboard', path: '/company', iconName: 'dashboard' },
-    { title: 'Company Profile', path: '/company/profile', iconName: 'building' },
-    { title: 'Job Listing', path: '/company/jobs', iconName: 'list' },
+    { title: 'Dashboard', path: '/dashboard/company', iconName: 'dashboard' },
+    { title: 'Company Profile', path: '/dashboard/company/profile', iconName: 'building' },
+    { title: 'Job Listing', path: '/dashboard/company/joblisting', iconName: 'list' },
   ],
 };

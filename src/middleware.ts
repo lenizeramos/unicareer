@@ -1,14 +1,28 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
+const isCandidateRoute = createRouteMatcher(["/dashboard/candidate(.*)"]);
+const isCompanyRoute = createRouteMatcher(["/dashboard/company(.*)"]);
+const isAdminUserRoute = createRouteMatcher(["/dashboard/adminuser(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
-  if (
-    isAdminRoute(req) &&
-    (await auth()).sessionClaims?.metadata?.role !== "admin"
-  ) {
-    const url = new URL("/", req.url);
+  const { sessionClaims } = await auth();
+  const userRole = sessionClaims?.metadata?.role;
+
+  if (isCandidateRoute(req) && userRole !== "candidate") {
+    const newRole = userRole === "admin" ? "adminuser" : userRole;
+    const url = new URL("/dashboard/" + newRole, req.url);
+    return NextResponse.redirect(url);
+  }
+
+  if (isCompanyRoute(req) && userRole !== "company") {
+    const newRole = userRole === "admin" ? "adminuser" : userRole;
+    const url = new URL("/dashboard/" + newRole, req.url);
+    return NextResponse.redirect(url);
+  }
+
+  if (isAdminUserRoute(req) && userRole !== "admin") {
+    const url = new URL("/dashboard/" + userRole, req.url);
     return NextResponse.redirect(url);
   }
 });
