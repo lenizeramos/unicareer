@@ -87,7 +87,7 @@ export default function JobList({
                             onClick={() => onPageChange(page)}
                             className={`w-8 h-8 rounded ${
                                 currentPage === page 
-                                ? 'bg-primary text-white bg-menuHover' 
+                                ? 'bg-primary text-white bg-primary' 
                                 : ''
                             }`}
                         >

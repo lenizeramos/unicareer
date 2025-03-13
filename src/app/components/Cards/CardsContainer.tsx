@@ -100,10 +100,9 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
         return (
           <>
             {cardId === "recentPosted" ? (
-              <div className="flex flex-col gap-4 w-full">
-                <p className="text-white">cardId= recentPosted</p>
-                <RecentCard cardId={cardId} />
-                <RecentCard cardId={cardId} />
+              <div className="flex flex-col gap-4 w-full">                
+                <RecentCard cardId={cardId} title={params?.[0].title} date={params?.[0].date} company={params?.[0].company} text={params?.[0].text} />
+                <RecentCard cardId={cardId} title={params?.[1].title} date={params?.[1].date} company={params?.[1].company} text={params?.[1].text} />
               </div>
             ) : (
               <div className="flex flex-col gap-4 w-full">

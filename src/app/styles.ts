@@ -4,11 +4,10 @@ const styles = {
   sidebar: "h-screen w-64 text-white pt-4 pr-4 pb-4 fixed left-0 top-0 sidebar",
   menuItemFocus: "color-menuItemFocus bg-menuItemFocus font-medium text-base",
   menuItem: "color-menuItem text-base font-medium",
-  menuHover: "hover:text-menuHover hover:bg-menuItemFocus",
+  menuHover: "hover:text-primary hover:bg-menuItemFocus",
   menuItemFocusLine: "menu-item-focus-line",
   menuItemNoFocusLine: "menu-item-no-focus-line hover:bg-menuItemFocus",
-  borderLight: "border-light",
-  borderBottomLight: "border-bottom-light",
+  borderLight: "border-1 border-[var(--color-borders)]",
   dashboardTitle: "text-3xl font-bold flex items-center gap-2 text-textTitle h-16 lg:h-auto",
   heroHeadText: "font-bigShoulderStencil text-black font-bold",
   heroHeadTextDark: "font-bigShoulderInline text-white",
@@ -24,6 +23,7 @@ const styles = {
   iconsCards: "text-3xl",
   subIconsCards: "text-xl",
   categoryCard: "bg-white p-5 text-primary border border-gray-400 group",
+  borderBottomLight: "w-full border-b border-[var(--color-borders)]",
 };
 
 export { styles };

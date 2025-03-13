@@ -9,9 +9,6 @@ body {
   background-color: var(--body-background);
 }
 
-.text-black {
-  color: var(--text-black);
-}
 
 
 .text-focus-color {
@@ -45,14 +42,6 @@ body {
 
 .hover-icon-parent:hover .icon-hover {
   color: var(--text-focus);
-}
-
-.border-light {
-  border: 1px solid var(--light-border);
-}
-
-.border-bottom-light {
-  border-bottom: 1px solid var(--light-border);
 }
 
 @font-face {
@@ -91,7 +80,6 @@ body {
   --color-span: #26a4ff;
   --color-primary: #4640DE;
   --color-menuItem: #7C8493;
-  --color-menuHover: #4640DE;
   --color-menuItemFocus: #E9EBFD;
   --color-textTitle: #25324B;
   --color-lightBackground: #F8F8FD;
@@ -99,6 +87,7 @@ body {
   --color-closedColor: #FF6550;
   --color-freelanceColor: #FFB836;
   --breakpoint-xs: 30rem;
+  --color-borders: #d2d6ff;
 }
 
 body {
@@ -120,7 +109,6 @@ body {
   color: transparent;
 }
 
-/* Add these utility classes for borders */
 .border-live {
   border-color: var(--color-liveColor);
 }
@@ -137,7 +125,6 @@ body {
   border-color: var(--color-freelanceColor);
 }
 
-/* Add these utility classes for text colors */
 .text-liveColor {
   color: var(--color-liveColor);
 }
