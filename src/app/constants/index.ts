@@ -32,7 +32,6 @@ const jobsCategories = [
     bgColor: "bg-[#eefaf7]",
     textColor: "text-[#69d3b6]",
     border: "border border-[#69d3b6]",
-
   },
   {
     icon: GiMoneyStack,
@@ -41,7 +40,6 @@ const jobsCategories = [
     bgColor: "bg-[#ececfc]",
     textColor: "text-[#504ae0]",
     border: "border border-[#504ae0]",
-
   },
   {
     icon: HiOutlineDesktopComputer,
@@ -50,7 +48,6 @@ const jobsCategories = [
     bgColor: "bg-[#fff0ed]",
     textColor: "text-[#ff7664]",
     border: "border border-[#ff7664]",
-
   },
   {
     icon: IoCodeSlash,
@@ -59,7 +56,6 @@ const jobsCategories = [
     bgColor: "bg-[#dbe9fe]",
     textColor: "text-[#1447e6]",
     border: "border border-[#1447e6]",
-
   },
   {
     icon: LuBriefcaseBusiness,
@@ -68,7 +64,6 @@ const jobsCategories = [
     bgColor: "bg-[#f6d0ff]",
     textColor: "text-[#8a0194]",
     border: "border border-[#8a0194]",
-
   },
   {
     icon: IoPeopleOutline,
@@ -77,10 +72,23 @@ const jobsCategories = [
     bgColor: "bg-[#ddd6ff]",
     textColor: "text-[#2f0d67]",
     border: "border border-[#2f0d67]",
-
   },
+];
+
+const jobsTypes = [
+  "Full-Time",
+  "Part-Time",
+  "Remote",
+  "Internship",
+  "Contract",
+];
+const salaryRange = [
+  "$700 - $1000",
+  "$100 - $1500",
+  "$1500 - $2000",
+  "$3000 or above",
 ];
 
 const perksIcons = [];
 
-export { jobsCategories };
+export { jobsCategories, perksIcons, jobsTypes, salaryRange };

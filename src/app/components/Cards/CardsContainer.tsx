@@ -88,7 +88,7 @@ const CardsContainer = ({ cardId }: ICardId) => {
                 <JobResumeCards cardId={cardId} />
               </div>
             ) : (
-              <div className="flex flex-col gap-3 w-fit mx-auto">
+              <div className="flex flex-col gap-3 w-full mx-auto">
                 <p className="text-white">cardId= allJobs</p>
                 <JobResumeCards cardId={cardId} />
                 <JobResumeCards cardId={cardId} />

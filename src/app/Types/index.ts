@@ -36,8 +36,8 @@ interface ICards {
   category?: string;
   company?: string;
   type?: string;
-  date?:string;
-  progress?:string;
+  date?: string;
+  progress?: string;
   total?: number;
   cardId: string;
 }
@@ -54,7 +54,20 @@ interface ITagComp {
   borderColor?: string;
 }
 
-export type { IButtton, ILogo, ICards, ICardId, IProgressBarProps, ITagComp };
+interface IFilterJobs {
+  array: string[];
+  title: string;
+}
+
+export type {
+  IButtton,
+  ILogo,
+  ICards,
+  ICardId,
+  IProgressBarProps,
+  ITagComp,
+  IFilterJobs,
+};
 
 export interface IDashboardNavbar {
   title: string;

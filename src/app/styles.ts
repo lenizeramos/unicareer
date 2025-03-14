@@ -17,13 +17,13 @@ const styles = {
   heroSubText: "font-monomakh",
   subtitleHeroSize:
     "lg:text-[30px] sm:text-[26px] xs:text-[20px] text-[16px] lg:leading-[40px]",
-  sectionHeadText: "font-monomakh",
+  sectionHeadText: "font-monomakh text-xl",
   titleSectionSize: "md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]",
   sectionSubText: "font-shafarik",
   subTitleSectionSize: "sm:text-[20px] text-[14px] ",
   iconsCards: "text-3xl",
   subIconsCards: "text-xl",
-  categoryCard: "bg-white p-5 text-primary border border-gray-400 group",
+  categoryCard: "bg-white p-5 text-primary border border-gray-200 group",
 };
 
 export { styles };

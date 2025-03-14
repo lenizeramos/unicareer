@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function DashboardNavbar({ title, backArrow, button }: IDashboardNavbar) {
     return (
-        <div className="flex justify-between items-center p-2 lg:p-8">
+        <div className="flex justify-between items-center px-2 pb-2 lg:px-8 lg:pb-5 font-shafarik">
             <div className={`${backArrow ? "flex items-center gap-2" : ""} sm:p-1`}>
                 {backArrow ? (
                     <Link href={typeof backArrow === 'string' ? backArrow : "/"}>
