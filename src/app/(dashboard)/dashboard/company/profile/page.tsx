@@ -83,80 +83,80 @@ const CompanyProfile = async () => {
         />
     </div>
     <hr className="my-4 border-t border-gray-200 w-full" />
-    <div className="mt-4">
-      <h3 className="text-xl font-semibold mb-3">Company Profile</h3>
-      <p className="text-gray-600 leading-relaxed">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor 
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis 
-        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor 
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis 
-        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      </p>
-    </div>
 
-    <hr className="my-4 border-t border-gray-200 w-full" />
-
-    <div className="mt-4">
-      <h3 className="text-xl font-semibold mb-3">Contact</h3>
-      <div className="flex gap-4">
-        <a href="#" className="p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
-          <FaFacebookF className="text-xl" />
-        </a>
-        <a href="#" className="p-3 bg-blue-400 text-white rounded-full hover:bg-blue-500 transition-colors">
-          <FaTwitter className="text-xl" />
-        </a>
-        <a href="#" className="p-3 bg-blue-700 text-white rounded-full hover:bg-blue-800 transition-colors">
-          <FaLinkedinIn className="text-xl" />
-        </a>
-        <a href="#" className="p-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors">
-          <FaInstagram className="text-xl" />
-        </a>
-        <a href="mailto:#" className="p-3 bg-gray-600 text-white rounded-full hover:bg-gray-700 transition-colors">
-          <MdEmail className="text-xl" />
-        </a>
-      </div>
-
-      <hr className="my-4 border-t border-gray-200 w-full" />
-
-      <div className="mt-4">
-        <h3 className="text-xl font-semibold mb-3">Image Gallery</h3>
-        <div className="grid grid-cols-3 gap-4">
-          <img 
-            src="/company-image-1.jpg" 
-            alt="Company image 1" 
-            className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
-          />
-          <img 
-            src="/company-image-2.jpg" 
-            alt="Company image 2" 
-            className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
-          />
-          <img 
-            src="/company-image-3.jpg" 
-            alt="Company image 3" 
-            className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
-          />
-          <img 
-            src="/company-image-4.jpg" 
-            alt="Company image 4" 
-            className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
-          />
-          <img 
-            src="/company-image-5.jpg" 
-            alt="Company image 5" 
-            className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
-          />
-          <img 
-            src="/company-image-6.jpg" 
-            alt="Company image 6" 
-            className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
-          />
-        </div>
-      </div>
+    {/* Profile and Sidebar Sections */}
+    <div className="flex gap-8 relative">
+      {/* Main Content - Company Profile */}
+      <div className="flex-1">
+        <h3 className="text-xl font-semibold mb-3">Company Profile</h3>
+        <p className="text-gray-600 leading-relaxed">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor 
+          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis 
+          nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
 
         <hr className="my-4 border-t border-gray-200 w-full" />
 
+        {/* Contact Section */}
+        <div className="mt-4">
+          <h3 className="text-xl font-semibold mb-3">Contact</h3>
+          <div className="flex gap-4">
+            <a href="#" className="p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+              <FaFacebookF className="text-xl" />
+            </a>
+            <a href="#" className="p-3 bg-blue-400 text-white rounded-full hover:bg-blue-500 transition-colors">
+              <FaTwitter className="text-xl" />
+            </a>
+            <a href="#" className="p-3 bg-blue-700 text-white rounded-full hover:bg-blue-800 transition-colors">
+              <FaLinkedinIn className="text-xl" />
+            </a>
+            <a href="#" className="p-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors">
+              <FaInstagram className="text-xl" />
+            </a>
+            <a href="mailto:#" className="p-3 bg-gray-600 text-white rounded-full hover:bg-gray-700 transition-colors">
+              <MdEmail className="text-xl" />
+            </a>
+          </div>
+        </div>
+
+        {/* Image Gallery Section */}
+        <div className="mt-4">
+          <h3 className="text-xl font-semibold mb-3">Image Gallery</h3>
+          <div className="grid grid-cols-3 gap-4">
+            <img 
+              src="/company-image-1.jpg" 
+              alt="Company image 1" 
+              className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
+            />
+            <img 
+              src="/company-image-2.jpg" 
+              alt="Company image 2" 
+              className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
+            />
+            <img 
+              src="/company-image-3.jpg" 
+              alt="Company image 3" 
+              className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
+            />
+            <img 
+              src="/company-image-4.jpg" 
+              alt="Company image 4" 
+              className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
+            />
+            <img 
+              src="/company-image-5.jpg" 
+              alt="Company image 5" 
+              className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
+            />
+            <img 
+              src="/company-image-6.jpg" 
+              alt="Company image 6" 
+              className="w-full h-32 object-cover rounded-lg hover:opacity-75 transition-opacity cursor-pointer"
+            />
+          </div>
+        </div>
+
+        {/* Team Section */}
         <div className="mt-4">
           <h3 className="text-xl font-semibold mb-3">Our Team</h3>
           <div className="flex flex-col gap-4">
@@ -208,8 +208,49 @@ const CompanyProfile = async () => {
             </div>
           </div>
         </div>
+      </div>
 
-        <hr className="my-4 border-t border-gray-200 w-full" />
+      {/* Sticky Sidebar Content */}
+      <div className="w-1/3">
+        <div className="sticky top-4 space-y-6">
+          {/* Tech Stack Section */}
+          <div className="bg-gray-50 p-6 rounded-lg">
+            <h3 className="text-xl font-semibold mb-3">Tech Stack</h3>
+            <div className="flex flex-wrap gap-2">
+              <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">React</span>
+              <span className="px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm">Node.js</span>
+              <span className="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm">TypeScript</span>
+              <span className="px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full text-sm">JavaScript</span>
+              <span className="px-3 py-1 bg-red-100 text-red-600 rounded-full text-sm">AWS</span>
+              <span className="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-sm">Docker</span>
+              <span className="px-3 py-1 bg-pink-100 text-pink-600 rounded-full text-sm">PostgreSQL</span>
+              <span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-sm">MongoDB</span>
+            </div>
+          </div>
+
+          {/* Office Locations Section */}
+          <div className="bg-gray-50 p-6 rounded-lg">
+            <h3 className="text-xl font-semibold mb-3">Office Locations</h3>
+            <div className="space-y-4">
+              <div className="bg-white p-4 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-700">Headquarters</h4>
+                <p className="text-gray-600">San Francisco, CA</p>
+                <p className="text-gray-500 text-sm">123 Tech Street, 94105</p>
+              </div>
+              <div className="bg-white p-4 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-700">Europe Office</h4>
+                <p className="text-gray-600">London, UK</p>
+                <p className="text-gray-500 text-sm">456 Innovation Ave, EC1A 1BB</p>
+              </div>
+              <div className="bg-white p-4 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-700">Asia Office</h4>
+                <p className="text-gray-600">Singapore</p>
+                <p className="text-gray-500 text-sm">789 Digital Road, 018956</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 </div>
   );
