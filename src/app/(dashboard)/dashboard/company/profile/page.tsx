@@ -5,6 +5,9 @@ import { BsGlobe } from 'react-icons/bs';
 import { MdEmail } from 'react-icons/md';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
+import { FiCoffee, FiHome, FiAward, FiHeart, FiBookOpen, FiSmile } from 'react-icons/fi';
+import BenefitCard from '@/app/components/BenefitCard';
+import CardsContainer from '@/app/components/Cards/CardsContainer';
 
 const CompanyProfile = async () => {
   const session = await auth();
@@ -84,9 +87,7 @@ const CompanyProfile = async () => {
     </div>
     <hr className="my-4 border-t border-gray-200 w-full" />
 
-    {/* Profile and Sidebar Sections */}
     <div className="flex gap-8 relative">
-      {/* Main Content - Company Profile */}
       <div className="flex-1">
         <h3 className="text-xl font-semibold mb-3">Company Profile</h3>
         <p className="text-gray-600 leading-relaxed">
@@ -95,9 +96,8 @@ const CompanyProfile = async () => {
           nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </p>
 
-        <hr className="my-4 border-t border-gray-200 w-full" />
+        <hr className="my-8 border-t border-gray-200 w-full" />
 
-        {/* Contact Section */}
         <div className="mt-4">
           <h3 className="text-xl font-semibold mb-3">Contact</h3>
           <div className="flex gap-4">
@@ -119,7 +119,6 @@ const CompanyProfile = async () => {
           </div>
         </div>
 
-        {/* Image Gallery Section */}
         <div className="mt-4">
           <h3 className="text-xl font-semibold mb-3">Image Gallery</h3>
           <div className="grid grid-cols-3 gap-4">
@@ -156,11 +155,9 @@ const CompanyProfile = async () => {
           </div>
         </div>
 
-        {/* Team Section */}
         <div className="mt-4">
           <h3 className="text-xl font-semibold mb-3">Our Team</h3>
           <div className="flex flex-col gap-4">
-            {/* Team Member Card */}
             <div className="bg-gray-50 rounded-lg p-4 flex items-center">
               <img 
                 src="/team-member-1.jpg" 
@@ -208,12 +205,78 @@ const CompanyProfile = async () => {
             </div>
           </div>
         </div>
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-6">Benefits & Perks</h3>
+          <div className="grid grid-cols-2 gap-6">
+            <BenefitCard 
+              icon={FiCoffee}
+              title="Flexible Hours"
+              description="Work when you're most productive. We trust you to manage your time effectively."
+            />
+            <BenefitCard 
+              icon={FiHome}
+              title="Remote Work"
+              description="Work from anywhere in the world. Our team is fully distributed."
+            />
+            <BenefitCard 
+              icon={FiAward}
+              title="Learning Budget"
+              description="$1,000 annual budget for courses, books, and conferences."
+            />
+            <BenefitCard 
+              icon={FiHeart}
+              title="Health Insurance"
+              description="Comprehensive health, dental, and vision coverage for you and your family."
+            />
+            <BenefitCard 
+              icon={FiBookOpen}
+              title="Paid Time Off"
+              description="Unlimited vacation policy. Take time off when you need it."
+            />
+            <BenefitCard 
+              icon={FiSmile}
+              title="Team Events"
+              description="Regular virtual and in-person team gatherings and activities."
+            />
+          </div>
+        </div>
+        
+        {/* Open Positions Section */}
+        <div className="mt-8">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-xl font-semibold">Open Positions</h3>
+            <ButtonComp 
+              text="View All Positions" 
+              IsWhite={true}
+            />
+          </div>
+          
+          <CardsContainer 
+            cardId="openPositions"
+            params={[
+              {
+                cardId: "openPositions",
+                title: "Senior Frontend Developer",
+                company: "Your Company Name",
+                date: "Posted 2 days ago",
+                text: "Full-time · Remote · Senior Level"
+              },
+              {
+                cardId: "openPositions",
+                title: "Backend Engineer",
+                company: "Your Company Name",
+                date: "Posted 3 days ago",
+                text: "Full-time · Remote · Mid Level"
+              }
+            ]}
+          />
+        </div>
+
+        <hr className="my-8 border-t border-gray-200 w-full" />
       </div>
 
-      {/* Sticky Sidebar Content */}
       <div className="w-1/3">
         <div className="sticky top-4 space-y-6">
-          {/* Tech Stack Section */}
           <div className="bg-gray-50 p-6 rounded-lg">
             <h3 className="text-xl font-semibold mb-3">Tech Stack</h3>
             <div className="flex flex-wrap gap-2">
@@ -228,7 +291,6 @@ const CompanyProfile = async () => {
             </div>
           </div>
 
-          {/* Office Locations Section */}
           <div className="bg-gray-50 p-6 rounded-lg">
             <h3 className="text-xl font-semibold mb-3">Office Locations</h3>
             <div className="space-y-4">
