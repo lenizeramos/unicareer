@@ -56,7 +56,6 @@ export default function JobList({
                 </table>
             </div>
             
-            {/* Add pagination controls */}
             <div className="flex justify-between items-center p-8 border-top-light">
                 <div className="flex items-center gap-2">
                     <span className="text-lg text-not-focus-color">View</span>
@@ -88,7 +87,7 @@ export default function JobList({
                             onClick={() => onPageChange(page)}
                             className={`w-8 h-8 rounded ${
                                 currentPage === page 
-                                ? 'bg-primary text-white bg-menuHover' 
+                                ? 'bg-primary text-white bg-primary' 
                                 : ''
                             }`}
                         >

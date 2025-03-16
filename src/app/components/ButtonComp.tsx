@@ -2,8 +2,8 @@ import { styles } from "../styles";
 import { IButtton } from "../Types";
 
 const ButtonComp = ({ text, IsWhite, width, onClick, icon }: IButtton) => {
-  const colorBtn = IsWhite ? "bg-white border border-[#4640de]" : "bg-[#4640de]";
-  const colorText = IsWhite ? "text-[#4640de]" : "text-white";
+  const colorBtn = IsWhite ? "bg-white border border-primary" : "bg-primary";
+  const colorText = IsWhite ? "text-primary" : "text-white";
   const widthBtn = width ? `${width}` : `w-fit`;
   return (
     <>

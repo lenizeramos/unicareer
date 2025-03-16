@@ -1,37 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --body-background: #FFFFFF;
-  --background: #F8F8FD;
-  --text-focus: #4640DE;
-  --text-not-focus: #7C8493;
-  --text-title: #25324B;
-  --light-border: #D6DDEB;
-  --item-focus: #E9EBFD;
-  --text-black: #000000;
+  --color-primary: #4640DE;
 }
-
-/* Dark theme variables */
-/*@media (prefers-color-scheme: dark) {
-  :root {
-    --body-background: #1a1a1a;
-    --background: #1a1a1a;
-    --text-focus: #ffffff;
-    --text-not-focus: #a0a0a0;
-    --text-title: #3291ff;
-    --light-border: #D6DDEB;
-    --item-focus: #E9EBFD;
-  }
-}*/
 
 body {
   font-family: Inter, sans-serif;  
   background-color: var(--body-background);
 }
 
-.text-black {
-  color: var(--text-black);
-}
 
 
 .text-focus-color {
@@ -65,14 +42,6 @@ body {
 
 .hover-icon-parent:hover .icon-hover {
   color: var(--text-focus);
-}
-
-.border-light {
-  border: 1px solid var(--light-border);
-}
-
-.border-bottom-light {
-  border-bottom: 1px solid var(--light-border);
 }
 
 @font-face {
@@ -109,15 +78,16 @@ body {
   --font-monomakh: "Monomakh", sans-serif;
   --color-landingDark: #202430;
   --color-span: #26a4ff;
+  --color-primary: #4640DE;
   --color-menuItem: #7C8493;
-  --color-menuHover: #4640DE;
   --color-menuItemFocus: #E9EBFD;
   --color-textTitle: #25324B;
   --color-lightBackground: #F8F8FD;
   --color-liveColor: #56CDAD;
   --color-closedColor: #FF6550;
-  --color-fulltimeColor: #4640DE;
   --color-freelanceColor: #FFB836;
+  --breakpoint-xs: 30rem;
+  --color-borders: #d2d6ff;
 }
 
 body {
@@ -139,7 +109,6 @@ body {
   color: transparent;
 }
 
-/* Add these utility classes for borders */
 .border-live {
   border-color: var(--color-liveColor);
 }
@@ -149,14 +118,13 @@ body {
 }
 
 .border-fulltime {
-  border-color: var(--color-fulltimeColor);
+  border-color: var(--color-primary);
 }
 
 .border-freelance {
   border-color: var(--color-freelanceColor);
 }
 
-/* Add these utility classes for text colors */
 .text-liveColor {
   color: var(--color-liveColor);
 }

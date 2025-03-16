@@ -13,7 +13,51 @@ interface ILogo {
   fontSize?: string;
 }
 
-export type { IButtton, ILogo };
+interface ICardId extends Omit<ICards, 'cardId'>{
+  cardId:
+    | "category"
+    | "perks"
+    | "dashboardCard"
+    | "featuredJob"
+    | "jobUpdates"
+    | "latestJob"
+    | "openPositions"
+    | "allJobs"
+    | "recentApply"
+    | "recentPosted";
+    params?: ICards[];
+}
+
+interface ICards {
+  icon?: React.ElementType;
+  subicons?: React.ElementType;
+  title?: string;
+  subtitle?: string;
+  text?: string;
+  logo?: string;
+  alt?: string;
+  category?: string;
+  company?: string;
+  type?: string;
+  date?:string;
+  progress?:string;
+  total?: number;
+  cardId: string;
+}
+
+interface IProgressBarProps {
+  totalLength: number;
+  value: number;
+}
+
+interface ITagComp {
+  bgColor?: string;
+  textColor: string;
+  text: string;
+  borderColor?: string;
+}
+
+export type { IButtton, ILogo, ICards, ICardId, IProgressBarProps, ITagComp };
 
 export interface IDashboardNavbar {
   title: string;

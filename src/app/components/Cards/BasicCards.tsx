@@ -1,0 +1,55 @@
+import { styles } from "@/app/styles";
+import { ICards } from "@/app/Types";
+
+const BasicCards = ({
+  icon: Icon,
+  subicons: Subicons,
+  title,
+  text,
+  total,
+  cardId,
+}: ICards) => {
+  return (
+    <>
+      {cardId === "dashboardCard" ? (
+        <div
+          className={` ${styles.sectionSubText} ${styles.categoryCard} w-fit min-h-[160px] min-w-[230px] overflow-hidden`}
+        >
+          <h2 className="text-black font-semibold text-xl">{title}</h2>
+          <p className="text-black text-[3rem]">{total}</p>
+          <div className="text-3xl text-gray-400 relative w-full h-8">
+            {Icon && <Icon size={56} className={`absolute left-13 top-0 z-10`} />}
+            {Subicons && <Subicons size={56} className={`absolute left-20 top-2 `} />}
+          </div>
+        </div>
+      ) : (
+        <div
+          className={` ${styles.sectionSubText} ${styles.categoryCard} cursor-pointer  hover:bg-primary`}
+        >
+          <div> icon =
+            {Icon && (
+              <Icon className={`${styles.iconsCards} group-hover:text-white`} />
+            )}
+          </div>
+          <div>
+            <h3
+              className={`text-xl font-bold my-5 text-black group-hover:text-white `}
+            >
+              title = {title}
+            </h3>
+            <div className="flex items-center gap-5 text-gray-400">
+              <p className={`group-hover:text-white`}>text ={text} </p>
+              {Subicons && (
+                <Subicons
+                  className={`${styles.subIconsCards} group-hover:text-white`}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default BasicCards;

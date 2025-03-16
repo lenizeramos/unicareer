@@ -17,7 +17,7 @@ import { CiViewList } from "react-icons/ci";
 import Image from 'next/image';
 import { useUser, useClerk } from "@clerk/nextjs";
 import { CiLogout } from "react-icons/ci";
-
+import Logo from "./Logo";
 
 const iconComponents = {
     dashboard: MdOutlineSpaceDashboard,
@@ -55,10 +55,9 @@ export default function Sidebar({ userType, isOpen = true, onClose }: SidebarPro
                 lg:translate-x-0 lg:static
                 ${isOpen ? 'translate-x-0' : '-translate-x-full'}
             `}>
-                <h1 className="text-2xl font-bold mb-8 flex items-center gap-2 text-black pl-4 h-16 lg:h-auto">
-                    <Icon src="/img/logo.svg" alt="UniCareer logo" className="w-8 h-8 lg:block" />
-                    <span className="lg:block">UniCareer</span>
-                </h1>
+                <div className="flex justify-center items-center mb-8">
+                    <Logo />
+                </div>
                 <nav>
                     <ul className="space-y-2">
                         {menuItems.map((item) => (
@@ -77,13 +76,13 @@ export default function Sidebar({ userType, isOpen = true, onClose }: SidebarPro
                                                 const IconComponent = iconComponents[item.iconName as keyof typeof iconComponents];
                                                 return <IconComponent 
                                                     className={`text-2xl ${styles.menuHover} ${
-                                                        pathname === item.path ? 'text-menuHover' : ''
+                                                        pathname === item.path ? 'text-primary' : ''
                                                     }`}
                                                 />;
                                             })()
                                         }
                                         <span className={`${
-                                            pathname === item.path ? 'text-menuHover' : ''
+                                            pathname === item.path ? 'text-primary' : ''
                                         }`}>{item.title}</span>
                                     </Link>
                                 </div>
