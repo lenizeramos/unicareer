@@ -1,5 +1,7 @@
+import React from 'react';
+
 interface IButtton {
-  text: string;
+  text: string | React.ReactNode;
   IsWhite: boolean;
   width?: string;
   onClick?: () => void;

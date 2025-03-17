@@ -41,9 +41,9 @@ const Footer = () => {
                 <div className="subscribe wide-column flex flex-col items-start gap-4">
                     <h4 className="font-bold mb-4">Get job notifications</h4>
                     <p>The latest job news, articles, sent to your inbox weekly.</p>
-                    <div className="flex justify-center gap-2 subscribe-form">
-                        <input className="p-2 border border-gray-300 w-52 bg-white text-black" type="email" placeholder="Email Address" />
-                        <ButtonComp text="Subscribe" IsWhite={false} />
+                    <div className="flex flex-col md:flex-row justify-center gap-2 subscribe-form w-full">
+                        <input className="p-2 border border-gray-300 w-full md:w-52 bg-white text-black" type="email" placeholder="Email Address" />
+                        <ButtonComp text="Subscribe" IsWhite={false} className="w-full md:w-auto" />
                     </div>
                 </div>
             </div>
