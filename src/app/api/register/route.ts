@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
 
     if (payload.role === "CANDIDATE") {
       try {
-        payload.skills = ["JAVA", "DEV"];
         await createUserAndCandidate(payload);
         return NextResponse.json("Candidate created successfully");
       } catch (error) {
