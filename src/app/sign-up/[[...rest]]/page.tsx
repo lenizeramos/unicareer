@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SignUp, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
@@ -8,10 +8,11 @@ const SignUpPage = () => {
   const { isSignedIn } = useUser();
   const router = useRouter();
 
-  if (isSignedIn) {
-    router.push("/");
-    return null;
-  }
+  useEffect(() => {
+    if (isSignedIn) {
+      router.push("/");
+    }
+ }, [isSignedIn, router]);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-4">
       <h2 className="text-xl font-semibold">Select Your Role</h2>
@@ -29,14 +30,12 @@ const SignUpPage = () => {
         ))}
       </div>
 
-      {role && (
-        <SignUp
-          path="/sign-up"
-          routing="path"
-          signInUrl="/sign-in"
-          forceRedirectUrl={`/register?role=${role}`}
-        />
-      )}
+      <SignUp
+        path="/sign-up"
+        routing="path"
+        signInUrl="/sign-in"
+        forceRedirectUrl={`/register?role=${role}`}
+      />
     </div>
   );
 };
