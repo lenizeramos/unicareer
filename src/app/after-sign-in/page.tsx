@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { getDashboardPath } from "../../Lib/client/user";
 
 function AfterSignIn() {
   const [error, setError] = useState("");
@@ -17,19 +18,17 @@ function AfterSignIn() {
       }
 
       const user = await userResponse.json();
-
       if (user) {
-        router.push("/");
-        return;
-      }
+        router.push(getDashboardPath(user.role));
+      } else {
+        const roleResponse = await fetch("/api/get-role");
+        if (!roleResponse.ok) {
+          throw new Error(`Failed to get role: ${roleResponse.statusText}`);
+        }
 
-      const roleResponse = await fetch("/api/get-role");
-      if (!roleResponse.ok) {
-        throw new Error(`Failed to get role: ${roleResponse.statusText}`);
+        const role = await roleResponse.json();
+        router.push(`/register?role=${role}`);
       }
-
-      const role = await roleResponse.json();
-      router.push(`/register?role=${role}`);
     } catch (error) {
       console.error("Error during sign-in flow:", error);
       setError("An error occurred while fetching the user data.");

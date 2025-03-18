@@ -10,9 +10,9 @@ const SignUpPage = () => {
 
   useEffect(() => {
     if (isSignedIn) {
-      router.push("/");
+      router.push("/after-sign-in");
     }
- }, [isSignedIn, router]);
+  }, [isSignedIn, router]);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-4">
       <h2 className="text-xl font-semibold">Select Your Role</h2>
@@ -29,13 +29,14 @@ const SignUpPage = () => {
           </button>
         ))}
       </div>
-
-      <SignUp
-        path="/sign-up"
-        routing="path"
-        signInUrl="/sign-in"
-        forceRedirectUrl={`/register?role=${role}`}
-      />
+      {role && (
+        <SignUp
+          path="/sign-up"
+          routing="path"
+          signInUrl="/sign-in"
+          forceRedirectUrl={`/register?role=${role}`}
+        />
+      )}
     </div>
   );
 };
