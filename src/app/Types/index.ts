@@ -1,5 +1,7 @@
+import React from 'react';
+
 interface IButtton {
-  text: string;
+  text: string | React.ReactNode;
   IsWhite: boolean;
   width?: string;
   onClick?: () => void;
@@ -11,7 +13,7 @@ interface ILogo {
   fontSize?: string;
 }
 
-interface ICardId {
+interface ICardId extends Omit<ICards, 'cardId'>{
   cardId:
     | "category"
     | "perks"
@@ -23,6 +25,7 @@ interface ICardId {
     | "allJobs"
     | "recentApply"
     | "recentPosted";
+    params?: ICards[];
 }
 
 interface ICards {

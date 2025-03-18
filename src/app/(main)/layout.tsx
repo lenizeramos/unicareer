@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
+import "../globals.css";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 
-export default async function MainLayout({
+export const metadata: Metadata = {
+  title: "Unicareer",
+};
+
+export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
