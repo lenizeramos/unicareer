@@ -57,7 +57,7 @@ export default function FindJobs() {
           <h2 className={`${styles.sectionHeadText} font-semibold`}>
             All Jobs
           </h2>
-          <p className={`${styles.sectionHeadText}`}>Showing 73 results</p>
+          <p className={`${styles.sectionSubText} text-gray-500`}>Showing 73 results</p>
           <CardsContainer cardId="allJobs" />
         </div>
       </div>

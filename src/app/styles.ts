@@ -17,7 +17,7 @@ const styles = {
   heroSubText: "font-monomakh",
   subtitleHeroSize:
     "lg:text-[30px] sm:text-[26px] xs:text-[20px] text-[16px] lg:leading-[40px]",
-  sectionHeadText: "font-monomakh text-xl",
+  sectionHeadText: "font-monomakh text-3xl",
   titleSectionSize: "md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]",
   sectionSubText: "font-shafarik",
   subTitleSectionSize: "sm:text-[20px] text-[14px] ",

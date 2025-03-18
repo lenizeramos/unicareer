@@ -59,6 +59,25 @@ interface IFilterJobs {
   title: string;
 }
 
+interface IJobDescription {
+  logo:string;
+  position:string;
+  company:string;
+  place:string;
+  type:string;
+  description:string[];
+  whoYouAre:string[];
+  plus:string[];
+  applyBefore:string;
+  createdAt:string;
+  jobType:string;
+  salary:string;
+  category:string[];
+  skills:string[]
+  perks:{icon:React.ElementType, title:string, text:string}[];
+  
+}
+
 export type {
   IButtton,
   ILogo,
@@ -67,6 +86,7 @@ export type {
   IProgressBarProps,
   ITagComp,
   IFilterJobs,
+  IJobDescription
 };
 
 export interface IDashboardNavbar {
