@@ -75,9 +75,9 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit }) => {
           Skills
         </label>
         <Chips
-          className="w-full text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full chips text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           itemTemplate={(skill) => (
-            <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-lg text-sm font-medium flex items-center gap-2">
+            <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
               {skill}
             </div>
           )}
