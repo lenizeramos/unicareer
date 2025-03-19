@@ -27,6 +27,9 @@ function AfterSignIn() {
         }
 
         const role = await roleResponse.json();
+        if (!role) {
+          router.push("/sign-in");
+        }
         router.push(`/register?role=${role}`);
       }
     } catch (error) {
