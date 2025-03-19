@@ -1,21 +1,12 @@
 import React, { useState } from "react";
+import { Chips } from "primereact/chips";
+import { ICandidateFormProps } from "../Types/candidate";
 
-interface CandidateFormProps {
-  onSubmit: (formData: {
-    firstName: string;
-    lastName: string;
-    photo: File | null;
-    skills: string;
-    resume: File | null;
-    bio: string;
-  }) => void;
-}
-
-const CandidateForm: React.FC<CandidateFormProps> = ({ onSubmit }) => {
+const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [photo, setPhoto] = useState<File | null>(null);
-  const [skills, setSkills] = useState("");
+  const [skills, setSkills] = useState<string[]>([]);
   const [resume, setResume] = useState<File | null>(null);
   const [bio, setBio] = useState("");
 
@@ -83,16 +74,17 @@ const CandidateForm: React.FC<CandidateFormProps> = ({ onSubmit }) => {
         <label htmlFor="skills" className="block text-gray-700 font-semibold">
           Skills
         </label>
-        <input
-          type="text"
-          id="skills"
+        <Chips
+          className="w-full chips text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          itemTemplate={(skill) => (
+            <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
+              {skill}
+            </div>
+          )}
           value={skills}
-          onChange={(e) => setSkills(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onChange={(e) => setSkills(e.value ? e.value : [])}
+          separator=","
         />
-        <small className="text-gray-500">
-          Separate skills with commas (e.g., JavaScript, React, Node.js)
-        </small>
       </div>
 
       <div>

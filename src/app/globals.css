@@ -1,15 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #4640DE;
+  --color-primary: #4640de;
 }
 
 body {
-  font-family: Inter, sans-serif;  
+  font-family: Inter, sans-serif;
   background-color: var(--body-background);
 }
-
-
 
 .text-focus-color {
   color: var(--text-focus);
@@ -78,14 +76,14 @@ body {
   --font-monomakh: "Monomakh", sans-serif;
   --color-landingDark: #202430;
   --color-span: #26a4ff;
-  --color-primary: #4640DE;
-  --color-menuItem: #7C8493;
-  --color-menuItemFocus: #E9EBFD;
-  --color-textTitle: #25324B;
-  --color-lightBackground: #F8F8FD;
-  --color-liveColor: #56CDAD;
-  --color-closedColor: #FF6550;
-  --color-freelanceColor: #FFB836;
+  --color-primary: #4640de;
+  --color-menuItem: #7c8493;
+  --color-menuItemFocus: #e9ebfd;
+  --color-textTitle: #25324b;
+  --color-lightBackground: #f8f8fd;
+  --color-liveColor: #56cdad;
+  --color-closedColor: #ff6550;
+  --color-freelanceColor: #ffb836;
   --breakpoint-xs: 30rem;
   --color-borders: #d2d6ff;
 }
@@ -139,4 +137,19 @@ body {
 
 .text-freelanceColor {
   color: var(--color-freelanceColor);
+}
+
+/* Skills */
+.p-chips-token {
+  background-color: lightgrey;
+  position: relative;
+  border-radius: 30%;
+  margin: 0.5rem;
+  border: 1px solid rgb(194, 194, 194)
+}
+.p-chips-token-icon {
+  position: absolute;
+  right: 0.2rem;
+  top: 50%; 
+  transform: translateY(-50%);
 }
