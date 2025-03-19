@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import CandidateForm from "../components/CandidateForm";
 import CompanyForm from "../components/CompanyForm";
 
-const awaitNewClerkRoleToSyncWithApp = async () => {
+/* const awaitNewClerkRoleToSyncWithApp = async () => {
   let userRole = null;
 
   const sleep = (ms: number) =>
@@ -15,9 +15,10 @@ const awaitNewClerkRoleToSyncWithApp = async () => {
   const maxAttempts = 20;
 
   while (!userRole && attempts < maxAttempts) {
-    //console.log("SLEEPING");
-    await sleep(5000);
-
+    if (attempts > 0) {
+      //console.log("SLEEPING");
+      await sleep(5000);
+    }
     const roleResponse = await fetch("/api/get-role");
     if (!roleResponse.ok) {
       throw new Error(`Failed to get role: ${roleResponse.statusText}`);
@@ -25,7 +26,7 @@ const awaitNewClerkRoleToSyncWithApp = async () => {
     userRole = await roleResponse.json();
     attempts++;
   }
-};
+}; */
 
 export default function RegisterPage() {
   const searchParams = useSearchParams();
@@ -109,7 +110,7 @@ export default function RegisterPage() {
           throw new Error(`Registration error: ${response}`);
         }
 
-        await awaitNewClerkRoleToSyncWithApp();
+        //await awaitNewClerkRoleToSyncWithApp();
         router.push("dashboard/company");
       } catch (error) {
         console.error("Error registering the user:", error);
