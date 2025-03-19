@@ -1,0 +1,48 @@
+import { NextResponse } from 'next/server';
+import { auth } from '@clerk/nextjs/server';
+import prisma from '../../../../Lib/prisma';
+
+export async function GET() {
+  try {
+    const { userId } = await auth();
+    
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+      include: {
+        company: {
+          include: {
+            companyMembership: true,
+            payments: {
+              orderBy: {
+                createdAt: 'desc'
+              },
+              take: 1
+            }
+          }
+        }
+      }
+    });
+
+    if (!user || !user.company) {
+      return NextResponse.json({ error: 'Company not found' }, { status: 404 });
+    }
+
+    const membership = user.company.companyMembership[0];
+    const latestPayment = user.company.payments[0];
+
+    console.log(membership.status);
+    console.log(latestPayment.status);
+
+    const isActive = membership?.status === 'ACTIVE';
+
+    return NextResponse.json({ isActive });
+    
+  } catch (error) {
+    console.error('Error checking membership status:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+} 

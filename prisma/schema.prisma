@@ -13,28 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//our first suggestion for User
-/* model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  clerkId String @unique
-  email String @unique
-  role Role
-  //firstName String?
-  //lastName String?
-  photo String?
-  //profile Profile?
-  //jobs Job[] @relation("PostedJobs")
-  //applications Application[]
-  //payments Payment[]
-  //messagesSent Message[] @relation("SenderMessages")
-  //messagesReceived Message[] @relation("ReceiverMessages")
-  //jobRecommendations JobRecommendation[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@map("user")
-} */
-
-
 model User {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   clerkId    String   @unique
@@ -45,7 +23,6 @@ model User {
   company    Company?   @relation
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
- 
   @@map("user")
 }
 
@@ -76,8 +53,10 @@ model Company {
   //profile      CompanyProfile?
   //jobs         Job[]      @relation("CompanyJobs")
   bio String?
+  payments CompanyPayments[]
+  companyMembership CompanyMembership[]
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt  
 
   @@map("company")
 }
@@ -130,15 +109,7 @@ model Application {
   @@map("application")
 }
 
-model Payment {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String
-  user User @relation(fields: [userId], references: [id])
-  amount Float
-  status PaymentStatus @default(PENDING)
-  createdAt DateTime @default(now())
-  @@map("payment")
-}
+
 
 model Message {
   id String @id @default(auto()) @map("_id") @db.ObjectId
@@ -193,8 +164,37 @@ enum Role {
   REJECTED
 }
 
+  */
+
+model CompanyMembership {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  companyId String @unique @db.ObjectId
+  company Company @relation(fields: [companyId], references: [id])
+  status MembershipStatus @default(INACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("company_membership")
+}
+
+model CompanyPayments {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  companyId String @db.ObjectId
+  company Company @relation(fields: [companyId], references: [id])
+  amount Float
+  status PaymentStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("company_payments")
+}
+
+enum MembershipStatus {
+  PENDING
+  ACTIVE
+  INACTIVE
+}
+
 enum PaymentStatus {
   PENDING
   COMPLETED
   FAILED
-}  */
+}
