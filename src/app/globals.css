@@ -145,11 +145,170 @@ body {
   position: relative;
   border-radius: 30%;
   margin: 0.5rem;
-  border: 1px solid rgb(194, 194, 194)
+  border: 1px solid rgb(194, 194, 194);
 }
 .p-chips-token-icon {
   position: absolute;
   right: 0.2rem;
-  top: 50%; 
+  top: 50%;
   transform: translateY(-50%);
+}
+
+/* Base styling for the entire stepper */
+.p-stepper {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Vertical Layout */
+.p-stepper-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Navigator container */
+.p-stepper-nav {
+ /*  background-color: blue; */
+  display: flex;
+  /* justify-content: space-between */;
+  margin-bottom: 1rem;
+}
+
+/* Stepper Panel Elements */
+.p-stepper-panels {
+  
+  width: 100%;
+}
+
+/* Individual Stepper Panel */
+.p-stepper-panel {
+  display: none;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Display active panel */
+.p-stepper-panel.active {
+  
+  display: block;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Stepper Header */
+.p-stepper-header {
+  /* background-color: green; */
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* Stepper Action */
+.p-stepper-action {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  width: 100%;
+}
+
+/* Stepper Numbers */
+.p-stepper-number {
+  background-color: #4caf50;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+/* Stepper Title */
+.p-stepper-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #333;
+  padding: 0.5rem 0;
+}
+
+/* Separator between steps */
+.p-stepper-separator {
+  border-top: 2px solid #e0e0e0;
+  flex-grow: 1;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Toggleable Content Container */
+.p-stepper-toggleable-content {
+  display: none;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+/* Stepper Content */
+.p-stepper-content {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Start Content Container */
+.p-stepper-start {
+  margin-right: 1rem;
+}
+
+/* End Content Container */
+.p-stepper-end {
+  margin-left: 1rem;
+}
+
+/* Active state for navigational elements */
+.p-stepper-nav .p-stepper-number.active {
+ /*  background-color: #007bff; */
+  color: white;
+}
+
+.p-stepper-nav .p-stepper-number.completed {
+  background-color: #28a745;
+}
+
+/* Focus and hover styles */
+.p-stepper-number:hover,
+.p-stepper-number:focus {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.p-stepper-title:hover {
+  color: #007bff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .p-stepper-horizontal {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .p-stepper-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .p-stepper-action {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

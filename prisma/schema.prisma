@@ -104,21 +104,22 @@ model Company {
  
   @@map("company_profile")
 } */
-/*
+
 model Job {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   title String
   description String
   companyId String
+  /* 
   company Company @relation(fields: [companyId], references: [id], name: "PostedJobs")
   applications Application[]
   jobRecommendations JobRecommendation[]
-  compatibilityScores CompatibilityScore[]
+  compatibilityScores CompatibilityScore[] */
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@map("job")
 }
-
+/*
 model Application {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   jobId String
