@@ -137,3 +137,22 @@ export interface IBadge {
   status: string;
   color: string;
 }
+
+export interface IJobFormProps {
+  onClick: (formData: {
+    closingDate: string;
+    title: string;
+    jobLevel: string;
+    type: string;
+    salaryMin: string;
+    salaryMax: string;
+    categories: string;
+    skills: string[];
+    description: string;
+    location: string;
+    responsibilities: string;
+    whoYouAre: string;
+    niceToHave: string;
+    benefits: string[];
+  }) => void;
+}

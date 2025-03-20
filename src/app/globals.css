@@ -179,7 +179,6 @@ body {
 
 /* Stepper Panel Elements */
 .p-stepper-panels {
-  
   width: 100%;
 }
 
@@ -236,7 +235,7 @@ body {
   font-size: 1.125rem;
   font-weight: 500;
   color: #333;
-  padding: 0.5rem 0;
+  /* padding: 0.5rem 0; */
 }
 
 /* Separator between steps */
@@ -298,11 +297,6 @@ body {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .p-stepper-horizontal {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .p-stepper-nav {
     flex-direction: column;
     align-items: flex-start;
   }

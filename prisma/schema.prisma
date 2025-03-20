@@ -114,8 +114,8 @@ model Job {
   skills String[]
   companyId String
   jobType String?
-  salary_min Float?
-  salary_max Float?
+  salaryMin Float?
+  salaryMax Float?
   responsibilities  String?
   whoYouAre String?
   niceToHave String?
@@ -125,7 +125,7 @@ model Job {
   applications Application[]
   jobRecommendations JobRecommendation[]
   compatibilityScores CompatibilityScore[] */
-  dueDate DateTime?
+  closingDate DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

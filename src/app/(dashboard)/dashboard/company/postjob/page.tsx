@@ -10,15 +10,20 @@ export default function PostJobPage() {
 
   const handlePostJobSubmit = useCallback(
     async (job: {
-        title: string;
-        description: string;
-        /* location: string;
-        salary: string;
-        type: string; */
-        skills: string[];
+      title: string;
+      description: string;
+      location?: string;
+      skills: string[];
+      jobType?: string;
+      salaryMin?: number;
+      salaryMax?: number;
+      responsibilities?: string;
+      whoYouAre?: string;
+      niceToHave?: string;
+      benefits?: string[];
+      closingDate?: string;
     }) => {
-
-        console.log(job, "JOBBBBBBBBBBB")
+      console.log(job, "JOBBBBBBBBBBB");
       try {
         const response = await fetch("/api/post-job", {
           method: "POST",
