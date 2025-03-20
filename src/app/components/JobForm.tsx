@@ -8,8 +8,6 @@ import ButtonComp from "./ButtonComp";
 export default function JobForm({ onClick }) {
   const stepperRef = useRef(null);
 
-
-  
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -29,9 +27,9 @@ export default function JobForm({ onClick }) {
   };
 
   const handleSubmit = () => {
-    console.log(formData, "FormDATAAAAAAAAAAAAAAAAAAAAAAA")
-    console.log(skills, "skillsSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
-    onClick( formData, skills);
+    console.log(formData, "FormDATAAAAAAAAAAAAAAAAAAAAAAA");
+    console.log(skills, "skillsSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+    onClick(formData, skills);
   };
   return (
     <div className="card flex justify-content-center">
@@ -85,7 +83,7 @@ export default function JobForm({ onClick }) {
               onChange={handleChange}
               className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
-<label
+            <label
               htmlFor="salary_max"
               className="block text-sm font-medium text-gray-700"
             >
@@ -157,7 +155,7 @@ export default function JobForm({ onClick }) {
               onChange={handleChange}
               className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
-<label
+            <label
               htmlFor="responsibilities"
               className="block text-sm font-medium text-gray-700"
             >
@@ -172,7 +170,7 @@ export default function JobForm({ onClick }) {
               rows={4}
             />
 
-<label
+            <label
               htmlFor="whoYouAre"
               className="block text-sm font-medium text-gray-700"
             >
@@ -187,7 +185,7 @@ export default function JobForm({ onClick }) {
               rows={4}
             />
 
-<label
+            <label
               htmlFor="niceToHave"
               className="block text-sm font-medium text-gray-700"
             >
@@ -201,29 +199,9 @@ export default function JobForm({ onClick }) {
               className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               rows={4}
             />
-
-            
           </div>
 
           <div className="flex pt-4 justify-between">
-          <label
-              htmlFor="benefits"
-              className="block text-sm font-semibold text-gray-700"
-            >
-              Benefits
-            </label>
-            <Chips
-              className="w-full text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              itemTemplate={(skill) => (
-                <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
-                  {skill}
-                </div>
-              )}
-              value={skills}
-              onChange={(e) => setSkills(e.value ? e.value : [])}
-              separator=","
-            />
-
             <ButtonComp
               text="Back"
               IsWhite={false}
@@ -240,7 +218,25 @@ export default function JobForm({ onClick }) {
         </StepperPanel>
 
         <StepperPanel header="Step 3/3">
-          <div className="flex flex-column h-12rem"></div>
+          <div className="flex flex-column h-12rem">
+            <label
+              htmlFor="benefits"
+              className="block text-sm font-semibold text-gray-700"
+            >
+              Benefits
+            </label>
+            <Chips
+              className="w-full text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              itemTemplate={(skill) => (
+                <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
+                  {skill}
+                </div>
+              )}
+              value={skills}
+              onChange={(e) => setSkills(e.value ? e.value : [])}
+              separator=","
+            />
+          </div>
 
           <div className="flex pt-4 justify-between">
             <ButtonComp
