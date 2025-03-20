@@ -1,17 +1,61 @@
-import React from 'react';
+"use client"
+
+import React, { useState, useEffect } from 'react';
 import ButtonComp from '@/app/components/ButtonComp';
 import { FaBuilding, FaUsers, FaMapMarkerAlt, FaIndustry, FaCog, FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from 'react-icons/fa';
 import { BsGlobe } from 'react-icons/bs';
 import { MdEmail } from 'react-icons/md';
-import { auth } from '@clerk/nextjs/server';
-import { redirect } from 'next/navigation';
+import { useCompanyData } from '@/Lib/client/company';
 
-const CompanyProfile = async () => {
-  const session = await auth();
+const CompanyProfile = () => {
+  const [showPaymentButton, setShowPaymentButton] = useState(true);
+  const { companyId, isLoading } = useCompanyData();
 
-  if (!session?.userId) {
-    redirect('/sign-in');
-  }
+  useEffect(() => {
+    const checkMembershipStatus = async () => {
+      try {
+        const response = await fetch('/api/company/membership-status', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        
+        setShowPaymentButton(!data.isActive);
+      } catch (error) {
+        console.error('Error checking membership status:', error);
+      }
+    };
+
+    checkMembershipStatus();
+  }, []);
+
+  const handlePaymentClick = async () => {
+    if (!companyId) {
+      console.error('No company ID available');
+      return;
+    }
+
+    try {
+        const response = await fetch('/api/create-payment-intent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ companyId }),
+        });
+        const data = await response.json();
+        
+        if (data.url) {
+            window.location.href = data.url;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+  };
+
+  
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-5">
@@ -76,12 +120,25 @@ const CompanyProfile = async () => {
             </div>
         </div>
     </div>
-    <div className="mt-5 flex justify-between">
-        <ButtonComp 
+    <div className="mt-5 flex justify-between">        
+      {isLoading ? (
+      <div></div>
+      ) : (
+        showPaymentButton ? (
+          <ButtonComp 
+            text="Make Payment"
+            IsWhite={false}
+            onClick={handlePaymentClick}
+          />
+        ) : (
+          <ButtonComp 
             text="Post a job"
             IsWhite={false}
-        />
+          />
+        )
+      )}
     </div>
+    
     <hr className="my-4 border-t border-gray-200 w-full" />
     <div className="mt-4">
       <h3 className="text-xl font-semibold mb-3">Company Profile</h3>

@@ -12,7 +12,11 @@
     "@clerk/elements": "^0.23.3",
     "@clerk/nextjs": "^6.12.1",
     "@prisma/client": "^6.2.1",
+    "@stripe/react-stripe-js": "^3.5.0",
+    "@stripe/stripe-js": "^6.1.0",
+    "@types/stripe": "^8.0.416",
     "framer-motion": "^12.4.2",
+    "mongodb": "^6.15.0",
     "next": "15.2.0",
     "primereact": "^10.9.3",
     "react": "^19.0.0",
@@ -20,6 +24,7 @@
     "react-icons": "^5.5.0",
     "react-slick": "^0.30.3",
     "slick-carousel": "^1.8.1",
+    "stripe": "^17.7.0",
     "svix": "^1.45.1"
   },
   "devDependencies": {
