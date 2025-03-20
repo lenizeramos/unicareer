@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface IButtton {
   text: string | React.ReactNode;
@@ -13,7 +13,7 @@ interface ILogo {
   fontSize?: string;
 }
 
-interface ICardId extends Omit<ICards, 'cardId'>{
+interface ICardId extends Omit<ICards, "cardId"> {
   cardId:
     | "category"
     | "perks"
@@ -25,7 +25,7 @@ interface ICardId extends Omit<ICards, 'cardId'>{
     | "allJobs"
     | "recentApply"
     | "recentPosted";
-    params?: ICards[];
+  params?: ICards[];
 }
 
 interface ICards {
@@ -63,22 +63,21 @@ interface IFilterJobs {
 }
 
 interface IJobDescription {
-  logo:string;
-  position:string;
-  company:string;
-  place:string;
-  type:string;
-  description:string[];
-  whoYouAre:string[];
-  plus:string[];
-  applyBefore:string;
-  createdAt:string;
-  jobType:string;
-  salary:string;
-  category:string[];
-  skills:string[]
-  perks:{icon:React.ElementType, title:string, text:string}[];
-  
+  logo: string;
+  position: string;
+  company: string;
+  place: string;
+  type: string;
+  description: string[];
+  whoYouAre: string[];
+  plus: string[];
+  applyBefore: string;
+  createdAt: string;
+  jobType: string;
+  salary: string;
+  category: string[];
+  skills: string[];
+  perks: { icon: React.ElementType; title: string; text: string }[];
 }
 
 export type {
@@ -89,7 +88,7 @@ export type {
   IProgressBarProps,
   ITagComp,
   IFilterJobs,
-  IJobDescription
+  IJobDescription,
 };
 
 export interface IDashboardNavbar {
@@ -139,20 +138,18 @@ export interface IBadge {
 }
 
 export interface IJobFormProps {
-  onClick: (formData: {
-    closingDate: string;
-    title: string;
-    jobLevel: string;
-    type: string;
-    salaryMin: string;
-    salaryMax: string;
-    categories: string;
-    skills: string[];
-    description: string;
-    location: string;
-    responsibilities: string;
-    whoYouAre: string;
-    niceToHave: string;
-    benefits: string[];
-  }) => void;
+  closingDate: Date;
+  title: string;
+  level: string;
+  type: string;
+  salaryMin: number;
+  salaryMax: number;
+  categories: string;
+  skills: string[];
+  description: string;
+  location: string;
+  responsibilities: string;
+  whoYouAre: string;
+  niceToHave: string;
+  benefits: string[];
 }

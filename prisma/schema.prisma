@@ -113,7 +113,9 @@ model Job {
   location String?
   skills String[]
   companyId String
-  jobType String?
+  level String?
+  type String?
+  categories String?
   salaryMin Float?
   salaryMax Float?
   responsibilities  String?

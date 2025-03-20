@@ -6,14 +6,14 @@ import { Chips } from "primereact/chips";
 import ButtonComp from "./ButtonComp";
 import { IJobFormProps } from "../Types";
 
-export default function JobForm({ onClick }: IJobFormProps) {
+const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const stepperRef = useRef(null);
-  const [closingDate, setClosingDate] = useState("");
+  const [closingDate, setClosingDate] = useState<Date | null>(null);
   const [title, setTitle] = useState("");
-  const [jobLevel, setJobLevel] = useState("");
+  const [level, setLevel] = useState("");
   const [type, setType] = useState("");
-  const [salaryMin, setSalaryMin] = useState("");
-  const [salaryMax, setSalaryMax] = useState("");
+  const [salaryMin, setSalaryMin] = useState<number | null>(null);
+  const [salaryMax, setSalaryMax] = useState<number | null>(null);
   const [categories, setCategories] = useState("");
   const [skills, setSkills] = useState<string[]>([]);
   const [description, setDescription] = useState("");
@@ -23,11 +23,20 @@ export default function JobForm({ onClick }: IJobFormProps) {
   const [niceToHave, setNiceToHave] = useState("");
   const [benefits, setBenefits] = useState<string[]>([]);
 
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = e.target.value;
+    if (selectedDate) {
+      setClosingDate(new Date(selectedDate));
+    } else {
+      setClosingDate(null);
+    }
+  };
+
   const handleSubmit = () => {
     onClick({
       closingDate,
       title,
-      jobLevel,
+      level,
       type,
       salaryMin,
       salaryMax,
@@ -46,8 +55,6 @@ export default function JobForm({ onClick }: IJobFormProps) {
       <Stepper ref={stepperRef}>
         <StepperPanel header="Step 1/3: General Info">
           <div className="flex flex-col space-y-4 h-12rem">
-            
-
             <div>
               <label
                 htmlFor="title"
@@ -75,23 +82,23 @@ export default function JobForm({ onClick }: IJobFormProps) {
                 type="date"
                 id="closingDate"
                 name="closingDate"
-                value={closingDate}
-                onChange={(e) => setClosingDate(e.target.value)}
+                value={closingDate ? closingDate.toISOString().split('T')[0] : ""}
+    onChange={handleDateChange}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
             <div>
               <label
-                htmlFor="jobLevel"
+                htmlFor="level"
                 className="block text-sm font-semibold text-gray-700"
               >
                 Job Level
               </label>
               <select
-                id="jobLevel"
-                name="jobLevel"
-                value={jobLevel}
-                onChange={(e) => setJobLevel(e.target.value)}
+                id="level"
+                name="level"
+                value={level}
+                onChange={(e) => setLevel(e.target.value)}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               >
                 <option value="entryLevel">Entry Level</option>
@@ -131,8 +138,12 @@ export default function JobForm({ onClick }: IJobFormProps) {
                 type="number"
                 id="salaryMin"
                 name="salaryMin"
-                value={salaryMin}
-                onChange={(e) => setSalaryMin(e.target.value)}
+                value={salaryMin !== null ? salaryMin : ""}
+                onChange={(e) =>
+                  setSalaryMin(
+                    e.target.value ? parseFloat(e.target.value) : null
+                  )
+                }
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
@@ -148,8 +159,12 @@ export default function JobForm({ onClick }: IJobFormProps) {
                 type="number"
                 id="salaryMax"
                 name="salaryMax"
-                value={salaryMax}
-                onChange={(e) => setSalaryMax(e.target.value)}
+                value={salaryMax !== null ? salaryMax : ""}
+                onChange={(e) =>
+                  setSalaryMax(
+                    e.target.value ? parseFloat(e.target.value) : null
+                  )
+                }
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
@@ -347,4 +362,6 @@ export default function JobForm({ onClick }: IJobFormProps) {
       </Stepper>
     </div>
   );
-}
+};
+
+export default JobForm;

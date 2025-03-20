@@ -5,9 +5,11 @@ interface JobPost {
   description: string;
   location?: string;
   skills: string[];
-  jobType?: string;
+  level?: string;
+  type?: string;
   salaryMin?: number;
   salaryMax?: number;
+  categories?: string;
   responsibilities?: string;
   whoYouAre?: string;
   niceToHave?: string;
@@ -23,9 +25,11 @@ export async function createJobPost(data: JobPost) {
         description: data.description,
         location: data.location,
         skills: data.skills,
-        jobType: data.jobType,
+        level: data.level,
+        type: data.type,
         salaryMin: data.salaryMin,
         salaryMax: data.salaryMax,
+        categories: data.categories,
         responsibilities: data.responsibilities,
         whoYouAre: data.whoYouAre,
         niceToHave: data.niceToHave,
