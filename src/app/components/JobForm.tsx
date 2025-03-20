@@ -7,6 +7,9 @@ import ButtonComp from "./ButtonComp";
 
 export default function JobForm({ onClick }) {
   const stepperRef = useRef(null);
+
+
+  
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -50,7 +53,7 @@ export default function JobForm({ onClick }) {
               className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
 
-           {/*  <label
+            <label
               htmlFor="type"
               className="block text-sm font-medium text-gray-700"
             >
@@ -65,26 +68,37 @@ export default function JobForm({ onClick }) {
             >
               <option value="full-time">Full-Time</option>
               <option value="part-time">Part-Time</option>
-              <option value="remote">Remote</option>
-              <option value="internship">Internship</option>
-              <option value="contract">Contract</option>
-            </select> */}
+              <option value="freelance">Freelance</option>
+            </select>
 
-            {/* <label
-              htmlFor="salary"
+            <label
+              htmlFor="salary_min"
               className="block text-sm font-medium text-gray-700"
             >
-              Salary
+              Salary-min
             </label>
             <input
-              type="text"
-              id="salary"
-              name="salary"
-              value={formData.salary}
+              type="number"
+              id="salary_min"
+              name="salary_min"
+              value={formData.salary_min}
               onChange={handleChange}
               className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            /> */}
-
+            />
+<label
+              htmlFor="salary_max"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Salary-max
+            </label>
+            <input
+              type="number"
+              id="salary_max"
+              name="salary_max"
+              value={formData.salary_max}
+              onChange={handleChange}
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
             <label
               htmlFor="skills"
               className="block text-sm font-semibold text-gray-700"
@@ -92,7 +106,7 @@ export default function JobForm({ onClick }) {
               Skills
             </label>
             <Chips
-              className="w-full chips text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               itemTemplate={(skill) => (
                 <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
                   {skill}
@@ -129,8 +143,7 @@ export default function JobForm({ onClick }) {
               className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               rows={4}
             />
-
-            {/* <label
+            <label
               htmlFor="location"
               className="block text-sm font-medium text-gray-700"
             >
@@ -143,10 +156,74 @@ export default function JobForm({ onClick }) {
               value={formData.location}
               onChange={handleChange}
               className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            /> */}
+            />
+<label
+              htmlFor="responsibilities"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Responsibilities
+            </label>
+            <textarea
+              id="responsibilities"
+              name="responsibilities"
+              value={formData.responsibilities}
+              onChange={handleChange}
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              rows={4}
+            />
+
+<label
+              htmlFor="whoYouAre"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Who You Are
+            </label>
+            <textarea
+              id="whoYouAre"
+              name="whoYouAre"
+              value={formData.whoYouAre}
+              onChange={handleChange}
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              rows={4}
+            />
+
+<label
+              htmlFor="niceToHave"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Nice To Have
+            </label>
+            <textarea
+              id="niceToHave"
+              name="niceToHave"
+              value={formData.niceToHave}
+              onChange={handleChange}
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              rows={4}
+            />
+
+            
           </div>
 
           <div className="flex pt-4 justify-between">
+          <label
+              htmlFor="benefits"
+              className="block text-sm font-semibold text-gray-700"
+            >
+              Benefits
+            </label>
+            <Chips
+              className="w-full text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              itemTemplate={(skill) => (
+                <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
+                  {skill}
+                </div>
+              )}
+              value={skills}
+              onChange={(e) => setSkills(e.value ? e.value : [])}
+              separator=","
+            />
+
             <ButtonComp
               text="Back"
               IsWhite={false}
