@@ -81,7 +81,7 @@ body {
   --color-menuItemFocus: #e9ebfd;
   --color-textTitle: #25324b;
   --color-lightBackground: #f8f8fd;
-  --color-liveColor: #56cdad;
+  --color-openColor: #56cdad;
   --color-closedColor: #ff6550;
   --color-freelanceColor: #ffb836;
   --breakpoint-xs: 30rem;
@@ -123,8 +123,8 @@ body {
   border-color: var(--color-freelanceColor);
 }
 
-.text-liveColor {
-  color: var(--color-liveColor);
+.text-openColor {
+  color: var(--color-openColor);
 }
 
 .text-closedColor {

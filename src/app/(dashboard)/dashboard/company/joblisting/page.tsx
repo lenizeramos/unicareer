@@ -1,5 +1,5 @@
-'use client';
-import { useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
 import CompanyHeader from "@/app/components/CompanyHeader";
@@ -7,22 +7,51 @@ import { FaPlus } from "react-icons/fa";
 import JobList from "@/app/components/JobList";
 import { useRouter } from "next/navigation";
 
+const fetchJobPost = async () => {
+  try {
+    const response = await fetch(`/api/get-company-jobs`);
+    if (response.ok) {
+      const jobs = await response.json();
+      console.log("Job fetched successfully:", jobs);
+      return jobs;
+    } else {
+      console.error("Failed to fetch job");
+    }
+  } catch (error) {
+    console.error("Error fetching job:", error);
+  }
+};
+
 export default function CompanyPage() {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
-    const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [jobs, setJobs] = useState([]);
+  const router = useRouter();
 
-    const columns = {
-        roles: "Roles",
-        status: "Status",
-        datePosted: "Date Posted",
-        dueDate: "Due Date",
-        jobType: "Job Type",
-        applicants: "Applicants",
-        needs: "Needs"
-    };
+  const columns = {
 
-    const jobs = [
+    title: "Title",
+    status: "Status",
+    description: "Description",
+    location: "Location",
+    skills: "Skills",
+    level: "Level",
+    type: "Type",
+    categories: "Categories",
+    salaryMin: "Min Salary",
+    salaryMax: "Max Salary",
+    responsibilities: "Responsibilities",
+    whoYouAre: "Who You Are",
+    niceToHave: "Nice to Have",
+    benefits: "Benefits",
+    closingDate: "Closing Date",
+    createdAt: "Created At",
+    updatedAt: "Updated At"
+    /* applicants: "Applicants",
+    needs: "Needs", */
+  };
+
+  /* const jobs = [
         {
             roles: "Software Engineer",
             status: "Live",
@@ -95,31 +124,54 @@ export default function CompanyPage() {
             applicants: "10",
             needs: "3/7",
         },
-    ];
+    ]; */
 
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentJobs = jobs.slice(indexOfFirstItem, indexOfLastItem);
-
-const handleButtonClick = () => {
+  const handleButtonClick = () => {
     router.push("/dashboard/company/postjob");
-}
+  };
 
+  useEffect(() => {
+    const getJobs = async () => {
+      const fetchedJobs = await fetchJobPost();
+      if (fetchedJobs) {
+        setJobs(fetchedJobs);
+      }
+    };
+    getJobs();
+  }, []);
 
-    return (
-        <>
-            <CompanyHeader image="/img/company_logo.png" name="Nomad" button={{ text: "Post a Job", IsWhite: false, width: "w-xs", icon: <FaPlus />, onClick: handleButtonClick }} />
-            <div className={styles.borderBottomLight}></div>
-            <DashboardWelcome greeting="Job Listing" message="Here is your jobs listing status from July 19 - July 25." date="Jul 19 - Jul 25" />
-            <JobList 
-                jobs={currentJobs} 
-                columns={columns} 
-                itemsPerPage={itemsPerPage}
-                onItemsPerPageChange={setItemsPerPage}
-                currentPage={currentPage}
-                onPageChange={setCurrentPage}
-                totalItems={jobs.length}
-            />
-        </>
-    )
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentJobs = jobs.slice(indexOfFirstItem, indexOfLastItem);
+
+  return (
+    <>
+      <CompanyHeader
+        image="/img/company_logo.png"
+        name="Nomad"
+        button={{
+          text: "Post a Job",
+          IsWhite: false,
+          width: "w-xs",
+          icon: <FaPlus />,
+          onClick: handleButtonClick,
+        }}
+      />
+      <div className={styles.borderBottomLight}></div>
+      <DashboardWelcome
+        greeting="Job Listing"
+        message="Here is your jobs listing status from July 19 - July 25."
+        date="Jul 19 - Jul 25"
+      />
+      <JobList
+        jobs={currentJobs}
+        columns={columns}
+        itemsPerPage={itemsPerPage}
+        onItemsPerPageChange={setItemsPerPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+        totalItems={jobs.length}
+      />
+    </>
+  );
 }

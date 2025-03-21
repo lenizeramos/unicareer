@@ -44,14 +44,15 @@ export async function createJob(data: Job) {
   }
 }
 
-export async function getJob(jobId: string) {
+export async function getJobByCompanyId(companyId: string) {
   try {
-    const job = await prisma.job.findUnique({
-      where: { id: jobId },
+    const jobs = await prisma.job.findMany({
+      where: { companyId: companyId },
+      orderBy: { createdAt: "desc" }
     });
-    return job;
+    return jobs;
   } catch (error) {
-    console.error("Error fetching job:", error);
-    throw new Error("Failed to fetch job due to database issue.");
+    console.error("Error fetching jobs:", error);
+    throw new Error("Failed to fetch jobs due to database issue.");
   }
 }
