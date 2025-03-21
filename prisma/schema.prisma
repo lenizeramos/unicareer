@@ -33,13 +33,14 @@ model Candidate {
   user         User     @relation(fields: [userId], references: [id])
   firstName    String
   lastName     String
-  //profile      CandidateProfile?
   skills       String[]
   resume       String?
   bio          String?
-  website String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  website      String?
+  documents    CandidateDocument[]
+  profileImages CandidateProfileImage[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
   //compatibilityScores CompatibilityScore[]
 
   @@map("candidate")
@@ -197,4 +198,30 @@ enum PaymentStatus {
   PENDING
   COMPLETED
   FAILED
+}
+
+model CandidateDocument {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  candidateId String    @db.ObjectId
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  fileKey     String    
+  fileType    String    
+  fileName    String    
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("candidate_documents")
+}
+
+model CandidateProfileImage {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  candidateId String    @db.ObjectId
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  fileKey     String    
+  fileType    String    
+  fileName    String    
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("candidate_profile_images")
 }
