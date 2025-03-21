@@ -56,11 +56,10 @@ export async function createUserAndCandidate(data: User & Candidate) {
   try {
     const user = await createUser(data);
     const candidate = await createCandidate(data, user.id);
-
     return { user, candidate };
   } catch (error) {
     console.error("Error creating user and candidate:", error);
-    throw error;
+    throw new Error("Failed to create candidate profile. Please try again.");
   }
 }
 
@@ -71,7 +70,7 @@ export async function createUserAndCompany(data: User & Company) {
     return { user, company };
   } catch (error) {
     console.error("Error creating user and company:", error);
-    throw error;
+    throw new Error("Failed to create company profile. Please try again.");
   }
 }
 

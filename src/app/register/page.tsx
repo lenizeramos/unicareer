@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import CandidateForm from "../components/CandidateForm";
 import CompanyForm from "../components/CompanyForm";
+import { useUser } from "@clerk/nextjs";
 
 /* const awaitNewClerkRoleToSyncWithApp = async () => {
   let userRole = null;
@@ -31,10 +32,10 @@ import CompanyForm from "../components/CompanyForm";
 export default function RegisterPage() {
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
-  const [formType, setFormType] = useState<"candidate" | "company" | null>(
-    null
-  );
+  const [formType, setFormType] = useState<"candidate" | "company" | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { user } = useUser();
 
   useEffect(() => {
     if (role === "candidate" || role === "company") {
@@ -70,6 +71,7 @@ export default function RegisterPage() {
       photo: File | null;
       role?: string;
     }) => {
+      setIsLoading(true);
       try {
         candidate.role = "CANDIDATE";
         const response = await fetch("/api/register", {
@@ -80,22 +82,31 @@ export default function RegisterPage() {
           body: JSON.stringify(candidate),
         });
 
+        const data = await response.json();
+        
         if (!response.ok) {
-          throw new Error(`Registration error: ${response.statusText}`);
+          throw new Error(data.error || `Registration error: ${response.statusText}`);
         }
 
-        //await awaitNewClerkRoleToSyncWithApp();
-
-        router.push("dashboard/candidate");
+        // Wait for Clerk role to be updated
+        if (user) {
+          await user.reload();
+        }
+        
+        router.push("/dashboard/candidate");
       } catch (error) {
         console.error("Error registering the user:", error);
+        // Add user feedback here
+      } finally {
+        setIsLoading(false);
       }
     },
-    [router]
+    [router, user]
   );
 
   const handleCompanyFormSubmit = useCallback(
     async (company: { name: string; logo: File | null; role?: string }) => {
+      setIsLoading(true);
       try {
         company.role = "COMPANY";
         const response = await fetch("/api/register", {
@@ -106,18 +117,35 @@ export default function RegisterPage() {
           body: JSON.stringify(company),
         });
 
+        const data = await response.json();
+        
         if (!response.ok) {
-          throw new Error(`Registration error: ${response}`);
+          throw new Error(data.error || `Registration error: ${response.statusText}`);
         }
 
-        //await awaitNewClerkRoleToSyncWithApp();
-        router.push("dashboard/company");
+        // Wait for Clerk role to be updated
+        if (user) {
+          await user.reload();
+        }
+
+        router.push("/dashboard/company");
       } catch (error) {
         console.error("Error registering the user:", error);
+        // Add user feedback here
+      } finally {
+        setIsLoading(false);
       }
     },
-    [router]
+    [router, user]
   );
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

@@ -24,24 +24,37 @@ export async function POST(req: NextRequest) {
 
     if (payload.role === "CANDIDATE") {
       try {
-        await createUserAndCandidate(payload);
-        return NextResponse.json("Candidate created successfully");
+        const result = await createUserAndCandidate(payload);
+        return NextResponse.json({ 
+          message: "Candidate created successfully",
+          data: result 
+        });
       } catch (error) {
-        console.error("Error", error);
-        return new NextResponse("Failed to create Candidate", { status: 500 });
+        console.error("Error creating candidate:", error);
+        return NextResponse.json({ 
+          error: error instanceof Error ? error.message : "Failed to create Candidate" 
+        }, { status: 500 });
       }
     }
 
     if (payload.role === "COMPANY") {
       try {
-        await createUserAndCompany(payload);
-        return NextResponse.json("Company created successfully");
+        const result = await createUserAndCompany(payload);
+        return NextResponse.json({ 
+          message: "Company created successfully",
+          data: result 
+        });
       } catch (error) {
-        console.error("Error", error);
-        return new NextResponse("Failed to create Company", { status: 500 });
+        console.error("Error creating company:", error);
+        return NextResponse.json({ 
+          error: error instanceof Error ? error.message : "Failed to create Company" 
+        }, { status: 500 });
       }
     }
-    return new NextResponse("Error", { status: 500 });
+
+    return NextResponse.json({ 
+      error: "Invalid role specified" 
+    }, { status: 400 });
   } catch (error) {
     console.error("Error", error);
     return new NextResponse("Error", { status: 500 });
