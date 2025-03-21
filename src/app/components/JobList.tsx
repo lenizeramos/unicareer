@@ -41,7 +41,7 @@ export default function JobList({
                     key={index}
                     className="p-8 border-bottom-light text-center text-title-color font-medium"
                   >
-                    {key === "status" ? (
+                    {key === "status" || key === "type" ? (
                       <Badge
                         status={job[key as keyof IJob]}
                         color={job[key as keyof IJob].toLowerCase()}

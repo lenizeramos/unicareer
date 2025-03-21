@@ -107,8 +107,8 @@ body {
   color: transparent;
 }
 
-.border-live {
-  border-color: var(--color-liveColor);
+.border-open {
+  border-color: var(--color-openColor);
 }
 
 .border-closed {
