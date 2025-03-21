@@ -27,7 +27,7 @@ export default function PostJobPage() {
     }) => {
       console.log(job, "JOBBBBBBBBBBB");
       try {
-        const response = await fetch("/api/post-job", {
+        const response = await fetch("/api/create-job", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

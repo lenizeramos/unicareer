@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
-import { createJobPost } from "../../../Lib/postJob";
+import { createJob } from "../../../Lib/job";
 
 export async function POST(req: NextRequest) {
   try {
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     }).then((res) => res.json()); */
     payload.companyId = userId;
 
-    await createJobPost(payload);
+    await createJob(payload);
     return NextResponse.json("Job Post created successfully");
   } catch (error) {
     console.error("Error", error);

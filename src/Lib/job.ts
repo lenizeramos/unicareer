@@ -1,6 +1,6 @@
 import prisma from "./prisma";
 
-interface JobPost {
+interface Job {
   title: string;
   description: string;
   location?: string;
@@ -17,7 +17,7 @@ interface JobPost {
   closingDate?: string;
   companyId: string;
 }
-export async function createJobPost(data: JobPost) {
+export async function createJob(data: Job) {
   try {
     return await prisma.job.create({
       data: {
