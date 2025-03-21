@@ -5,6 +5,7 @@ import { StepperPanel } from "primereact/stepperpanel";
 import { Chips } from "primereact/chips";
 import ButtonComp from "./ButtonComp";
 import { IJobFormProps } from "../Types";
+import { FaPlus } from "react-icons/fa";
 
 const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const stepperRef = useRef(null);
@@ -33,6 +34,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   };
 
   const handleSubmit = () => {
+    if (!title || !salaryMin) {
+      alert("Please fill in all required fields.");
+      return;
+    }
     onClick({
       closingDate,
       title,
@@ -60,7 +65,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="title"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Job Title
+                Job Title <span className="text-red-500">*</span>
+                <small className="block text-xs text-gray-500">
+                  Enter the position's title
+                </small>
               </label>
               <input
                 type="text"
@@ -68,6 +76,8 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 name="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                placeholder="E.g. Software Engineer"
+                maxLength={500}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
@@ -77,13 +87,18 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 className="block text-sm font-semibold text-gray-700"
               >
                 Closing Date
+                <small className="block text-xs text-gray-500">
+                  Select the job closing date
+                </small>
               </label>
               <input
                 type="date"
                 id="closingDate"
                 name="closingDate"
-                value={closingDate ? closingDate.toISOString().split('T')[0] : ""}
-    onChange={handleDateChange}
+                value={
+                  closingDate ? closingDate.toISOString().split("T")[0] : ""
+                }
+                onChange={handleDateChange}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
@@ -93,6 +108,9 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 className="block text-sm font-semibold text-gray-700"
               >
                 Job Level
+                <small className="block text-xs text-gray-500">
+                  Select the level of the position
+                </small>
               </label>
               <select
                 id="level"
@@ -101,6 +119,9 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 onChange={(e) => setLevel(e.target.value)}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               >
+                <option value="" disabled>
+                  Select the Job Level
+                </option>
                 <option value="entryLevel">Entry Level</option>
                 <option value="intermediate">Intermediate</option>
                 <option value="senior">Senior</option>
@@ -112,7 +133,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="type"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Employment Type
+                Employment Type{" "}
+                <small className="block text-xs text-gray-500">
+                  Select the type of employment
+                </small>
               </label>
               <select
                 id="type"
@@ -121,6 +145,9 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 onChange={(e) => setType(e.target.value)}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               >
+                <option value="" disabled>
+                  Select the Employment Type
+                </option>
                 <option value="full-time">Full-Time</option>
                 <option value="part-time">Part-Time</option>
                 <option value="freelance">Freelance</option>
@@ -132,7 +159,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="salaryMin"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Salary Min
+                Salary Min <span className="text-red-500">*</span>{" "}
+                <small className="block text-xs text-gray-500">
+                  Enter the minimum salary for the position
+                </small>
               </label>
               <input
                 type="number"
@@ -144,6 +174,8 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                     e.target.value ? parseFloat(e.target.value) : null
                   )
                 }
+                placeholder="E.g. 60000"
+                maxLength={500}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
@@ -153,7 +185,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="salaryMax"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Salary Max
+                Salary Max{" "}
+                <small className="block text-xs text-gray-500">
+                  Enter the maximum salary for the position
+                </small>
               </label>
               <input
                 type="number"
@@ -165,6 +200,8 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                     e.target.value ? parseFloat(e.target.value) : null
                   )
                 }
+                placeholder="E.g. 90000"
+                maxLength={500}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
@@ -174,7 +211,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="categories"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Categories
+                Categories{" "}
+                <small className="block text-xs text-gray-500">
+                  Select the category that best fits the role
+                </small>
               </label>
               <select
                 id="categories"
@@ -183,6 +223,9 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 onChange={(e) => setCategories(e.target.value)}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               >
+                <option value="" disabled>
+                  Select the Category
+                </option>
                 <option value="marketing">Marketing</option>
                 <option value="design">Design</option>
                 <option value="development">Development</option>
@@ -194,7 +237,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="skills"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Skills for this position
+                Skills for this position{" "}
+                <small className="block text-xs text-gray-500">
+                  Enter relevant skills for the position
+                </small>
               </label>
               <Chips
                 className="w-full text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -206,6 +252,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 value={skills}
                 onChange={(e) => setSkills(e.value ? e.value : [])}
                 separator=","
+                placeholder="E.g., React, Node.js, Java"
               />
             </div>
           </div>
@@ -219,14 +266,17 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
           </div>
         </StepperPanel>
 
-        <StepperPanel header="Step 2/3: Job Details">
+        <StepperPanel header="Step 2/3: Job Detail">
           <div className="flex flex-col space-y-4 h-12rem">
             <div>
               <label
                 htmlFor="description"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Job Description
+                Job Description{" "}
+                <small className="block text-xs text-gray-500">
+                  Provide a detailed description of the job role
+                </small>
               </label>
               <textarea
                 id="description"
@@ -235,7 +285,12 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 onChange={(e) => setDescription(e.target.value)}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 rows={4}
+                placeholder="Enter job description here..."
+                maxLength={500}
               />
+              <p className="text-xs text-gray-500 mt-1">
+                {description.length}/500
+              </p>
             </div>
 
             <div>
@@ -243,7 +298,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="location"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Location
+                Location{" "}
+                <small className="block text-xs text-gray-500">
+                  Specify where the job is located
+                </small>
               </label>
               <input
                 type="text"
@@ -251,8 +309,13 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 name="location"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
+                placeholder="Enter job location..."
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                maxLength={100}
               />
+              <p className="text-xs text-gray-500 mt-1">
+                {location.length}/100
+              </p>
             </div>
 
             <div>
@@ -260,7 +323,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="responsibilities"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Responsibilities
+                Responsibilities{" "}
+                <small className="block text-xs text-gray-500">
+                  List the key responsibilities for this role
+                </small>
               </label>
               <textarea
                 id="responsibilities"
@@ -269,7 +335,12 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 onChange={(e) => setResponsibilities(e.target.value)}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 rows={4}
+                placeholder="Enter key responsibilities here..."
+                maxLength={500}
               />
+              <p className="text-xs text-gray-500 mt-1">
+                {responsibilities.length}/500
+              </p>
             </div>
 
             <div>
@@ -277,7 +348,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="whoYouAre"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Who You Are
+                Who You Are{" "}
+                <small className="block text-xs text-gray-500">
+                  Describe the ideal candidate for this job
+                </small>
               </label>
               <textarea
                 id="whoYouAre"
@@ -286,7 +360,12 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 onChange={(e) => setWhoYouAre(e.target.value)}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 rows={4}
+                placeholder="Describe who the ideal candidate is..."
+                maxLength={500}
               />
+              <p className="text-xs text-gray-500 mt-1">
+                {whoYouAre.length}/500
+              </p>
             </div>
 
             <div>
@@ -294,7 +373,11 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="niceToHave"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Nice To Have
+                Nice To Have{" "}
+                <small className="block text-xs text-gray-500">
+                  Mention any additional skills or experiences that are
+                  desirable but not required
+                </small>
               </label>
               <textarea
                 id="niceToHave"
@@ -303,7 +386,12 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 onChange={(e) => setNiceToHave(e.target.value)}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 rows={4}
+                placeholder="Enter any nice-to-have qualifications here..."
+                maxLength={500}
               />
+              <p className="text-xs text-gray-500 mt-1">
+                {niceToHave.length}/500
+              </p>
             </div>
           </div>
 
@@ -329,7 +417,11 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               htmlFor="benefits"
               className="block text-sm font-semibold text-gray-700"
             >
-              Benefits
+              Benefits{" "}
+              <small className="block text-xs text-gray-500">
+                Encourage more people to apply by sharing the attractive rewards
+                and benefits you offer your employees
+              </small>
             </label>
             <Chips
               className="w-full text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -341,6 +433,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               value={benefits}
               onChange={(e) => setBenefits(e.value ? e.value : [])}
               separator=","
+              placeholder="E.g., Health Insurance, Skill Development"
             />
           </div>
 
