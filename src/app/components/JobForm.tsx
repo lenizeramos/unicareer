@@ -5,6 +5,9 @@ import { StepperPanel } from "primereact/stepperpanel";
 import { Chips } from "primereact/chips";
 import ButtonComp from "./ButtonComp";
 import { IJobFormProps } from "../Types";
+import InputField from "./InputField";
+import TextAreaField from "./TextAreaField";
+import SelectField from "./SelectField";
 
 const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const stepperRef = useRef(null);
@@ -57,179 +60,98 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   return (
     <div className="w-full flex justify-content-center">
       <Stepper ref={stepperRef}>
-        <StepperPanel header="Step 1/3: General Info">
+        <StepperPanel header="Step 1/3: Job Info">
           <div className="flex flex-col space-y-4 h-12rem">
-            <div>
-              <label
-                htmlFor="title"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Job Title <span className="text-red-500">*</span>
-                <small className="block text-xs text-gray-500">
-                  Enter the title
-                </small>
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="E.g. Software Engineer"
-                maxLength={500}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="closingDate"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Closing Date
-                <small className="block text-xs text-gray-500">
-                  Select the job closing date
-                </small>
-              </label>
-              <input
-                type="date"
-                id="closingDate"
-                name="closingDate"
-                value={
-                  closingDate ? closingDate.toISOString().split("T")[0] : ""
-                }
-                onChange={handleDateChange}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="level"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Job Level
-                <small className="block text-xs text-gray-500">
-                  Select the level of the position
-                </small>
-              </label>
-              <select
-                id="level"
-                name="level"
-                value={level}
-                onChange={(e) => setLevel(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                <option value="" disabled>
-                  Select the Job Level
-                </option>
-                <option value="entryLevel">Entry Level</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="senior">Senior</option>
-              </select>
-            </div>
+            <InputField
+              label="Job Title"
+              small="Enter the title"
+              id="title"
+              name="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="E.g. Software Engineer"
+              required
+              maxLength={500}
+            />
 
-            <div>
-              <label
-                htmlFor="type"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Employment Type
-                <small className="block text-xs text-gray-500">
-                  Select the type of employment
-                </small>
-              </label>
-              <select
-                id="type"
-                name="type"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                <option value="" disabled>
-                  Select the Employment Type
-                </option>
-                <option value="full-time">Full-Time</option>
-                <option value="part-time">Part-Time</option>
-                <option value="freelance">Freelance</option>
-              </select>
-            </div>
+            <InputField
+              label="Closing Date"
+              small="Select the job closing date"
+              id="closingDate"
+              name="closingDate"
+              value={closingDate ? closingDate.toISOString().split("T")[0] : ""}
+              onChange={handleDateChange}
+              type="date"
+            />
 
-            <div>
-              <label
-                htmlFor="salaryMin"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Salary Min <span className="text-red-500">*</span>
-                <small className="block text-xs text-gray-500">
-                  Enter the minimum salary for the position
-                </small>
-              </label>
-              <input
-                type="number"
-                id="salaryMin"
-                name="salaryMin"
-                value={salaryMin !== null ? salaryMin : ""}
-                onChange={(e) =>
-                  setSalaryMin(
-                    e.target.value ? parseFloat(e.target.value) : null
-                  )
-                }
-                placeholder="E.g. 60000"
-                maxLength={500}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              />
-            </div>
+            <SelectField
+              label="Job Level"
+              small="Select the level of the position"
+              id="level"
+              name="level"
+              value={level}
+              onChange={(e) => setLevel(e.target.value)}
+              options={[
+                { value: "entryLevel", label: "Entry Level" },
+                { value: "intermediate", label: "Intermediate" },
+                { value: "senior", label: "Senior" },
+              ]}
+            />
 
-            <div>
-              <label
-                htmlFor="salaryMax"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Salary Max
-                <small className="block text-xs text-gray-500">
-                  Enter the maximum salary for the position
-                </small>
-              </label>
-              <input
-                type="number"
-                id="salaryMax"
-                name="salaryMax"
-                value={salaryMax !== null ? salaryMax : ""}
-                onChange={(e) =>
-                  setSalaryMax(
-                    e.target.value ? parseFloat(e.target.value) : null
-                  )
-                }
-                placeholder="E.g. 90000"
-                maxLength={500}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              />
-            </div>
+            <SelectField
+              label="Employment Type"
+              small="Select the type of employment"
+              id="type"
+              name="type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              options={[
+                { value: "full-time", label: "Full-Time" },
+                { value: "part-time", label: "Part-Time" },
+                { value: "freelance", label: "Freelance" },
+              ]}
+            />
 
-            <div>
-              <label
-                htmlFor="categories"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Categories
-                <small className="block text-xs text-gray-500">
-                  Select the category that best fits the role
-                </small>
-              </label>
-              <select
-                id="categories"
-                name="categories"
-                value={categories}
-                onChange={(e) => setCategories(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                <option value="" disabled>
-                  Select the Category
-                </option>
-                <option value="marketing">Marketing</option>
-                <option value="design">Design</option>
-                <option value="development">Development</option>
-              </select>
-            </div>
+            <InputField
+              label="Salary Min"
+              small="Enter the minimum salary for the position"
+              id="salaryMin"
+              name="salaryMin"
+              value={salaryMin}
+              onChange={(e) =>
+                setSalaryMin(e.target.value ? parseFloat(e.target.value) : null)
+              }
+              type="number"
+              required
+              placeholder="E.g. 60000"
+            />
+
+            <InputField
+              label="Salary Max"
+              small="Enter the maximum salary for the position"
+              id="salaryMax"
+              name="salaryMax"
+              value={salaryMax}
+              onChange={(e) =>
+                setSalaryMax(e.target.value ? parseFloat(e.target.value) : null)
+              }
+              type="number"
+              placeholder="E.g. 90000"
+            />
+
+            <SelectField
+              label="Categories"
+              small="Select the category that best fits the role"
+              id="categories"
+              name="categories"
+              value={categories}
+              onChange={(e) => setCategories(e.target.value)}
+              options={[
+                { value: "marketing", label: "Marketing" },
+                { value: "design", label: "Design" },
+                { value: "development", label: "Development" },
+              ]}
+            />
 
             <div>
               <label
@@ -267,131 +189,57 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
 
         <StepperPanel header="Step 2/3: Job Detail">
           <div className="flex flex-col space-y-4 h-12rem">
-            <div>
-              <label
-                htmlFor="description"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Job Description
-                <small className="block text-xs text-gray-500">
-                  Provide a detailed description of the job role
-                </small>
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                rows={4}
-                placeholder="Enter job description here..."
-                maxLength={500}
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                {description.length}/500
-              </p>
-            </div>
-
-            <div>
-              <label
-                htmlFor="location"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Location
-                <small className="block text-xs text-gray-500">
-                  Specify where the job is located
-                </small>
-              </label>
-              <input
-                type="text"
-                id="location"
-                name="location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="Enter job location..."
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                maxLength={100}
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                {location.length}/100
-              </p>
-            </div>
-
-            <div>
-              <label
-                htmlFor="responsibilities"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Responsibilities
-                <small className="block text-xs text-gray-500">
-                  List the key responsibilities for this role
-                </small>
-              </label>
-              <textarea
-                id="responsibilities"
-                name="responsibilities"
-                value={responsibilities}
-                onChange={(e) => setResponsibilities(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                rows={4}
-                placeholder="Enter key responsibilities here..."
-                maxLength={500}
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                {responsibilities.length}/500
-              </p>
-            </div>
-
-            <div>
-              <label
-                htmlFor="whoYouAre"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Who You Are
-                <small className="block text-xs text-gray-500">
-                  Describe the ideal candidate for this job
-                </small>
-              </label>
-              <textarea
-                id="whoYouAre"
-                name="whoYouAre"
-                value={whoYouAre}
-                onChange={(e) => setWhoYouAre(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                rows={4}
-                placeholder="Describe who the ideal candidate is..."
-                maxLength={500}
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                {whoYouAre.length}/500
-              </p>
-            </div>
-
-            <div>
-              <label
-                htmlFor="niceToHave"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Nice To Have
-                <small className="block text-xs text-gray-500">
-                  Mention any additional skills or experiences that are
-                  desirable but not required
-                </small>
-              </label>
-              <textarea
-                id="niceToHave"
-                name="niceToHave"
-                value={niceToHave}
-                onChange={(e) => setNiceToHave(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                rows={4}
-                placeholder="Enter any nice-to-have qualifications here..."
-                maxLength={500}
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                {niceToHave.length}/500
-              </p>
-            </div>
+            <TextAreaField
+              label="Job Description"
+              small="Provide a detailed description of the job role"
+              id="description"
+              name="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Enter job description here..."
+              maxLength={500}
+            />
+            <InputField
+              label="Location"
+              small="Specify where the job is located"
+              id="location"
+              name="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="Enter job location..."
+              maxLength={100}
+            />
+            <TextAreaField
+              label="Responsibilities"
+              small="List the key responsibilities for this role"
+              id="responsibilities"
+              name="responsibilities"
+              value={responsibilities}
+              onChange={(e) => setResponsibilities(e.target.value)}
+              placeholder="Enter key responsibilities here..."
+              maxLength={500}
+            />
+            <TextAreaField
+              label="Who You Are"
+              small="Describe the ideal candidate for this job"
+              id="whoYouAre"
+              name="whoYouAre"
+              value={whoYouAre}
+              onChange={(e) => setWhoYouAre(e.target.value)}
+              placeholder="Describe who the ideal candidate is..."
+              maxLength={500}
+            />
+            <TextAreaField
+              label="Nice To Have"
+              small="Mention any additional skills or experiences that are
+                  desirable but not required"
+              id="niceToHave"
+              name="niceToHave"
+              value={niceToHave}
+              onChange={(e) => setNiceToHave(e.target.value)}
+              placeholder="Enter any nice-to-have qualifications here..."
+              maxLength={500}
+            />
           </div>
 
           <div className="flex pt-4 justify-between">
