@@ -6,7 +6,6 @@ import { Chips } from "primereact/chips";
 import ButtonComp from "./ButtonComp";
 import { IJobFormProps } from "../Types";
 
-
 const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const stepperRef = useRef(null);
   const [closingDate, setClosingDate] = useState<Date | null>(null);
@@ -67,7 +66,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               >
                 Job Title <span className="text-red-500">*</span>
                 <small className="block text-xs text-gray-500">
-                  Enter the position's title
+                  Enter the title
                 </small>
               </label>
               <input
@@ -133,7 +132,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="type"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Employment Type{" "}
+                Employment Type
                 <small className="block text-xs text-gray-500">
                   Select the type of employment
                 </small>
@@ -159,7 +158,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="salaryMin"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Salary Min <span className="text-red-500">*</span>{" "}
+                Salary Min <span className="text-red-500">*</span>
                 <small className="block text-xs text-gray-500">
                   Enter the minimum salary for the position
                 </small>
@@ -185,7 +184,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="salaryMax"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Salary Max{" "}
+                Salary Max
                 <small className="block text-xs text-gray-500">
                   Enter the maximum salary for the position
                 </small>
@@ -211,7 +210,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="categories"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Categories{" "}
+                Categories
                 <small className="block text-xs text-gray-500">
                   Select the category that best fits the role
                 </small>
@@ -237,7 +236,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="skills"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Skills for this position{" "}
+                Skills for this position
                 <small className="block text-xs text-gray-500">
                   Enter relevant skills for the position
                 </small>
@@ -273,7 +272,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="description"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Job Description{" "}
+                Job Description
                 <small className="block text-xs text-gray-500">
                   Provide a detailed description of the job role
                 </small>
@@ -298,7 +297,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="location"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Location{" "}
+                Location
                 <small className="block text-xs text-gray-500">
                   Specify where the job is located
                 </small>
@@ -323,7 +322,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="responsibilities"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Responsibilities{" "}
+                Responsibilities
                 <small className="block text-xs text-gray-500">
                   List the key responsibilities for this role
                 </small>
@@ -348,7 +347,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="whoYouAre"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Who You Are{" "}
+                Who You Are
                 <small className="block text-xs text-gray-500">
                   Describe the ideal candidate for this job
                 </small>
@@ -373,7 +372,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 htmlFor="niceToHave"
                 className="block text-sm font-semibold text-gray-700"
               >
-                Nice To Have{" "}
+                Nice To Have
                 <small className="block text-xs text-gray-500">
                   Mention any additional skills or experiences that are
                   desirable but not required
@@ -417,7 +416,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               htmlFor="benefits"
               className="block text-sm font-semibold text-gray-700"
             >
-              Benefits{" "}
+              Benefits
               <small className="block text-xs text-gray-500">
                 Encourage more people to apply by sharing the attractive rewards
                 and benefits you offer your employees
