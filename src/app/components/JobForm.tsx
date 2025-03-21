@@ -5,7 +5,7 @@ import { StepperPanel } from "primereact/stepperpanel";
 import { Chips } from "primereact/chips";
 import ButtonComp from "./ButtonComp";
 import { IJobFormProps } from "../Types";
-import { FaPlus } from "react-icons/fa";
+
 
 const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const stepperRef = useRef(null);

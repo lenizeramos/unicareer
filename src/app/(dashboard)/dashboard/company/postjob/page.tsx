@@ -4,6 +4,8 @@ import CompanyHeader from "@/app/components/CompanyHeader";
 import JobForm from "@/app/components/JobForm";
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { GoArrowLeft } from "react-icons/go";
+import Link from 'next/link';
 
 export default function PostJobPage() {
   const router = useRouter();
@@ -48,7 +50,12 @@ export default function PostJobPage() {
     <>
       <CompanyHeader image="/img/company_logo.png" name="Nomad" />
       <div className={styles.borderBottomLight}></div>
-      <div>POST A JOB</div>
+
+      <Link href="/dashboard/company/joblisting"><div className="flex items-center text-2xl space-x-2">
+  <GoArrowLeft className="text-xl" />
+  <p>Post a Job</p>
+</div></Link>
+      
       <JobForm onClick={handlePostJobSubmit} />
     </>
   );
