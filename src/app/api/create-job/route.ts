@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
 import { createJob } from "../../../Lib/job";
+import { getUserByClerkId } from "../../../Lib/usersService";
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,16 +9,17 @@ export async function POST(req: NextRequest) {
 
     console.log(payload, "payloadddddddddddddddddd");
 
-    const userId = await getClerkUserId();
-    console.log(userId, "userId")
-    if (!userId) return NextResponse.redirect(new URL("/sign-in", req.url));
+    const clerkUserId = await getClerkUserId();
+    console.log(clerkUserId, "userId")
+    if (!clerkUserId) return NextResponse.redirect(new URL("/sign-in", req.url));
 
-    /* const user = await fetch(`https://api.clerk.com/v1/users/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
-      },
-    }).then((res) => res.json()); */
-    payload.companyId = userId;
+    const user = await getUserByClerkId(clerkUserId);
+
+    if (!user) {
+      return new NextResponse("User not found", { status: 404 });
+    }
+    
+    payload.companyId = user.company?.id;
 
     await createJob(payload);
     return NextResponse.json("Job Post created successfully");

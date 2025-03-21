@@ -43,3 +43,15 @@ export async function createJob(data: Job) {
     throw new Error("Job creation failed due to database issue.");
   }
 }
+
+export async function getJob(jobId: string) {
+  try {
+    const job = await prisma.job.findUnique({
+      where: { id: jobId },
+    });
+    return job;
+  } catch (error) {
+    console.error("Error fetching job:", error);
+    throw new Error("Failed to fetch job due to database issue.");
+  }
+}

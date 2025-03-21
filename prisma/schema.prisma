@@ -14,53 +14,53 @@ datasource db {
 }
 
 //our first suggestion for User
-/* model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  clerkId String @unique
-  email String @unique
-  role Role
-  //firstName String?
-  //lastName String?
-  photo String?
-  //profile Profile?
-  //jobs Job[] @relation("PostedJobs")
-  //applications Application[]
-  //payments Payment[]
-  //messagesSent Message[] @relation("SenderMessages")
-  //messagesReceived Message[] @relation("ReceiverMessages")
-  //jobRecommendations JobRecommendation[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@map("user")
-} */
-
+/**
+ * model User {
+ * id String @id @default(auto()) @map("_id") @db.ObjectId
+ * clerkId String @unique
+ * email String @unique
+ * role Role
+ * //firstName String?
+ * //lastName String?
+ * photo String?
+ * //profile Profile?
+ * //jobs Job[] @relation("PostedJobs")
+ * //applications Application[]
+ * //payments Payment[]
+ * //messagesSent Message[] @relation("SenderMessages")
+ * //messagesReceived Message[] @relation("ReceiverMessages")
+ * //jobRecommendations JobRecommendation[]
+ * createdAt DateTime @default(now())
+ * updatedAt DateTime @updatedAt
+ * @@map("user")
+ * }
+ */
 
 model User {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  clerkId    String   @unique
-  email      String   @unique
-  role       Role
-  photo      String?
-  candidate  Candidate? @relation
-  company    Company?   @relation
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
- 
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  clerkId   String     @unique
+  email     String     @unique
+  role      Role
+  photo     String?
+  candidate Candidate? @relation
+  company   Company?   @relation
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
   @@map("user")
 }
 
-
 model Candidate {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId       String   @unique @db.ObjectId 
-  user         User     @relation(fields: [userId], references: [id])
-  firstName    String
-  lastName     String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @unique @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  firstName String
+  lastName  String
   //profile      CandidateProfile?
-  skills       String[]
-  resume       String?
-  bio          String?
-  website String?
+  skills    String[]
+  resume    String?
+  bio       String?
+  website   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   //compatibilityScores CompatibilityScore[]
@@ -69,152 +69,155 @@ model Candidate {
 }
 
 model Company {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  userId       String        @unique @db.ObjectId 
-  user         User          @relation(fields: [userId], references: [id])
-  name         String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @unique @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  name      String
   //profile      CompanyProfile?
-  //jobs         Job[]      @relation("CompanyJobs")
-  bio String?
+  jobs      Job[]    @relation("CompanyJobs")
+  bio       String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("company")
 }
 
-/* model CandidateProfile {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  candidateId String @unique @db.ObjectId 
-  candidate Candidate @relation(fields: [candidateId], references: [id])
-  bio          String?
-  website String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  //compatibilityScores CompatibilityScore[]
-  @@map("candidate_profile")
-} */
+/**
+ * model CandidateProfile {
+ * id String @id @default(auto()) @map("_id") @db.ObjectId
+ * candidateId String @unique @db.ObjectId
+ * candidate Candidate @relation(fields: [candidateId], references: [id])
+ * bio          String?
+ * website String?
+ * createdAt DateTime @default(now())
+ * updatedAt DateTime @updatedAt
+ * //compatibilityScores CompatibilityScore[]
+ * @@map("candidate_profile")
+ * }
+ */
 
-/*  model CompanyProfile {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  companyId String @unique @db.ObjectId 
-  company Company @relation(fields: [companyId], references: [id])
-  bio String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
- 
-  @@map("company_profile")
-} */
+/**
+ * model CompanyProfile {
+ * id String @id @default(auto()) @map("_id") @db.ObjectId
+ * companyId String @unique @db.ObjectId
+ * company Company @relation(fields: [companyId], references: [id])
+ * bio String?
+ * createdAt DateTime @default(now())
+ * updatedAt DateTime @updatedAt
+ * @@map("company_profile")
+ * }
+ */
 
 model Job {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  status JobStatus @default(OPEN)
-  description String?
-  location String?
-  skills String[]
-  companyId String
-  level String?
-  type String?
-  categories String?
-  salaryMin Float?
-  salaryMax Float?
-  responsibilities  String?
-  whoYouAre String?
-  niceToHave String?
-  benefits String[]
-  /* 
-  company Company @relation(fields: [companyId], references: [id], name: "PostedJobs")
-  applications Application[]
-  jobRecommendations JobRecommendation[]
-  compatibilityScores CompatibilityScore[] */
-  closingDate DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  status           JobStatus @default(OPEN)
+  description      String?
+  location         String?
+  skills           String[]
+  companyId        String    @db.ObjectId
+  level            String?
+  type             String?
+  categories       String?
+  salaryMin        Float?
+  salaryMax        Float?
+  responsibilities String?
+  whoYouAre        String?
+  niceToHave       String?
+  benefits         String[]
+  company          Company   @relation(fields: [companyId], references: [id], name: "CompanyJobs")
+  /**
+   * applications Application[]
+   * jobRecommendations JobRecommendation[]
+   * compatibilityScores CompatibilityScore[]
+   */
+  closingDate      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
-  applicantsCount  Int                @ignore // applicants = applications.count??????
+  applicantsCount Int @ignore // applicants = applications.count??????
+
   @@map("job")
 }
-/*
-model Application {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  jobId String
-  job Job @relation(fields: [jobId], references: [id])
-  candidateId String
-  candidate Candidate        @relation(fields: [candidateId], references: [id])
-  status ApplicationStatus @default(PENDING)
-  createdAt DateTime @default(now())
-  @@map("application")
-}
 
-model Payment {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String
-  user User @relation(fields: [userId], references: [id])
-  amount Float
-  status PaymentStatus @default(PENDING)
-  createdAt DateTime @default(now())
-  @@map("payment")
-}
-
-model Message {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  senderId String
-  sender User @relation(fields: [senderId], references: [id], name: "SenderMessages")
-  receiverId String
-  receiver User @relation(fields: [receiverId], references: [id], name: "ReceiverMessages")
-  content String
-  createdAt DateTime @default(now())
-  @@map("message")
-}
-
-model Metric {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  totalUsers Int @default(0)
-  totalJobs Int @default(0)
-  totalApplications Int @default(0)
-  updatedAt DateTime @updatedAt
-  @@map("metric")
-}
-
-model JobRecommendation {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String
-  user User @relation(fields: [userId], references: [id])
-  jobId String
-  job Job @relation(fields: [jobId], references: [id])
-  compatibilityScore Float
-  generatedAt DateTime @default(now())
-  @@map("job_recommendation")
-}
-
-model CompatibilityScore {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  profileId String
-  profile CandidateProfile @relation(fields: [profileId], references: [id])
-  jobId String
-  job Job @relation(fields: [jobId], references: [id])
-  score Float
-  analysisDate DateTime @default(now())
-  @@map("compatibility_score")
-} */
+/**
+ * model Application {
+ * id String @id @default(auto()) @map("_id") @db.ObjectId
+ * jobId String
+ * job Job @relation(fields: [jobId], references: [id])
+ * candidateId String
+ * candidate Candidate        @relation(fields: [candidateId], references: [id])
+ * status ApplicationStatus @default(PENDING)
+ * createdAt DateTime @default(now())
+ * @@map("application")
+ * }
+ * model Payment {
+ * id String @id @default(auto()) @map("_id") @db.ObjectId
+ * userId String
+ * user User @relation(fields: [userId], references: [id])
+ * amount Float
+ * status PaymentStatus @default(PENDING)
+ * createdAt DateTime @default(now())
+ * @@map("payment")
+ * }
+ * model Message {
+ * id String @id @default(auto()) @map("_id") @db.ObjectId
+ * senderId String
+ * sender User @relation(fields: [senderId], references: [id], name: "SenderMessages")
+ * receiverId String
+ * receiver User @relation(fields: [receiverId], references: [id], name: "ReceiverMessages")
+ * content String
+ * createdAt DateTime @default(now())
+ * @@map("message")
+ * }
+ * model Metric {
+ * id String @id @default(auto()) @map("_id") @db.ObjectId
+ * totalUsers Int @default(0)
+ * totalJobs Int @default(0)
+ * totalApplications Int @default(0)
+ * updatedAt DateTime @updatedAt
+ * @@map("metric")
+ * }
+ * model JobRecommendation {
+ * id String @id @default(auto()) @map("_id") @db.ObjectId
+ * userId String
+ * user User @relation(fields: [userId], references: [id])
+ * jobId String
+ * job Job @relation(fields: [jobId], references: [id])
+ * compatibilityScore Float
+ * generatedAt DateTime @default(now())
+ * @@map("job_recommendation")
+ * }
+ * model CompatibilityScore {
+ * id String @id @default(auto()) @map("_id") @db.ObjectId
+ * profileId String
+ * profile CandidateProfile @relation(fields: [profileId], references: [id])
+ * jobId String
+ * job Job @relation(fields: [jobId], references: [id])
+ * score Float
+ * analysisDate DateTime @default(now())
+ * @@map("compatibility_score")
+ * }
+ */
 
 enum Role {
   ADMIN
   COMPANY
   CANDIDATE
 }
-/* enum ApplicationStatus {
-  PENDING
-  ACCEPTED
-  REJECTED
-}
 
-enum PaymentStatus {
-  PENDING
-  COMPLETED
-  FAILED
-}  */
-
+/**
+ * enum ApplicationStatus {
+ * PENDING
+ * ACCEPTED
+ * REJECTED
+ * }
+ * enum PaymentStatus {
+ * PENDING
+ * COMPLETED
+ * FAILED
+ * }
+ */
 
 enum JobStatus {
   OPEN
