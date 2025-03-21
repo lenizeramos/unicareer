@@ -102,3 +102,29 @@ export async function getUserByClerkId(clerkId: string | undefined) {
   }
 }
 
+export async function waitForUserRole(clerkId: string | undefined, expectedRole: string, maxAttempts = 10): Promise<boolean> {
+  if (!clerkId) {
+    console.error("Clerk ID is missing or undefined");
+    return false;
+  }
+
+  for (let i = 0; i < maxAttempts; i++) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { clerkId },
+        select: { role: true }
+      });
+
+      if (user?.role === expectedRole) {
+        return true;
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 200));
+    } catch (error) {
+      console.error(`Error checking role for Clerk ID ${clerkId}:`, error);
+    }
+  }
+
+  return false;
+}
+

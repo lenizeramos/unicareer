@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import CandidateForm from "../components/CandidateForm";
 import CompanyForm from "../components/CompanyForm";
 import { useUser } from "@clerk/nextjs";
+import { waitForUserRole } from "@/Lib/client/roleService";
 
 /* const awaitNewClerkRoleToSyncWithApp = async () => {
   let userRole = null;
@@ -28,6 +29,27 @@ import { useUser } from "@clerk/nextjs";
     attempts++;
   }
 }; */
+
+const awaitRoleUpdate = async (expectedRole: string, maxAttempts = 10): Promise<boolean> => {
+  for (let i = 0; i < maxAttempts; i++) {
+    try {
+      const response = await fetch("/api/check-role");
+      if (!response.ok) {
+        throw new Error(`Failed to check role: ${response.statusText}`);
+      }
+      const data = await response.json();
+      
+      if (data.role === expectedRole) {
+        return true;
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 200));
+    } catch (error) {
+      console.error("Error checking role:", error);
+    }
+  }
+  return false;
+};
 
 export default function RegisterPage() {
   const searchParams = useSearchParams();
@@ -88,20 +110,18 @@ export default function RegisterPage() {
           throw new Error(data.error || `Registration error: ${response.statusText}`);
         }
 
-        // Wait for Clerk role to be updated
-        if (user) {
-          await user.reload();
+        const roleUpdated = await waitForUserRole("CANDIDATE");
+        if (!roleUpdated) {
+          throw new Error("Role update timeout");
         }
-        
+
         router.push("/dashboard/candidate");
       } catch (error) {
         console.error("Error registering the user:", error);
-        // Add user feedback here
-      } finally {
         setIsLoading(false);
       }
     },
-    [router, user]
+    [router]
   );
 
   const handleCompanyFormSubmit = useCallback(
@@ -123,20 +143,18 @@ export default function RegisterPage() {
           throw new Error(data.error || `Registration error: ${response.statusText}`);
         }
 
-        // Wait for Clerk role to be updated
-        if (user) {
-          await user.reload();
+        const roleUpdated = await waitForUserRole("COMPANY");
+        if (!roleUpdated) {
+          throw new Error("Role update timeout");
         }
 
         router.push("/dashboard/company");
       } catch (error) {
         console.error("Error registering the user:", error);
-        // Add user feedback here
-      } finally {
         setIsLoading(false);
       }
     },
-    [router, user]
+    [router]
   );
 
   if (isLoading) {
