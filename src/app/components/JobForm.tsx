@@ -28,8 +28,8 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
 
   const classNameDivContainer = "flex flex-col lg:flex-row lg:items-start";
   const classNameLabel =
-    "block text-sm font-semibold text-gray-700 lg:w-2/5 lg:pr-4";
-  const classNameDivLgWidth = "lg:w-3/5";
+    "text-sm font-semibold text-gray-700 lg:w-1/5 lg:pr-4";
+  const classNameDivLgWidth = "lg:w-4/5";
   const classNameField =
     "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm";
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -132,7 +132,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               classNameDivLgWidth={classNameDivLgWidth}
               classNameField={classNameField}
             />
-            <div className={`gap-4 flex w-100%`}>
+           
               <InputField
                 label="Salary Min"
                 id="salaryMin"
@@ -165,7 +165,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 classNameLabel={classNameLabel}
                 classNameField={classNameField}
               />
-            </div>
+            
 
             <SelectField
               label="Categories"
@@ -185,15 +185,18 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               classNameField={classNameField}
             />
 
-            <div className={classNameDivContainer}>
-              <label htmlFor="skills" className={classNameLabel}>
+<div className="flex">
+              <label
+                htmlFor="skills"
+                className="w-1/5 text-sm font-semibold text-gray-700"
+              >
                 Skills for this position
                 <small className="block text-xs text-gray-500">
                   Enter relevant skills for the position
                 </small>
               </label>
               <Chips
-                className={classNameField}
+                className="w-4/5 text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 itemTemplate={(skill) => (
                   <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
                     {skill}
@@ -205,6 +208,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 placeholder="E.g., React, Node.js, Java"
               />
             </div>
+
           </div>
           <div className="flex pt-4 justify-end">
             <ButtonComp
