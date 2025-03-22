@@ -139,195 +139,44 @@ body {
   color: var(--color-freelanceColor);
 }
 
-/* Skills */
-.p-chips-token {
-  background-color: lightgrey;
-  position: relative;
-  border-radius: 30%;
-  margin: 0.5rem;
-  border: 1px solid rgb(194, 194, 194);
-}
-.p-chips-token-icon {
-  position: absolute;
-  right: 0.2rem;
-  top: 50%;
-  transform: translateY(-50%);
+.p-chips-multiple-container {
+  width: 100%;
 }
 
-/* Base styling for the entire stepper */
+/*PrimeReact - JobForm*/
 .p-stepper {
-  /* background-color: lightblue; */
   width: 100%;
-  /* max-width: 900px; */
   margin: 0 auto;
-  padding: 1rem;
 }
 
-/* Vertical Layout */
-.p-stepper-vertical {
-  background-color: lightcoral;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-/* Navigator container */
-.p-stepper-nav {
-  /* background-color: lightgreen; */
-  border: 1px solid black;
-  /* display: flex; */
-  /* justify-content: space-between */
-  /* margin-bottom: 1rem; */
-}
-
-/* Stepper Panel Elements */
-.p-stepper-panels {
-  /* background-color: lightyellow; */
-  width: 100%;
-}
-
-/* Individual Stepper Panel */
-.p-stepper-panel {
-  background-color: lightpink;
-  display: none;
-  padding: 1.5rem;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-/* Display active panel */
-.p-stepper-panel.active {
-  background-color: lightseagreen;
-  display: block;
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* Stepper Header */
-/* .p-stepper-header {
-   background-color: green; */
-  /* font-size: 1.25rem;
-  font-weight: bold;
-  margin-bottom: 1rem; */
-/* } */
-
-/* Stepper Action */
- .p-stepper-action { 
-  /* background-color: blueviolet; */
-  /* padding-top: 1rem; */
-  /* padding-bottom: 1rem; */
-  width: 100%;
-} 
-
-/* Stepper Numbers */
-.p-stepper-number {
-  display: none;
-}
-
-/* Stepper Title */
-.p-stepper-title {
-  /* background-color: blue; */
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: #333;
-  padding: 0.25rem;
-}
-
-/* Separator between steps */
-.p-stepper-separator {
-  background-color: red;
-  border-top: 2px solid #e0e0e0;
-  flex-grow: 1;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Toggleable Content Container */
-.p-stepper-toggleable-content {
-  /* display: none; */
-  background-color: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 1rem;
-}
-
-/* Stepper Content */
-.p-stepper-content {
-  /* background-color: black; */
-  color: white;
-  font-size: 1rem;
-  color: #555;
-}
-
-/* Start Content Container */
-/* .p-stepper-start {
-  margin-right: 1rem;
-  background-color: orange;
-} */
-
-/* End Content Container */
-/* .p-stepper-end {
-  margin-left: 1rem;
-} */
-
-/* Active state for navigational elements */
-/* .p-stepper-nav .p-stepper-number.active {
-  background-color: #007bff;
-  color: white;
-}
-
-.p-stepper-nav .p-stepper-number.completed {
-  background-color: #28a745;
-} */
-
-/* Focus and hover styles */
-/* .p-stepper-number:hover,
-.p-stepper-number:focus {
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-} */
-
-.p-stepper-title:hover {
-  color: #007bff;
-}
-
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .p-stepper {
     width: 100%;
-   padding: 0.5rem;
-
-  }
-  .p-stepper-horizontal {
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 0.5rem;
+    background-color: #007bff;
   }
 
   .p-stepper-action {
     flex-direction: column;
-    align-items: stretch;
   }
+  
   .p-stepper-title {
-/* background-color: yellowgreen; */
-    font-size: 0.9rem;
-   
+    background-color: yellowgreen;
+    font-size: 0.8rem;
+    margin: 0;
   }
   .p-stepper-content {
-    /* background-color: black; */
-    width: 90%;
+    background-color: black;
+    width: 100%;
     margin: auto;
   }
-}
 
+  .p-stepper-panels {
+    padding: 0;
+    margin: 1rem 0;
+  }
 
-.p-slider {
-background-color: #007bff;
-}
-.p-slider-handle {
-  background-color: #4640de;
-
+  .p-stepper-separator {
+    display: none;
+  }
 }
