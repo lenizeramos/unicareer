@@ -2,7 +2,7 @@ import React from "react";
 
 interface InputFieldProps {
   label: string;
-  small?: string
+  small?: string;
   id: string;
   name: string;
   value: string | number | null;
@@ -12,6 +12,10 @@ interface InputFieldProps {
   required?: boolean;
   maxLength?: number;
   className?: string;
+  classNameDivContainer?: string;
+  classNameLabel?: string;
+  classNameDivLgWidth?: string;
+  classNameField?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -26,22 +30,32 @@ const InputField: React.FC<InputFieldProps> = ({
   required = false,
   maxLength,
   className = "",
+  classNameDivContainer = "",
+  classNameLabel = "",
+  classNameDivLgWidth = "",
+  classNameField = "",
 }) => {
   return (
-    <div>
-      <label htmlFor={id} className="block text-sm font-semibold text-gray-700">
-        {label} {required && <span className="text-red-500">*</span>} <small className="block text-xs text-gray-500">{small}</small>
+    <div className={`${classNameDivContainer}`}>
+      <label
+        htmlFor={id}
+        className={`${classNameLabel}`}
+      >
+        {label} {required && <span className="text-red-500">*</span>}{" "}
+        <small className="block text-xs text-gray-500">{small}</small>
       </label>
-      <input
-        type={type}
-        id={id}
-        name={name}
-        value={value !== null ? value : ""}
-        onChange={onChange}
-        placeholder={placeholder}
-        maxLength={maxLength}
-        className={`block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${className}`}
-      />
+      <div className={`${classNameDivLgWidth}`}>
+        <input
+          type={type}
+          id={id}
+          name={name}
+          value={value !== null ? value : ""}
+          onChange={onChange}
+          placeholder={placeholder}
+          maxLength={maxLength}
+          className={`${classNameField} ${className}`}
+        />
+      </div>
     </div>
   );
 };

@@ -12,6 +12,10 @@ interface TextAreaFieldProps {
   maxLength?: number;
   rows?: number;
   className?: string;
+  classNameDivContainer?: string;
+  classNameLabel?: string;
+  classNameDivLgWidth?: string;
+  classNameField?: string;
 }
 
 const TextAreaField: React.FC<TextAreaFieldProps> = ({
@@ -26,13 +30,17 @@ const TextAreaField: React.FC<TextAreaFieldProps> = ({
   maxLength,
   rows = 4,
   className = "",
+  classNameDivContainer = "",
+  classNameLabel = "",
+  classNameDivLgWidth = "",
+  classNameField = "",
 }) => {
   return (
-    <div>
-      <label htmlFor={id} className="block text-sm font-semibold text-gray-700">
+    <div className={`${classNameDivContainer}`}>
+      <label htmlFor={id} className={`${classNameLabel}`}>
         {label} {required && <span className="text-red-500">*</span>} <small className="block text-xs text-gray-500">{small}</small>
       </label>
-      <textarea
+      <div className={`${classNameDivLgWidth}`}><textarea
         id={id}
         name={name}
         value={value}
@@ -40,13 +48,14 @@ const TextAreaField: React.FC<TextAreaFieldProps> = ({
         placeholder={placeholder}
         maxLength={maxLength}
         rows={rows}
-        className={`block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${className}`}
+        className={`${classNameField} ${className}`}
       />
       {maxLength && (
-        <p className="text-xs text-gray-500 mt-1">
+        <p className="text-xs text-gray-500 mt-1 text-right">
           {value.length}/{maxLength}
         </p>
-      )}
+      )}</div>
+      
     </div>
   );
 };

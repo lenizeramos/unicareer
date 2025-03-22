@@ -26,6 +26,12 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const [niceToHave, setNiceToHave] = useState("");
   const [benefits, setBenefits] = useState<string[]>([]);
 
+  const classNameDivContainer = "flex flex-col lg:flex-row lg:items-start";
+  const classNameLabel =
+    "block text-sm font-semibold text-gray-700 lg:w-2/5 lg:pr-4";
+  const classNameDivLgWidth = "lg:w-3/5";
+  const classNameField =
+    "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm";
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedDate = e.target.value;
     if (selectedDate) {
@@ -72,6 +78,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               placeholder="E.g. Software Engineer"
               required
               maxLength={500}
+              classNameDivContainer={classNameDivContainer}
+              classNameLabel={classNameLabel}
+              classNameDivLgWidth={classNameDivLgWidth}
+              classNameField={classNameField}
             />
 
             <InputField
@@ -82,6 +92,9 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               value={closingDate ? closingDate.toISOString().split("T")[0] : ""}
               onChange={handleDateChange}
               type="date"
+              classNameDivContainer={classNameDivContainer}
+              classNameLabel={classNameLabel}
+              classNameField={classNameField}
             />
 
             <SelectField
@@ -96,6 +109,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 { value: "intermediate", label: "Intermediate" },
                 { value: "senior", label: "Senior" },
               ]}
+              classNameDivContainer={classNameDivContainer}
+              classNameLabel={classNameLabel}
+              classNameDivLgWidth={classNameDivLgWidth}
+              classNameField={classNameField}
             />
 
             <SelectField
@@ -110,34 +127,45 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 { value: "part-time", label: "Part-Time" },
                 { value: "freelance", label: "Freelance" },
               ]}
+              classNameDivContainer={classNameDivContainer}
+              classNameLabel={classNameLabel}
+              classNameDivLgWidth={classNameDivLgWidth}
+              classNameField={classNameField}
             />
+            <div className={`gap-4 flex w-100%`}>
+              <InputField
+                label="Salary Min"
+                id="salaryMin"
+                name="salaryMin"
+                value={salaryMin}
+                onChange={(e) =>
+                  setSalaryMin(
+                    e.target.value ? parseFloat(e.target.value) : null
+                  )
+                }
+                type="number"
+                required
+                placeholder="E.g. 60000"
+                classNameLabel={classNameLabel}
+                classNameField={classNameField}
+              />
 
-            <InputField
-              label="Salary Min"
-              small="Enter the minimum salary for the position"
-              id="salaryMin"
-              name="salaryMin"
-              value={salaryMin}
-              onChange={(e) =>
-                setSalaryMin(e.target.value ? parseFloat(e.target.value) : null)
-              }
-              type="number"
-              required
-              placeholder="E.g. 60000"
-            />
-
-            <InputField
-              label="Salary Max"
-              small="Enter the maximum salary for the position"
-              id="salaryMax"
-              name="salaryMax"
-              value={salaryMax}
-              onChange={(e) =>
-                setSalaryMax(e.target.value ? parseFloat(e.target.value) : null)
-              }
-              type="number"
-              placeholder="E.g. 90000"
-            />
+              <InputField
+                label="Salary Max"
+                id="salaryMax"
+                name="salaryMax"
+                value={salaryMax}
+                onChange={(e) =>
+                  setSalaryMax(
+                    e.target.value ? parseFloat(e.target.value) : null
+                  )
+                }
+                type="number"
+                placeholder="E.g. 90000"
+                classNameLabel={classNameLabel}
+                classNameField={classNameField}
+              />
+            </div>
 
             <SelectField
               label="Categories"
@@ -151,20 +179,21 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 { value: "design", label: "Design" },
                 { value: "development", label: "Development" },
               ]}
+              classNameDivContainer={classNameDivContainer}
+              classNameLabel={classNameLabel}
+              classNameDivLgWidth={classNameDivLgWidth}
+              classNameField={classNameField}
             />
 
-            <div>
-              <label
-                htmlFor="skills"
-                className="block text-sm font-semibold text-gray-700"
-              >
+            <div className={classNameDivContainer}>
+              <label htmlFor="skills" className={classNameLabel}>
                 Skills for this position
                 <small className="block text-xs text-gray-500">
                   Enter relevant skills for the position
                 </small>
               </label>
               <Chips
-                className="w-full text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={classNameField}
                 itemTemplate={(skill) => (
                   <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
                     {skill}
@@ -198,6 +227,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter job description here..."
               maxLength={500}
+              classNameDivContainer={classNameDivContainer}
+              classNameLabel={classNameLabel}
+              classNameDivLgWidth={classNameDivLgWidth}
+              classNameField={classNameField}
             />
             <InputField
               label="Location"
@@ -208,6 +241,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               onChange={(e) => setLocation(e.target.value)}
               placeholder="Enter job location..."
               maxLength={100}
+              classNameDivContainer={classNameDivContainer}
+              classNameLabel={classNameLabel}
+              classNameDivLgWidth={classNameDivLgWidth}
+              classNameField={classNameField}
             />
             <TextAreaField
               label="Responsibilities"
@@ -218,6 +255,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               onChange={(e) => setResponsibilities(e.target.value)}
               placeholder="Enter key responsibilities here..."
               maxLength={500}
+              classNameDivContainer={classNameDivContainer}
+              classNameLabel={classNameLabel}
+              classNameDivLgWidth={classNameDivLgWidth}
+              classNameField={classNameField}
             />
             <TextAreaField
               label="Who You Are"
@@ -228,6 +269,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               onChange={(e) => setWhoYouAre(e.target.value)}
               placeholder="Describe who the ideal candidate is..."
               maxLength={500}
+              classNameDivContainer={classNameDivContainer}
+              classNameLabel={classNameLabel}
+              classNameDivLgWidth={classNameDivLgWidth}
+              classNameField={classNameField}
             />
             <TextAreaField
               label="Nice To Have"
@@ -239,6 +284,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               onChange={(e) => setNiceToHave(e.target.value)}
               placeholder="Enter any nice-to-have qualifications here..."
               maxLength={500}
+              classNameDivContainer={classNameDivContainer}
+              classNameLabel={classNameLabel}
+              classNameDivLgWidth={classNameDivLgWidth}
+              classNameField={classNameField}
             />
           </div>
 
@@ -259,10 +308,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
         </StepperPanel>
 
         <StepperPanel header="Step 3/3: Benefits">
-          <div className="flex flex-col h-12rem">
+          <div className={classNameDivContainer}>
             <label
               htmlFor="benefits"
-              className="block text-sm font-semibold text-gray-700"
+              className="block text-sm font-semibold text-gray-700 lg:w-2/5 lg:pr-4"
             >
               Benefits
               <small className="block text-xs text-gray-500">
@@ -271,7 +320,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               </small>
             </label>
             <Chips
-              className="w-full text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="lg:w-3/5 text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               itemTemplate={(benefits) => (
                 <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
                   {benefits}

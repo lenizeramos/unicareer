@@ -10,6 +10,10 @@ interface SelectFieldProps {
   options: { value: string; label: string }[];
   required?: boolean;
   className?: string;
+  classNameDivContainer?: string;
+  classNameLabel?: string;
+  classNameDivLgWidth?: string;
+  classNameField?: string;
 }
 
 const SelectField: React.FC<SelectFieldProps> = ({
@@ -22,28 +26,38 @@ const SelectField: React.FC<SelectFieldProps> = ({
   options,
   required = false,
   className = "",
+  classNameDivContainer = "",
+  classNameLabel = "",
+  classNameDivLgWidth = "",
+  classNameField = "",
 }) => {
   return (
-    <div>
-      <label htmlFor={id} className="block text-sm font-semibold text-gray-700">
-        {label} {required && <span className="text-red-500">*</span>} <small className="block text-xs text-gray-500">{small}</small>
-      </label>
-      <select
-        id={id}
-        name={name}
-        value={value}
-        onChange={onChange}
-        className={`block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${className}`}
+    <div className={`${classNameDivContainer}`}>
+      <label
+        htmlFor={id}
+        className={`${classNameLabel}`}
       >
-        <option value="" disabled>
-          Select an option
-        </option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
+        {label} {required && <span className="text-red-500">*</span>}
+        <small className="block text-xs text-gray-500">{small}</small>
+      </label>
+      <div className={`${classNameDivLgWidth}`}>
+        <select
+          id={id}
+          name={name}
+          value={value}
+          onChange={onChange}
+          className={`${classNameField} ${className}`}
+        >
+          <option value="" disabled>
+            Select an option
           </option>
-        ))}
-      </select>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 };
