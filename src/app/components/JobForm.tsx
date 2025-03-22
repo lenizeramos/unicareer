@@ -8,12 +8,9 @@ import { IJobFormProps } from "../Types";
 import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
 import SelectField from "./SelectField";
-
+import SalaryRangeSlider from "./SalaryRangeSlider";
 
 import "primereact/resources/themes/lara-light-cyan/theme.css";
-
-
-import { Range } from "react-range";
 
 const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const stepperRef = useRef(null);
@@ -30,13 +27,13 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const [niceToHave, setNiceToHave] = useState("");
   const [benefits, setBenefits] = useState<string[]>([]);
   const [salary, setSalary] = useState([10, 100]);
- 
 
   const classNameDivContainer = "flex flex-col lg:flex-row lg:items-start";
   const classNameLabel = "text-sm font-semibold text-gray-700 lg:w-1/5 lg:pr-4";
   const classNameDivLgWidth = "lg:w-4/5";
   const classNameField =
     "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm";
+  const classNamePadding = "lg:py-3";
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedDate = e.target.value;
     if (selectedDate) {
@@ -45,7 +42,6 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
       setClosingDate(null);
     }
   };
-
   const handleSubmit = () => {
     if (!title) {
       alert("Please fill in all required fields.");
@@ -57,7 +53,6 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
       level,
       type,
       salary,
-
       categories,
       skills,
       description,
@@ -74,139 +69,118 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
       <Stepper ref={stepperRef}>
         <StepperPanel header="Step 1/3: Job Info">
           <div className="flex flex-col space-y-4 h-12rem">
-            <InputField
-              label="Job Title"
-              small="Enter the title"
-              id="title"
-              name="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="E.g. Software Engineer"
-              required
-              maxLength={500}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
-              classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
-            />
-
-            <InputField
-              label="Closing Date"
-              small="Select the job closing date"
-              id="closingDate"
-              name="closingDate"
-              value={closingDate ? closingDate.toISOString().split("T")[0] : ""}
-              onChange={handleDateChange}
-              type="date"
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
-              classNameField={classNameField}
-            />
-
-            <SelectField
-              label="Job Level"
-              small="Select the level of the position"
-              id="level"
-              name="level"
-              value={level}
-              onChange={(e) => setLevel(e.target.value)}
-              options={[
-                { value: "entryLevel", label: "Entry Level" },
-                { value: "intermediate", label: "Intermediate" },
-                { value: "senior", label: "Senior" },
-              ]}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
-              classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
-            />
-
-            <SelectField
-              label="Employment Type"
-              small="Select the type of employment"
-              id="type"
-              name="type"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              options={[
-                { value: "full-time", label: "Full-Time" },
-                { value: "part-time", label: "Part-Time" },
-                { value: "freelance", label: "Freelance" },
-              ]}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
-              classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
-            />
-
-
-
-            <div className="p-4">
-              <div className="mb-4">
-                <label htmlFor="salaryRange" className={classNameLabel}>
-                  Salary - Per hour
-                </label>
-                <Range
-                  step={1}
-                  min={10}
-                  max={100}
-                  values={salary}
-                  onChange={(newValues) => setSalary(newValues)}
-                  renderTrack={({ props, children }) => (
-                    <div
-                      {...props}
-                      style={{
-                        ...props.style,
-                        height: "6px",
-                        width: "100%",
-                        backgroundColor: "#ccc",
-                        borderRadius: "4px",
-                      }}
-                    >
-                      {children}
-                    </div>
-                  )}
-                  renderThumb={({ props }) => (
-                    <div
-                      {...props}
-                      style={{
-                        ...props.style,
-                        height: "20px",
-                        width: "20px",
-                        backgroundColor: "#fff",
-                        border: "2px solid #007bff",
-                        borderRadius: "50%",
-                        boxShadow: "0px 2px 6px #AAA",
-                      }}
-                    />
-                  )}
-                />
-                <div className="flex justify-between mt-2">
-                  <span>${salary[0]}</span>
-                  <span>${salary[1]}</span>
-                </div>
-              </div>
+            <div className={classNamePadding}>
+              <InputField
+                label="Job Title"
+                small="Enter the title"
+                id="title"
+                name="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="E.g. Software Engineer"
+                required
+                maxLength={500}
+                classNameDivContainer={classNameDivContainer}
+                classNameLabel={classNameLabel}
+                classNameDivLgWidth={classNameDivLgWidth}
+                classNameField={classNameField}
+              />
             </div>
 
-            <SelectField
-              label="Categories"
-              small="Select the category that best fits the role"
-              id="categories"
-              name="categories"
-              value={categories}
-              onChange={(e) => setCategories(e.target.value)}
-              options={[
-                { value: "marketing", label: "Marketing" },
-                { value: "design", label: "Design" },
-                { value: "development", label: "Development" },
-              ]}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
-              classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
-            />
+            <div className={classNamePadding}>
+              <InputField
+                label="Closing Date"
+                small="Select the job closing date"
+                id="closingDate"
+                name="closingDate"
+                value={
+                  closingDate ? closingDate.toISOString().split("T")[0] : ""
+                }
+                onChange={handleDateChange}
+                type="date"
+                classNameDivContainer={classNameDivContainer}
+                classNameLabel={classNameLabel}
+                classNameField={classNameField}
+              />
+            </div>
 
-            <div className={classNameDivContainer}>
+            <div className={classNamePadding}>
+              <SelectField
+                label="Job Level"
+                small="Select the level of the position"
+                id="level"
+                name="level"
+                value={level}
+                onChange={(e) => setLevel(e.target.value)}
+                options={[
+                  { value: "entryLevel", label: "Entry Level" },
+                  { value: "intermediate", label: "Intermediate" },
+                  { value: "senior", label: "Senior" },
+                ]}
+                classNameDivContainer={classNameDivContainer}
+                classNameLabel={classNameLabel}
+                classNameDivLgWidth={classNameDivLgWidth}
+                classNameField={classNameField}
+              />
+            </div>
+
+            <div className={classNamePadding}>
+              <SelectField
+                label="Employment Type"
+                small="Select the type of employment"
+                id="type"
+                name="type"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                options={[
+                  { value: "full-time", label: "Full-Time" },
+                  { value: "part-time", label: "Part-Time" },
+                  { value: "freelance", label: "Freelance" },
+                ]}
+                classNameDivContainer={classNameDivContainer}
+                classNameLabel={classNameLabel}
+                classNameDivLgWidth={classNameDivLgWidth}
+                classNameField={classNameField}
+              />
+            </div>
+
+            <div className={classNamePadding}>
+              <SalaryRangeSlider
+                label="Salary - Per hour"
+                small="Select the range salary, choose the minimun and maximun salary per hour"
+                id="salaryRange"
+                min={10}
+                max={100}
+                step={1}
+                initialValues={salary}
+                onChange={(newValues: number[]) => setSalary(newValues)}
+                classNameDivContainer={classNameDivContainer}
+                classNameLabel={classNameLabel}
+                classNameDivLgWidth={classNameDivLgWidth}
+              />
+            </div>
+
+            <div className={classNamePadding}>
+              <SelectField
+                label="Categories"
+                small="Select the category that best fits the role"
+                id="categories"
+                name="categories"
+                value={categories}
+                onChange={(e) => setCategories(e.target.value)}
+                options={[
+                  { value: "marketing", label: "Marketing" },
+                  { value: "design", label: "Design" },
+                  { value: "development", label: "Development" },
+                ]}
+                classNameDivContainer={classNameDivContainer}
+                classNameLabel={classNameLabel}
+                classNameDivLgWidth={classNameDivLgWidth}
+                classNameField={classNameField}
+              />
+            </div>
+
+            <div className={`${classNameDivContainer} ${classNamePadding}`}>
               <label htmlFor="skills" className={classNameLabel}>
                 Skills for this position
                 <small className="block text-xs text-gray-500">

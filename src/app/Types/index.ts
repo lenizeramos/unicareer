@@ -142,8 +142,7 @@ export interface IJobFormProps {
   title: string;
   level: string;
   type: string;
-  salaryMin: number;
-  salaryMax: number;
+  salary: number[];
   categories: string;
   skills: string[];
   description: string;
