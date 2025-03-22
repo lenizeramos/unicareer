@@ -17,8 +17,7 @@ export default function PostJobPage() {
       location?: string;
       skills: string[];
       jobType?: string;
-      salaryMin?: number;
-      salaryMax?: number;
+      salary?: number[];
       responsibilities?: string;
       whoYouAre?: string;
       niceToHave?: string;
@@ -26,13 +25,14 @@ export default function PostJobPage() {
       closingDate?: string;
     }) => {
       console.log(job, "JOBBBBBBBBBBB");
+
       try {
         const response = await fetch("/api/create-job", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(job),
+          body: JSON.stringify({...job, salaryMin: job.salary ? job.salary[0] : null, salaryMax: job.salary ? job.salary[1] : null}),
         });
 
         if (!response.ok) {

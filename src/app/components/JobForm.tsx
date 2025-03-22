@@ -9,14 +9,16 @@ import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
 import SelectField from "./SelectField";
 
+import { Range } from 'react-range';
+
 const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const stepperRef = useRef(null);
   const [closingDate, setClosingDate] = useState<Date | null>(null);
   const [title, setTitle] = useState("");
   const [level, setLevel] = useState("");
   const [type, setType] = useState("");
-  const [salaryMin, setSalaryMin] = useState<number | null>(null);
-  const [salaryMax, setSalaryMax] = useState<number | null>(null);
+ /*  const [salaryMin, setSalaryMin] = useState<number | null>(null);
+  const [salaryMax, setSalaryMax] = useState<number | null>(null); */
   const [categories, setCategories] = useState("");
   const [skills, setSkills] = useState<string[]>([]);
   const [description, setDescription] = useState("");
@@ -25,10 +27,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const [whoYouAre, setWhoYouAre] = useState("");
   const [niceToHave, setNiceToHave] = useState("");
   const [benefits, setBenefits] = useState<string[]>([]);
+  const [salary, setSalary] = useState([10, 100]);
 
   const classNameDivContainer = "flex flex-col lg:flex-row lg:items-start";
-  const classNameLabel =
-    "text-sm font-semibold text-gray-700 lg:w-1/5 lg:pr-4";
+  const classNameLabel = "text-sm font-semibold text-gray-700 lg:w-1/5 lg:pr-4";
   const classNameDivLgWidth = "lg:w-4/5";
   const classNameField =
     "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm";
@@ -42,17 +44,22 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   };
 
   const handleSubmit = () => {
-    if (!title || !salaryMin) {
+    if (!title) {
       alert("Please fill in all required fields.");
       return;
     }
+
+    console.log(salary, "SALARYYYYYYYYYYYYYYYYYYY")
+   /*  setSalaryMin(salary[0])
+    setSalaryMax(salary[1]) */
+
     onClick({
       closingDate,
       title,
       level,
       type,
-      salaryMin,
-      salaryMax,
+      salary,
+      
       categories,
       skills,
       description,
@@ -63,6 +70,8 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
       benefits,
     });
   };
+
+
   return (
     <div className="w-full flex justify-content-center">
       <Stepper ref={stepperRef}>
@@ -132,40 +141,85 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               classNameDivLgWidth={classNameDivLgWidth}
               classNameField={classNameField}
             />
-           
-              <InputField
-                label="Salary Min"
-                id="salaryMin"
-                name="salaryMin"
-                value={salaryMin}
-                onChange={(e) =>
-                  setSalaryMin(
-                    e.target.value ? parseFloat(e.target.value) : null
-                  )
-                }
-                type="number"
-                required
-                placeholder="E.g. 60000"
-                classNameLabel={classNameLabel}
-                classNameField={classNameField}
-              />
 
-              <InputField
-                label="Salary Max"
-                id="salaryMax"
-                name="salaryMax"
-                value={salaryMax}
-                onChange={(e) =>
-                  setSalaryMax(
-                    e.target.value ? parseFloat(e.target.value) : null
-                  )
-                }
-                type="number"
-                placeholder="E.g. 90000"
-                classNameLabel={classNameLabel}
-                classNameField={classNameField}
-              />
-            
+
+    <div className="p-4">
+      <div className="mb-4">
+        <label htmlFor="salaryRange" className={classNameLabel}>
+          Salary - Per hour
+        </label>
+        <Range
+          step={1}
+          min={10}
+          max={100}
+          values={salary}
+          onChange={(newValues) => setSalary(newValues)}
+          renderTrack={({ props, children }) => (
+            <div
+              {...props}
+              style={{
+                ...props.style,
+                height: '6px',
+                width: '100%',
+                backgroundColor: '#ccc',
+                borderRadius: '4px',
+              }}
+            >
+              {children}
+            </div>
+          )}
+          renderThumb={({ props }) => (
+            <div
+              {...props}
+              style={{
+                ...props.style,
+                height: '20px',
+                width: '20px',
+                backgroundColor: '#fff',
+                border: '2px solid #007bff',
+                borderRadius: '50%',
+                boxShadow: '0px 2px 6px #AAA',
+              }}
+            />
+          )}
+        />
+        <div className="flex justify-between mt-2">
+          <span>${salary[0]}</span>
+          <span>${salary[1]}</span>
+        </div>
+      </div>
+    </div>
+  
+
+
+            {/* <InputField
+              label="Salary Min"
+              id="salaryMin"
+              name="salaryMin"
+              value={salaryMin}
+              onChange={(e) =>
+                setSalaryMin(e.target.value ? parseFloat(e.target.value) : null)
+              }
+              type="number"
+              required
+              placeholder="E.g. 60000"
+              classNameLabel={classNameLabel}
+              classNameField={classNameField}
+            />
+
+            <InputField
+              label="Salary Max"
+              id="salaryMax"
+              name="salaryMax"
+              value={salaryMax}
+              onChange={(e) =>
+                setSalaryMax(e.target.value ? parseFloat(e.target.value) : null)
+              }
+              type="number"
+              placeholder="E.g. 90000"
+              classNameLabel={classNameLabel}
+              classNameField={classNameField}
+            /> */}
 
             <SelectField
               label="Categories"
@@ -185,10 +239,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               classNameField={classNameField}
             />
 
-<div className="flex">
+            <div className={classNameDivContainer}>
               <label
                 htmlFor="skills"
-                className="w-1/5 text-sm font-semibold text-gray-700"
+                className={classNameLabel}
               >
                 Skills for this position
                 <small className="block text-xs text-gray-500">
@@ -196,7 +250,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 </small>
               </label>
               <Chips
-                className="w-4/5 text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="lg:w-4/5 text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 itemTemplate={(skill) => (
                   <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
                     {skill}
@@ -208,7 +262,6 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 placeholder="E.g., React, Node.js, Java"
               />
             </div>
-
           </div>
           <div className="flex pt-4 justify-end">
             <ButtonComp
@@ -315,7 +368,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
           <div className={classNameDivContainer}>
             <label
               htmlFor="benefits"
-              className="block text-sm font-semibold text-gray-700 lg:w-2/5 lg:pr-4"
+              className={classNameLabel}
             >
               Benefits
               <small className="block text-xs text-gray-500">
@@ -324,7 +377,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               </small>
             </label>
             <Chips
-              className="lg:w-3/5 text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="lg:w-4/5 text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               itemTemplate={(benefits) => (
                 <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
                   {benefits}

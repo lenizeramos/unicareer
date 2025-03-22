@@ -322,3 +322,12 @@ body {
     margin: auto;
   }
 }
+
+
+.p-slider {
+background-color: #007bff;
+}
+.p-slider-handle {
+  background-color: #4640de;
+
+}
