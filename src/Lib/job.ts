@@ -48,9 +48,15 @@ export async function getJobByCompanyId(companyId: string) {
   try {
     const jobs = await prisma.job.findMany({
       where: { companyId: companyId },
-      orderBy: { createdAt: "desc" }
+      orderBy: { createdAt: "desc" },
+      
     });
-    return jobs;
+
+    const jobsWithStatus = jobs.map(job => ({
+      ...job,
+      status: job.closingDate && job.closingDate > new Date() ? "OPEN" : "CLOSED",
+    }));
+    return jobsWithStatus;
   } catch (error) {
     console.error("Error fetching jobs:", error);
     throw new Error("Failed to fetch jobs due to database issue.");

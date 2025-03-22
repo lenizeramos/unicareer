@@ -29,24 +29,14 @@ export default function CompanyPage() {
   const router = useRouter();
 
   const columns = {
-
     title: "Title",
     status: "Status",
-    description: "Description",
     location: "Location",
-    skills: "Skills",
     level: "Level",
     type: "Type",
     categories: "Categories",
-    salaryMin: "Min Salary",
-    salaryMax: "Max Salary",
-    responsibilities: "Responsibilities",
-    whoYouAre: "Who You Are",
-    niceToHave: "Nice to Have",
-    benefits: "Benefits",
     closingDate: "Closing Date",
     createdAt: "Created At",
-    updatedAt: "Updated At"
     /* applicants: "Applicants",
     needs: "Needs", */
   };
