@@ -1,24 +1,7 @@
 import React from "react";
+import { ITextAreaFieldProps } from "@/app/Types/index";
 
-interface TextAreaFieldProps {
-  label: string;
-  small: string;
-  id: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  placeholder?: string;
-  required?: boolean;
-  maxLength?: number;
-  rows?: number;
-  className?: string;
-  classNameDivContainer?: string;
-  classNameLabel?: string;
-  classNameDivLgWidth?: string;
-  classNameField?: string;
-}
-
-const TextAreaField: React.FC<TextAreaFieldProps> = ({
+const TextAreaField: React.FC<ITextAreaFieldProps> = ({
   label,
   small,
   id,
@@ -38,24 +21,26 @@ const TextAreaField: React.FC<TextAreaFieldProps> = ({
   return (
     <div className={`${classNameDivContainer}`}>
       <label htmlFor={id} className={`${classNameLabel}`}>
-        {label} {required && <span className="text-red-500">*</span>} <small className="block text-xs text-gray-500">{small}</small>
+        {label} {required && <span className="text-red-500">*</span>}{" "}
+        <small className="block text-xs text-gray-500">{small}</small>
       </label>
-      <div className={`${classNameDivLgWidth}`}><textarea
-        id={id}
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        maxLength={maxLength}
-        rows={rows}
-        className={`${classNameField} ${className}`}
-      />
-      {maxLength && (
-        <p className="text-xs text-gray-500 mt-1 text-right">
-          {value.length}/{maxLength}
-        </p>
-      )}</div>
-      
+      <div className={`${classNameDivLgWidth}`}>
+        <textarea
+          id={id}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          maxLength={maxLength}
+          rows={rows}
+          className={`${classNameField} ${className}`}
+        />
+        {maxLength && (
+          <p className="text-xs text-gray-500 mt-1 text-right">
+            {value.length}/{maxLength}
+          </p>
+        )}
+      </div>
     </div>
   );
 };

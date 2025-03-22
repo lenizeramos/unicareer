@@ -2,14 +2,14 @@ import { NextResponse, NextRequest } from "next/server";
 import {
   createUserAndCandidate,
   createUserAndCompany,
-} from "../../../Lib/usersService";
+} from "@/Lib/usersService";
 import { getClerkUserId } from "@/utils/user";
 
 export async function POST(req: NextRequest) {
   try {
     const payload = await req.json();
 
-    const userId  = await getClerkUserId();
+    const userId = await getClerkUserId();
     if (!userId) return NextResponse.redirect(new URL("/sign-in", req.url));
 
     const user = await fetch(`https://api.clerk.com/v1/users/${userId}`, {

@@ -1,20 +1,8 @@
 import React, { useState } from "react";
 import { Range } from "react-range";
-interface SalaryRangeSliderProps {
-  label: string;
-  small: string;
-  id: string;
-  min: number;
-  max: number;
-  step: number;
-  initialValues: number[];
-  onChange: (values: number[]) => void;
-  required?: boolean;
-  classNameDivContainer?: string;
-  classNameLabel?: string;
-  classNameDivLgWidth?: string;
-}
-const SalaryRangeSlider: React.FC<SalaryRangeSliderProps> = ({
+import {ISalaryRangeSliderProps} from "@/app/Types/index"
+
+const SalaryRangeSlider: React.FC<ISalaryRangeSliderProps> = ({
   label,
   small,
   id,

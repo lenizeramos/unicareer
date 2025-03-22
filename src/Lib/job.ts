@@ -1,22 +1,6 @@
 import prisma from "./prisma";
+import { Job } from "../types/job";
 
-interface Job {
-  title: string;
-  description: string;
-  location?: string;
-  skills: string[];
-  level?: string;
-  type?: string;
-  salaryMin?: number;
-  salaryMax?: number;
-  categories?: string;
-  responsibilities?: string;
-  whoYouAre?: string;
-  niceToHave?: string;
-  benefits?: string[];
-  closingDate?: string;
-  companyId: string;
-}
 export async function createJob(data: Job) {
   try {
     return await prisma.job.create({
@@ -49,12 +33,12 @@ export async function getJobByCompanyId(companyId: string) {
     const jobs = await prisma.job.findMany({
       where: { companyId: companyId },
       orderBy: { createdAt: "desc" },
-      
     });
 
-    const jobsWithStatus = jobs.map(job => ({
+    const jobsWithStatus = jobs.map((job) => ({
       ...job,
-      status: job.closingDate && job.closingDate > new Date() ? "OPEN" : "CLOSED",
+      status:
+        job.closingDate && job.closingDate > new Date() ? "OPEN" : "CLOSED",
     }));
     return jobsWithStatus;
   } catch (error) {

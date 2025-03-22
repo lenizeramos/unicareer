@@ -1,22 +1,7 @@
 import React from "react";
+import { ISelectFieldProps } from "@/app/Types/index";
 
-interface SelectFieldProps {
-  label: string;
-  small: string;
-  id: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: { value: string; label: string }[];
-  required?: boolean;
-  className?: string;
-  classNameDivContainer?: string;
-  classNameLabel?: string;
-  classNameDivLgWidth?: string;
-  classNameField?: string;
-}
-
-const SelectField: React.FC<SelectFieldProps> = ({
+const SelectField: React.FC<ISelectFieldProps> = ({
   label,
   small,
   id,
@@ -33,10 +18,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
 }) => {
   return (
     <div className={`${classNameDivContainer}`}>
-      <label
-        htmlFor={id}
-        className={`${classNameLabel}`}
-      >
+      <label htmlFor={id} className={`${classNameLabel}`}>
         {label} {required && <span className="text-red-500">*</span>}
         <small className="block text-xs text-gray-500">{small}</small>
       </label>

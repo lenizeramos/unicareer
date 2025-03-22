@@ -1,22 +1,5 @@
 import React from "react";
-
-interface InputFieldProps {
-  label: string;
-  small?: string;
-  id: string;
-  name: string;
-  value: string | number | null;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder?: string;
-  type?: string;
-  required?: boolean;
-  maxLength?: number;
-  className?: string;
-  classNameDivContainer?: string;
-  classNameLabel?: string;
-  classNameDivLgWidth?: string;
-  classNameField?: string;
-}
+import { InputFieldProps } from "@/app/Types/index";
 
 const InputField: React.FC<InputFieldProps> = ({
   label,
@@ -37,10 +20,7 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   return (
     <div className={`${classNameDivContainer}`}>
-      <label
-        htmlFor={id}
-        className={`${classNameLabel}`}
-      >
+      <label htmlFor={id} className={`${classNameLabel}`}>
         {label} {required && <span className="text-red-500">*</span>}{" "}
         <small className="block text-xs text-gray-500">{small}</small>
       </label>

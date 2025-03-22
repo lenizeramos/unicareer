@@ -12,7 +12,6 @@ const fetchJobPost = async () => {
     const response = await fetch(`/api/get-company-jobs`);
     if (response.ok) {
       const jobs = await response.json();
-      console.log("Job fetched successfully:", jobs);
       return jobs;
     } else {
       console.error("Failed to fetch job");

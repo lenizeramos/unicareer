@@ -5,7 +5,7 @@ import JobForm from "@/app/components/JobForm";
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { GoArrowLeft } from "react-icons/go";
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function PostJobPage() {
   const router = useRouter();
@@ -13,18 +13,19 @@ export default function PostJobPage() {
   const handlePostJobSubmit = useCallback(
     async (job: {
       title: string;
+      closingDate: Date | null;
+      level: string;
+      type?: string;
+      salary?: number[];
+      categories: string;
+      skills: string[];
       description: string;
       location?: string;
-      skills: string[];
-      jobType?: string;
-      salary?: number[];
       responsibilities?: string;
       whoYouAre?: string;
       niceToHave?: string;
       benefits?: string[];
-      closingDate?: string;
     }) => {
-      console.log(job, "JOBBBBBBBBBBB");
 
       try {
         const response = await fetch("/api/create-job", {
@@ -32,7 +33,11 @@ export default function PostJobPage() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({...job, salaryMin: job.salary ? job.salary[0] : null, salaryMax: job.salary ? job.salary[1] : null}),
+          body: JSON.stringify({
+            ...job,
+            salaryMin: job.salary ? job.salary[0] : null,
+            salaryMax: job.salary ? job.salary[1] : null,
+          }),
         });
 
         if (!response.ok) {
@@ -51,11 +56,13 @@ export default function PostJobPage() {
       <CompanyHeader image="/img/company_logo.png" name="Nomad" />
       <div className={styles.borderBottomLight}></div>
 
-      <Link href="/dashboard/company/joblisting"><div className="flex items-center text-2xl space-x-2">
-  <GoArrowLeft className="text-xl" />
-  <p>Post a Job</p>
-</div></Link>
-      
+      <Link href="/dashboard/company/joblisting">
+        <div className="flex items-center text-2xl space-x-2">
+          <GoArrowLeft className="text-xl" />
+          <p>Post a Job</p>
+        </div>
+      </Link>
+
       <JobForm onClick={handlePostJobSubmit} />
     </>
   );
