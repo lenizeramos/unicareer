@@ -111,7 +111,7 @@ model Company {
 model Job {
   id               String    @id @default(auto()) @map("_id") @db.ObjectId
   title            String
-  status           JobStatus @default(OPEN)
+  /* status           JobStatus @default(OPEN) */
   description      String?
   location         String?
   skills           String[]
@@ -219,7 +219,7 @@ enum Role {
  * }
  */
 
-enum JobStatus {
+/* enum JobStatus {
   OPEN
   CLOSED
-}
+} */
