@@ -8,6 +8,15 @@ import { LuBriefcaseBusiness } from "react-icons/lu";
 import { IoPeopleOutline } from "react-icons/io5";
 import { FaArrowRightLong } from "react-icons/fa6";
 
+//test
+import { MdOutlineHealthAndSafety } from "react-icons/md";
+import { GiPaperBoat } from "react-icons/gi";
+import { AiTwotoneVideoCamera } from "react-icons/ai";
+import { FaAtlassian } from "react-icons/fa";
+import { GiCoffeeCup } from "react-icons/gi";
+import { TbTrain } from "react-icons/tb";
+import { FaHandHoldingHeart } from "react-icons/fa";
+
 const jobsCategories = [
   {
     icon: GiPencilRuler,
@@ -74,7 +83,6 @@ const jobsCategories = [
     border: "border border-[#2f0d67]",
   },
 ];
-
 const jobsTypes = [
   "Full-Time",
   "Part-Time",
@@ -88,7 +96,79 @@ const salaryRange = [
   "$1500 - $2000",
   "$3000 or above",
 ];
-
-const perksIcons = [];
-
-export { jobsCategories, perksIcons, jobsTypes, salaryRange };
+const perksIcons = [
+  MdOutlineHealthAndSafety,
+  GiPaperBoat,
+  AiTwotoneVideoCamera,
+  FaAtlassian,
+  GiCoffeeCup,
+  TbTrain,
+  FaHandHoldingHeart,
+];
+const jobPosted = [
+  {
+    id: "1",
+    title: "Social Media Assistant",
+    company: "Stripe",
+    place: "Paris, France",
+    type: "Full-Time",
+    description:
+      "Stripe is looking for Social Media Marketing expert to help manage our online networks. You will be responsible for monitoring our social media channels, creating content, finding effective ways to engage the community and incentivize others to engage on our channels.",
+    responsibilities: [
+      "Community engagement to ensure that is supported and actively represented online",
+      "Focus on social media content development and publication",
+      "Marketing and strategy support",
+      "Stay on top of trends on social media platforms, and suggest content ideas to the team",
+      "Engage with online communities",
+    ],
+    whoYouAre: [
+      "You get energy from people and building the ideal work environment",
+      "You have a sense for beautiful spaces and office experiences",
+      "You are a confident office manager, ready for added responsibilities",
+      "You're detail-oriented and creative",
+      "You're a growth marketer and know how to run campaigns",
+    ],
+    plus: [
+      "Fluent in English",
+      "Project management skills",
+      "Copy editing skills",
+    ],
+    before: "July 31, 2021",
+    createdAt: "July 1, 2021",
+    salary: "$75k-$85k USD",
+    category: ["Marketing", "Design"],
+  },
+  {
+    id: "2",
+    title: "Brand Designer",
+    company: "Dropbox",
+    place: "San Fransisco, USA",
+    type: "Part-Time",
+    description:
+      "Dropbox is looking for Social Media Marketing expert to help manage our online networks. You will be responsible for monitoring our social media channels, creating content, finding effective ways to engage the community and incentivize others to engage on our channels.",
+    responsibilities: [
+      "Community engagement to ensure that is supported and actively represented online",
+      "Focus on social media content development and publication",
+      "Marketing and strategy support",
+      "Stay on top of trends on social media platforms, and suggest content ideas to the team",
+      "Engage with online communities",
+    ],
+    whoYouAre: [
+      "You get energy from people and building the ideal work environment",
+      "You have a sense for beautiful spaces and office experiences",
+      "You are a confident office manager, ready for added responsibilities",
+      "You're detail-oriented and creative",
+      "You're a growth marketer and know how to run campaigns",
+    ],
+    plus: [
+      "Fluent in English",
+      "Project management skills",
+      "Copy editing skills",
+    ],
+    before: "July 31, 2021",
+    createdAt: "July 1, 2021",
+    salary: "$75k-$85k USD",
+    category: ["Marketing", "Design"],
+  },
+];
+export { jobsCategories, perksIcons, jobsTypes, salaryRange, jobPosted };

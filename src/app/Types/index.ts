@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface IButtton {
   text: string | React.ReactNode;
@@ -13,7 +13,7 @@ interface ILogo {
   fontSize?: string;
 }
 
-interface ICardId extends Omit<ICards, 'cardId'>{
+interface ICardId extends Omit<ICards, "cardId"> {
   cardId:
     | "category"
     | "perks"
@@ -25,10 +25,11 @@ interface ICardId extends Omit<ICards, 'cardId'>{
     | "allJobs"
     | "recentApply"
     | "recentPosted";
-    params?: ICards[];
+  params?: ICards[];
 }
 
 interface ICards {
+  id?: string;
   icon?: React.ElementType;
   subicons?: React.ElementType;
   title?: string;
@@ -36,13 +37,21 @@ interface ICards {
   text?: string;
   logo?: string;
   alt?: string;
-  category?: string;
+  category?: string[] | string;
   company?: string;
   type?: string;
   date?: string;
   progress?: string;
   total?: number;
   cardId: string;
+  place?:string;
+  description?:string;
+  responsibilities?:string[];
+  whoYouAre?:string[];
+  plus?:string[];
+  before?:string;
+  createdAt?:string;
+  salary?:string;
 }
 
 interface IProgressBarProps {
@@ -63,22 +72,21 @@ interface IFilterJobs {
 }
 
 interface IJobDescription {
-  logo:string;
-  position:string;
-  company:string;
-  place:string;
-  type:string;
-  description:string[];
-  whoYouAre:string[];
-  plus:string[];
-  applyBefore:string;
-  createdAt:string;
-  jobType:string;
-  salary:string;
-  category:string[];
-  skills:string[]
-  perks:{icon:React.ElementType, title:string, text:string}[];
-  
+  logo: string;
+  position: string;
+  company: string;
+  place: string;
+  type: string;
+  description: string[];
+  whoYouAre: string[];
+  plus: string[];
+  applyBefore: string;
+  createdAt: string;
+  jobType: string;
+  salary: string;
+  category: string[];
+  skills: string[];
+  perks: { icon: React.ElementType; title: string; text: string }[];
 }
 
 export type {
@@ -89,7 +97,7 @@ export type {
   IProgressBarProps,
   ITagComp,
   IFilterJobs,
-  IJobDescription
+  IJobDescription,
 };
 
 export interface IDashboardNavbar {

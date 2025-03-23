@@ -1,5 +1,5 @@
 import { ICardId } from "@/app/Types";
-import { jobsCategories } from "@/app/constants";
+import { jobPosted, jobsCategories } from "@/app/constants";
 import BasicCards from "./BasicCards";
 import JobCard from "./JobCard";
 import JobResumeCards from "./JobResumeCards";
@@ -89,8 +89,12 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
             ) : (
               <div className="flex flex-col gap-3 w-full mx-auto">
                 <p className="text-white">cardId= allJobs</p>
-                <JobResumeCards cardId={cardId} />
-                <JobResumeCards cardId={cardId} />
+                {jobPosted.map((info, index) => {
+                  return (
+                    <JobResumeCards cardId={cardId} {...info} key={index}/>
+
+                  )
+                })}
               </div>
             )}
           </>
