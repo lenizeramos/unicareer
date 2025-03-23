@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs'
+import { PrimeReactProvider } from 'primereact/api';
 
 export const metadata: Metadata = {
   title: "Unicareer",
@@ -17,11 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
+      <PrimeReactProvider>
       <html lang="en">
         <body className="antialiased">
           {children}
         </body>
       </html>
+      </PrimeReactProvider>
     </ClerkProvider>
   )
 }

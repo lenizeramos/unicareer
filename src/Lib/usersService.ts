@@ -86,6 +86,9 @@ export async function getUserByClerkId(clerkId: string | undefined) {
       where: {
         clerkId,
       },
+      include: {
+        company: true,
+      },
     });
 
     if (!user) {
