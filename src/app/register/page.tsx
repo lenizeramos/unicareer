@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import CandidateForm from "@/app/components/CompanyForm";
+import CandidateForm from "@/app/components/CandidateForm";
 import CompanyForm from "@/app/components/CompanyForm";
 
 /* const awaitNewClerkRoleToSyncWithApp = async () => {
