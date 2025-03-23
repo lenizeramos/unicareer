@@ -42,6 +42,12 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
       setClosingDate(null);
     }
   };
+  const toLocalISOString = (date) => {
+    const offset = date.getTimezoneOffset() * 60000; // Diferença em milissegundos
+    const localDate = new Date(date.getTime() - offset); // Ajusta para o fuso horário local
+    return localDate.toISOString().slice(0, 16); // Formato YYYY-MM-DDTHH:MM
+  };
+
   const handleSubmit = () => {
     if (!title) {
       alert("Please fill in all required fields.");
@@ -75,6 +81,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 small="Enter the title"
                 id="title"
                 name="title"
+                type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="E.g. Software Engineer"
@@ -93,11 +100,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 small="Select the job closing date"
                 id="closingDate"
                 name="closingDate"
-                value={
-                  closingDate ? closingDate.toISOString().split("T")[0] : ""
-                }
+                type="datetime-local"
+                minDate={toLocalISOString(new Date())}
+                value={closingDate ? toLocalISOString(closingDate) : ""}
                 onChange={handleDateChange}
-                type="date"
                 classNameDivContainer={classNameDivContainer}
                 classNameLabel={classNameLabel}
                 classNameField={classNameField}
@@ -232,6 +238,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               small="Specify where the job is located"
               id="location"
               name="location"
+              type="text"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               placeholder="Enter job location..."

@@ -54,7 +54,11 @@ export default function JobList({
                       key === "createdAt" ||
                       key === "updatedAt" ? (
                       <div className="text-lg font-[500]">
-                        {new Date(job[key as keyof IJob]).toLocaleDateString()}
+                        {job[key as keyof IJob]
+                          ? new Date(
+                              job[key as keyof IJob]
+                            ).toLocaleDateString()
+                          : "-"}
                       </div>
                     ) : key === "applicants" ? (
                       <div className="text-lg font-[500]">

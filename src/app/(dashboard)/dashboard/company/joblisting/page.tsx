@@ -7,7 +7,7 @@ import { FaPlus } from "react-icons/fa";
 import JobList from "@/app/components/JobList";
 import { useRouter } from "next/navigation";
 
-const fetchJobPost = async () => {
+const fetchCompanyJobs = async () => {
   try {
     const response = await fetch(`/api/get-company-jobs`);
     if (response.ok) {
@@ -121,7 +121,8 @@ export default function CompanyPage() {
 
   useEffect(() => {
     const getJobs = async () => {
-      const fetchedJobs = await fetchJobPost();
+      const fetchedJobs = await fetchCompanyJobs();
+      console.log(fetchedJobs, "fetchCompanyJobsSSSSSSSSSSSSSSSSSS")
       if (fetchedJobs) {
         setJobs(fetchedJobs);
       }

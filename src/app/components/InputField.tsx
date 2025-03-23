@@ -8,8 +8,9 @@ const InputField: React.FC<InputFieldProps> = ({
   name,
   value,
   onChange,
+  minDate,
   placeholder,
-  type = "text",
+  type,
   required = false,
   maxLength,
   className = "",
@@ -21,7 +22,7 @@ const InputField: React.FC<InputFieldProps> = ({
   return (
     <div className={`${classNameDivContainer}`}>
       <label htmlFor={id} className={`${classNameLabel}`}>
-        {label} {required && <span className="text-red-500">*</span>}{" "}
+        {label} {required && <span className="text-red-500">*</span>}
         <small className="block text-xs text-gray-500">{small}</small>
       </label>
       <div className={`${classNameDivLgWidth}`}>
@@ -29,8 +30,9 @@ const InputField: React.FC<InputFieldProps> = ({
           type={type}
           id={id}
           name={name}
-          value={value !== null ? value : ""}
+          value={value !== null ? value: ""}
           onChange={onChange}
+          min={minDate}
           placeholder={placeholder}
           maxLength={maxLength}
           className={`${classNameField} ${className}`}

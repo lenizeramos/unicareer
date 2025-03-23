@@ -167,6 +167,7 @@ export interface InputFieldProps {
   id: string;
   name: string;
   value: string | number | null;
+  minDate?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   type?: string;
