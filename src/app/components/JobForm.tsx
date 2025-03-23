@@ -42,10 +42,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
       setClosingDate(null);
     }
   };
-  const toLocalISOString = (date) => {
-    const offset = date.getTimezoneOffset() * 60000; // Diferença em milissegundos
-    const localDate = new Date(date.getTime() - offset); // Ajusta para o fuso horário local
-    return localDate.toISOString().slice(0, 16); // Formato YYYY-MM-DDTHH:MM
+  const toLocalISOString = (date: Date) => {
+    const offset = date.getTimezoneOffset() * 60000; 
+    const localDate = new Date(date.getTime() - offset); 
+    return localDate.toISOString().slice(0, 16);
   };
 
   const handleSubmit = () => {

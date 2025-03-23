@@ -110,13 +110,21 @@ export interface ICompanyHeader {
 }
 
 export interface IJob {
-  roles: string;
+  /* roles: string;
   status: string;
   datePosted: string;
   dueDate: string;
   jobType: string;
   applicants: string;
-  needs: string;
+  needs: string; */
+  title: string;
+  status: string;
+  location: string;
+  level: string;
+  categories: string;
+  createdAt: string;
+  closingDate: string;
+  type: string;
 }
 
 export interface IJobList {
@@ -155,11 +163,9 @@ export interface IJobFormProps {
   }) => void;
 }
 
-
 export interface ICompanyFormProps {
   onSubmit: (company: { name: string; logo: File | null; bio: string }) => void;
 }
-
 
 export interface InputFieldProps {
   label: string;
