@@ -16,9 +16,8 @@ const JobResumeCards = ({
   cardId,
   place,
 }: ICards) => {
-  let categoryArray = []
+  let categoryArray = [];
 
-  
   return (
     <>
       <div
@@ -55,15 +54,24 @@ const JobResumeCards = ({
               />
               <div className="w-[1px] bg-gray-300 rounded-full" />
               <div className="flex gap-2">
-                {jobsCategories.map((category, index) => {
-                  return (
-                    <TagComp
-                      bgColor="bg-[#eefaf7]"
-                      textColor="text-[#69d3b6]"
-                      text={`#tag1 ${category}`}
-                    />
-                  );
-                })}
+                {category && Array.isArray(category) ? (
+                  category.map((item, index) => {
+                    const stylesTag = jobsCategories.find(
+                      (cat) => cat.title === item
+                    );
+                    console.log(stylesTag, index);
+                    return (
+                      <TagComp
+                        bgColor={`${stylesTag?.bgColor}`}
+                        textColor={`${stylesTag?.textColor}`}
+                        text={`${stylesTag?.title}`}
+                        key={index}
+                      />
+                    );
+                  })
+                ) : (
+                  <div></div>
+                )}
               </div>
             </div>
           </div>

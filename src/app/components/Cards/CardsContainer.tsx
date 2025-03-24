@@ -92,7 +92,6 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
                 {jobPosted.map((info, index) => {
                   return (
                     <JobResumeCards cardId={cardId} {...info} key={index}/>
-
                   )
                 })}
               </div>
