@@ -31,7 +31,7 @@ const Navbar = () => {
     <nav className="w-full flex justify-between items-center bg-[#202430] px-5 py-2.5 relative">
       <div>
         <Link href={'/'}>
-          <Logo />
+          <Logo isBgDark={false} />
         </Link>
       </div>
 

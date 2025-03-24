@@ -5,9 +5,11 @@ import Image from "next/image";
 import DashboardNavbar from "../../../../../components/DashboardNavbar";
 import ButtonComp from "@/app/components/ButtonComp";
 import { styles } from "@/app/styles";
-import { jobPosted } from "@/app/constants";
+import { jobPosted, jobsCategories } from "@/app/constants";
 import { CiCircleCheck } from "react-icons/ci";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
+import ProgressBar from "@/app/components/ProgressBar";
+import TagComp from "@/app/components/TagComp";
 
 export default function JobDescription() {
   // const pathname = usePathname();
@@ -40,7 +42,9 @@ export default function JobDescription() {
                   height={80}
                 />
                 <div>
-                  <h1 className={`${styles.sectionHeadText} pb-2`}>{job.title}</h1>
+                  <h1 className={`${styles.sectionHeadText} pb-2`}>
+                    {job.title}
+                  </h1>
                   <p
                     className={`flex items-center gap-2 ${styles.sectionSubText} xs:text-lg text-sm`}
                   >
@@ -58,11 +62,11 @@ export default function JobDescription() {
             </div>
           </div>
         </div>
-        <div className="flex">
-          <div className="flex flex-col gap-5">
+        <div className="flex gap-20 lg:flex-row flex-col">
+          <div className="flex flex-col gap-5 lg:w-[70%]">
             <div className="">
               <h2 className={`${styles.JobDescriptionTitle}`}>Description</h2>
-              <p className={`${styles.JobDescriptionText}`}>
+              <p className={`${styles.JobDescriptionText} text-justify`}>
                 {job.description}
               </p>
             </div>
@@ -114,7 +118,94 @@ export default function JobDescription() {
               </ul>
             </div>
           </div>
-          <div></div>
+          <div className=" 2xl:w-[20%] xl:w-[30%] lg:w-[45%] flex lg:flex-col xs:flex-row flex-col justify-around">
+            <div className="flex flex-col gap-4 ">
+              <h2 className={`${styles.JobDescriptionTitle}`}>
+                About this role
+              </h2>
+              <div className="bg-gray-100  w-[80%] p-5 lg:mx-auto xs:mx-0 mx-auto">
+                <ProgressBar value={5} totalLength={10} />
+              </div>
+              <div className="flex justify-between">
+                <p className={`${styles.JobDescriptionText}`}>Apply Before</p>
+                <p className={`${styles.JobDescriptionText} font-bold`}>
+                  {job.before}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <p className={`${styles.JobDescriptionText}`}>Job Posted On</p>
+                <p className={`${styles.JobDescriptionText} font-bold`}>
+                  {job.createdAt}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <p className={`${styles.JobDescriptionText}`}>Job Type</p>
+                <p className={`${styles.JobDescriptionText} font-bold`}>
+                  {job.type}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <p className={`${styles.JobDescriptionText}`}>Salary</p>
+                <p className={`${styles.JobDescriptionText} font-bold`}>
+                  {job.salary}
+                </p>
+              </div>
+            </div>
+            <div className="lg:hidden w-0.5  bg-gray-200" />
+            <div className="lg:border-y-[1px] border-gray-200 py-15">
+              <h2 className={`${styles.JobDescriptionTitle}`}>Categories</h2>
+              <div className="flex gap-2">
+                {Array.isArray(job.category)
+                  ? job.category.map((item, index) => {
+                      const stylesTag = jobsCategories.find(
+                        (categ) => categ.title === item
+                      );
+                      return (
+                        <TagComp
+                          bgColor={`${stylesTag?.bgColor}`}
+                          textColor={`${stylesTag?.textColor}`}
+                          text={`${stylesTag?.title}`}
+                          key={index}
+                        />
+                      );
+                    })
+                  : job.category && (
+                      <TagComp
+                        bgColor={`${
+                          jobsCategories.find(
+                            (style) => style.title === job.category
+                          )?.bgColor
+                        }`}
+                        textColor={`${
+                          jobsCategories.find(
+                            (style) => style.title === job.category
+                          )?.textColor
+                        }`}
+                        text={`${
+                          jobsCategories.find(
+                            (style) => style.title === job.category
+                          )?.title
+                        }`}
+                      />
+                    )}
+              </div>
+            </div>
+            {/* <div className="py-10">
+              <h2 className={`${styles.JobDescriptionTitle}`}>
+                Required Skills
+              </h2>
+              {job.plus.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={`text-purple-900 ${styles.sectionSubText} p-2 bg-gray-400 `}
+                  >
+                    <p>{item}</p>
+                  </div>
+                );
+              })}
+            </div> */}
+          </div>
         </div>
         <div className="border-t-[1px] border-gray-200 pt-4">
           <h2 className={`${styles.JobDescriptionTitle} text-4xl`}>

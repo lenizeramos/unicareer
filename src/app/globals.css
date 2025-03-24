@@ -109,6 +109,21 @@ body {
   color: transparent;
 }
 
+.logo-gradient-dark {
+  background-image: linear-gradient(
+    to right,
+    #019ee2,
+    #81358a,
+    #e20714,
+    #f8b133,
+    #95c022,
+    #01a099
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .border-live {
   border-color: var(--color-liveColor);
 }
