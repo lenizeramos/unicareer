@@ -4,7 +4,7 @@ import Image from "next/image";
 import ButtonComp from "../ButtonComp";
 import ProgressBar from "../ProgressBar";
 import TagComp from "../TagComp";
-import { jobPosted, jobsCategories } from "@/app/constants";
+import { jobsCategories } from "@/app/constants";
 
 const JobResumeCards = ({
   id,
@@ -16,8 +16,6 @@ const JobResumeCards = ({
   cardId,
   place,
 }: ICards) => {
-  let categoryArray = [];
-
   return (
     <>
       <div
@@ -54,24 +52,39 @@ const JobResumeCards = ({
               />
               <div className="w-[1px] bg-gray-300 rounded-full" />
               <div className="flex gap-2">
-                {category && Array.isArray(category) ? (
-                  category.map((item, index) => {
-                    const stylesTag = jobsCategories.find(
-                      (cat) => cat.title === item
-                    );
-                    console.log(stylesTag, index);
-                    return (
+                {Array.isArray(category)
+                  ? category.map((item, index) => {
+                      const stylesTag = jobsCategories.find(
+                        (categ) => categ.title === item
+                      );
+                      return (
+                        <TagComp
+                          bgColor={`${stylesTag?.bgColor}`}
+                          textColor={`${stylesTag?.textColor}`}
+                          text={`${stylesTag?.title}`}
+                          key={index}
+                        />
+                      );
+                    })
+                  : category && (
                       <TagComp
-                        bgColor={`${stylesTag?.bgColor}`}
-                        textColor={`${stylesTag?.textColor}`}
-                        text={`${stylesTag?.title}`}
-                        key={index}
+                        bgColor={`${
+                          jobsCategories.find(
+                            (style) => style.title === category
+                          )?.bgColor
+                        }`}
+                        textColor={`${
+                          jobsCategories.find(
+                            (style) => style.title === category
+                          )?.textColor
+                        }`}
+                        text={`${
+                          jobsCategories.find(
+                            (style) => style.title === category
+                          )?.title
+                        }`}
                       />
-                    );
-                  })
-                ) : (
-                  <div></div>
-                )}
+                    )}
               </div>
             </div>
           </div>

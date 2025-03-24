@@ -26,7 +26,7 @@ const BasicCards = ({
         <div
           className={` ${styles.sectionSubText} ${styles.categoryCard} cursor-pointer  hover:bg-primary`}
         >
-          <div> icon =
+          <div>
             {Icon && (
               <Icon className={`${styles.iconsCards} group-hover:text-white`} />
             )}
@@ -35,10 +35,10 @@ const BasicCards = ({
             <h3
               className={`text-xl font-bold my-5 text-black group-hover:text-white `}
             >
-              title = {title}
+            {title}
             </h3>
             <div className="flex items-center gap-5 text-gray-400">
-              <p className={`group-hover:text-white`}>text ={text} </p>
+              <p className={`group-hover:text-white`}>{text} </p>
               {Subicons && (
                 <Subicons
                   className={`${styles.subIconsCards} group-hover:text-white`}

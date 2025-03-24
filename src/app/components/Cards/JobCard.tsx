@@ -38,23 +38,20 @@ const JobCard = ({
         </div>
         <div className="">
           <h2 className={`${styles.sectionHeadText} text-black`}>
-            Title{title}
+            {title}
           </h2>
           <h3
             className={`${styles.sectionSubText} text-gray-600 flex items-center gap-2`}
           >
-            Company{company}
+            {company}
             <div className="w-1 h-1 rounded-full bg-gray-400" />
-            SubTitle{subtitle}
+            {subtitle}
           </h3>
         </div>
         <div className="flex flex-col gap-5">
           {cardId === "featuredJob" ? (
             <div className="max-h-12 ">
-              <p className="text-blak truncate text-gray-500">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem
-                ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum
-                dolor sit amet, consectetur adipiscing elit {text}
+              <p className="text-blak truncate text-gray-500"> {text}
               </p>
             </div>
           ) : (

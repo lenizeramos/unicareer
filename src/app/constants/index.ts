@@ -168,7 +168,7 @@ const jobPosted = [
     before: "July 31, 2021",
     createdAt: "July 1, 2021",
     salary: "$75k-$85k USD",
-    category: ["Marketing", "Design"],
+    category: "Marketing",
   },
 ];
 export { jobsCategories, perksIcons, jobsTypes, salaryRange, jobPosted };

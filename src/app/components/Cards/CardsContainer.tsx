@@ -25,7 +25,6 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
               </div>
             ) : cardId === "category" ? (
               <div className="flex flex-row gap-10 flex-wrap justify-center">
-                <p className="text-white">cardId= category</p>
                 {jobsCategories.map((data, index) => {
                   return (
                     <div className="" key={index}>
@@ -40,7 +39,6 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
               </div>
             ) : (
               <div className="flex flex-row gap-10 flex-wrap justify-center">
-                <p className="text-white">cardId= perks</p>
                 <BasicCards cardId="perks" />
               </div>
             )}
@@ -52,14 +50,12 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
           <>
             {cardId === "featuredJob" ? (
               <div className="flex flex-row gap-10 flex-wrap justify-center">
-                <p className="text-white">cardId= featuredJob</p>
                 <JobCard cardId={cardId} />
                 <JobCard cardId={cardId} />
                 <JobCard cardId={cardId} />
               </div>
             ) : (
               <div className="flex flex-row gap-10 flex-wrap justify-center">
-                <p className="text-white">cardId= jobUpdates</p>
                 <JobCard cardId={cardId} />
                 <JobCard cardId={cardId} />
                 <JobCard cardId={cardId} />
@@ -76,19 +72,16 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
           <>
             {cardId === "latestJob" ? (
               <div className="flex flex-row gap-5 flex-wrap justify-center">
-                <p className="text-white">cardId= latestJob</p>
                 <JobResumeCards cardId={cardId} />
                 <JobResumeCards cardId={cardId} />
               </div>
             ) : cardId === "openPositions" ? (
               <div className="flex flex-col gap-3 w-fit mx-auto">
-                <p className="text-white">cardId= openPositions</p>
                 <JobResumeCards cardId={cardId} />
                 <JobResumeCards cardId={cardId} />
               </div>
             ) : (
               <div className="flex flex-col gap-3 w-full mx-auto">
-                <p className="text-white">cardId= allJobs</p>
                 {jobPosted.map((info, index) => {
                   return (
                     <JobResumeCards cardId={cardId} {...info} key={index}/>
@@ -109,7 +102,6 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
               </div>
             ) : (
               <div className="flex flex-col gap-4 w-full">
-                <p className="text-white">cardId= recentApply</p>
                 <RecentCard cardId={cardId} />
                 <RecentCard cardId={cardId} />
               </div>
