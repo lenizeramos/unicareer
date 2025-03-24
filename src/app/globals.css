@@ -194,3 +194,24 @@ body {
     display: none;
   }
 }
+
+/* CLerk */
+.cl-formButtonPrimary {
+  font-size: 14px;
+  text-transform: none;
+  background-color: var(--color-primary);
+}
+
+.cl-formButtonPrimary:hover,
+.cl-formButtonPrimary:focus,
+.cl-formButtonPrimary:active {
+  background-color: #49247a;
+}
+
+.cl-internal-1dauvpw {
+  display: none;
+}
+
+.cl-footer {
+  display: none;
+}
