@@ -8,7 +8,7 @@ const styles = {
   menuItemFocusLine: "menu-item-focus-line",
   menuItemNoFocusLine: "menu-item-no-focus-line hover:bg-menuItemFocus",
   borderLight: "border-1 border-[var(--color-borders)]",
-  dashboardTitle: "text-3xl font-bold flex items-center gap-2 text-textTitle h-16 lg:h-auto",
+  dashboardTitle: "text-2xl md:text-3xl font-bold flex items-center gap-2 text-textTitle h-16 lg:h-auto",
   heroHeadText: "font-bigShoulderStencil text-black font-bold",
   heroHeadTextDark: "font-bigShoulderInline text-white",
   titleHeroSize: "lg:text-[5rem] md:text-[3.125rem] text-[2.5rem]",
@@ -24,6 +24,9 @@ const styles = {
   subIconsCards: "text-xl",
   categoryCard: "bg-white p-5 text-primary border border-gray-200 group",
   borderBottomLight: "w-full border-b border-[var(--color-borders)]",
+  JobDescriptionTitle:"font-semibold mb-4 font-monomakh text-3xl",
+  JobDescriptionText:"font-shafarik sm:text-[20px] text-[14px] text-gray-600",
+  lists:"flex gap-2 mb-1",
 };
 
 export { styles };

@@ -1,5 +1,5 @@
 import { ICardId } from "@/app/Types";
-import { jobPosted, jobsCategories } from "@/app/constants";
+import { jobPosted, jobsCategories, perksData } from "@/app/constants";
 import BasicCards from "./BasicCards";
 import JobCard from "./JobCard";
 import JobResumeCards from "./JobResumeCards";
@@ -38,8 +38,10 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
                 })}
               </div>
             ) : (
-              <div className="flex flex-row gap-10 flex-wrap justify-center">
-                <BasicCards cardId="perks" />
+              <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-10 pointer-events-none">
+                {perksData.map((item, index) => {
+                  return <BasicCards cardId="perks" {...item} key={index} />;
+                })}
               </div>
             )}
           </>
@@ -84,8 +86,8 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
               <div className="flex flex-col gap-3 w-full mx-auto">
                 {jobPosted.map((info, index) => {
                   return (
-                    <JobResumeCards cardId={cardId} {...info} key={index}/>
-                  )
+                    <JobResumeCards cardId={cardId} {...info} key={index} />
+                  );
                 })}
               </div>
             )}
@@ -96,9 +98,21 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
         return (
           <>
             {cardId === "recentPosted" ? (
-              <div className="flex flex-col gap-4 w-full">                
-                <RecentCard cardId={cardId} title={params?.[0].title} date={params?.[0].date} company={params?.[0].company} text={params?.[0].text} />
-                <RecentCard cardId={cardId} title={params?.[1].title} date={params?.[1].date} company={params?.[1].company} text={params?.[1].text} />
+              <div className="flex flex-col gap-4 w-full">
+                <RecentCard
+                  cardId={cardId}
+                  title={params?.[0].title}
+                  date={params?.[0].date}
+                  company={params?.[0].company}
+                  text={params?.[0].text}
+                />
+                <RecentCard
+                  cardId={cardId}
+                  title={params?.[1].title}
+                  date={params?.[1].date}
+                  company={params?.[1].company}
+                  text={params?.[1].text}
+                />
               </div>
             ) : (
               <div className="flex flex-col gap-4 w-full">

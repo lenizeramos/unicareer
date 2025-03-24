@@ -96,14 +96,42 @@ const salaryRange = [
   "$1500 - $2000",
   "$3000 or above",
 ];
-const perksIcons = [
-  MdOutlineHealthAndSafety,
-  GiPaperBoat,
-  AiTwotoneVideoCamera,
-  FaAtlassian,
-  GiCoffeeCup,
-  TbTrain,
-  FaHandHoldingHeart,
+const perksData = [
+  {
+    icon: MdOutlineHealthAndSafety,
+    title: "Full Healthcare",
+    text: "We believe in thriving communities and that starts with our team being happy and healthy.",
+  },
+  {
+    icon: GiPaperBoat,
+    title: "Unlimited Vacation",
+    text: "We believe you should have a flexible schedule that makes space for family, wellness, and fun.",
+  },
+  {
+    icon: AiTwotoneVideoCamera,
+    title: "Skill Development",
+    text: "We believe in always learning and leveling up our skills. Whether it's a conference or online course.",
+  },
+  {
+    icon: FaAtlassian,
+    title: "Team Summits",
+    text: "Every 6 months we have a full team summit where we have fun, reflect, and plan for the upcoming quarter.",
+  },
+  {
+    icon: GiCoffeeCup,
+    title: "Remote Working",
+    text: "You know how you perform your best. Work from home, coffee shop or anywhere when you feel like it.",
+  },
+  {
+    icon: TbTrain,
+    title: "Commuter Benefits",
+    text: "We’re grateful for all the time and energy each team member puts into getting to work every day.",
+  },
+  {
+    icon: FaHandHoldingHeart,
+    title: "We give back.",
+    text: "We anonymously match any donation our employees make (up to $/€ 600) so they can support the organizations they care about most—times two. ",
+  },
 ];
 const jobPosted = [
   {
@@ -171,4 +199,4 @@ const jobPosted = [
     category: "Marketing",
   },
 ];
-export { jobsCategories, perksIcons, jobsTypes, salaryRange, jobPosted };
+export { jobsCategories, perksData, jobsTypes, salaryRange, jobPosted };

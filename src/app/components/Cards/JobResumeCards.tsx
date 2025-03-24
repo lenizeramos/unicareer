@@ -5,6 +5,7 @@ import ButtonComp from "../ButtonComp";
 import ProgressBar from "../ProgressBar";
 import TagComp from "../TagComp";
 import { jobsCategories } from "@/app/constants";
+import Link from "next/link";
 
 const JobResumeCards = ({
   id,
@@ -91,7 +92,9 @@ const JobResumeCards = ({
         </div>
         {cardId === "allJobs" ? (
           <div className="flex flex-col gap-2">
-            <ButtonComp text="Apply" IsWhite={false} width="w-full" />
+            <Link href={`/dashboard/candidate/jobs/description?id=${id}`}>
+              <ButtonComp text="Apply" IsWhite={false} width="w-full" />
+            </Link>
             <ProgressBar totalLength={10} value={5} />
           </div>
         ) : (
