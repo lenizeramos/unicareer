@@ -3,6 +3,7 @@
 import { SignIn } from "@clerk/nextjs";
 import Logo from "@/app/components/Logo";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 
 const SignInPage = () => {
   return (
@@ -24,12 +25,22 @@ const SignInPage = () => {
         </div>
 
         <div className="flex w-full items-center justify-center p-8 md:w-1/2">
-          <SignIn
-            path="/sign-in"
-            routing="path"
-            signUpUrl="/sign-up"
-            forceRedirectUrl="/after-sign-in"
-          />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key="signIn"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <SignIn
+                path="/sign-in"
+                routing="path"
+                signUpUrl="/sign-up"
+                forceRedirectUrl="/after-sign-in"
+              />
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </div>

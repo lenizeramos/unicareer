@@ -8,7 +8,7 @@ import ButtonComp from "@/app/components/ButtonComp";
 import Link from "next/link";
 
 const SignUpPage = () => {
-  const [role, setRole] = useState<"company" | "candidate" >("candidate");
+  const [role, setRole] = useState<"company" | "candidate">("candidate");
   const { isSignedIn } = useUser();
   const router = useRouter();
 
@@ -27,12 +27,16 @@ const SignUpPage = () => {
       >
         <div className="flex w-full max-w-4xl flex-col overflow-hidden rounded-lg bg-white shadow-lg md:flex-row">
           <div className="p-10 flex flex-col justify-center">
-            <Logo fontSize="text-5xl" logoSize={60}/>
+            <Logo fontSize="text-5xl" logoSize={60} />
             <h1 className="mt-4 text-2xl font-bold mb-4">Join Our Platform</h1>
-            <p className="text-gray-600 mb-6">Create an account to get started. Select your role to continue.</p>
+            <p className="text-gray-600 mb-6">
+              Create an account to get started. Select your role to continue.
+            </p>
 
             <div className="space-y-4 mb-6">
-              <h3 className="text-lg font-medium text-gray-800">I want to join as:</h3>
+              <h3 className="text-lg font-medium text-gray-800">
+                I want to join as:
+              </h3>
               <div className="flex gap-3">
                 <ButtonComp
                   text="Candidate"
@@ -51,13 +55,16 @@ const SignUpPage = () => {
 
             <p className="text-sm text-gray-600">
               Already have an account?
-              <Link href="/sign-in" className="font-semibold text-indigo-600 hover:underline">
+              <Link
+                href="/sign-in"
+                className="font-semibold text-indigo-600 hover:underline"
+              >
                 Sign in
               </Link>
             </p>
           </div>
 
-          <div className="p-10 flex items-center justify-center bg-gray-50">
+          <div className="p-10 flex items-center justify-center">
             <AnimatePresence mode="wait">
               <motion.div
                 key={role}
@@ -79,7 +86,6 @@ const SignUpPage = () => {
       </motion.div>
     </div>
   );
-
 };
 
 export default SignUpPage;
