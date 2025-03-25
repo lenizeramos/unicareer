@@ -1,8 +1,8 @@
 "use client";
 import { SignedIn, SignedOut, useClerk, UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { useState } from 'react';
-import ButtonComp from './ButtonComp';
+import { useState } from "react";
+import ButtonComp from "./ButtonComp";
 import Logo from "./Logo";
 import Link from "next/link";
 
@@ -30,8 +30,8 @@ const Navbar = () => {
   return (
     <nav className="w-full flex justify-between items-center bg-[#202430] px-5 py-2.5 relative">
       <div>
-        <Link href={'/'}>
-          <Logo isBgDark={false} />
+        <Link href={"/"}>
+          <Logo />
         </Link>
       </div>
 
@@ -58,7 +58,7 @@ const Navbar = () => {
           >
             Sign In
           </button>
-          <ButtonComp text="Sign Up" IsWhite={false} width="w-[120px]" />
+          <ButtonComp text="Sign Up" IsWhite={false} width="w-[120px]" onClick={() => router.push("/sign-up")}/>
         </SignedOut>
         <SignedIn>
           <button
@@ -119,7 +119,12 @@ const Navbar = () => {
             >
               Sign In
             </button>
-            <ButtonComp text="Sign Up" IsWhite={false} width="w-[120px]" />
+            <ButtonComp
+              text="Sign Up"
+              IsWhite={false}
+              width="w-[120px]"
+              onClick={() => router.push("/sign-up")}
+            />
           </SignedOut>
           <SignedIn>
             <button

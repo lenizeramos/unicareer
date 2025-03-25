@@ -1,15 +1,13 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { getRole } from "@/utils/roles";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
-
-    console.log("get-role");
     const role = await getRole();
 
-    console.log(role);
-
-    if (!role) return NextResponse.redirect(new URL("/sign-in", req.url));
+    if (!role) {
+      return NextResponse.json(null);
+    }
 
     return NextResponse.json(role);
   } catch (error) {

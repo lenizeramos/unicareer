@@ -105,13 +105,21 @@ export interface ICompanyHeader {
 }
 
 export interface IJob {
-  roles: string;
+  /* roles: string;
   status: string;
   datePosted: string;
   dueDate: string;
   jobType: string;
   applicants: string;
-  needs: string;
+  needs: string; */
+  title: string;
+  status: string;
+  location: string;
+  level: string;
+  categories: string;
+  createdAt: string;
+  closingDate: string;
+  type: string;
 }
 
 export interface IJobList {
@@ -130,4 +138,93 @@ export interface JobListProps extends IJobList {
 export interface IBadge {
   status: string;
   color: string;
+}
+
+export interface IJobFormProps {
+  onClick: (job: {
+    title: string;
+    closingDate: Date | null;
+    level: string;
+    type: string;
+    salary: number[];
+    categories: string;
+    skills: string[];
+    description: string;
+    location: string;
+    responsibilities: string;
+    whoYouAre: string;
+    niceToHave: string;
+    benefits: string[];
+  }) => void;
+}
+
+export interface ICompanyFormProps {
+  onSubmit: (company: { name: string; logo: File | null; bio: string }) => void;
+}
+
+export interface InputFieldProps {
+  label: string;
+  small?: string;
+  id: string;
+  name: string;
+  value: string | number | null;
+  minDate?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  type?: string;
+  required?: boolean;
+  maxLength?: number;
+  className?: string;
+  classNameDivContainer?: string;
+  classNameLabel?: string;
+  classNameDivLgWidth?: string;
+  classNameField?: string;
+}
+
+export interface ISalaryRangeSliderProps {
+  label: string;
+  small: string;
+  id: string;
+  min: number;
+  max: number;
+  step: number;
+  initialValues: number[];
+  onChange: (values: number[]) => void;
+  required?: boolean;
+  classNameDivContainer?: string;
+  classNameLabel?: string;
+  classNameDivLgWidth?: string;
+}
+
+export interface ISelectFieldProps {
+  label: string;
+  small: string;
+  id: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  options: { value: string; label: string }[];
+  required?: boolean;
+  className?: string;
+  classNameDivContainer?: string;
+  classNameLabel?: string;
+  classNameDivLgWidth?: string;
+  classNameField?: string;
+}
+export interface ITextAreaFieldProps {
+  label: string;
+  small: string;
+  id: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  placeholder?: string;
+  required?: boolean;
+  maxLength?: number;
+  rows?: number;
+  className?: string;
+  classNameDivContainer?: string;
+  classNameLabel?: string;
+  classNameDivLgWidth?: string;
+  classNameField?: string;
 }

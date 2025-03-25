@@ -2,8 +2,31 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import CandidateForm from "../components/CandidateForm";
-import CompanyForm from "../components/CompanyForm";
+import CandidateForm from "@/app/components/CandidateForm";
+import CompanyForm from "@/app/components/CompanyForm";
+
+/* const awaitNewClerkRoleToSyncWithApp = async () => {
+  let userRole = null;
+
+  const sleep = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+
+  let attempts = 0;
+  const maxAttempts = 20;
+
+  while (!userRole && attempts < maxAttempts) {
+    if (attempts > 0) {
+      //console.log("SLEEPING");
+      await sleep(5000);
+    }
+    const roleResponse = await fetch("/api/get-role");
+    if (!roleResponse.ok) {
+      throw new Error(`Failed to get role: ${roleResponse.statusText}`);
+    }
+    userRole = await roleResponse.json();
+    attempts++;
+  }
+}; */
 
 export default function RegisterPage() {
   const searchParams = useSearchParams();
@@ -61,8 +84,9 @@ export default function RegisterPage() {
           throw new Error(`Registration error: ${response.statusText}`);
         }
 
-        await response.json();
-        router.push("/");
+        //await awaitNewClerkRoleToSyncWithApp();
+
+        router.push("dashboard/candidate");
       } catch (error) {
         console.error("Error registering the user:", error);
       }
@@ -86,8 +110,8 @@ export default function RegisterPage() {
           throw new Error(`Registration error: ${response}`);
         }
 
-        await response.json();
-        router.push("/");
+        //await awaitNewClerkRoleToSyncWithApp();
+        router.push("dashboard/company");
       } catch (error) {
         console.error("Error registering the user:", error);
       }

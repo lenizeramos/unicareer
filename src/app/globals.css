@@ -1,15 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #4640DE;
+  --color-primary: #4640de;
 }
 
 body {
-  font-family: Inter, sans-serif;  
+  font-family: Inter, sans-serif;
   background-color: var(--body-background);
 }
-
-
 
 .text-focus-color {
   color: var(--text-focus);
@@ -78,14 +76,14 @@ body {
   --font-monomakh: "Monomakh", sans-serif;
   --color-landingDark: #202430;
   --color-span: #26a4ff;
-  --color-primary: #4640DE;
-  --color-menuItem: #7C8493;
-  --color-menuItemFocus: #E9EBFD;
-  --color-textTitle: #25324B;
-  --color-lightBackground: #F8F8FD;
-  --color-liveColor: #56CDAD;
-  --color-closedColor: #FF6550;
-  --color-freelanceColor: #FFB836;
+  --color-primary: #4640de;
+  --color-menuItem: #7c8493;
+  --color-menuItemFocus: #e9ebfd;
+  --color-textTitle: #25324b;
+  --color-lightBackground: #f8f8fd;
+  --color-openColor: #56cdad;
+  --color-closedColor: #ff6550;
+  --color-freelanceColor: #ffb836;
   --breakpoint-xs: 30rem;
   --color-borders: #d2d6ff;
 }
@@ -109,21 +107,6 @@ body {
   color: transparent;
 }
 
-.logo-gradient-dark {
-  background-image: linear-gradient(
-    to right,
-    #019ee2,
-    #81358a,
-    #e20714,
-    #f8b133,
-    #95c022,
-    #01a099
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
 .border-live {
   border-color: var(--color-liveColor);
 }
@@ -140,8 +123,8 @@ body {
   border-color: var(--color-freelanceColor);
 }
 
-.text-liveColor {
-  color: var(--color-liveColor);
+.text-openColor {
+  color: var(--color-openColor);
 }
 
 .text-closedColor {
@@ -154,4 +137,60 @@ body {
 
 .text-freelanceColor {
   color: var(--color-freelanceColor);
+}
+
+/*Skills and benefit chips - PrimeReact*/
+.p-chips-multiple-container {
+  width: 100%;
+}
+
+/* SalaryRange - React-Range */
+.range-track {
+  height: 6px;
+  width: 100%;
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.range-thumb {
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 2px solid #007bff;
+  border-radius: 50%;
+  box-shadow: 0px 2px 6px #aaa;
+}
+
+/*PrimeReact - JobForm*/
+.p-stepper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .p-stepper {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .p-stepper-action {
+    flex-direction: column;
+  }
+
+  .p-stepper-title {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+  .p-stepper-content {
+    width: 100%;
+    margin: auto;
+  }
+
+  .p-stepper-panels {
+    padding: 0;
+  }
+
+  .p-stepper-separator {
+    display: none;
+  }
 }

@@ -1,10 +1,7 @@
 import React, { useState } from "react";
+import { ICompanyFormProps } from "@/app/Types/index";
 
-interface CompanyFormProps {
-  onSubmit: (company: { name: string; logo: File | null; bio: string }) => void;
-}
-
-const CompanyForm: React.FC<CompanyFormProps> = ({ onSubmit }) => {
+const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
   const [name, setName] = useState("");
   const [logo, setLogo] = useState<File | null>(null);
   const [bio, setBio] = useState("");
