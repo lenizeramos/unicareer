@@ -50,7 +50,7 @@ export default function JobDescription() {
                   >
                     {job.company}
                     <span className="bg-gray-600 rounded-full w-1 h-1" />
-                    {job.place}
+                    {job.location}
                     <span className="bg-gray-600 rounded-full w-1 h-1" />
                     {job.type}
                   </p>
@@ -105,7 +105,7 @@ export default function JobDescription() {
             <div>
               <h2 className={`${styles.JobDescriptionTitle}`}>Nice To Have</h2>
               <ul>
-                {job.plus.map((item, index) => {
+                {job.niceToHave.map((item, index) => {
                   return (
                     <li
                       key={index}
@@ -129,7 +129,7 @@ export default function JobDescription() {
               <div className="flex justify-between">
                 <p className={`${styles.JobDescriptionText}`}>Apply Before</p>
                 <p className={`${styles.JobDescriptionText} font-bold`}>
-                  {job.before}
+                  {job.closingDate}
                 </p>
               </div>
               <div className="flex justify-between">
@@ -147,7 +147,7 @@ export default function JobDescription() {
               <div className="flex justify-between">
                 <p className={`${styles.JobDescriptionText}`}>Salary</p>
                 <p className={`${styles.JobDescriptionText} font-bold`}>
-                  {job.salary}
+                  {job.salaryMin} K - {job.salaryMax} K CAD
                 </p>
               </div>
             </div>
@@ -155,8 +155,8 @@ export default function JobDescription() {
             <div className="lg:border-y-[1px] border-gray-200 py-15">
               <h2 className={`${styles.JobDescriptionTitle}`}>Categories</h2>
               <div className="flex gap-2">
-                {Array.isArray(job.category)
-                  ? job.category.map((item, index) => {
+                {Array.isArray(job.categories)
+                  ? job.categories.map((item, index) => {
                       const stylesTag = jobsCategories.find(
                         (categ) => categ.title === item
                       );
@@ -169,21 +169,21 @@ export default function JobDescription() {
                         />
                       );
                     })
-                  : job.category && (
+                  : job.categories && (
                       <TagComp
                         bgColor={`${
                           jobsCategories.find(
-                            (style) => style.title === job.category
+                            (style) => style.title === job.categories
                           )?.bgColor
                         }`}
                         textColor={`${
                           jobsCategories.find(
-                            (style) => style.title === job.category
+                            (style) => style.title === job.categories
                           )?.textColor
                         }`}
                         text={`${
                           jobsCategories.find(
-                            (style) => style.title === job.category
+                            (style) => style.title === job.categories
                           )?.title
                         }`}
                       />

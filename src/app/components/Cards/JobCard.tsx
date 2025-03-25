@@ -11,7 +11,7 @@ const JobCard = ({
   subtitle,
   text,
   alt,
-  category,
+  categories,
   company,
   type,
   cardId,
@@ -62,12 +62,12 @@ const JobCard = ({
             <TagComp
               bgColor="bg-[#eefaf7]"
               textColor="text-[#69d3b6]"
-              text={`#tag1 ${category}`}
+              text={`#tag1 ${categories}`}
             />
             <TagComp
               bgColor="bg-[#e5e7eb]"
               textColor="text-[#4a5565]"
-              text={`#tag2 ${category}`}
+              text={`#tag2 ${categories}`}
             />
           </div>
         </div>

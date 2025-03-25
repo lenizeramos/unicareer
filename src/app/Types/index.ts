@@ -30,29 +30,33 @@ interface ICardId extends Omit<ICards, "cardId"> {
 }
 
 interface ICards {
-  id?: string;
   icon?: React.ElementType;
   subicons?: React.ElementType;
+  cardId: string;
+  logo?: string;
+  id?: string;
   title?: string;
+  description?: string;
+  location?: string;
+  skills?: string[];
+  type?: string;
+  categories?: string[] | string;
+  salaryMin?: number;
+  salaryMax?: number;
+  responsibilities?: string[];
+  whoYouAre?: string[];
+  niceToHave?: string[];
+  benefits?: { icon: React.ElementType; title: string; text: string }[];
+  company?: string;
+  closingDate?: string;
+  createdAt?: string;
+  applicantsCount?: number;
   subtitle?: string;
   text?: string;
-  logo?: string;
   alt?: string;
-  category?: string[] | string;
-  company?: string;
-  type?: string;
-  date?: string;
   progress?: string;
   total?: number;
-  cardId: string;
-  place?:string;
-  description?:string;
-  responsibilities?:string[];
-  whoYouAre?:string[];
-  plus?:string[];
-  before?:string;
-  createdAt?:string;
-  salary?:string;
+  date?: string;
 }
 
 interface IProgressBarProps {
@@ -72,24 +76,6 @@ interface IFilterJobs {
   title: string;
 }
 
-interface IJobDescription {
-  logo: string;
-  position: string;
-  company: string;
-  place: string;
-  type: string;
-  description: string[];
-  whoYouAre: string[];
-  plus: string[];
-  applyBefore: string;
-  createdAt: string;
-  jobType: string;
-  salary: string;
-  category: string[];
-  skills: string[];
-  perks: { icon: React.ElementType; title: string; text: string }[];
-}
-
 export type {
   IButtton,
   ILogo,
@@ -98,7 +84,6 @@ export type {
   IProgressBarProps,
   ITagComp,
   IFilterJobs,
-  IJobDescription,
 };
 
 export interface IDashboardNavbar {

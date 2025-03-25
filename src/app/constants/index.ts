@@ -138,7 +138,7 @@ const jobPosted = [
     id: "1",
     title: "Social Media Assistant",
     company: "Stripe",
-    place: "Paris, France",
+    location: "Paris, France",
     type: "Full-Time",
     description:
       "Stripe is looking for Social Media Marketing expert to help manage our online networks. You will be responsible for monitoring our social media channels, creating content, finding effective ways to engage the community and incentivize others to engage on our channels.",
@@ -156,21 +156,22 @@ const jobPosted = [
       "You're detail-oriented and creative",
       "You're a growth marketer and know how to run campaigns",
     ],
-    plus: [
+    niceToHave: [
       "Fluent in English",
       "Project management skills",
       "Copy editing skills",
     ],
-    before: "July 31, 2021",
+    closingDate: "July 31, 2021",
     createdAt: "July 1, 2021",
-    salary: "$75k-$85k USD",
-    category: ["Marketing", "Design"],
+    salaryMin: 75,
+    salaryMax: 85,
+    categories: ["Marketing", "Design"],
   },
   {
     id: "2",
     title: "Brand Designer",
     company: "Dropbox",
-    place: "San Fransisco, USA",
+    location: "San Fransisco, USA",
     type: "Part-Time",
     description:
       "Dropbox is looking for Social Media Marketing expert to help manage our online networks. You will be responsible for monitoring our social media channels, creating content, finding effective ways to engage the community and incentivize others to engage on our channels.",
@@ -188,15 +189,16 @@ const jobPosted = [
       "You're detail-oriented and creative",
       "You're a growth marketer and know how to run campaigns",
     ],
-    plus: [
+    niceToHave: [
       "Fluent in English",
       "Project management skills",
       "Copy editing skills",
     ],
-    before: "July 31, 2021",
+    closingDate: "July 31, 2021",
     createdAt: "July 1, 2021",
-    salary: "$75k-$85k USD",
-    category: "Marketing",
+    salaryMin: 75,
+    salaryMax: 85,
+    categories: "Marketing",
   },
 ];
 export { jobsCategories, perksData, jobsTypes, salaryRange, jobPosted };

@@ -11,11 +11,11 @@ const JobResumeCards = ({
   id,
   logo,
   title,
-  category,
+  categories,
   company,
   type,
   cardId,
-  place,
+  location,
 }: ICards) => {
   return (
     <>
@@ -42,7 +42,7 @@ const JobResumeCards = ({
               >
                 {company}
                 <div className="w-1 h-1 rounded-full bg-gray-400" />
-                {place}
+                {location}
               </h4>
             </div>
             <div className="flex gap-3">
@@ -53,8 +53,8 @@ const JobResumeCards = ({
               />
               <div className="w-[1px] bg-gray-300 rounded-full" />
               <div className="flex gap-2">
-                {Array.isArray(category)
-                  ? category.map((item, index) => {
+                {Array.isArray(categories)
+                  ? categories.map((item, index) => {
                       const stylesTag = jobsCategories.find(
                         (categ) => categ.title === item
                       );
@@ -67,21 +67,21 @@ const JobResumeCards = ({
                         />
                       );
                     })
-                  : category && (
+                  : categories && (
                       <TagComp
                         bgColor={`${
                           jobsCategories.find(
-                            (style) => style.title === category
+                            (style) => style.title === categories
                           )?.bgColor
                         }`}
                         textColor={`${
                           jobsCategories.find(
-                            (style) => style.title === category
+                            (style) => style.title === categories
                           )?.textColor
                         }`}
                         text={`${
                           jobsCategories.find(
-                            (style) => style.title === category
+                            (style) => style.title === categories
                           )?.title
                         }`}
                       />

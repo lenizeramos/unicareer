@@ -12,6 +12,7 @@ const RecentCard = ({
   progress,
   company,
   cardId,
+  createdAt
 }: ICards) => {
   return (
     <>
@@ -63,7 +64,7 @@ const RecentCard = ({
                   Date Posted
                 </h4>
                 <p className={`${styles.sectionSubText} text-gray-400`}>
-                  {date ?? "24 July 2021"}
+                  {createdAt ?? "24 July 2021"}
                 </p>
               </div>
             )}
@@ -96,7 +97,7 @@ const RecentCard = ({
               Date Posted
             </h4>
             <p className={`${styles.sectionSubText} text-gray-400`}>
-              {date ?? "24 July 2021"}
+              {createdAt ?? "24 July 2021"}
             </p>
           </div>
         )}
