@@ -1,8 +1,19 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { FaUser, FaEnvelope, FaPhone, FaLinkedin, FaSearch } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaPhone, FaLinkedin, FaSearch, FaArrowLeft, FaArrowRight, FaFilter } from 'react-icons/fa';
 import ButtonComp from './ButtonComp';
+import Badge from "./Badge";
+
+interface ApplicantsListProps {
+  applicants: Applicant[];
+  columns: { [key: string]: string };
+  itemsPerPage: number;
+  onItemsPerPageChange: (value: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+}
 
 interface Applicant {
   id: string;
@@ -16,225 +27,329 @@ interface Applicant {
   resume?: string;
 }
 
-const ApplicantsList = () => {
+const MobileApplicantCard = ({ applicant, getStatusColor }: { applicant: Applicant, getStatusColor: (status: Applicant['status']) => string }) => (
+  <div className="bg-white p-3 border-b">
+    <div className="flex items-center gap-2">
+      <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
+        <FaUser className="text-gray-500 text-xs" />
+      </div>
+      <div>
+        <h3 className="text-sm font-semibold">{applicant.name}</h3>
+        <p className="text-xs text-gray-500">{applicant.position}</p>
+      </div>
+    </div>
+    <div className="mt-2 space-y-1">
+      <div className="flex items-center gap-1 text-xs text-gray-500">
+        <FaEnvelope className="text-[10px]" />
+        <span>{applicant.email}</span>
+      </div>
+      <div className="flex items-center gap-1 text-xs text-gray-500">
+        <span>Applied: {new Date(applicant.appliedDate).toLocaleDateString()}</span>
+      </div>
+      <div className="flex justify-between items-center mt-2">
+        <Badge status={applicant.status} color={getStatusColor(applicant.status)} />
+        <div className="flex items-center gap-2">
+          <ButtonComp 
+            text={<span className="text-xs">View Profile</span>} 
+            IsWhite={true} 
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const ApplicantsList = ({ 
+  applicants, 
+  columns, 
+  itemsPerPage, 
+  onItemsPerPageChange, 
+  currentPage, 
+  onPageChange,
+  totalItems 
+}: ApplicantsListProps) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterRole, setFilterRole] = useState('');
-  const [sortBy, setSortBy] = useState<'name' | 'date' | 'position'>('date');
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [showFilters, setShowFilters] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<Applicant['status'] | 'all'>('all');
+  const [positionFilter, setPositionFilter] = useState('all');
+  const [emailFilter, setEmailFilter] = useState('');
 
-  const applicants: Applicant[] = [
-    {
-      id: '1',
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phone: '+1 234 567 890',
-      position: 'Senior Frontend Developer',
-      appliedDate: '2024-03-15',
-      status: 'pending',
-      linkedIn: 'https://linkedin.com/in/johndoe'
-    },
-    {
-      id: '2',
-      name: 'Jane Smith',
-      email: 'jane.smith@example.com',
-      phone: '+1 234 567 891',
-      position: 'Backend Engineer',
-      appliedDate: '2024-03-14',
-      status: 'interviewed',
-      linkedIn: 'https://linkedin.com/in/janesmith'
-    }
-  ];
+  const positions = [...new Set(applicants.map(a => a.position))];
+  
+  const filteredApplicants = applicants.filter(applicant => {
+    const matchesName = searchTerm === '' || 
+      applicant.name.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesEmail = emailFilter === '' || 
+      applicant.email.toLowerCase().includes(emailFilter.toLowerCase());
 
-  const filteredAndSortedApplicants = useMemo(() => {
-    return applicants
-      .filter(applicant => {
-        const matchesSearch = searchTerm === '' || 
-          applicant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          applicant.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          applicant.position.toLowerCase().includes(searchTerm.toLowerCase());
-        
-        const matchesRole = filterRole === '' || 
-          applicant.position.toLowerCase().includes(filterRole.toLowerCase());
+    const matchesStatus = statusFilter === 'all' || 
+      applicant.status === statusFilter;
 
-        return matchesSearch && matchesRole;
-      })
-      .sort((a, b) => {
-        if (sortBy === 'date') {
-          return sortOrder === 'asc' 
-            ? new Date(a.appliedDate).getTime() - new Date(b.appliedDate).getTime()
-            : new Date(b.appliedDate).getTime() - new Date(a.appliedDate).getTime();
-        }
-        if (sortBy === 'name') {
-          return sortOrder === 'asc'
-            ? a.name.localeCompare(b.name)
-            : b.name.localeCompare(a.name);
-        }
-        return sortOrder === 'asc'
-          ? a.position.localeCompare(b.position)
-          : b.position.localeCompare(a.position);
-      });
-  }, [applicants, searchTerm, filterRole, sortBy, sortOrder]);
+    const matchesPosition = positionFilter === 'all' || 
+      applicant.position === positionFilter;
 
-  const uniquePositions = [...new Set(applicants.map(a => a.position))];
+    return matchesName && matchesEmail && matchesStatus && matchesPosition;
+  });
+
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const getStatusColor = (status: Applicant['status']) => {
     const colors = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      reviewed: 'bg-blue-100 text-blue-800',
-      interviewed: 'bg-purple-100 text-purple-800',
-      rejected: 'bg-red-100 text-red-800',
-      accepted: 'bg-green-100 text-green-800'
+      pending: 'bg-yellow-50 text-yellow-400',
+      reviewed: 'bg-sky-50 text-sky-600',
+      interviewed: 'bg-indigo-50 text-indigo-600',
+      rejected: 'bg-rose-50 text-rose-600',
+      accepted: 'bg-emerald-50 text-emerald-600'
     };
     return colors[status];
   };
 
   return (
-    <div className="bg-white rounded-lg shadow">
-      <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">
-            Job Applicants 
-            <span className="ml-2 text-sm font-normal text-gray-500">
-              ({filteredAndSortedApplicants.length} total)
-            </span>
-          </h2>
-        </div>
-
-        {/* Filtros y Búsqueda */}
-        <div className="mb-6 space-y-4">
-          <div className="flex flex-wrap gap-4">
-            {/* Barra de búsqueda */}
-            <div className="flex-1 min-w-[200px]">
-              <div className="relative">
-                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search applicants..."
-                  className="pl-10 p-2 border border-gray-300 rounded-lg w-full"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-            </div>
-
-            {/* Filtro por rol */}
-            <select
-              className="p-2 border border-gray-300 rounded-lg"
-              value={filterRole}
-              onChange={(e) => setFilterRole(e.target.value)}
+    <div className="mt-2 md:mt-8 border-light">
+      <div className="p-3 md:p-8 space-y-3 border-b">
+        <h2 className="text-base md:text-xl text-title-color font-bold">Applicants List</h2>
+        <div className="flex flex-col md:flex-row gap-2">
+          <div className="relative flex-1">
+            <FaSearch className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-xs" />
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-7 py-1.5 px-2 text-xs border border-primary rounded w-full focus:outline-none"
+            />
+          </div>
+          <div className="relative w-full md:w-32">
+            <button 
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center justify-center gap-1 text-xs border border-primary rounded py-1.5 px-2 w-full"
             >
-              <option value="">All Positions</option>
-              {uniquePositions.map(position => (
-                <option key={position} value={position}>{position}</option>
-              ))}
-            </select>
-
-            {/* Ordenamiento */}
-            <select
-              className="p-2 border border-gray-300 rounded-lg"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'name' | 'date' | 'position')}
-            >
-              <option value="date">Sort by Date</option>
-              <option value="name">Sort by Name</option>
-              <option value="position">Sort by Position</option>
-            </select>
-
-            <button
-              className="p-2 border border-gray-300 rounded-lg"
-              onClick={() => setSortOrder(current => current === 'asc' ? 'desc' : 'asc')}
-            >
-              {sortOrder === 'asc' ? '↑' : '↓'}
+              <FaFilter size={10} />
+              <p>Filters</p>
             </button>
+
+            {showFilters && (
+              <div className="absolute right-0 mt-2 w-full sm:w-64 bg-white border border-primary rounded-lg shadow-lg p-4 z-10">
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Filter by Name</label>
+                    <input
+                      type="text"
+                      placeholder="Search by name..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full p-1.5 text-xs border border-primary rounded"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Filter by Email</label>
+                    <input
+                      type="email"
+                      placeholder="Search by email..."
+                      value={emailFilter}
+                      onChange={(e) => setEmailFilter(e.target.value)}
+                      className="w-full p-1.5 text-xs border border-primary rounded"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Status</label>
+                    <select
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value as Applicant['status'] | 'all')}
+                      className="w-full p-1.5 text-xs border border-primary rounded"
+                    >
+                      <option value="all">All Status</option>
+                      <option value="pending">Pending</option>
+                      <option value="reviewed">Reviewed</option>
+                      <option value="interviewed">Interviewed</option>
+                      <option value="rejected">Rejected</option>
+                      <option value="accepted">Accepted</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Position</label>
+                    <select
+                      value={positionFilter}
+                      onChange={(e) => setPositionFilter(e.target.value)}
+                      className="w-full p-1.5 text-xs border border-primary rounded"
+                    >
+                      <option value="all">All Positions</option>
+                      {positions.map(position => (
+                        <option key={position} value={position}>{position}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="flex justify-end pt-2">
+                    <ButtonComp
+                      text="Clear Filters"
+                      IsWhite={true}
+                      onClick={() => {
+                        setSearchTerm('');
+                        setEmailFilter('');
+                        setStatusFilter('all');
+                        setPositionFilter('all');
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
+      </div>
 
-        {/* Tabla existente */}
-        <div className="overflow-x-auto">
-          <table className="min-w-full">
-            <thead className="bg-gray-50">
+      <div className="block md:hidden">
+        <div className="divide-y divide-gray-200">
+          {filteredApplicants.map((applicant) => (
+            <MobileApplicantCard 
+              key={applicant.id} 
+              applicant={applicant} 
+              getStatusColor={getStatusColor}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className="hidden md:block">
+        <div className="overflow-x-scroll max-w-[360px] md:max-w-full md:w-full text-center">
+          <table className="w-full pe-8 ps-8">
+            <thead className="border-bottom-light p-8">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Applicant
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Position
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Applied Date
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
+                {Object.values(columns).map((column, index) => (
+                  <th key={index} className="text-not-focus-color p-8">
+                    {column}
+                  </th>
+                ))}
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredAndSortedApplicants.map((applicant) => (
+            <tbody>
+              {filteredApplicants.map((applicant) => (
                 <tr key={applicant.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="p-4 border-bottom-light">
                     <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                          <FaUser className="text-gray-500" />
-                        </div>
+                      <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                        <FaUser className="text-gray-500" />
                       </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">{applicant.name}</div>
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                          <FaEnvelope className="text-xs" />
-                          <span>{applicant.email}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                          <FaPhone className="text-xs" />
-                          <span>{applicant.phone}</span>
-                        </div>
+                      <div className="ml-4 text-left">
+                        <div className="text-lg font-[600]">{applicant.name}</div>
+                        <div className="text-sm text-gray-500">{applicant.email}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{applicant.position}</div>
+                  <td className="p-4 border-bottom-light">
+                    <div className="text-lg font-[500]">{applicant.position}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">
-                      {new Date(applicant.appliedDate).toLocaleDateString()}
-                    </div>
+                  <td className="p-4 border-bottom-light">
+                    <div className="text-lg font-[500]">{new Date(applicant.appliedDate).toLocaleDateString()}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(applicant.status)}`}>
-                      {applicant.status.charAt(0).toUpperCase() + applicant.status.slice(1)}
-                    </span>
+                  <td className="p-4 border-bottom-light">
+                    <Badge status={applicant.status} color={getStatusColor(applicant.status)} />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex gap-2">
-                      <ButtonComp
-                        text="View Profile"
-                        IsWhite={true}
-                      />
-                      {applicant.linkedIn && (
-                        <a 
-                          href={applicant.linkedIn}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-900"
-                        >
-                          <FaLinkedin className="text-xl" />
-                        </a>
-                      )}
+                  <td className="p-4 border-bottom-light">
+                    <div className="flex justify-center gap-2">
+                      <ButtonComp text="View Profile" IsWhite={true} />
                     </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
 
-          {filteredAndSortedApplicants.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
-              No applicants found matching your criteria
-            </div>
-          )}
+      {filteredApplicants.length === 0 && (
+        <div className="text-center py-4 text-xs md:text-base text-gray-500">
+          No applicants found matching your search
+        </div>
+      )}
+
+      <div className="flex flex-col gap-3 p-3 border-t md:hidden">
+        <div className="flex items-center justify-center gap-1 text-xs">
+          <span className="text-gray-500">View</span>
+          <select 
+            className="border rounded py-1 px-1.5"
+            value={itemsPerPage}
+            onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+          </select>
+          <span className="text-gray-500">per page</span>
+        </div>
+
+        <div className="flex justify-center items-center gap-1">
+          <button 
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="p-1 rounded disabled:opacity-50"
+          >
+            <FaArrowLeft size={12} />
+          </button>
+          <span className="text-xs">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button 
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="p-1 rounded disabled:opacity-50"
+          >
+            <FaArrowRight size={12} />
+          </button>
+        </div>
+      </div>
+
+      <div className="hidden md:flex justify-between items-center p-8 border-t">
+        <div className="flex items-center gap-2">
+          <span className="text-lg text-not-focus-color">View</span>
+          <select 
+            className="border-light rounded p-2"
+            value={itemsPerPage}
+            onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+          </select>
+          <span className="text-lg text-not-focus-color">Applicants per page</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="p-2 rounded disabled:opacity-50"
+          >
+            <FaArrowLeft />
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => onPageChange(page)}
+              className={`w-8 h-8 rounded ${
+                currentPage === page 
+                ? 'bg-primary text-white' 
+                : ''
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+
+          <button 
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="p-2 rounded disabled:opacity-50"
+          >
+            <FaArrowRight />
+          </button>
         </div>
       </div>
     </div>
