@@ -11,7 +11,6 @@ interface IButtton {
 interface ILogo {
   logoSize?: number;
   fontSize?: string;
-  isBgDark: boolean;
 }
 
 interface ICardId extends Omit<ICards, "cardId"> {
