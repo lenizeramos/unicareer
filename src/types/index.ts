@@ -11,3 +11,11 @@ export interface FileUploadProps {
     maxSizeMB?: number;
     userId: string;
   }
+
+  export interface Payment {
+    id: string;
+    amount: number;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+  }

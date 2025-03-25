@@ -140,6 +140,26 @@ export interface JobListProps extends IJobList {
   totalItems: number;
 }
 
+export interface IPayment {
+  amount: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IPaymentsList {
+  payments: IPayment[];
+  columns: { [key: string]: string };
+}
+
+export interface PaymentsListProps extends IPaymentsList {
+  itemsPerPage: number;
+  onItemsPerPageChange: (value: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+}
+
 export interface IBadge {
   status: string;
   color: string;

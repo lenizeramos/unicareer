@@ -14,6 +14,7 @@ import { CgProfile } from "react-icons/cg";
 import { FaRegBuilding } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import { CiViewList } from "react-icons/ci";
+import { CiDollar } from "react-icons/ci";
 import Image from 'next/image';
 import { useUser, useClerk } from "@clerk/nextjs";
 import { CiLogout } from "react-icons/ci";
@@ -27,6 +28,7 @@ const iconComponents = {
     building: FaRegBuilding,
     users: FiUsers,
     list: CiViewList,
+    dollar: CiDollar,
 };
 
 export default function Sidebar({ userType, isOpen = true, onClose }: SidebarProps) {
