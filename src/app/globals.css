@@ -211,7 +211,15 @@ body {
 .cl-footer {
   display: none;
 }
+/*Skills - forms*/
+.p-chips:not(.p-disabled):hover .p-chips-multiple-container {
+  border-color: lightgray;
+}
+.p-chips:not(.p-disabled).p-focus .p-chips-multiple-container {
+  box-shadow: 0 0 0 0.05rem var(--color-primary);
+  border-color: var(--color-primary);
+}
 
-/* .cl-internal-4x6jej{
-  display: none;
-} */
+.p-chips .p-chips-multiple-container .p-chips-token {
+  color: var(--color-menuItem);
+}

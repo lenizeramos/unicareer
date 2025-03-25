@@ -9,9 +9,9 @@ const TextAreaField: React.FC<ITextAreaFieldProps> = ({
   value,
   onChange,
   placeholder,
-  required = false,
+  required,
   maxLength,
-  rows = 4,
+  rows,
   className = "",
   classNameDivContainer = "",
   classNameLabel = "",
@@ -21,7 +21,7 @@ const TextAreaField: React.FC<ITextAreaFieldProps> = ({
   return (
     <div className={`${classNameDivContainer}`}>
       <label htmlFor={id} className={`${classNameLabel}`}>
-        {label} {required && <span className="text-red-500">*</span>}{" "}
+        {label} {required && <span className="text-red-500">*</span>}
         <small className="block text-xs text-gray-500">{small}</small>
       </label>
       <div className={`${classNameDivLgWidth}`}>
@@ -34,6 +34,7 @@ const TextAreaField: React.FC<ITextAreaFieldProps> = ({
           maxLength={maxLength}
           rows={rows}
           className={`${classNameField} ${className}`}
+          required={required}
         />
         {maxLength && (
           <p className="text-xs text-gray-500 mt-1 text-right">

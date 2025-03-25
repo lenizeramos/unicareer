@@ -171,8 +171,8 @@ export interface InputFieldProps {
   label: string;
   small?: string;
   id: string;
-  name: string;
-  value: string | number | null;
+  name?: string;
+  value?: string | number | null;
   minDate?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
@@ -184,11 +184,14 @@ export interface InputFieldProps {
   classNameLabel?: string;
   classNameDivLgWidth?: string;
   classNameField?: string;
+  accept?: string;
+  fileLabel?: string;
+  filePreview?: React.ReactNode;
 }
 
 export interface ISalaryRangeSliderProps {
   label: string;
-  small: string;
+  small?: string;
   id: string;
   min: number;
   max: number;
@@ -203,7 +206,7 @@ export interface ISalaryRangeSliderProps {
 
 export interface ISelectFieldProps {
   label: string;
-  small: string;
+  small?: string;
   id: string;
   name: string;
   value: string;
@@ -218,9 +221,9 @@ export interface ISelectFieldProps {
 }
 export interface ITextAreaFieldProps {
   label: string;
-  small: string;
+  small?: string;
   id: string;
-  name: string;
+  name?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;

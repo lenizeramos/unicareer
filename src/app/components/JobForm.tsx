@@ -193,7 +193,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 </small>
               </label>
               <Chips
-                className="lg:w-4/5 rounded-md"
+                className="lg:w-4/5 text-gray-700 rounded-md "
                 itemTemplate={(skill) => (
                   <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
                     {skill}
@@ -318,7 +318,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               </small>
             </label>
             <Chips
-              className="lg:w-4/5 rounded-md"
+              className="lg:w-4/5 text-gray-700  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               itemTemplate={(benefits) => (
                 <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
                   {benefits}
