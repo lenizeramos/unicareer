@@ -2,10 +2,10 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import CandidateForm from "../components/CandidateForm";
-import CompanyForm from "../components/CompanyForm";
 import { useUser } from "@clerk/nextjs";
 import { waitForUserRole } from "@/Lib/client/roleService";
+import CandidateForm from "@/app/components/CandidateForm";
+import CompanyForm from "@/app/components/CompanyForm";
 
 /* const awaitNewClerkRoleToSyncWithApp = async () => {
   let userRole = null;
