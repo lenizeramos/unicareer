@@ -122,10 +122,6 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-2xl p-4">
-        <h1 className="text-2xl font-semibold text-center mb-6">
-          Registration Form
-        </h1>
-
         {formType === "candidate" && (
           <CandidateForm onSubmit={handleCandidateFormSubmit} />
         )}
