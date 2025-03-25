@@ -10,7 +10,6 @@ import TextAreaField from "./TextAreaField";
 import SelectField from "./SelectField";
 import SalaryRangeSlider from "./SalaryRangeSlider";
 
-import "primereact/resources/themes/lara-light-cyan/theme.css";
 
 const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const stepperRef = useRef(null);
@@ -194,7 +193,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 </small>
               </label>
               <Chips
-                className="lg:w-4/5 text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="lg:w-4/5 rounded-md"
                 itemTemplate={(skill) => (
                   <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
                     {skill}
@@ -319,7 +318,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               </small>
             </label>
             <Chips
-              className="lg:w-4/5 text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="lg:w-4/5 rounded-md"
               itemTemplate={(benefits) => (
                 <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
                   {benefits}
