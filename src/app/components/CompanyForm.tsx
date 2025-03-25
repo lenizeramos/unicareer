@@ -4,17 +4,18 @@ import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
 import { RxImage } from "react-icons/rx";
 import ButtonComp from "@/app/components/ButtonComp";
+import {
+  classNameDivContainer,
+  classNameDivContainerTextArea,
+  classNameLabel,
+  classNameField,
+} from "@/app/constants/index";
 
 const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
   const [name, setName] = useState("");
   const [logo, setLogo] = useState<File | null>(null);
   const [bio, setBio] = useState("");
 
-  const classNameDivContainer = "space-y-2";
-  const classNameDivContainerTextArea = "md:col-span-2 space-y-2";
-  const classNameLabel = "block text-sm font-medium text-gray-700";
-  const classNameField =
-    "w-full px-4 py-2 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4640de] focus:border-transparent transition";
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit({ name, logo, bio });

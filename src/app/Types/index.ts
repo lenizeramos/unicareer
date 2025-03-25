@@ -236,3 +236,15 @@ export interface ITextAreaFieldProps {
   classNameDivLgWidth?: string;
   classNameField?: string;
 }
+
+export interface IChipsFieldProps {
+  label: string;
+  value: string[];
+  onChange: (value: string[]) => void;
+  placeholder?: string;
+  itemTemplate?: (item: string) => React.ReactNode;
+  className?: string;
+  labelClass?: string;
+  containerClass?: string;
+  helperText?: string;
+}
