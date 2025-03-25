@@ -10,6 +10,7 @@ import {
   classNameDivContainer,
   classNameLabel,
   classNameField,
+  classNameDivContainerTextArea,
 } from "@/app/constants/index";
 
 const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit }) => {

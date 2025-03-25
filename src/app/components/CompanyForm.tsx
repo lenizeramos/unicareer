@@ -5,9 +5,7 @@ import TextAreaField from "./TextAreaField";
 import { RxImage } from "react-icons/rx";
 import ButtonComp from "@/app/components/ButtonComp";
 import {
-  classNameDivContainer,
   classNameDivContainerTextArea,
-  classNameLabel,
   classNameField,
 } from "@/app/constants/index";
 
@@ -39,8 +37,8 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
           onChange={(e) => setName(e.target.value)}
           required
           maxLength={100}
-          classNameDivContainer={classNameDivContainer}
-          classNameLabel={classNameLabel}
+          classNameDivContainer="flex flex-col"
+          classNameLabel="text-sm font-semibold text-gray-700"
           classNameField={classNameField}
         />
 
@@ -50,7 +48,7 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
           type="file"
           onChange={(e) => setLogo(e.target.files ? e.target.files[0] : null)}
           classNameDivContainer="space-y-2"
-          classNameLabel="block text-sm font-medium text-gray-700"
+          classNameLabel="block text-sm font-semibold text-gray-700"
           accept="image/*"
           fileLabel={logo ? logo.name : "Upload logo"}
           filePreview={<RxImage className="h-6 w-6" />}
@@ -65,7 +63,7 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
           name="bio"
           maxLength={500}
           classNameDivContainer={classNameDivContainerTextArea}
-          classNameLabel={classNameLabel}
+          classNameLabel="text-sm font-semibold text-gray-700"
           classNameField={classNameField}
         />
 
