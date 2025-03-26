@@ -194,3 +194,32 @@ body {
     display: none;
   }
 }
+
+/* CLerk */
+.cl-formButtonPrimary {
+  font-size: 14px;
+  text-transform: none;
+  background-color: var(--color-primary);
+}
+
+.cl-formButtonPrimary:hover,
+.cl-formButtonPrimary:focus,
+.cl-formButtonPrimary:active {
+  background-color: #49247a;
+}
+
+.cl-footer {
+  display: none;
+}
+/*Skills - forms*/
+.p-chips:not(.p-disabled):hover .p-chips-multiple-container {
+  border-color: lightgray;
+}
+.p-chips:not(.p-disabled).p-focus .p-chips-multiple-container {
+  box-shadow: 0 0 0 0.05rem var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.p-chips .p-chips-multiple-container .p-chips-token {
+  color: var(--color-menuItem);
+}
