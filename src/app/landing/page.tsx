@@ -1,6 +1,6 @@
 import { styles } from "../styles";
 import CardsContainer from "../components/Cards/CardsContainer";
-import JobSearchForm from "../components/JobSearchForm"; // Import JobSearchForm
+import JobSearchForm from "../components/JobSearchForm";
 import { SiVodafone } from "react-icons/si";
 import { SiIntel } from "react-icons/si";
 import ButtonComp from "../components/ButtonComp";
@@ -10,58 +10,49 @@ const LandingPage: React.FC = () => {
     return (
         <>
             <div className="bg-landingDark  p-15 pl-10 flex flex-col gap-5">
-                <div className="bg-landingDark pl-10 max-w-s flex flex-col ">
-                    <h1 className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}>
-                        Discover <br /> more than <br />
-                        <span className={`${styles.heroHeadSpan}`}>5000+ Jobs</span>
-                    </h1>
+                <h1 className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}>
+                    Discover <br /> more than <br />
+                    <span className={`${styles.heroHeadSpan}`}>5000+ Jobs</span>
+                </h1>
 
-                    <p className={`${styles.heroSubText} description max-w-110 text-gray-400`}>
-                        Great platform for the job seeker that searching for new career heights and passionate about
-                        startups.
-                    </p>
-                </div>
+                <p className={`${styles.heroSubText} description max-w-110 text-gray-400`}>
+                    Great platform for the job seeker that searching for new career heights and passionate about
+                    startups.
+                </p>
 
-                <div className="pl-10">
-                    <JobSearchForm countries={countries} />
-                    <p className={`${styles.heroSubText} description p-2  max-w-s text-gray-400`}>
-                        Popular : UI Designer, UX Researcher, Android, Admin
-                    </p>
-                </div>
+                <JobSearchForm countries={countries} />
+                <p className={`${styles.heroSubText} description p-2  max-w-s text-gray-400`}>
+                    Popular : UI Designer, UX Researcher, Android, Admin
+                </p>
 
-                <div className="bg-landingDark p-6 sm:p-8 lg:p-10 flex flex-col gap-5">
-                    <p className={`${styles.heroSubText} description max-w-full sm:max-w-2xl text-gray-400`}>
-                        Companies we helped grow
+                <p className={`${styles.heroSubText} description max-w-full sm:max-w-2xl text-gray-400`}>
+                    Companies we helped grow
+                </p>
+                <div
+                    className={`${styles.iconsCards} ${styles.heroSubText} text-gray-500 p-3 flex flex-wrap justify-start gap-6 sm:gap-10`}
+                >
+                    <p className="flex items-center">
+                        <SiVodafone className="mr-2" />
+                        <span>vodafone</span>
                     </p>
-                    <div
-                        className={`${styles.iconsCards} ${styles.heroSubText} text-gray-500 p-3 flex flex-wrap justify-start gap-6 sm:gap-10`}
-                    >
-                        <p className="flex items-center">
-                            <SiVodafone className="mr-2" />
-                            <span>vodafone</span>
-                        </p>
-                        <p className={`${styles.heroSubText} text-4xl`}>
-                            <SiIntel />
-                        </p>
-                        <p className={`${styles.sectionHeadText} text-3xl`}>TESLA</p>
-                        <p className={`${styles.sectionHeadText} text-3xl`}>AMDA</p>
-                        <p className={`${styles.sectionHeadText} text-3xl`}>Talkit</p>
-                    </div>
+                    <p className={`${styles.heroSubText} text-4xl`}>
+                        <SiIntel />
+                    </p>
+                    <p className={`${styles.sectionHeadText} text-3xl`}>TESLA</p>
+                    <p className={`${styles.sectionHeadText} text-3xl`}>AMDA</p>
+                    <p className={`${styles.sectionHeadText} text-3xl`}>Talkit</p>
                 </div>
 
                 {/* Cards Section */}
-                <div className="bg-landingDark  p-10 pl-10 flex flex-col gap-5">
-                    <div className="p-8 flex flex-col gap-10 h-fit">
-                        <div>
-                            <h2 className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}>
-                                Explore by
-                                <span className={`${styles.heroHeadSpan}`}> category</span>
-                            </h2>
-                            <div className="p-5 flex flex-col gap-10">
-                                <div className="flex flex-row gap-10 flex-wrap justify-center">
-                                    <CardsContainer cardId="category" />
-                                </div>
-                            </div>
+
+                <div className=" flex flex-col gap-10 h-fit">
+                    <h2 className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}>
+                        Explore by
+                        <span className={`${styles.heroHeadSpan}`}> category</span>
+                    </h2>
+                    <div className=" flex flex-col gap-10">
+                        <div className="flex flex-row gap-10 flex-wrap justify-center">
+                            <CardsContainer cardId="category" />
                         </div>
 
                         <div className="p-8 sm:p-8 md:p-10 max-w-full sm:max-w-md lg:max-w-lg flex flex-col bg-primary w-500 sm:w-3/4 lg:w-1/2 h-auto">
