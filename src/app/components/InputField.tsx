@@ -26,7 +26,7 @@ const InputField: React.FC<InputFieldProps> = ({
     <div className={`${classNameDivContainer}`}>
       <label htmlFor={id} className={`${classNameLabel}`}>
         {label} {required && <span className="text-red-500">*</span>}
-        <small className="block text-xs text-gray-500">{small}</small>
+        {small && <small className="block text-xs text-gray-500">{small}</small>}
       </label>
       <div className={`${classNameDivLgWidth}`}>
         {type === "file" ? (
