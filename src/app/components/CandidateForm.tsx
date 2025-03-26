@@ -78,7 +78,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit }) => {
               setPhoto(e.target.files ? e.target.files[0] : null)
             }
             classNameDivContainer="space-y-2"
-            classNameLabel="block text-sm font-medium text-gray-700"
+            classNameLabel="text-sm font-semibold text-gray-700"
             accept="image/*"
             fileLabel={photo ? photo.name : "Upload photo"}
             filePreview={<RxImage className="h-6 w-6" />}
@@ -92,7 +92,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit }) => {
               setResume(e.target.files ? e.target.files[0] : null)
             }
             classNameDivContainer="space-y-2"
-            classNameLabel="block text-sm font-medium text-gray-700"
+            classNameLabel="text-sm font-semibold text-gray-700"
             accept=".pdf,.doc,.docx"
             fileLabel={resume ? resume.name : "Upload resume"}
             filePreview={<LuFileText className="h-6 w-6" />}
@@ -104,7 +104,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit }) => {
             onChange={setSkills}
             className="w-full text-gray-700 rounded-lg"
             containerClass="md:col-span-2 space-y-2"
-            labelClass="block text-sm font-medium text-gray-700"
+            labelClass="text-sm font-semibold text-gray-700"
             itemTemplate={(skill) => <div>{skill}</div>}
           />
 
