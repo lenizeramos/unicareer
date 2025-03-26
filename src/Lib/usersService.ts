@@ -87,6 +87,8 @@ export async function getUserByClerkId(clerkId: string | undefined) {
       },
       include: {
         company: true,
+        candidate: true,
+        profileImage: true,
       },
     });
 

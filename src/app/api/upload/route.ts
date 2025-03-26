@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
 import { s3Client } from '@/Lib/aws-config';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { FileUploadModelName } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 import prisma from '@/Lib/prisma';
-
-type FileUploadModelName = 'candidateDocument' | 'candidateProfileImage';
 
 export async function POST(request: Request) {
   try {
@@ -22,6 +21,14 @@ export async function POST(request: Request) {
 
     if (modelName === 'candidateDocument' && file.type !== 'application/pdf') {
       return NextResponse.json({ error: 'Only PDF files are allowed for documents' }, { status: 400 });
+    }
+
+    if (modelName === 'companyProfileImage' && file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/jpg') {
+      return NextResponse.json({ error: 'Only JPEG, PNG and JPG files are allowed for profile images' }, { status: 400 });
+    }
+
+    if (modelName === 'userProfileImage' && file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/jpg') {
+      return NextResponse.json({ error: 'Only JPEG, PNG and JPG files are allowed for profile images' }, { status: 400 });
     }
 
     if (!(modelName in prisma)) {
@@ -53,10 +60,20 @@ export async function POST(request: Request) {
                     },
                 });
                 break;
-            case 'candidateProfileImage':
-                await prisma.candidateProfileImage.create({
+            case 'userProfileImage':
+                await prisma.userProfileImage.create({
                     data: {
-                        candidateId: userId,
+                        userId: userId,
+                        fileKey: fileName,
+                        fileType: file.type,
+                        fileName: file.name
+                    },
+                });
+                break;
+            case 'companyProfileImage':
+                await prisma.companyProfileImage.create({
+                    data: {
+                        companyId: userId,
                         fileKey: fileName,
                         fileType: file.type,
                         fileName: file.name

@@ -1,4 +1,4 @@
-export type FileUploadModelName = 'candidateDocument' | 'candidateProfileImage';
+export type FileUploadModelName = 'candidateDocument' | 'userProfileImage' | 'companyProfileImage';
 
 export interface FileUploadProps {
     allowedFileTypes: string[];
@@ -18,4 +18,12 @@ export interface FileUploadProps {
     status: string;
     createdAt: string;
     updatedAt: string;
+  }
+
+  export interface FileDisplayProps {
+    modelName: 'candidateDocument' | 'userProfileImage' | 'companyProfileImage';
+    userId: string;
+    className?: string;
+    width?: number;
+    height?: number;
   }

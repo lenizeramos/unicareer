@@ -57,7 +57,7 @@ export default function FileUpload({
             formData.append('file', file);
             formData.append('modelName', modelName);
             formData.append('fieldName', fieldName);
-            formData.append('userId', userId); // This userId is the company, candidate or admin userId, it is NOT the clerk user ID and it is NOT the _id:
+            formData.append('userId', userId);
 
             const response = await fetch(apiRoute, {
                 method: 'POST',
