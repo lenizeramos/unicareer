@@ -1,16 +1,39 @@
-import DashboardWelcome from "@/app/components/DashboardWelcome";
-import { styles } from "@/app/styles";
-import CompanyHeader from "@/app/components/CompanyHeader";
-import { FaPlus } from "react-icons/fa";
-import ApplicantsSummary from "@/app/components/ApplicantsSummary";
+import React from "react";
+import { SlArrowRight } from "react-icons/sl";
+import StatusCard from "@/app/components/Cards/StatusCard";
 
-export default function CompanyPage() {
-    return (
-        <>
-            <CompanyHeader image="/img/company_logo.png" name="Nomad" button={{ text: "Post a Job", IsWhite: false, width: "w-xs", icon: <FaPlus /> }} />
-            <div className={styles.borderBottomLight}></div>
-            <DashboardWelcome greeting="Good Morning, Sam" message="Here is what’s happening with your job applications from July 19 - July 25." date="Jul 19 - Jul 25" />
-            <ApplicantsSummary/>
-        </>
-    )
-}
+const Dashboard = () => {
+  return (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <StatusCard
+            title="New candidates to review"
+            value={76}
+            icon={<SlArrowRight />}
+            color="text-white"
+            backgroundColor="bg-blue-400"
+          />
+          <StatusCard
+            title="Schedule for today"
+            value={3}
+            icon={<SlArrowRight />}
+            color="text-white"
+            backgroundColor="bg-green-400"
+          />
+          <StatusCard
+            title="Messages received"
+            value={24}
+            icon={<SlArrowRight />}
+            color="text-white"
+            backgroundColor="bg-purple-400"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
