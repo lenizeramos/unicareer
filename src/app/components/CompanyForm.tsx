@@ -48,7 +48,7 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
           type="file"
           onChange={(e) => setLogo(e.target.files ? e.target.files[0] : null)}
           classNameDivContainer="space-y-2"
-          classNameLabel="block text-sm font-semibold text-gray-700"
+          classNameLabel="text-sm font-semibold text-gray-700"
           accept="image/*"
           fileLabel={logo ? logo.name : "Upload logo"}
           filePreview={<RxImage className="h-6 w-6" />}
