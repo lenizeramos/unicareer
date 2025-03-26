@@ -7,7 +7,6 @@ import TextAreaField from "./TextAreaField";
 import { LuFileText } from "react-icons/lu";
 import { RxImage } from "react-icons/rx";
 import {
-  classNameDivContainer,
   classNameLabel,
   classNameField,
   classNameDivContainerTextArea,
@@ -52,8 +51,8 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit }) => {
             onChange={(e) => setFirstName(e.target.value)}
             required
             maxLength={100}
-            classNameDivContainer={classNameDivContainer}
-            classNameLabel={classNameLabel}
+            classNameDivContainer="flex flex-col"
+            classNameLabel="text-sm font-semibold text-gray-700"
             classNameField={classNameField}
           />
 
@@ -66,8 +65,8 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit }) => {
             onChange={(e) => setLastName(e.target.value)}
             required
             maxLength={100}
-            classNameDivContainer={classNameDivContainer}
-            classNameLabel={classNameLabel}
+            classNameDivContainer="flex flex-col"
+            classNameLabel="text-sm font-semibold text-gray-700"
             classNameField={classNameField}
           />
 
