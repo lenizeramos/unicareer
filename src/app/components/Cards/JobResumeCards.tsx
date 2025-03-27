@@ -17,6 +17,7 @@ const JobResumeCards = ({
   cardId,
   location,
 }: ICards) => {
+  console.log("category=>", categories);
   return (
     <>
       <div
@@ -53,39 +54,42 @@ const JobResumeCards = ({
               />
               <div className="w-[1px] bg-gray-300 rounded-full" />
               <div className="flex gap-2">
-                {Array.isArray(categories)
-                  ? categories.map((item, index) => {
-                      const stylesTag = jobsCategories.find(
-                        (categ) => categ.title === item
-                      );
-                      return (
-                        <TagComp
-                          bgColor={`${stylesTag?.bgColor}`}
-                          textColor={`${stylesTag?.textColor}`}
-                          text={`${stylesTag?.title}`}
-                          key={index}
-                        />
-                      );
-                    })
-                  : categories && (
+                {Array.isArray(categories) &&
+                  categories.map((item, index) => {
+                    const stylesTag = jobsCategories.find(
+                      (categ) => categ.title === item
+                    );
+                    return (
                       <TagComp
-                        bgColor={`${
-                          jobsCategories.find(
-                            (style) => style.title === categories
-                          )?.bgColor
-                        }`}
-                        textColor={`${
-                          jobsCategories.find(
-                            (style) => style.title === categories
-                          )?.textColor
-                        }`}
-                        text={`${
-                          jobsCategories.find(
-                            (style) => style.title === categories
-                          )?.title
-                        }`}
+                        bgColor={`${stylesTag?.bgColor}`}
+                        textColor={`${stylesTag?.textColor}`}
+                        text={`${stylesTag?.title}`}
+                        key={index}
                       />
-                    )}
+                    );
+                  })}
+                {typeof categories === "string" && (
+                  <TagComp
+                    bgColor={`${
+                      jobsCategories.find(
+                        (style) =>
+                          style.title.toLowerCase() === categories.toLowerCase()
+                      )?.bgColor
+                    }`}
+                    textColor={`${
+                      jobsCategories.find(
+                        (style) =>
+                          style.title.toLowerCase() === categories.toLowerCase()
+                      )?.textColor
+                    }`}
+                    text={`${
+                      jobsCategories.find(
+                        (style) =>
+                          style.title.toLowerCase() === categories.toLowerCase()
+                      )?.title
+                    }`}
+                  />
+                )}
               </div>
             </div>
           </div>

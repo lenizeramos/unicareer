@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import DashboardNavbar from "../../../../../components/DashboardNavbar";
 import ButtonComp from "@/app/components/ButtonComp";
@@ -10,9 +10,15 @@ import { CiCircleCheck } from "react-icons/ci";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import ProgressBar from "@/app/components/ProgressBar";
 import TagComp from "@/app/components/TagComp";
+import { AppDispatch, RootState } from "@/app/context/store";
+import { useDispatch, useSelector } from "react-redux";
+import { IDataState } from "@/app/Types/slices";
+import { useEffect } from "react";
+import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 
 export default function JobDescription() {
-  // const pathname = usePathname();
+  const dispatch: AppDispatch = useDispatch();
+  const { data } = useSelector((state: RootState) => state.jobs as IDataState);
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const job = jobPosted.find((item) => item.id === id);
@@ -24,6 +30,11 @@ export default function JobDescription() {
       </>
     );
   }
+  useEffect(() => {
+    if (data.length === 0) {
+      dispatch(fetchAllJobs());
+    }
+  }, [dispatch, data.length]);
   return (
     <>
       <DashboardNavbar

@@ -11,7 +11,7 @@ const initialState: IDataState = {
 export const fetchAllJobs = createAsyncThunk(
   "jobs/fetchAll",
   async () => {
-    const response = await fetch("http://localhost:3000/api/getJobs");
+    const response = await fetch("http://localhost:3000/api/get-jobs");
     if (!response.ok) {
       throw new Error("Failed to fetch jobs");
     }

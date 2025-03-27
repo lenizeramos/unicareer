@@ -16,7 +16,6 @@ import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 export default function FindJobs() {
   const dispatch: AppDispatch = useDispatch();
   const { data } = useSelector((state: RootState) => state.jobs as IDataState);
-  console.log(data)
   let jobsArray: string[] = [];
   jobsCategories.map((category) => {
     return jobsArray.push(category.title);

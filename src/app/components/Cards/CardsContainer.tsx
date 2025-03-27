@@ -4,8 +4,21 @@ import BasicCards from "./BasicCards";
 import JobCard from "./JobCard";
 import JobResumeCards from "./JobResumeCards";
 import RecentCard from "./RecentCard";
+import { AppDispatch, RootState } from "@/app/context/store";
+import { useDispatch, useSelector } from "react-redux";
+import { IDataState } from "@/app/Types/slices";
+import { useEffect } from "react";
+import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 
 const CardsContainer = ({ cardId, params }: ICardId) => {
+  const dispatch: AppDispatch = useDispatch();
+  const { data } = useSelector((state: RootState) => state.jobs as IDataState);
+  console.log(data)
+  useEffect(() => {
+    if (data.length === 0) {
+      dispatch(fetchAllJobs());
+    }
+  }, [dispatch, data.length]);
   const renderCard = () => {
     switch (cardId) {
       case "category":
@@ -84,7 +97,7 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
               </div>
             ) : (
               <div className="flex flex-col gap-3 w-full mx-auto">
-                {jobPosted.map((info, index) => {
+                {data.map((info, index) => {
                   return (
                     <JobResumeCards cardId={cardId} {...info} key={index} />
                   );
