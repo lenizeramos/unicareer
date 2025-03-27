@@ -289,17 +289,13 @@ export interface ITotalApplicantProps {
 export interface IStatusCardProps {
   title: string;
   value: number;
-  icon: React.ReactNode;
-  color: string;
-  backgroundColor: string;
+  icon?: React.ReactNode;
+  color?: string;
+  backgroundColor?: string;
+  trend?: "up" | "down";
+  percentage?: string;
 }
 
-export interface IMiniStatusCardProps {
-  title: string;
-  value: string | number;
-  trend: "up" | "down";
-  percentage: string;
-}
 
 export interface ICandidateFormProps {
   onSubmit: (formData: {

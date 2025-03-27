@@ -9,7 +9,6 @@ import CompanyChart from "@/app/components/Chart";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import Link from "next/link";
 import { GoArrowRight } from "react-icons/go";
-import MiniStatusCard from "@/app/components/MiniStatusCard";
 
 const applicants = [
   { label: "Full Time", count: 12, color: "bg-purple-500" },
@@ -20,8 +19,6 @@ const applicants = [
 ];
 
 const totalApplicants = 67;
-
-
 
 const CompanyPage = () => {
   return (
@@ -82,13 +79,13 @@ const CompanyPage = () => {
           </div>
 
           <div className="space-y-4">
-            <MiniStatusCard
+            <StatusCard
               title="Job Applied"
               value={654}
               trend="up"
               percentage="0.5%"
             />
-            <MiniStatusCard
+            <StatusCard
               title="Job View"
               value={500}
               trend="down"
