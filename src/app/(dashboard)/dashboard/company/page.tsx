@@ -98,8 +98,6 @@ const CompanyPage = () => {
               title="Job Open"
               value={12}
               icon={<SlArrowRight />}
-              color="text-gray-900"
-              backgroundColor="bg-white"
             />
 
             <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
