@@ -32,7 +32,7 @@ export default function DashboardLayout({
       >
         <div className="">
           <Link href={"/dashboard/candidate"}>
-            <Logo isBgDark={false}/>
+            <Logo />
           </Link>
         </div>
         <button
@@ -66,7 +66,6 @@ export default function DashboardLayout({
           onClose={() => setIsSidebarOpen(false)}
         />
       </div>
-
       <main className="flex-1 lg:p-8 mt-16 lg:mt-0 sm:p-1 lg:ml-64">
         {children}
       </main>
