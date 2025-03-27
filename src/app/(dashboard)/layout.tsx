@@ -8,6 +8,8 @@ import { DashboardType } from "@/app/Types/navigation";
 import { useUserRole } from "@/Lib/client/user";
 import Link from "next/link";
 import Logo from "../components/Logo";
+import store from "../context/store";
+import { Provider } from "react-redux";
 
 export default function DashboardLayout({
   children,
@@ -66,9 +68,11 @@ export default function DashboardLayout({
           onClose={() => setIsSidebarOpen(false)}
         />
       </div>
+      <Provider store={store}>
       <main className="flex-1 lg:p-8 mt-16 lg:mt-0 sm:p-1 lg:ml-64">
         {children}
       </main>
+      </Provider>
     </div>
   );
 }
