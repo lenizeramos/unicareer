@@ -40,7 +40,7 @@ export default function CompanyChart() {
       ],
     };
     const options = {
-      responsive: true,
+      /* responsive: true, */
       maintainAspectRatio: false,
       aspectRatio: 0.8,
       plugins: {

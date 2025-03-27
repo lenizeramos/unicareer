@@ -1,10 +1,4 @@
-export interface IStatusCardProps {
-  title: string;
-  value: number;
-  icon: React.ReactNode;
-  color: string;
-  backgroundColor: string;
-}
+import { IStatusCardProps } from "../Types";
 
 const StatusCard = ({
   title,
@@ -18,7 +12,7 @@ const StatusCard = ({
       <div className="flex justify-between">
         <div>
           <p className={`text-sm font-medium ${color}`}>{title}</p>
-          <p className={`text-3xl font-bold text-white mt-2 ${color}`}>
+          <p className={`text-3xl font-bold mt-2 ${color}`}>
             {value}
           </p>
         </div>

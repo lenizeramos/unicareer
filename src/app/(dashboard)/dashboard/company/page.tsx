@@ -3,72 +3,29 @@ import { styles } from "@/app/styles";
 import CompanyHeader from "@/app/components/CompanyHeader";
 import { FaPlus } from "react-icons/fa";
 import { SlArrowRight } from "react-icons/sl";
-import StatusCard from "@/app/components/Cards/StatusCard";
+import StatusCard from "@/app/components/StatusCard";
 import ApplicantsSummary from "@/app/components/ApplicantsSummary";
 import CompanyChart from "@/app/components/Chart";
+import CardsContainer from "@/app/components/Cards/CardsContainer";
+import Link from "next/link";
+import { GoArrowRight } from "react-icons/go";
+import MiniStatusCard from "@/app/components/MiniStatusCard";
 
-const MiniStatCard = ({
-  title,
-  value,
-  trend,
-  percentage,
-}: {
-  title: string;
-  value: string | number;
-  trend: "up" | "down";
-  percentage: string;
-}) => {
-  return (
-    <div className="bg-white rounded-lg shadow p-4">
-      <p className="text-sm font-medium text-gray-500">{title}</p>
-      <div className="flex items-end justify-between mt-2">
-        <p className="text-2xl font-bold text-gray-800">{value}</p>
-        <div
-          className={`flex items-center ${
-            trend === "up" ? "text-green-500" : "text-red-500"
-          }`}
-        >
-          <span className="text-sm font-medium">{percentage}</span>
-          {trend === "up" ? (
-            <svg
-              className="w-4 h-4 ml-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 15l7-7 7 7"
-              />
-            </svg>
-          ) : (
-            <svg
-              className="w-4 h-4 ml-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
+const applicants = [
+  { label: "Full Time", count: 12, color: "bg-purple-500" },
+  { label: "Part-Time", count: 24, color: "bg-green-500" },
+  { label: "Remote", count: 22, color: "bg-blue-500" },
+  { label: "Internship", count: 32, color: "bg-yellow-500" },
+  { label: "Contract", count: 30, color: "bg-red-500" },
+];
+
+const totalApplicants = 67;
+
+
 
 const CompanyPage = () => {
   return (
-    <>
+    <div className="space-y-8 pb-8">
       <CompanyHeader
         image="/img/company_logo.png"
         name="Nomad"
@@ -79,50 +36,143 @@ const CompanyPage = () => {
           icon: <FaPlus />,
         }}
       />
+
       <div className={styles.borderBottomLight}></div>
+
       <DashboardWelcome
         greeting="Good Morning, Sam"
-        message="Here is what’s happening with your job applications from July 19 - July 25."
+        message="Here is what's happening with your job applications from July 19 - July 25."
         date="Jul 19 - Jul 25"
       />
 
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
+      <div className="space-y-6">
+        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <StatusCard
-          title="New candidates to review"
-          value={76}
-          icon={<SlArrowRight />}
-          color="text-white"
-          backgroundColor="bg-blue-400"
-        />
-        <StatusCard
-          title="Schedule for today"
-          value={3}
-          icon={<SlArrowRight />}
-          color="text-white"
-          backgroundColor="bg-green-400"
-        />
-        <StatusCard
-          title="Messages received"
-          value={24}
-          icon={<SlArrowRight />}
-          color="text-white"
-          backgroundColor="bg-purple-400"
-        />
-      </div>
-      <div className="">
-        <CompanyChart />
-        <MiniStatCard
-          title="Job Applied"
-          value={654}
-          trend="up"
-          percentage="0.5%"
-        />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <StatusCard
+            title="New candidates to review"
+            value={76}
+            icon={<SlArrowRight />}
+            color="text-white"
+            backgroundColor="bg-blue-500"
+          />
+          <StatusCard
+            title="Schedule for today"
+            value={3}
+            icon={<SlArrowRight />}
+            color="text-white"
+            backgroundColor="bg-green-500"
+          />
+          <StatusCard
+            title="Messages received"
+            value={24}
+            icon={<SlArrowRight />}
+            color="text-white"
+            backgroundColor="bg-purple-500"
+          />
+        </div>
       </div>
 
-      <ApplicantsSummary />
-    </>
+      <div className="space-y-6 border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
+        <h2 className="text-xl font-semibold text-gray-900">Job statistics</h2>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr] gap-6">
+          <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+            <CompanyChart />
+          </div>
+
+          <div className="space-y-4">
+            <MiniStatusCard
+              title="Job Applied"
+              value={654}
+              trend="up"
+              percentage="0.5%"
+            />
+            <MiniStatusCard
+              title="Job View"
+              value={500}
+              trend="down"
+              percentage="0.5%"
+            />
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <StatusCard
+              title="Job Open"
+              value={12}
+              icon={<SlArrowRight />}
+              color="text-gray-900"
+              backgroundColor="bg-white"
+            />
+
+            <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+              <ApplicantsSummary
+                applicants={applicants}
+                totalApplicants={totalApplicants}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-4 border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold text-gray-900">Job Updates</h2>
+          <Link
+            href="/dashboard/company/joblisting"
+            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            View All <GoArrowRight className="ml-1 text-lg" />
+          </Link>
+        </div>
+
+        <CardsContainer
+          cardId="jobUpdates"
+          params={[
+            {
+              title: "Job Title 1",
+              cardId: "jobUpdates",
+              company: "Company",
+              logo: "logo",
+              subtitle: "subtitle",
+              alt: "alt",
+              category: "category",
+              type: "type",
+            },
+            {
+              title: "Job Title 2",
+              cardId: "jobUpdates",
+              company: "Company",
+              logo: "logo",
+              subtitle: "subtitle",
+              alt: "alt",
+              category: "category",
+              type: "type",
+            },
+            {
+              title: "Job Title 3",
+              cardId: "jobUpdates",
+              company: "Company",
+              logo: "logo",
+              subtitle: "subtitle",
+              alt: "alt",
+              category: "category",
+              type: "type",
+            },
+            {
+              title: "Job Title 4",
+              cardId: "jobUpdates",
+              company: "Company",
+              logo: "logo",
+              subtitle: "subtitle",
+              alt: "alt",
+              category: "category",
+              type: "type",
+            },
+          ]}
+        />
+      </div>
+    </div>
   );
 };
 

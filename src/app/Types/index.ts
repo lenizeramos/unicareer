@@ -268,3 +268,36 @@ export interface IChipsFieldProps {
   containerClass?: string;
   helperText?: string;
 }
+
+export interface AuthFormProps {
+  type: "sign-in" | "sign-up";
+  role?: "company" | "candidate";
+  onRoleChange?: (role: "company" | "candidate") => void;
+}
+
+export interface IApplicantProps {
+  label: string;
+  count: number;
+  color: string;
+}
+
+export interface ITotalApplicantProps {
+  applicants: IApplicantProps[];
+  totalApplicants: number;
+}
+
+export interface IStatusCardProps {
+  title: string;
+  value: number;
+  icon: React.ReactNode;
+  color: string;
+  backgroundColor: string;
+}
+
+
+export interface IMiniStatusCardProps {
+  title: string;
+  value: string | number;
+  trend: "up" | "down";
+  percentage: string;
+}

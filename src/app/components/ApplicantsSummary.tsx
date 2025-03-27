@@ -1,24 +1,12 @@
 "use client";
+import { ITotalApplicantProps } from "../Types";
 
-type ApplicantType = {
-  label: string;
-  count: number;
-  color: string;
-};
-
-const applicants: ApplicantType[] = [
-  { label: "Full Time", count: 45, color: "bg-purple-500" },
-  { label: "Part-Time", count: 24, color: "bg-green-500" },
-  { label: "Remote", count: 22, color: "bg-blue-500" },
-  { label: "Internship", count: 32, color: "bg-yellow-500" },
-  { label: "Contract", count: 30, color: "bg-red-500" },
-];
-
-const totalApplicants = 67;
-
-export default function ApplicantsSummary() {
+export default function ApplicantsSummary({
+  applicants,
+  totalApplicants,
+}: ITotalApplicantProps) {
   return (
-    <div className="p-6 w-96 border rounded-lg shadow-md">
+    <>
       <h3 className="text-lg font-semibold text-gray-800">
         Applicants Summary
       </h3>
@@ -47,6 +35,6 @@ export default function ApplicantsSummary() {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 }
