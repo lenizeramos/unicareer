@@ -294,10 +294,20 @@ export interface IStatusCardProps {
   backgroundColor: string;
 }
 
-
 export interface IMiniStatusCardProps {
   title: string;
   value: string | number;
   trend: "up" | "down";
   percentage: string;
+}
+
+export interface ICandidateFormProps {
+  onSubmit: (formData: {
+    firstName: string;
+    lastName: string;
+    photo: File | null;
+    skills: string[];
+    resume: File | null;
+    bio: string;
+  }) => void;
 }
