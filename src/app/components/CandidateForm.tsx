@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ChipsField from "./ChipsField";
-import { ICandidateFormProps } from "../Types/candidate";
+import { ICandidateFormProps } from "../Types/index";
 import ButtonComp from "@/app/components/ButtonComp";
 import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";

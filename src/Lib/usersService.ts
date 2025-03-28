@@ -1,7 +1,5 @@
 import prisma from "./prisma";
-import { User } from "../types/user";
-import { Candidate } from "../types/candidate";
-import { Company } from "../types/company";
+import { User, Candidate, Company } from "../types/index";
 
 async function createUser(data: User) {
   try {

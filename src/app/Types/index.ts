@@ -268,3 +268,42 @@ export interface IChipsFieldProps {
   containerClass?: string;
   helperText?: string;
 }
+
+export interface AuthFormProps {
+  type: "sign-in" | "sign-up";
+  role?: "company" | "candidate";
+  onRoleChange?: (role: "company" | "candidate") => void;
+}
+
+export interface IApplicantProps {
+  label: string;
+  count: number;
+  color: string;
+}
+
+export interface ITotalApplicantProps {
+  applicants: IApplicantProps[];
+  totalApplicants: number;
+}
+
+export interface IStatusCardProps {
+  title: string;
+  value: number;
+  icon?: React.ReactNode;
+  color?: string;
+  backgroundColor?: string;
+  trend?: "up" | "down";
+  percentage?: string;
+}
+
+
+export interface ICandidateFormProps {
+  onSubmit: (formData: {
+    firstName: string;
+    lastName: string;
+    photo: File | null;
+    skills: string[];
+    resume: File | null;
+    bio: string;
+  }) => void;
+}
