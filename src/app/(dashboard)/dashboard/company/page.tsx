@@ -1,3 +1,4 @@
+"use client"
 import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
 import CompanyHeader from "@/app/components/CompanyHeader";
@@ -9,18 +10,13 @@ import CompanyChart from "@/app/components/CompanyChart";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import Link from "next/link";
 import { GoArrowRight } from "react-icons/go";
-
-const applicants = [
-  { label: "Full Time", count: 12, color: "bg-purple-500" },
-  { label: "Part-Time", count: 24, color: "bg-green-500" },
-  { label: "Remote", count: 22, color: "bg-blue-500" },
-  { label: "Internship", count: 32, color: "bg-yellow-500" },
-  { label: "Contract", count: 30, color: "bg-red-500" },
-];
-
-const totalApplicants = 67;
+import { useRouter } from "next/navigation";
 
 const CompanyPage = () => {
+  const router = useRouter();
+  const handleButtonClick = () => {
+    router.push("/dashboard/company/postjob");
+  };
   return (
     <div className="space-y-8 pb-8">
       <CompanyHeader
@@ -31,6 +27,7 @@ const CompanyPage = () => {
           IsWhite: false,
           width: "w-xs",
           icon: <FaPlus />,
+          onClick: handleButtonClick,
         }}
       />
 
@@ -94,16 +91,18 @@ const CompanyPage = () => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <StatusCard
-              title="Job Open"
-              value={12}
-              icon={<SlArrowRight />}
-            />
+            <StatusCard title="Job Open" value={12} icon={<SlArrowRight />} />
 
             <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
               <ApplicantsSummary
-                applicants={applicants}
-                totalApplicants={totalApplicants}
+                applicants={[
+                  { label: "Full Time", count: 12, color: "bg-purple-500" },
+                  { label: "Part-Time", count: 24, color: "bg-green-500" },
+                  { label: "Remote", count: 22, color: "bg-blue-500" },
+                  { label: "Internship", count: 32, color: "bg-yellow-500" },
+                  { label: "Contract", count: 30, color: "bg-red-500" },
+                ]}
+                totalApplicants={62}
               />
             </div>
           </div>
