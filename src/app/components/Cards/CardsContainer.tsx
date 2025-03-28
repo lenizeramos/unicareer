@@ -1,5 +1,5 @@
 import { ICardId } from "@/app/Types";
-import { jobPosted, jobsCategories, perksData } from "@/app/constants";
+import { jobsCategories, perksData } from "@/app/constants";
 import BasicCards from "./BasicCards";
 import JobCard from "./JobCard";
 import JobResumeCards from "./JobResumeCards";

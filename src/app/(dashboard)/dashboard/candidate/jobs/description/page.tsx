@@ -5,7 +5,7 @@ import Image from "next/image";
 import DashboardNavbar from "../../../../../components/DashboardNavbar";
 import ButtonComp from "@/app/components/ButtonComp";
 import { styles } from "@/app/styles";
-import { jobsCategories } from "@/app/constants";
+import { jobsCategories, monthNames, stylesTags } from "@/app/constants";
 import { CiCircleCheck } from "react-icons/ci";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import ProgressBar from "@/app/components/ProgressBar";
@@ -18,12 +18,18 @@ import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 
 export default function JobDescription() {
   const dispatch: AppDispatch = useDispatch();
-  const { data } = useSelector((state: RootState) => state.jobs as IDataState);
+  const { data, loading } = useSelector(
+    (state: RootState) => state.jobs as IDataState
+  );
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  console.log("id=>",id)
   const job = data.find((item) => item.id === id);
-  console.log("job=>", job)
+  useEffect(() => {
+    dispatch(fetchAllJobs());
+  }, [dispatch]);
+  if (loading) {
+    return <div>loading</div>;
+  }
   if (!job) {
     return (
       <>
@@ -31,15 +37,13 @@ export default function JobDescription() {
       </>
     );
   }
-  const createDate = new Date(job.createdAt);
-
-  useEffect(() => {
-    console.log('data', data.length)
-
-    if (data.length === 0) {
-      dispatch(fetchAllJobs());
-    }
-  }, [data]);
+  const getDate = (date: string) => {
+    const createDate = new Date(date);
+    const month = monthNames[createDate.getMonth()];
+    return `${month} ${createDate.getDay()} , ${createDate.getFullYear()} `;
+  };
+  const category =
+    typeof job.categories === "string" ? job.categories.toLowerCase() : "";
   return (
     <>
       <DashboardNavbar
@@ -148,13 +152,13 @@ export default function JobDescription() {
               <div className="flex justify-between">
                 <p className={`${styles.JobDescriptionText}`}>Apply Before</p>
                 <p className={`${styles.JobDescriptionText} font-bold`}>
-                  {job.closingDate}
+                  {getDate(job.closingDate)}
                 </p>
               </div>
               <div className="flex justify-between">
                 <p className={`${styles.JobDescriptionText}`}>Job Posted On</p>
                 <p className={`${styles.JobDescriptionText} font-bold`}>
-                  {job.createdAt}
+                  {getDate(job.createdAt)}
                 </p>
               </div>
               <div className="flex justify-between">
@@ -166,7 +170,7 @@ export default function JobDescription() {
               <div className="flex justify-between">
                 <p className={`${styles.JobDescriptionText}`}>Salary</p>
                 <p className={`${styles.JobDescriptionText} font-bold`}>
-                  {job.salaryMin} K - {job.salaryMax} K CAD
+                  {job.salaryMin} - {job.salaryMax} CAD/hour
                 </p>
               </div>
             </div>
@@ -174,7 +178,7 @@ export default function JobDescription() {
             <div className="lg:border-y-[1px] border-gray-200 py-15">
               <h2 className={`${styles.JobDescriptionTitle}`}>Categories</h2>
               <div className="flex gap-2">
-                {Array.isArray(job.categories) &&
+                {Array.isArray(job.categories) ? (
                   job.categories.map((item, index) => {
                     const stylesTag = jobsCategories.find(
                       (categ) => categ.title === item
@@ -187,49 +191,49 @@ export default function JobDescription() {
                         key={index}
                       />
                     );
-                  })}
-                {typeof job.categories === "string" && (
+                  })
+                ) : (
                   <TagComp
                     bgColor={`${
                       jobsCategories.find(
-                        (style) =>
-                          style.title.toLowerCase() ===
-                          job.categories
+                        (style) => style.title.toLowerCase() === category
                       )?.bgColor
                     }`}
                     textColor={`${
                       jobsCategories.find(
-                        (style) =>
-                          style.title.toLowerCase() ===
-                          job.categories
+                        (style) => style.title.toLowerCase() === category
                       )?.textColor
                     }`}
                     text={`${
                       jobsCategories.find(
-                        (style) =>
-                          style.title.toLowerCase() ===
-                          job.categories
+                        (style) => style.title.toLowerCase() === category
                       )?.title
                     }`}
                   />
                 )}
               </div>
             </div>
-            {/* <div className="py-10">
+            <div className="py-10">
               <h2 className={`${styles.JobDescriptionTitle}`}>
                 Required Skills
               </h2>
-              {job.plus.map((item, index) => {
-                return (
-                  <div
-                    key={index}
-                    className={`text-purple-900 ${styles.sectionSubText} p-2 bg-gray-400 `}
-                  >
-                    <p>{item}</p>
-                  </div>
-                );
-              })}
-            </div> */}
+              <div className="flex gap-5 flex-wrap">
+                {Array.isArray(job.skills) ? (
+                  job.skills.map((item, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className={`${styles.sectionSubText} p-2 w-fit rounded-full mb-2 ${stylesTags[index]}`}
+                      >
+                        {item}
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div />
+                )}
+              </div>
+            </div>
           </div>
         </div>
         <div className="border-t-[1px] border-gray-200 pt-4">

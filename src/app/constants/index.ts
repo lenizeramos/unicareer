@@ -17,6 +17,17 @@ import { GiCoffeeCup } from "react-icons/gi";
 import { TbTrain } from "react-icons/tb";
 import { FaHandHoldingHeart } from "react-icons/fa";
 
+const stylesTags = [
+  "bg-[#ddd6ff] text-[#2f0d67] border-[#2f0d67]",
+  "bg-[#f6d0ff] text-[#8a0194] border-[#8a0194]",
+  "bg-[#dbe9fe] text-[#1447e6] border-[#1447e6]",
+  "bg-[#fff0ed] text-[#ff7664] border-[#ff7664]",
+  "bg-[#e5e7eb] text-[#4a5565] border-[#4a5565]",
+  "bg-[#ececfc] text-[#504ae0] border-[#504ae0]",
+  "bg-[#fdf3eb] text-[#ffb836] border-[#ffb836]",
+  "bg-[#eefaf7] text-[#69d3b6] border-[#69d3b6]",
+];
+
 const jobsCategories = [
   {
     icon: GiPencilRuler,
@@ -89,6 +100,7 @@ const jobsTypes = [
   "Remote",
   "Internship",
   "Contract",
+  "Freelance",
 ];
 
 const salaryRange = [
@@ -134,72 +146,27 @@ const perksData = [
     text: "We anonymously match any donation our employees make (up to $/€ 600) so they can support the organizations they care about most—times two. ",
   },
 ];
-const jobPosted = [
-  {
-    id: "1",
-    title: "Social Media Assistant",
-    company: "Stripe",
-    location: "Paris, France",
-    type: "Full-Time",
-    description:
-      "Stripe is looking for Social Media Marketing expert to help manage our online networks. You will be responsible for monitoring our social media channels, creating content, finding effective ways to engage the community and incentivize others to engage on our channels.",
-    responsibilities: [
-      "Community engagement to ensure that is supported and actively represented online",
-      "Focus on social media content development and publication",
-      "Marketing and strategy support",
-      "Stay on top of trends on social media platforms, and suggest content ideas to the team",
-      "Engage with online communities",
-    ],
-    whoYouAre: [
-      "You get energy from people and building the ideal work environment",
-      "You have a sense for beautiful spaces and office experiences",
-      "You are a confident office manager, ready for added responsibilities",
-      "You're detail-oriented and creative",
-      "You're a growth marketer and know how to run campaigns",
-    ],
-    niceToHave: [
-      "Fluent in English",
-      "Project management skills",
-      "Copy editing skills",
-    ],
-    closingDate: "July 31, 2021",
-    createdAt: "July 1, 2021",
-    salaryMin: 75,
-    salaryMax: 85,
-    categories: ["Marketing", "Design"],
-  },
-  {
-    id: "2",
-    title: "Brand Designer",
-    company: "Dropbox",
-    location: "San Fransisco, USA",
-    type: "Part-Time",
-    description:
-      "Dropbox is looking for Social Media Marketing expert to help manage our online networks. You will be responsible for monitoring our social media channels, creating content, finding effective ways to engage the community and incentivize others to engage on our channels.",
-    responsibilities: [
-      "Community engagement to ensure that is supported and actively represented online",
-      "Focus on social media content development and publication",
-      "Marketing and strategy support",
-      "Stay on top of trends on social media platforms, and suggest content ideas to the team",
-      "Engage with online communities",
-    ],
-    whoYouAre: [
-      "You get energy from people and building the ideal work environment",
-      "You have a sense for beautiful spaces and office experiences",
-      "You are a confident office manager, ready for added responsibilities",
-      "You're detail-oriented and creative",
-      "You're a growth marketer and know how to run campaigns",
-    ],
-    niceToHave: [
-      "Fluent in English",
-      "Project management skills",
-      "Copy editing skills",
-    ],
-    closingDate: "July 31, 2021",
-    createdAt: "July 1, 2021",
-    salaryMin: 75,
-    salaryMax: 85,
-    categories: "Marketing",
-  },
+
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
-export { jobsCategories, perksData, jobsTypes, salaryRange, jobPosted };
+
+export {
+  jobsCategories,
+  perksData,
+  jobsTypes,
+  salaryRange,
+  stylesTags,
+  monthNames,
+};
