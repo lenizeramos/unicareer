@@ -5,7 +5,7 @@ import { FaPlus } from "react-icons/fa";
 import { SlArrowRight } from "react-icons/sl";
 import StatusCard from "@/app/components/StatusCard";
 import ApplicantsSummary from "@/app/components/ApplicantsSummary";
-import CompanyChart from "@/app/components/Chart";
+import CompanyChart from "@/app/components/CompanyChart";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import Link from "next/link";
 import { GoArrowRight } from "react-icons/go";
