@@ -7,7 +7,7 @@ interface Ijobs {
   companyId: string;
   level: string;
   type: string;
-  categories: string;
+  categories: string | string[];
   salaryMin: number;
   salaryMax: number;
   responsibilities: string;
@@ -15,8 +15,8 @@ interface Ijobs {
   niceToHave: string;
   benefits: string | string[];
   closingDate: string;
-  createAt: string;
-  updateAt: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface IDataState {

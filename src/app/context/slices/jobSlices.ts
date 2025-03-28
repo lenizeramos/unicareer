@@ -40,6 +40,5 @@ const JobsSlice = createSlice({
       });
   },
 });
-
 export const selectData = (state: RootState) => state.jobs;
 export default JobsSlice.reducer;

@@ -90,6 +90,7 @@ const jobsTypes = [
   "Internship",
   "Contract",
 ];
+
 const salaryRange = [
   "$700 - $1000",
   "$100 - $1500",

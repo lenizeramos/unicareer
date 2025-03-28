@@ -5,7 +5,7 @@ import Image from "next/image";
 import DashboardNavbar from "../../../../../components/DashboardNavbar";
 import ButtonComp from "@/app/components/ButtonComp";
 import { styles } from "@/app/styles";
-import { jobPosted, jobsCategories } from "@/app/constants";
+import { jobsCategories } from "@/app/constants";
 import { CiCircleCheck } from "react-icons/ci";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import ProgressBar from "@/app/components/ProgressBar";
@@ -21,8 +21,9 @@ export default function JobDescription() {
   const { data } = useSelector((state: RootState) => state.jobs as IDataState);
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  const job = jobPosted.find((item) => item.id === id);
-
+  console.log("id=>",id)
+  const job = data.find((item) => item.id === id);
+  console.log("job=>", job)
   if (!job) {
     return (
       <>
@@ -30,11 +31,15 @@ export default function JobDescription() {
       </>
     );
   }
+  const createDate = new Date(job.createdAt);
+
   useEffect(() => {
+    console.log('data', data.length)
+
     if (data.length === 0) {
       dispatch(fetchAllJobs());
     }
-  }, [dispatch, data.length]);
+  }, [data]);
   return (
     <>
       <DashboardNavbar
@@ -59,7 +64,7 @@ export default function JobDescription() {
                   <p
                     className={`flex items-center gap-2 ${styles.sectionSubText} xs:text-lg text-sm`}
                   >
-                    {job.company}
+                    {job.companyId}
                     <span className="bg-gray-600 rounded-full w-1 h-1" />
                     {job.location}
                     <span className="bg-gray-600 rounded-full w-1 h-1" />
@@ -85,7 +90,8 @@ export default function JobDescription() {
               <h2 className={`${styles.JobDescriptionTitle}`}>
                 Responsibilities
               </h2>
-              <ul>
+              <p>{job.responsibilities}</p>
+              {/* <ul>
                 {job.responsibilities.map((item, index) => {
                   return (
                     <li
@@ -96,11 +102,11 @@ export default function JobDescription() {
                     </li>
                   );
                 })}
-              </ul>
+              </ul> */}
             </div>
             <div>
               <h2 className={`${styles.JobDescriptionTitle}`}>Who You Are</h2>
-              <ul>
+              {/* <ul>
                 {job.whoYouAre.map((item, index) => {
                   return (
                     <li
@@ -111,11 +117,12 @@ export default function JobDescription() {
                     </li>
                   );
                 })}
-              </ul>
+              </ul> */}
+              {job.whoYouAre}
             </div>
             <div>
               <h2 className={`${styles.JobDescriptionTitle}`}>Nice To Have</h2>
-              <ul>
+              {/* <ul>
                 {job.niceToHave.map((item, index) => {
                   return (
                     <li
@@ -126,7 +133,8 @@ export default function JobDescription() {
                     </li>
                   );
                 })}
-              </ul>
+              </ul> */}
+              {job.niceToHave}
             </div>
           </div>
           <div className=" 2xl:w-[20%] xl:w-[30%] lg:w-[45%] flex lg:flex-col xs:flex-row flex-col justify-around">
@@ -166,39 +174,45 @@ export default function JobDescription() {
             <div className="lg:border-y-[1px] border-gray-200 py-15">
               <h2 className={`${styles.JobDescriptionTitle}`}>Categories</h2>
               <div className="flex gap-2">
-                {Array.isArray(job.categories)
-                  ? job.categories.map((item, index) => {
-                      const stylesTag = jobsCategories.find(
-                        (categ) => categ.title === item
-                      );
-                      return (
-                        <TagComp
-                          bgColor={`${stylesTag?.bgColor}`}
-                          textColor={`${stylesTag?.textColor}`}
-                          text={`${stylesTag?.title}`}
-                          key={index}
-                        />
-                      );
-                    })
-                  : job.categories && (
+                {Array.isArray(job.categories) &&
+                  job.categories.map((item, index) => {
+                    const stylesTag = jobsCategories.find(
+                      (categ) => categ.title === item
+                    );
+                    return (
                       <TagComp
-                        bgColor={`${
-                          jobsCategories.find(
-                            (style) => style.title === job.categories
-                          )?.bgColor
-                        }`}
-                        textColor={`${
-                          jobsCategories.find(
-                            (style) => style.title === job.categories
-                          )?.textColor
-                        }`}
-                        text={`${
-                          jobsCategories.find(
-                            (style) => style.title === job.categories
-                          )?.title
-                        }`}
+                        bgColor={`${stylesTag?.bgColor}`}
+                        textColor={`${stylesTag?.textColor}`}
+                        text={`${stylesTag?.title}`}
+                        key={index}
                       />
-                    )}
+                    );
+                  })}
+                {typeof job.categories === "string" && (
+                  <TagComp
+                    bgColor={`${
+                      jobsCategories.find(
+                        (style) =>
+                          style.title.toLowerCase() ===
+                          job.categories
+                      )?.bgColor
+                    }`}
+                    textColor={`${
+                      jobsCategories.find(
+                        (style) =>
+                          style.title.toLowerCase() ===
+                          job.categories
+                      )?.textColor
+                    }`}
+                    text={`${
+                      jobsCategories.find(
+                        (style) =>
+                          style.title.toLowerCase() ===
+                          job.categories
+                      )?.title
+                    }`}
+                  />
+                )}
               </div>
             </div>
             {/* <div className="py-10">

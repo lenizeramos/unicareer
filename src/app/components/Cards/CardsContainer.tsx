@@ -13,7 +13,6 @@ import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 const CardsContainer = ({ cardId, params }: ICardId) => {
   const dispatch: AppDispatch = useDispatch();
   const { data } = useSelector((state: RootState) => state.jobs as IDataState);
-  console.log(data)
   useEffect(() => {
     if (data.length === 0) {
       dispatch(fetchAllJobs());

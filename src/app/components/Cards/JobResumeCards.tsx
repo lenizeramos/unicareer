@@ -17,7 +17,6 @@ const JobResumeCards = ({
   cardId,
   location,
 }: ICards) => {
-  console.log("category=>", categories);
   return (
     <>
       <div
