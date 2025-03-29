@@ -12,7 +12,14 @@ export async function POST(req: Request) {
   try {
     const { companyId } = await req.json();
 
+    const customer = await stripe.customers.create({
+      metadata: {
+        companyId: companyId,
+      }
+    });
+
     const session = await stripe.checkout.sessions.create({
+      customer: customer.id,
       payment_method_types: ['card'],
       line_items: [
         {
@@ -31,15 +38,19 @@ export async function POST(req: Request) {
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/company/success`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/company/profile`,
       metadata: {
-        companyId: companyId, 
+        companyId: companyId,
+      },
+      invoice_creation: {
+        enabled: true, 
       },
     });
 
     await prisma.companyPayments.create({
       data: {
         companyId,
-        amount: 100.00, 
+        amount: 100.00,
         status: 'PENDING',
+        stripeSessionId: session.id,
       },
     });
 

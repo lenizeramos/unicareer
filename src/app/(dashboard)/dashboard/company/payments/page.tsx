@@ -2,11 +2,10 @@
 import { useEffect, useState } from "react";
 import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
-import CompanyHeader from "@/app/components/CompanyHeader";
-import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import PaymentsList from "@/app/components/PaymentsList";
 import { IPayment } from "@/app/Types";
+import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 
 const fetchCompanyPayments = async () => {
   try {
@@ -31,7 +30,8 @@ export default function CompanyPage() {
   const columns = {
     amount: "Amount",
     status: "Status",
-    createdAt: "Date"
+    createdAt: "Date",
+    invoice: "Download"
   };
 
   const handleButtonClick = () => {
@@ -55,17 +55,7 @@ export default function CompanyPage() {
 
   return (
     <>
-      <CompanyHeader
-        image="/img/company_logo.png"
-        name="Nomad"
-        button={{
-          text: "Post a Job",
-          IsWhite: false,
-          width: "w-xs",
-          icon: <FaPlus />,
-          onClick: handleButtonClick,
-        }}
-      />
+      <CompanyHeaderPaymentButton />
       <div className={styles.borderBottomLight}></div>
       <DashboardWelcome
         greeting="Payments List"

@@ -2,10 +2,9 @@
 import { useEffect, useState } from "react";
 import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
-import CompanyHeader from "@/app/components/CompanyHeader";
-import { FaPlus } from "react-icons/fa";
 import JobList from "@/app/components/JobList";
 import { useRouter } from "next/navigation";
+import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 
 const fetchCompanyJobs = async () => {
   try {
@@ -136,17 +135,7 @@ export default function CompanyPage() {
 
   return (
     <>
-      <CompanyHeader
-        image="/img/company_logo.png"
-        name="Nomad"
-        button={{
-          text: "Post a Job",
-          IsWhite: false,
-          width: "w-xs",
-          icon: <FaPlus />,
-          onClick: handleButtonClick,
-        }}
-      />
+      <CompanyHeaderPaymentButton />
       <div className={styles.borderBottomLight}></div>
       <DashboardWelcome
         greeting="Job Listing"

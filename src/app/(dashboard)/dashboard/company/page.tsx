@@ -10,26 +10,15 @@ import CompanyChart from "@/app/components/CompanyChart";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import Link from "next/link";
 import { GoArrowRight } from "react-icons/go";
-import { useRouter } from "next/navigation";
+import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
+
 
 const CompanyPage = () => {
-  const router = useRouter();
-  const handleButtonClick = () => {
-    router.push("/dashboard/company/postjob");
-  };
+  
+
   return (
     <div className="space-y-8 pb-8">
-      <CompanyHeader
-        image="/img/company_logo.png"
-        name="Nomad"
-        button={{
-          text: "Post a Job",
-          IsWhite: false,
-          width: "w-xs",
-          icon: <FaPlus />,
-          onClick: handleButtonClick,
-        }}
-      />
+      <CompanyHeaderPaymentButton />
 
       <div className={styles.borderBottomLight}></div>
 

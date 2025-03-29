@@ -203,6 +203,8 @@ model CompanyPayments {
   company Company @relation(fields: [companyId], references: [id])
   amount Float
   status PaymentStatus @default(PENDING)
+  stripeSessionId String?
+  invoice String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@map("company_payments")

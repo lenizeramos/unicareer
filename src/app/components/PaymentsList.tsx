@@ -1,6 +1,7 @@
 import { FaArrowLeft, FaArrowRight, FaFilter } from "react-icons/fa";
 import { IPayment, PaymentsListProps } from "../Types";
 import Badge from "./Badge";
+import ButtonComp from "./ButtonComp";
 
 export default function PaymentsList({
   payments,
@@ -12,7 +13,7 @@ export default function PaymentsList({
   totalItems,
 }: PaymentsListProps) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-
+  console.log(payments);
   return (
     <div className="mt-8 border-light">
       <div className="flex justify-between items-center border-bottom-light p-8">
@@ -47,16 +48,23 @@ export default function PaymentsList({
                       />
                     ) : key === "amount" ? (
                       <div className="text-lg font-[600]">
-                        {payment[key as keyof IPayment]}
+                        {payment[key as keyof IPayment]} CAD
                       </div>
                     ) : key === "createdAt" ||
                       key === "updatedAt" ? (
-                      <div className="text-lg font-[500]">
+                      <div className="text-lg font-[500] text-gray-500">
                         {payment[key as keyof IPayment]
-                          ? new Date(
-                              payment[key as keyof IPayment]
-                            ).toLocaleDateString()
+                          ? new Date(String(payment[key as keyof IPayment]))
+                            .toLocaleDateString()
                           : "-"}
+                      </div>
+                    ) : key === "invoice" && payment.invoice ? (
+                      <div className="flex justify-center">
+                        <ButtonComp
+                          text="Download Invoice"
+                          IsWhite={false}
+                          onClick={() => window.open(payment.invoice, '_blank')}
+                        />
                       </div>
                     ) : (
                       payment[key as keyof IPayment]

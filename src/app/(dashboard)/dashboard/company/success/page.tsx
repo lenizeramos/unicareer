@@ -1,10 +1,13 @@
+"use client";
 import CompanyHeader from "@/app/components/CompanyHeader";
 import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { FaCheckCircle, FaPlus } from "react-icons/fa";
 import { styles } from "@/app/styles";
 import ButtonComp from "@/app/components/ButtonComp";
+import { useRouter } from "next/navigation";
 
 const PaymentSuccess = () => {
+  const router = useRouter();
   return (
     <>
             <CompanyHeader image="/img/company_logo.png" name="Nomad" button={{ text: "Post a Job", IsWhite: false, width: "w-xs", icon: <FaPlus /> }} />
@@ -22,7 +25,7 @@ const PaymentSuccess = () => {
                     Your payment has been successfully processed. Click the button below to continue and post a new job.
                     </p>
                     <div className="flex justify-center mt-8">
-                        <ButtonComp text="Post a Job" IsWhite={false} />
+                        <ButtonComp text="Post a Job" IsWhite={false} onClick={() => router.push("/dashboard/company/postjob")}/>
                     </div>
                 </div>
             </div>

@@ -22,6 +22,8 @@ export async function POST(req: Request) {
       const session = event.data.object as Stripe.Checkout.Session;
       const companyId = session.metadata?.companyId;
 
+      const invoice = await stripe.invoices.retrieve(session.invoice as string);
+
       if (companyId) {
         const payment = await prisma.companyPayments.findFirst({
           where: { companyId: companyId },
@@ -31,7 +33,10 @@ export async function POST(req: Request) {
         if (payment) {
           await prisma.companyPayments.update({
             where: { id: payment.id },
-            data: { status: 'COMPLETED' }
+            data: { 
+              status: 'COMPLETED',
+              invoice: invoice.hosted_invoice_url 
+            }
           });
         }
 

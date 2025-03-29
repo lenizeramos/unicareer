@@ -2,9 +2,8 @@
 import { useState } from "react";
 import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
-import CompanyHeader from "@/app/components/CompanyHeader";
 import ApplicantsList from "@/app/components/ApplicantsList";
-import { FaPlus } from "react-icons/fa";
+import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 
 export default function ApplicationsPage() {
     const [currentPage, setCurrentPage] = useState(1);
@@ -57,7 +56,7 @@ export default function ApplicationsPage() {
 
     return (
         <>
-            <CompanyHeader image="/img/company_logo.png" name="Nomad" button={{ text: "Post a Job", IsWhite: false, width: "w-xs", icon: <FaPlus /> }} />
+            <CompanyHeaderPaymentButton />
             <div className={styles.borderBottomLight}></div>
             <DashboardWelcome 
                 greeting="Job Applications" 
