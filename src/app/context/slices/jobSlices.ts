@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { IDataState } from "../../Types/slices";
+import { IJobsState } from "../../Types/slices";
 import { RootState } from "../store";
 
-const initialState: IDataState = {
-  data: [],
+const initialState: IJobsState = {
+  jobs: [],
   loading: false,
   error: null,
 };
@@ -32,7 +32,7 @@ const JobsSlice = createSlice({
       })
       .addCase(fetchAllJobs.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload;
+        state.jobs = action.payload;
       })
       .addCase(fetchAllJobs.rejected, (state, action) => {
         state.loading = false;

@@ -9,22 +9,22 @@ import { jobsCategories, jobsTypes, salaryRange } from "@/app/constants";
 import FilterJobs from "@/app/components/FilterJobs";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import { AppDispatch, RootState } from "@/app/context/store";
-import { IDataState } from "@/app/Types/slices";
+import { IJobsState } from "@/app/Types/slices";
 import { useEffect } from "react";
 import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 
 export default function FindJobs() {
   const dispatch: AppDispatch = useDispatch();
-  const { data } = useSelector((state: RootState) => state.jobs as IDataState);
+  const { jobs } = useSelector((state: RootState) => state.jobs as IJobsState);
   let jobsArray: string[] = [];
   jobsCategories.map((category) => {
     return jobsArray.push(category.title);
   });
   useEffect(() => {
-    if (data.length === 0) {
+    if (jobs.length === 0) {
       dispatch(fetchAllJobs());
     }
-  }, [dispatch, data.length]);
+  }, [dispatch, jobs.length]);
   return (
     <>
       <DashboardNavbar

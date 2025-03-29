@@ -1,3 +1,4 @@
+"use client";
 import { styles } from "@/app/styles";
 import { ICards } from "@/app/Types";
 import Image from "next/image";
@@ -6,17 +7,32 @@ import ProgressBar from "../ProgressBar";
 import TagComp from "../TagComp";
 import { jobsCategories } from "@/app/constants";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/context/store";
+import { IUserState } from "@/app/Types/slices";
+import { useEffect } from "react";
+import { fetchUsers } from "@/app/context/slices/usersSlices";
 
 const JobResumeCards = ({
   id,
   logo,
   title,
   categories,
-  company,
+  companyId,
   type,
   cardId,
   location,
 }: ICards) => {
+  const dispatch: AppDispatch = useDispatch();
+  const { users } = useSelector(
+    (state: RootState) => state.users as IUserState
+  );
+  useEffect(() => {
+    if (users.length === 0) {
+      dispatch(fetchUsers("company"));
+    }
+  });
+  const company = users.find((company) => company.userId === companyId);
   return (
     <>
       <div
@@ -25,8 +41,8 @@ const JobResumeCards = ({
         <div className="flex md:flex-row flex-col gap-5 items-center">
           <div>
             <Image
-              src={"/img/logo.svg"}
-              alt={`${company}_logo`}
+              src={`"/img/logo.svg"`}
+              alt={`${company?.name}_logo`}
               width={50}
               height={50}
             />
@@ -40,7 +56,7 @@ const JobResumeCards = ({
               <h4
                 className={`${styles.sectionSubText} text-gray-600 flex items-center gap-2`}
               >
-                {company}
+                {company?.name}
                 <div className="w-1 h-1 rounded-full bg-gray-400" />
                 {location}
               </h4>

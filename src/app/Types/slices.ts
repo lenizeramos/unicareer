@@ -19,10 +19,25 @@ interface Ijobs {
   updatedAt: string;
 }
 
-interface IDataState {
-  data: Ijobs[];
+interface IJobsState {
+  jobs: Ijobs[];
   loading: boolean;
   error: string | null;
 }
 
-export type { Ijobs, IDataState };
+interface IUsers {
+  id: string;
+  userId: string;
+  name: string;
+  bio: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface IUserState {
+  users: IUsers[];
+  loading: boolean;
+  error: string | null;
+}
+
+export type { Ijobs, IJobsState, IUsers, IUserState };

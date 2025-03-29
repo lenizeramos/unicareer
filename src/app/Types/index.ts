@@ -49,6 +49,7 @@ interface ICards {
   // benefits?: { icon: React.ElementType; title: string; text: string }[];
   benefits?: string[] | string;
   company?: string;
+  companyId?: string;
   closingDate?: string;
   createdAt?: string;
   applicantsCount?: number;

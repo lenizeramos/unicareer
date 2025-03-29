@@ -12,18 +12,18 @@ import ProgressBar from "@/app/components/ProgressBar";
 import TagComp from "@/app/components/TagComp";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useDispatch, useSelector } from "react-redux";
-import { IDataState } from "@/app/Types/slices";
+import { IJobsState } from "@/app/Types/slices";
 import { useEffect } from "react";
 import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 
 export default function JobDescription() {
   const dispatch: AppDispatch = useDispatch();
-  const { data, loading } = useSelector(
-    (state: RootState) => state.jobs as IDataState
+  const { jobs, loading } = useSelector(
+    (state: RootState) => state.jobs as IJobsState
   );
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  const job = data.find((item) => item.id === id);
+  const job = jobs.find((item) => item.id === id);
   useEffect(() => {
     dispatch(fetchAllJobs());
   }, [dispatch]);

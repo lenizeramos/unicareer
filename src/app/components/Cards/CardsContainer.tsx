@@ -1,3 +1,4 @@
+"use client";
 import { ICardId } from "@/app/Types";
 import { jobsCategories, perksData } from "@/app/constants";
 import BasicCards from "./BasicCards";
@@ -6,18 +7,20 @@ import JobResumeCards from "./JobResumeCards";
 import RecentCard from "./RecentCard";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useDispatch, useSelector } from "react-redux";
-import { IDataState } from "@/app/Types/slices";
+import { IJobsState } from "@/app/Types/slices";
 import { useEffect } from "react";
 import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 
 const CardsContainer = ({ cardId, params }: ICardId) => {
   const dispatch: AppDispatch = useDispatch();
-  const { data } = useSelector((state: RootState) => state.jobs as IDataState);
+  const { jobs } = useSelector((state: RootState) => state.jobs as IJobsState);
+
   useEffect(() => {
-    if (data.length === 0) {
+    if (jobs.length === 0) {
       dispatch(fetchAllJobs());
     }
-  }, [dispatch, data.length]);
+  }, [jobs.length, dispatch]);
+
   const renderCard = () => {
     switch (cardId) {
       case "category":
@@ -96,7 +99,7 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
               </div>
             ) : (
               <div className="flex flex-col gap-3 w-full mx-auto">
-                {data.map((info, index) => {
+                {jobs.map((info, index) => {
                   return (
                     <JobResumeCards cardId={cardId} {...info} key={index} />
                   );
