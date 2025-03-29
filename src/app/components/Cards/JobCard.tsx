@@ -32,20 +32,20 @@ const JobCard = ({
             <TagComp
               bgColor="bg-[#cbfbf1]"
               textColor="text-[#009c8f]"
-              text={`Full-Time ${type}`}
+              text={`${type}`}
             />
           )}
         </div>
         <div className="">
           <h2 className={`${styles.sectionHeadText} text-black`}>
-            Title{title}
+            {title}
           </h2>
           <h3
             className={`${styles.sectionSubText} text-gray-600 flex items-center gap-2`}
           >
-            Company{company}
+            {company}
             <div className="w-1 h-1 rounded-full bg-gray-400" />
-            SubTitle{subtitle}
+            {subtitle}
           </h3>
         </div>
         <div className="flex flex-col gap-5">
@@ -65,12 +65,12 @@ const JobCard = ({
             <TagComp
               bgColor="bg-[#eefaf7]"
               textColor="text-[#69d3b6]"
-              text={`#tag1 ${category}`}
+              text={`${category}`}
             />
             <TagComp
               bgColor="bg-[#e5e7eb]"
               textColor="text-[#4a5565]"
-              text={`#tag2 ${category}`}
+              text={`${category}`}
             />
           </div>
         </div>

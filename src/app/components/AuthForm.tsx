@@ -1,19 +1,14 @@
 "use client";
 
 import { SignIn, SignUp } from "@clerk/nextjs";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import Logo from "@/app/components/Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import ButtonComp from "@/app/components/ButtonComp";
 import Link from "next/link";
-
-type AuthFormProps = {
-  type: "sign-in" | "sign-up";
-  role?: "company" | "candidate";
-  onRoleChange?: (role: "company" | "candidate") => void;
-};
+import { AuthFormProps } from "../Types";
 
 const AuthForm = ({ type, role, onRoleChange }: AuthFormProps) => {
   const { isSignedIn } = useUser();
@@ -21,7 +16,9 @@ const AuthForm = ({ type, role, onRoleChange }: AuthFormProps) => {
 
   useEffect(() => {
     if (isSignedIn) {
-      router.push(type === "sign-in" ? "/after-sign-in" : `/register?role=${role}`);
+      router.push(
+        type === "sign-in" ? "/after-sign-in" : `/register?role=${role}`
+      );
     }
   }, [isSignedIn, router, type, role]);
 
