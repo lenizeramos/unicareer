@@ -1,11 +1,39 @@
+"use client"
 import Image from "next/image";
 import ButtonComp from "../components/ButtonComp";
 import { styles } from "../styles";
 import Logo from "../components/Logo";
 import { FaRegEdit } from "react-icons/fa";
 import CardsContainer from "../components/Cards/CardsContainer";
+import { useEffect, useState } from "react";
+import FileUpload from "../components/FileUpload";
+import FileDisplay from "../components/FileDisplay";
 
 export default function Home() {
+  
+  const [userId, setUserId] = useState<string>("");
+
+  useEffect(() => {
+    const getUserId = async () => {
+        
+        try {
+            const response = await fetch('/api/get-user-by-clerk-id', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error);
+            setUserId(data.id);
+        } catch (error) {
+            console.error('Failed to fetch user ID:', error);
+        }
+    };
+    getUserId();
+  }, []);
+
   return (
     <>
       <div className="bg-landingDark p-5 flex flex-col gap-5">
@@ -45,6 +73,66 @@ export default function Home() {
             <CardsContainer cardId="recentApply" />
           </div>
         </div>
+      
+
+        {userId && (
+          <div className="space-y-8">
+            <div className="flex items-center gap-6">
+                <FileUpload 
+                    allowedFileTypes={['application/pdf']}
+                    apiRoute="/api/upload"
+                    modelName="candidateDocument"
+                    fieldName="fileKey"
+                    userId={userId}
+                    uploadText="Upload your resume"
+                    maxSizeMB={5}
+                />
+                <FileDisplay
+                    modelName="candidateDocument"
+                    userId={userId}
+                    className="min-w-[200px]"
+                />
+            </div>
+
+            <div className="flex items-center gap-6">
+                <FileUpload 
+                    allowedFileTypes={['image/jpeg', 'image/png']}
+                    apiRoute="/api/upload"
+                    modelName="userProfileImage"
+                    fieldName="fileKey"
+                    userId={userId}
+                    uploadText="Upload your profile image"
+                    maxSizeMB={5}
+                />
+                <FileDisplay
+                    modelName="userProfileImage"
+                    userId={userId}
+                    width={150}
+                    height={150}
+                    className="rounded-full overflow-hidden"
+                />
+            </div>
+
+            <div className="flex items-center gap-6">
+                <FileUpload 
+                    allowedFileTypes={['image/jpeg', 'image/png']}
+                    apiRoute="/api/upload"
+                    modelName="companyProfileImage"
+                    fieldName="fileKey"
+                    userId={userId}
+                    uploadText="Upload your company profile image"
+                    maxSizeMB={5}
+                />
+                <FileDisplay
+                    modelName="companyProfileImage"
+                    userId={userId}
+                    width={200}
+                    height={200}
+                    className="rounded-lg overflow-hidden"
+                />
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

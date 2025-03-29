@@ -32,7 +32,7 @@ const JobCard = ({
             <TagComp
               bgColor="bg-[#cbfbf1]"
               textColor="text-[#009c8f]"
-              text={`Full-Time ${type}`}
+              text={`${type}`}
             />
           )}
         </div>
@@ -62,12 +62,12 @@ const JobCard = ({
             <TagComp
               bgColor="bg-[#eefaf7]"
               textColor="text-[#69d3b6]"
-              text={`#tag1 ${categories}`}
+              text={`${category}`}
             />
             <TagComp
               bgColor="bg-[#e5e7eb]"
               textColor="text-[#4a5565]"
-              text={`#tag2 ${categories}`}
+              text={`${category}`}
             />
           </div>
         </div>

@@ -2,15 +2,20 @@
 import React, { useRef, useState } from "react";
 import { Stepper } from "primereact/stepper";
 import { StepperPanel } from "primereact/stepperpanel";
-import { Chips } from "primereact/chips";
+import ChipsField from "./ChipsField";
 import ButtonComp from "./ButtonComp";
 import { IJobFormProps } from "../Types";
 import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
 import SelectField from "./SelectField";
 import SalaryRangeSlider from "./SalaryRangeSlider";
-
-import "primereact/resources/themes/lara-light-cyan/theme.css";
+import {
+  classNameDivContainer,
+  classNameLabel,
+  classNameDivLgWidth,
+  classNameField,
+  classNamePadding,
+} from "@/app/constants/index"
 
 const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const stepperRef = useRef(null);
@@ -28,12 +33,6 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const [benefits, setBenefits] = useState<string[]>([]);
   const [salary, setSalary] = useState([10, 100]);
 
-  const classNameDivContainer = "flex flex-col lg:flex-row lg:items-start";
-  const classNameLabel = "text-sm font-semibold text-gray-700 lg:w-1/5 lg:pr-4";
-  const classNameDivLgWidth = "lg:w-4/5";
-  const classNameField =
-    "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm";
-  const classNamePadding = "lg:py-3";
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedDate = e.target.value;
     if (selectedDate) {
@@ -43,8 +42,8 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
     }
   };
   const toLocalISOString = (date: Date) => {
-    const offset = date.getTimezoneOffset() * 60000; 
-    const localDate = new Date(date.getTime() - offset); 
+    const offset = date.getTimezoneOffset() * 60000;
+    const localDate = new Date(date.getTime() - offset);
     return localDate.toISOString().slice(0, 16);
   };
 
@@ -186,26 +185,21 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               />
             </div>
 
-            <div className={`${classNameDivContainer} ${classNamePadding}`}>
-              <label htmlFor="skills" className={classNameLabel}>
-                Skills for this position
-                <small className="block text-xs text-gray-500">
-                  Enter relevant skills for the position
-                </small>
-              </label>
-              <Chips
-                className="lg:w-4/5 text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                itemTemplate={(skill) => (
-                  <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
-                    {skill}
-                  </div>
-                )}
-                value={skills}
-                onChange={(e) => setSkills(e.value ? e.value : [])}
-                separator=","
-                placeholder="E.g., React, Node.js, Java"
-              />
-            </div>
+            <ChipsField
+              label="Skills for this position"
+              value={skills}
+              onChange={setSkills}
+              className="lg:w-4/5 text-gray-700 rounded-md"
+              containerClass={`${classNameDivContainer} ${classNamePadding}`}
+              labelClass={classNameLabel}
+              helperText="Enter relevant skills for the position"
+              itemTemplate={(skill) => (
+                <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
+                  {skill}
+                </div>
+              )}
+              placeholder="E.g., React, Node.js, Java"
+            />
           </div>
           <div className="flex pt-4 justify-end">
             <ButtonComp
@@ -310,27 +304,21 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
         </StepperPanel>
 
         <StepperPanel header="Step 3/3: Benefits">
-          <div className={classNameDivContainer}>
-            <label htmlFor="benefits" className={classNameLabel}>
-              Benefits
-              <small className="block text-xs text-gray-500">
-                Encourage more people to apply by sharing the attractive rewards
-                and benefits you offer your employees
-              </small>
-            </label>
-            <Chips
-              className="lg:w-4/5 text-gray-700 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              itemTemplate={(benefits) => (
-                <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
-                  {benefits}
-                </div>
-              )}
-              value={benefits}
-              onChange={(e) => setBenefits(e.value ? e.value : [])}
-              separator=","
-              placeholder="E.g., Health Insurance, Skill Development"
-            />
-          </div>
+          <ChipsField
+            label="Benefits"
+            value={benefits}
+            onChange={setBenefits}
+            className="lg:w-4/5 text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            containerClass={classNameDivContainer}
+            labelClass={classNameLabel}
+            helperText="Encourage more people to apply by sharing the attractive rewards and benefits you offer your employees"
+            itemTemplate={(benefit) => (
+              <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
+                {benefit}
+              </div>
+            )}
+            placeholder="E.g., Health Insurance, Skill Development"
+          />
 
           <div className="flex pt-4 justify-between">
             <ButtonComp

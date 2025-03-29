@@ -16,5 +16,7 @@ export const dashboardMenus: Record<DashboardType, MenuItem[]> = {
     { title: 'Dashboard', path: '/dashboard/company', iconName: 'dashboard' },
     { title: 'Company Profile', path: '/dashboard/company/profile', iconName: 'building' },
     { title: 'Job Listing', path: '/dashboard/company/joblisting', iconName: 'list' },
+    { title: 'Payments', path: '/dashboard/company/payments', iconName: 'dollar' },
+    { title: 'Job Applications', path: '/dashboard/company/jobApplication', iconName: 'list' },
   ],
 };

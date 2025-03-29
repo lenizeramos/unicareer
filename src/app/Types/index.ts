@@ -137,6 +137,26 @@ export interface JobListProps extends IJobList {
   totalItems: number;
 }
 
+export interface IPayment {
+  amount: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IPaymentsList {
+  payments: IPayment[];
+  columns: { [key: string]: string };
+}
+
+export interface PaymentsListProps extends IPaymentsList {
+  itemsPerPage: number;
+  onItemsPerPageChange: (value: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+}
+
 export interface IBadge {
   status: string;
   color: string;
@@ -168,8 +188,8 @@ export interface InputFieldProps {
   label: string;
   small?: string;
   id: string;
-  name: string;
-  value: string | number | null;
+  name?: string;
+  value?: string | number | null;
   minDate?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
@@ -181,11 +201,14 @@ export interface InputFieldProps {
   classNameLabel?: string;
   classNameDivLgWidth?: string;
   classNameField?: string;
+  accept?: string;
+  fileLabel?: string;
+  filePreview?: React.ReactNode;
 }
 
 export interface ISalaryRangeSliderProps {
   label: string;
-  small: string;
+  small?: string;
   id: string;
   min: number;
   max: number;
@@ -200,7 +223,7 @@ export interface ISalaryRangeSliderProps {
 
 export interface ISelectFieldProps {
   label: string;
-  small: string;
+  small?: string;
   id: string;
   name: string;
   value: string;
@@ -215,9 +238,9 @@ export interface ISelectFieldProps {
 }
 export interface ITextAreaFieldProps {
   label: string;
-  small: string;
+  small?: string;
   id: string;
-  name: string;
+  name?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
@@ -229,4 +252,55 @@ export interface ITextAreaFieldProps {
   classNameLabel?: string;
   classNameDivLgWidth?: string;
   classNameField?: string;
+}
+
+export interface IChipsFieldProps {
+  label: string;
+  value: string[];
+  onChange: (value: string[]) => void;
+  placeholder?: string;
+  itemTemplate?: (item: string) => React.ReactNode;
+  className?: string;
+  labelClass?: string;
+  containerClass?: string;
+  helperText?: string;
+}
+
+export interface AuthFormProps {
+  type: "sign-in" | "sign-up";
+  role?: "company" | "candidate";
+  onRoleChange?: (role: "company" | "candidate") => void;
+}
+
+export interface IApplicantProps {
+  label: string;
+  count: number;
+  color: string;
+}
+
+export interface ITotalApplicantProps {
+  applicants: IApplicantProps[];
+  totalApplicants: number;
+}
+
+export interface IStatusCardProps {
+  title: string;
+  value: number;
+  icon?: React.ReactNode;
+  color?: string;
+  backgroundColor?: string;
+  trend?: "up" | "down";
+  percentage?: string;
+}
+
+
+export interface ICandidateFormProps {
+  onSubmit: (formData: {
+    firstName: string;
+    lastName: string;
+    photo: File | null;
+    skills: string[];
+    resume: File | null;
+    bio: string;
+  }) => void;
 }
