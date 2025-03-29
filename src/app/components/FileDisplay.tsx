@@ -9,7 +9,8 @@ export default function FileDisplay({
   userId, 
   className = '', 
   width = 200, 
-  height = 200 
+  height = 200,
+  fallbackImage
 }: FileDisplayProps) {
 
   const [fileData, setFileData] = useState<{
@@ -46,9 +47,7 @@ export default function FileDisplay({
     <div className={`flex items-center justify-center ${className}`}>
       {loading ? (
         <div className="animate-pulse">Loading...</div>
-      ) : !fileData ? (
-        <div>No file found</div>
-      ) : fileData.fileType.startsWith('image/') ? (
+      ) : fileData && fileData.fileType.startsWith('image/') ? (
         <Image
           src={`${process.env.NEXT_PUBLIC_S3_BASE_URL}/${fileData.fileKey}`}
           alt={fileData.fileName}
@@ -57,19 +56,16 @@ export default function FileDisplay({
           className="object-cover"
           onError={(e) => console.error('Image failed to load:', e)}
         />
+      ) : fallbackImage ? (
+        <Image
+          src={fallbackImage}
+          alt="Profile Image"
+          width={width}
+          height={height}
+          className="object-cover"
+        />
       ) : (
-        <a
-          href={`${process.env.NEXT_PUBLIC_S3_BASE_URL}/${fileData.fileKey}`}
-          download={fileData.fileName}
-          className="inline-block p-4 border rounded-lg hover:bg-gray-100"
-        >
-          <span className="flex items-center gap-2">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            Download {fileData.fileName}
-          </span>
-        </a>
+        <div>No file found</div>
       )}
     </div>
   );

@@ -14,8 +14,7 @@ export default function Home() {
   const [userId, setUserId] = useState<string>("");
 
   useEffect(() => {
-    const getUserId = async () => {
-        
+    const getUserId = async () => {        
         try {
             const response = await fetch('/api/get-user-by-clerk-id', {
                 method: 'GET',

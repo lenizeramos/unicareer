@@ -26,4 +26,5 @@ export interface FileUploadProps {
     className?: string;
     width?: number;
     height?: number;
+    fallbackImage?: string;
   }
