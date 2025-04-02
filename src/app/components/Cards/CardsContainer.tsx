@@ -19,7 +19,7 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
     if (jobs.length === 0) {
       dispatch(fetchAllJobs());
     }
-  }, [jobs.length, dispatch]);
+  }, [jobs.length]);
 
   const renderCard = () => {
     switch (cardId) {
@@ -76,7 +76,6 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
               </div>
             ) : (
               <div className="flex flex-row gap-10 flex-wrap justify-center">
-                {/* <p className="text-white">cardId= jobUpdates</p> */}
                 {params?.map((param, index) => (
                   <JobCard
                     key={index}
@@ -88,7 +87,7 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
                     logo={param.logo}
                     subtitle={param.subtitle}
                     alt={param.alt}
-                    category={param.category}
+                    categories={param.categories}
                     type={param.type}
                   />
                 ))}

@@ -26,12 +26,21 @@ interface IJobsState {
 }
 
 interface IUsers {
-  id: string;
-  userId: string;
-  name: string;
-  bio: string;
-  createdAt: string;
-  updatedAt: string;
+  id?: string;
+  clerkId?: string;
+  email?: string;
+  role?: "ADMIN" | "COMPANY" | "CANDIDATE";
+  photo?: string;
+  userId?: string;
+  name?: string;
+  bio?: string;
+  firstName?:string;
+  lastName?:string;
+  skills?:string[];
+  resume?:string;
+  website?:string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface IUserState {

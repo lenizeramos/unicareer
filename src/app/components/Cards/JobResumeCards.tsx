@@ -31,8 +31,9 @@ const JobResumeCards = ({
     if (users.length === 0) {
       dispatch(fetchUsers("company"));
     }
-  });
-  const company = users.find((company) => company.userId === companyId);
+  }, [dispatch, users.length]);
+  console.log(users)
+  const company = users.find((company) => company.id === companyId);
   return (
     <>
       <div
@@ -41,12 +42,11 @@ const JobResumeCards = ({
         <div className="flex md:flex-row flex-col gap-5 items-center">
           <div>
             <Image
-              src={`"/img/logo.svg"`}
+              src={`/img/logo.svg`}
               alt={`${company?.name}_logo`}
               width={50}
               height={50}
             />
-            {logo}
           </div>
           <div className="flex flex-col gap-2">
             <div>

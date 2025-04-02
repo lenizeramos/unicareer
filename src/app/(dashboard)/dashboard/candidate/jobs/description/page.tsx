@@ -12,21 +12,27 @@ import ProgressBar from "@/app/components/ProgressBar";
 import TagComp from "@/app/components/TagComp";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useDispatch, useSelector } from "react-redux";
-import { IJobsState } from "@/app/Types/slices";
+import { IJobsState, IUserState } from "@/app/Types/slices";
 import { useEffect } from "react";
 import { fetchAllJobs } from "@/app/context/slices/jobSlices";
+import { fetchUsers } from "@/app/context/slices/usersSlices";
 
 export default function JobDescription() {
   const dispatch: AppDispatch = useDispatch();
   const { jobs, loading } = useSelector(
     (state: RootState) => state.jobs as IJobsState
   );
+  const { users } = useSelector(
+    (state: RootState) => state.users as IUserState
+  );
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const job = jobs.find((item) => item.id === id);
   useEffect(() => {
     dispatch(fetchAllJobs());
-  }, [dispatch]);
+    dispatch(fetchUsers("company"));
+  }, [users.length, jobs.length]);
+  const company = users.find((company) => company.id === job?.companyId);
   if (loading) {
     return <div>loading</div>;
   }
@@ -68,7 +74,7 @@ export default function JobDescription() {
                   <p
                     className={`flex items-center gap-2 ${styles.sectionSubText} xs:text-lg text-sm`}
                   >
-                    {job.companyId}
+                    {company?.name}
                     <span className="bg-gray-600 rounded-full w-1 h-1" />
                     {job.location}
                     <span className="bg-gray-600 rounded-full w-1 h-1" />

@@ -7,6 +7,7 @@ import { IoCodeSlash } from "react-icons/io5";
 import { LuBriefcaseBusiness } from "react-icons/lu";
 import { IoPeopleOutline } from "react-icons/io5";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { FaCode } from "react-icons/fa";
 
 //test
 import { MdOutlineHealthAndSafety } from "react-icons/md";
@@ -26,6 +27,8 @@ const stylesTags = [
   "bg-[#ececfc] text-[#504ae0] border-[#504ae0]",
   "bg-[#fdf3eb] text-[#ffb836] border-[#ffb836]",
   "bg-[#eefaf7] text-[#69d3b6] border-[#69d3b6]",
+  "bg-[#dacead] text-[#524d41] border-[#524d41]",
+  "bg-[#cbfbf1] text-[#009c8f] border-[#009c8f]",
 ];
 
 const jobsCategories = [
@@ -92,6 +95,14 @@ const jobsCategories = [
     bgColor: "bg-[#ddd6ff]",
     textColor: "text-[#2f0d67]",
     border: "border border-[#2f0d67]",
+  },
+  {
+    icon: FaCode,
+    title: "Development",
+    subicons: FaArrowRightLong,
+    bgColor: "bg-[#dacead]",
+    textColor: "text-[#524d41]",
+    border: "border border-[#524d41]",
   },
 ];
 const jobsTypes = [

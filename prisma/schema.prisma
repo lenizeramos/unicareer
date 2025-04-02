@@ -14,50 +14,51 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  clerkId   String     @unique
-  email     String     @unique
-  role      Role
-  photo     String?
+  id           String             @id @default(auto()) @map("_id") @db.ObjectId
+  clerkId      String             @unique
+  email        String             @unique
+  role         Role
+  photo        String?
   profileImage UserProfileImage[]
-  candidate Candidate? @relation
-  company   Company?   @relation
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  candidate    Candidate?         @relation
+  company      Company?           @relation
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
 
   @@map("user")
 }
 
 model Candidate {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId       String   @unique @db.ObjectId 
-  user         User     @relation(fields: [userId], references: [id])
-  firstName    String
-  lastName     String
-  skills       String[]
-  resume       String?
-  bio          String?
-  website      String?
-  documents    CandidateDocument[]
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id        String              @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String              @unique @db.ObjectId
+  user      User                @relation(fields: [userId], references: [id])
+  firstName String
+  lastName  String
+  skills    String[]
+  resume    String?
+  bio       String?
+  website   String?
+  documents CandidateDocument[]
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
   //compatibilityScores CompatibilityScore[]
 
   @@map("candidate")
 }
 
 model Company {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String   @unique @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
-  name      String
-  bio       String?
-  payments  CompanyPayments[]
+  id                String                @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String                @unique @db.ObjectId
+  user              User                  @relation(fields: [userId], references: [id])
+  name              String
+  bio               String?
+  photo             String?
+  payments          CompanyPayments[]
   companyMembership CompanyMembership[]
-  jobs      Job[]    @relation("CompanyJobs")
-  profileImages CompanyProfileImage[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt  
+  jobs              Job[]                 @relation("CompanyJobs")
+  profileImages     CompanyProfileImage[]
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
 
   @@map("company")
 }
@@ -188,25 +189,26 @@ enum Role {
   CANDIDATE
 }
 
-
 model CompanyMembership {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  companyId String @unique @db.ObjectId
-  company Company @relation(fields: [companyId], references: [id])
-  status MembershipStatus @default(INACTIVE)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  companyId String           @unique @db.ObjectId
+  company   Company          @relation(fields: [companyId], references: [id])
+  status    MembershipStatus @default(INACTIVE)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
   @@map("company_membership")
 }
 
 model CompanyPayments {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  companyId String @db.ObjectId
-  company Company @relation(fields: [companyId], references: [id])
-  amount Float
-  status PaymentStatus @default(PENDING)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  companyId String        @db.ObjectId
+  company   Company       @relation(fields: [companyId], references: [id])
+  amount    Float
+  status    PaymentStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
   @@map("company_payments")
 }
 
@@ -226,9 +228,9 @@ model CandidateDocument {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   candidateId String    @db.ObjectId
   candidate   Candidate @relation(fields: [candidateId], references: [id])
-  fileKey     String    
-  fileType    String    
-  fileName    String    
+  fileKey     String
+  fileType    String
+  fileName    String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
@@ -236,27 +238,27 @@ model CandidateDocument {
 }
 
 model UserProfileImage {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId String    @db.ObjectId
-  user   User @relation(fields: [userId], references: [id])
-  fileKey     String    
-  fileType    String    
-  fileName    String    
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  fileKey   String
+  fileType  String
+  fileName  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("user_profile_images")
 }
 
 model CompanyProfileImage {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  companyId   String    @db.ObjectId
-  company     Company   @relation(fields: [companyId], references: [id])
-  fileKey     String    
-  fileType    String    
-  fileName    String    
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  companyId String   @db.ObjectId
+  company   Company  @relation(fields: [companyId], references: [id])
+  fileKey   String
+  fileType  String
+  fileName  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("company_profile_images")
 }
