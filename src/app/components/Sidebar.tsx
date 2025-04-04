@@ -6,7 +6,7 @@ import { DashboardType, SidebarProps } from '../Types/navigation';
 import { styles } from '../styles';
 import Icon from './Icon';
 import { dashboardMenus } from '../config/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { TiDocumentText } from "react-icons/ti";
 import { IoSearchSharp } from "react-icons/io5";
@@ -19,6 +19,8 @@ import Image from 'next/image';
 import { useUser, useClerk } from "@clerk/nextjs";
 import { CiLogout } from "react-icons/ci";
 import Logo from "./Logo";
+import { useState } from "react";
+import FileDisplay from './FileDisplay';
 
 const iconComponents = {
     dashboard: MdOutlineSpaceDashboard,
@@ -36,6 +38,28 @@ export default function Sidebar({ userType, isOpen = true, onClose }: SidebarPro
     const menuItems = dashboardMenus[userType as DashboardType];
     const { user } = useUser();
     const { signOut } = useClerk();
+
+    const [userId, setUserId] = useState<string>("");
+
+  useEffect(() => {
+    const getUserId = async () => {        
+        try {
+            const response = await fetch('/api/get-user-by-clerk-id', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error);
+            setUserId(data.id);
+        } catch (error) {
+            console.error('Failed to fetch user ID:', error);
+        }
+    };
+    getUserId();
+  }, []);
 
     const handleSignOut = () => {
         signOut();
@@ -105,13 +129,14 @@ export default function Sidebar({ userType, isOpen = true, onClose }: SidebarPro
                     <div className="flex items-center justify-center mt-auto absolute bottom-0 p-8">
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
-                                <Image 
-                                    src={user?.imageUrl || "/img/Avatar.png"} 
-                                    alt="User Avatar" 
-                                    width={60} 
-                                    height={60} 
-                                    className="rounded-full"
-                                />                                
+                                <FileDisplay
+                                    modelName="userProfileImage"
+                                    userId={userId}
+                                    width={60}
+                                    height={60}
+                                    className="rounded-full overflow-hidden"
+                                    fallbackImage={user?.imageUrl || ''}
+                                />           
                             </div>
                             <div>
                                 <p className="text-md font-bold">{user?.firstName} {user?.lastName}</p>

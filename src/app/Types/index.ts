@@ -150,6 +150,7 @@ export interface IPayment {
   status: string;
   createdAt: string;
   updatedAt: string;
+  invoice?: string;
 }
 
 export interface IPaymentsList {

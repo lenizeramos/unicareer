@@ -27,17 +27,24 @@ export async function GET() {
       }
     });
 
+    console.log(user);
+
     if (!user || !user.company) {
-      return NextResponse.json({ error: 'Company not found' }, { status: 404 });
+      return NextResponse.json({ isActive: false });
     }
 
     const membership = user.company.companyMembership[0];
     const latestPayment = user.company.payments[0];
 
-    console.log(membership.status);
-    console.log(latestPayment.status);
+    if (!membership) {
+      return NextResponse.json({ isActive: false });
+    }
 
-    const isActive = membership?.status === 'ACTIVE';
+    const isActive = membership.status === 'ACTIVE';
+    
+    if (latestPayment) {
+      console.log('Latest payment status:', latestPayment.status);
+    }
 
     return NextResponse.json({ isActive });
     

@@ -123,6 +123,16 @@ body {
   border-color: var(--color-freelanceColor);
 }
 
+.border-COMPLETED {
+  border-color: var(--color-openColor);
+  color: var(--color-openColor);
+}
+
+.border-PENDING {
+  border-color: var(--color-freelanceColor);
+  color: var(--color-freelanceColor);
+}
+
 .text-openColor {
   color: var(--color-openColor);
 }
