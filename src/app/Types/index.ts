@@ -31,7 +31,7 @@ interface ICardId extends Omit<ICards, "cardId"> {
 interface ICards {
   icon?: React.ElementType;
   subicons?: React.ElementType;
-  cardId: string;
+  cardId?: string;
   logo?: string;
   id?: string;
   title?: string;
@@ -76,6 +76,14 @@ interface ITagComp {
 interface IFilterJobs {
   array: string[];
   title: string;
+  filters: {
+    searchTerm: string;
+    searchLocation:string;
+    jobType: string;
+    category: string;
+    salary: string;
+  };
+  onFilterChange: (key: string, value: string) => void;
 }
 
 export type {
@@ -292,7 +300,6 @@ export interface IStatusCardProps {
   trend?: "up" | "down";
   percentage?: string;
 }
-
 
 export interface ICandidateFormProps {
   onSubmit: (formData: {

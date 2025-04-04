@@ -10,10 +10,20 @@ import FilterJobs from "@/app/components/FilterJobs";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { IJobsState } from "@/app/Types/slices";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 
 export default function FindJobs() {
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    searchLocation: "",
+    jobType: "",
+    category: "",
+    salary: "",
+  });
+  const handleFilterChange = (key: string, value: string) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
+  };
   const dispatch: AppDispatch = useDispatch();
   const { jobs } = useSelector((state: RootState) => state.jobs as IJobsState);
   let jobsArray: string[] = [];
@@ -25,6 +35,7 @@ export default function FindJobs() {
       dispatch(fetchAllJobs());
     }
   }, [dispatch, jobs.length]);
+  console.log(filters);
   return (
     <>
       <DashboardNavbar
@@ -62,9 +73,24 @@ export default function FindJobs() {
         </div>
         <div className="flex gap-20">
           <div className="flex flex-col gap-4">
-            <FilterJobs array={jobsTypes} title="Type of Employment" />
-            <FilterJobs array={jobsArray} title="Categories" />
-            <FilterJobs array={salaryRange} title="Salary Range" />
+            <FilterJobs
+              array={jobsTypes}
+              title="Type of Employment"
+              filters={filters}
+              onFilterChange={handleFilterChange}
+            />
+            <FilterJobs
+              array={jobsArray}
+              title="Categories"
+              filters={filters}
+              onFilterChange={handleFilterChange}
+            />
+            <FilterJobs
+              array={salaryRange}
+              title="Salary Range"
+              filters={filters}
+              onFilterChange={handleFilterChange}
+            />
           </div>
           <div className="w-full">
             <h2 className={`${styles.sectionHeadText} font-semibold`}>
@@ -73,7 +99,7 @@ export default function FindJobs() {
             <p className={`${styles.sectionSubText} text-gray-500`}>
               Showing 73 results
             </p>
-            <CardsContainer cardId="allJobs" />
+            <CardsContainer cardId="allJobs" params={jobs} />
           </div>
         </div>
       </div>

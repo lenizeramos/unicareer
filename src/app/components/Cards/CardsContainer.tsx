@@ -5,21 +5,8 @@ import BasicCards from "./BasicCards";
 import JobCard from "./JobCard";
 import JobResumeCards from "./JobResumeCards";
 import RecentCard from "./RecentCard";
-import { AppDispatch, RootState } from "@/app/context/store";
-import { useDispatch, useSelector } from "react-redux";
-import { IJobsState } from "@/app/Types/slices";
-import { useEffect } from "react";
-import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 
 const CardsContainer = ({ cardId, params }: ICardId) => {
-  const dispatch: AppDispatch = useDispatch();
-  const { jobs } = useSelector((state: RootState) => state.jobs as IJobsState);
-
-  useEffect(() => {
-    if (jobs.length === 0) {
-      dispatch(fetchAllJobs());
-    }
-  }, [jobs.length]);
 
   const renderCard = () => {
     switch (cardId) {
@@ -112,7 +99,7 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
               </div>
             ) : (
               <div className="flex flex-col gap-3 w-full mx-auto">
-                {jobs.map((info, index) => {
+                {params?.map((info, index) => {
                   return (
                     <JobResumeCards cardId={cardId} {...info} key={index} />
                   );
