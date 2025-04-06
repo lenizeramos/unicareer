@@ -2,10 +2,11 @@
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { IFilterJobs } from "../Types";
 import { useState } from "react";
+import { salaryRange } from "../constants";
 
-const FilterJobs = ({ array, title, filters, onFilterChange }: IFilterJobs) => {
+const FilterJobs = ({ array, title, type, onFilterChange }: IFilterJobs) => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
-  const [checkedId, setCheckedId] = useState<string | null>(null);
+  const [checkedId, setCheckedId] = useState<string>("");
   const handleClick = () => {
     setIsVisible(!isVisible);
   };
@@ -13,10 +14,13 @@ const FilterJobs = ({ array, title, filters, onFilterChange }: IFilterJobs) => {
     if (event.target.checked) {
       setCheckedId(event.target.id);
     } else {
-      setCheckedId(null);
+      setCheckedId("");
     }
-    onFilterChange("", event.target.value);
+    if (onFilterChange) {
+      onFilterChange(type, event.target.value);
+    }
   };
+
   return (
     <>
       <div>
@@ -35,19 +39,43 @@ const FilterJobs = ({ array, title, filters, onFilterChange }: IFilterJobs) => {
           <div className="flex flex-col gap-2">
             {isVisible && (
               <div className="flex flex-col gap-2">
-                {array.map((item, index) => (
-                  <div className="flex gap-2" key={index}>
-                    <input
-                      type="checkbox"
-                      className="cursor-pointer"
-                      value={item}
-                      id={`${title}_${index}`}
-                      checked={checkedId === `${title}_${index}`}
-                      onChange={handleChange}
-                    />
-                    <p>{item}</p>
-                  </div>
-                ))}
+                {array === salaryRange
+                  ? array.map((item, index) => {
+                      return (
+                        <div className="flex gap-2" key={index}>
+                          <input
+                            type="checkbox"
+                            className="cursor-pointer"
+                            name={title}
+                            value={item.max || ""}
+                            data-min={item.min}
+                            data-max={item.max}
+                            id={`${title}_${index}`}
+                            checked={checkedId === `${title}_${index}`}
+                            onChange={handleChange}
+                          />
+                          <p>
+                            ${item.min} - ${item.max}
+                          </p>
+                        </div>
+                      );
+                    })
+                  : array.map((item, index) => {
+                      return (
+                        <div className="flex gap-2" key={index}>
+                          <input
+                            type="checkbox"
+                            className="cursor-pointer"
+                            name={title}
+                            value={item.toString() || ""}
+                            id={`${title}_${index}`}
+                            checked={checkedId === `${title}_${index}`}
+                            onChange={handleChange}
+                          />
+                          <p>{item.toString()}</p>
+                        </div>
+                      );
+                    })}
               </div>
             )}
           </div>

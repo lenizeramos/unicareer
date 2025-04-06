@@ -74,16 +74,10 @@ interface ITagComp {
 }
 
 interface IFilterJobs {
-  array: string[];
+  array: string[] | {min:number, max:number}[];
   title: string;
-  filters: {
-    searchTerm: string;
-    searchLocation:string;
-    jobType: string;
-    category: string;
-    salary: string;
-  };
-  onFilterChange: (key: string, value: string) => void;
+  type: "jobType" | "category" | "jobLevel" | "salary";
+  onFilterChange?: (key: string, value: string) => void;
 }
 
 export type {

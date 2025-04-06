@@ -1,4 +1,3 @@
-"use client";
 import { ICardId } from "@/app/Types";
 import { jobsCategories, perksData } from "@/app/constants";
 import BasicCards from "./BasicCards";

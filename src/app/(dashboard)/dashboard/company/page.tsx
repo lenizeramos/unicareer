@@ -119,7 +119,7 @@ const CompanyPage = () => {
               logo: "logo",
               subtitle: "subtitle",
               alt: "alt",
-              category: "category",
+              categories: "category",
               type: "type",
             },
             {
@@ -129,7 +129,7 @@ const CompanyPage = () => {
               logo: "logo",
               subtitle: "subtitle",
               alt: "alt",
-              category: "category",
+              categories: "category",
               type: "type",
             },
             {
@@ -139,7 +139,7 @@ const CompanyPage = () => {
               logo: "logo",
               subtitle: "subtitle",
               alt: "alt",
-              category: "category",
+              categories: "category",
               type: "type",
             },
             {
@@ -149,7 +149,7 @@ const CompanyPage = () => {
               logo: "logo",
               subtitle: "subtitle",
               alt: "alt",
-              category: "category",
+              categories: "category",
               type: "type",
             },
           ]}

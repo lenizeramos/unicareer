@@ -5,6 +5,7 @@ import ButtonComp from "./ButtonComp";
 import Image from "next/image";
 
 export default function CompanyHeader({ image, name, button }: ICompanyHeader) {
+    console.log(button)
     return (
         <div className="flex justify-between items-center p-2 lg:ps-8 pe-8">
             <div className="flex items-center gap-2">

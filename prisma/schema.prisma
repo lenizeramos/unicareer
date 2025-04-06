@@ -52,42 +52,15 @@ model Company {
   user              User                  @relation(fields: [userId], references: [id])
   name              String
   bio               String?
-  photo             String?
   payments          CompanyPayments[]
   companyMembership CompanyMembership[]
-  jobs              Job[]                 @relation("CompanyJobs")
+  jobs              Job[]                 @relation
   profileImages     CompanyProfileImage[]
   createdAt         DateTime              @default(now())
   updatedAt         DateTime              @updatedAt
 
   @@map("company")
 }
-
-/**
- * model CandidateProfile {
- * id String @id @default(auto()) @map("_id") @db.ObjectId
- * candidateId String @unique @db.ObjectId
- * candidate Candidate @relation(fields: [candidateId], references: [id])
- * bio          String?
- * website String?
- * createdAt DateTime @default(now())
- * updatedAt DateTime @updatedAt
- * //compatibilityScores CompatibilityScore[]
- * @@map("candidate_profile")
- * }
- */
-
-/**
- * model CompanyProfile {
- * id String @id @default(auto()) @map("_id") @db.ObjectId
- * companyId String @unique @db.ObjectId
- * company Company @relation(fields: [companyId], references: [id])
- * bio String?
- * createdAt DateTime @default(now())
- * updatedAt DateTime @updatedAt
- * @@map("company_profile")
- * }
- */
 
 model Job {
   id               String    @id @default(auto()) @map("_id") @db.ObjectId
@@ -108,7 +81,7 @@ model Job {
   whoYouAre        String?
   niceToHave       String?
   benefits         String[]
-  company          Company   @relation(fields: [companyId], references: [id], name: "CompanyJobs")
+  company          Company   @relation(fields: [companyId], references: [id])
   /**
    * applications Application[]
    * jobRecommendations JobRecommendation[]
@@ -201,15 +174,16 @@ model CompanyMembership {
 }
 
 model CompanyPayments {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  companyId String @db.ObjectId
-  company Company @relation(fields: [companyId], references: [id])
-  amount Float
-  status PaymentStatus @default(PENDING)
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  companyId       String        @db.ObjectId
+  company         Company       @relation(fields: [companyId], references: [id])
+  amount          Float
+  status          PaymentStatus @default(PENDING)
   stripeSessionId String?
-  invoice String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  invoice         String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
   @@map("company_payments")
 }
 

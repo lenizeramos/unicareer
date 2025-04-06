@@ -5,7 +5,12 @@ import DashboardNavbar from "@/app/components/DashboardNavbar";
 import { styles } from "@/app/styles";
 import { CiSearch } from "react-icons/ci";
 import { MdOutlinePlace } from "react-icons/md";
-import { jobsCategories, jobsTypes, salaryRange } from "@/app/constants";
+import {
+  jobsTypes,
+  salaryRange,
+  categories,
+  filtersValues,
+} from "@/app/constants";
 import FilterJobs from "@/app/components/FilterJobs";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import { AppDispatch, RootState } from "@/app/context/store";
@@ -14,28 +19,53 @@ import { useEffect, useState } from "react";
 import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 
 export default function FindJobs() {
-  const [filters, setFilters] = useState({
-    searchTerm: "",
-    searchLocation: "",
-    jobType: "",
-    category: "",
-    salary: "",
-  });
-  const handleFilterChange = (key: string, value: string) => {
-    setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
-  };
+  //Jobs
   const dispatch: AppDispatch = useDispatch();
   const { jobs } = useSelector((state: RootState) => state.jobs as IJobsState);
-  let jobsArray: string[] = [];
-  jobsCategories.map((category) => {
-    return jobsArray.push(category.title);
-  });
   useEffect(() => {
     if (jobs.length === 0) {
       dispatch(fetchAllJobs());
     }
   }, [dispatch, jobs.length]);
-  console.log(filters);
+  //Filters
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    searchLocation: "",
+    jobType: "",
+    category: "",
+    jobLevel: "",
+    salary: 0,
+  });
+
+  const filtersJobs = jobs.filter((job) => {
+    const matchesSearchTerm = job.title
+      .toLowerCase()
+      .includes(filters.searchTerm.toLowerCase());
+    const matchesJobType = filters.jobType
+      ? job.type === filters.jobType
+      : true;
+    const matchesCategory = filters.category
+      ? job.categories === filters.category
+      : true;
+    const matchesSalary = filters.salary
+      ? job.salaryMax === filters.salary
+      : true;
+    const matchesJobLevel = filters.jobLevel
+      ? job.level === filters.jobLevel
+      : true;
+
+    return (
+      matchesSearchTerm &&
+      matchesJobType &&
+      matchesCategory &&
+      // matchesSalary &&
+      matchesJobLevel
+    );
+  });
+  const handleFilterChange = (key: string, value: string) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
+  };
+  console.log("filters=>", filters);
   return (
     <>
       <DashboardNavbar
@@ -52,6 +82,7 @@ export default function FindJobs() {
                 <CiSearch className="text-gray-400" size={30} />
                 <input
                   type="text"
+                  name="searchInput"
                   placeholder="Job title or keyword"
                   className={`${styles.sectionSubText} px-2 w-90 outline-none border-b border-gray-200`}
                 />
@@ -63,6 +94,7 @@ export default function FindJobs() {
                 <MdOutlinePlace className="text-gray-300" size={30} />
                 <input
                   type="text"
+                  name="locationInput"
                   placeholder="Vancouver, Canada"
                   className={`${styles.sectionSubText} px-2 w-90 outline-none border-b border-gray-200`}
                 />
@@ -73,24 +105,17 @@ export default function FindJobs() {
         </div>
         <div className="flex gap-20">
           <div className="flex flex-col gap-4">
-            <FilterJobs
-              array={jobsTypes}
-              title="Type of Employment"
-              filters={filters}
-              onFilterChange={handleFilterChange}
-            />
-            <FilterJobs
-              array={jobsArray}
-              title="Categories"
-              filters={filters}
-              onFilterChange={handleFilterChange}
-            />
-            <FilterJobs
-              array={salaryRange}
-              title="Salary Range"
-              filters={filters}
-              onFilterChange={handleFilterChange}
-            />
+            {filtersValues.map((filter, index) => {
+              return (
+                <FilterJobs
+                  key={index}
+                  array={filter.array}
+                  title={filter.title}
+                  type={filter.type}
+                  onFilterChange={handleFilterChange}
+                />
+              );
+            })}
           </div>
           <div className="w-full">
             <h2 className={`${styles.sectionHeadText} font-semibold`}>

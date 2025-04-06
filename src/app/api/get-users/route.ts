@@ -12,16 +12,28 @@ export async function GET(req: NextRequest) {
     if (role && roles.includes(role.toUpperCase() as Role)) {
       switch (role.toLowerCase()) {
         case "candidate":
-          users = await prisma.candidate.findMany();
+          users = await prisma.candidate.findMany({
+            include: { user: true },
+          });
           break;
         case "company":
-          users = await prisma.company.findMany();
+          users = await prisma.company.findMany({
+            include: {
+              user: true,
+              payments: true,
+              companyMembership: true,
+              jobs: true,
+              profileImages: true,
+            },
+          });
           break;
         default:
           break;
       }
     } else {
-      users = await prisma.user.findMany();
+      users = await prisma.user.findMany({
+        include: { profileImage: true, candidate: true, company: true },
+      });
     }
 
     console.log("from get-users =>", users);

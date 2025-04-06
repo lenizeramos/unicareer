@@ -17,6 +17,7 @@ import { FaAtlassian } from "react-icons/fa";
 import { GiCoffeeCup } from "react-icons/gi";
 import { TbTrain } from "react-icons/tb";
 import { FaHandHoldingHeart } from "react-icons/fa";
+import { IFilterJobs } from "../Types";
 
 const stylesTags = [
   "bg-[#ddd6ff] text-[#2f0d67] border-[#2f0d67]",
@@ -105,6 +106,17 @@ const jobsCategories = [
     border: "border border-[#524d41]",
   },
 ];
+const categories = [
+  "Design",
+  "Sales",
+  "Marketing",
+  "Finance",
+  "Technology",
+  "Engineering",
+  "Business",
+  "Human Resource",
+  "Development",
+];
 const jobsTypes = [
   "Full-Time",
   "Part-Time",
@@ -114,16 +126,31 @@ const jobsTypes = [
   "Freelance",
 ];
 
-const salaryRange = [
-  "$10 - $20",
-  "$20 - $30",
-  "$30 - $40",
-  "$40 - $50",
-  "$50 - $60",
-  "$60 - $70",
-  "$70 - $80",
-  "$90 - $100",
+const jobLevel = [
+  "Entry Level",
+  "Mid Level",
+  "Senior Level",
+  "Director",
+  "VP o Above",
 ];
+
+const salaryRange = [
+  { min: 10, max: 20 },
+  { min: 20, max: 30 },
+  { min: 30, max: 40 },
+  { min: 40, max: 50 },
+  { min: 50, max: 60 },
+  { min: 60, max: 70 },
+  { min: 70, max: 80 },
+  { min: 90, max: 10 },
+];
+const filtersValues: IFilterJobs[] = [
+  { array: categories, title: "Type of Employment", type: "jobType" },
+  { array: jobsTypes, title: "Categories", type: "category" },
+  { array: jobLevel, title: "Job Level", type: "jobLevel" },
+  { array: salaryRange, title: "Salary Range", type: "salary" },
+];
+
 const perksData = [
   {
     icon: MdOutlineHealthAndSafety,
@@ -178,12 +205,15 @@ const monthNames = [
 ];
 
 export {
-  jobsCategories,
   perksData,
+  jobsCategories,
+  categories,
   jobsTypes,
   salaryRange,
+  jobLevel,
   stylesTags,
   monthNames,
+  filtersValues,
 };
 
 /* forms*/
