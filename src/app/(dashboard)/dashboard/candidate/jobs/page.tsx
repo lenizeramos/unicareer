@@ -5,12 +5,7 @@ import DashboardNavbar from "@/app/components/DashboardNavbar";
 import { styles } from "@/app/styles";
 import { CiSearch } from "react-icons/ci";
 import { MdOutlinePlace } from "react-icons/md";
-import {
-  jobsTypes,
-  salaryRange,
-  categories,
-  filtersValues,
-} from "@/app/constants";
+import { filtersValues } from "@/app/constants";
 import FilterJobs from "@/app/components/FilterJobs";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import { AppDispatch, RootState } from "@/app/context/store";
@@ -34,38 +29,42 @@ export default function FindJobs() {
     jobType: "",
     category: "",
     jobLevel: "",
-    salary: 0,
+    salary: {min:0, max:0},
   });
 
   const filtersJobs = jobs.filter((job) => {
-    const matchesSearchTerm = job.title
+    const matchesSearchTerm = job.location
+      .toLowerCase()
+      .includes(filters.searchLocation.toLowerCase());
+    const matchesLocation = job.title
       .toLowerCase()
       .includes(filters.searchTerm.toLowerCase());
     const matchesJobType = filters.jobType
-      ? job.type === filters.jobType
+      ? job.type.toLowerCase() === filters.jobType.toLowerCase()
       : true;
     const matchesCategory = filters.category
-      ? job.categories === filters.category
+      ? job.categories === filters.category.toLowerCase()
       : true;
     const matchesSalary = filters.salary
-      ? job.salaryMax === filters.salary
+      ? job.salaryMax.toString() === filters.salary.toString()
       : true;
     const matchesJobLevel = filters.jobLevel
-      ? job.level === filters.jobLevel
+      ? job.level === filters.jobLevel.toLowerCase()
       : true;
 
     return (
       matchesSearchTerm &&
+      matchesLocation &&
       matchesJobType &&
       matchesCategory &&
-      // matchesSalary &&
+      matchesSalary &&
       matchesJobLevel
     );
   });
   const handleFilterChange = (key: string, value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
   };
-  console.log("filters=>", filters);
+  console.log("filters=>", filters, "jobsfilter =.=>", filtersJobs);
   return (
     <>
       <DashboardNavbar
@@ -124,7 +123,11 @@ export default function FindJobs() {
             <p className={`${styles.sectionSubText} text-gray-500`}>
               Showing 73 results
             </p>
-            <CardsContainer cardId="allJobs" params={jobs} />
+            {filtersJobs.length > 0 ? (
+              <CardsContainer cardId="allJobs" params={filtersJobs} />
+            ) : (
+              <div>Not Found</div>
+            )}
           </div>
         </div>
       </div>

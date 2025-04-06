@@ -11,13 +11,15 @@ const FilterJobs = ({ array, title, type, onFilterChange }: IFilterJobs) => {
     setIsVisible(!isVisible);
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      setCheckedId(event.target.id);
-    } else {
-      setCheckedId("");
-    }
+
     if (onFilterChange) {
-      onFilterChange(type, event.target.value);
+      if (event.target.checked) {
+        setCheckedId(event.target.id);
+        onFilterChange(type, event.target.value);
+      } else {
+        setCheckedId("");
+        onFilterChange(type, "");
+      }
     }
   };
 
@@ -67,7 +69,7 @@ const FilterJobs = ({ array, title, type, onFilterChange }: IFilterJobs) => {
                             type="checkbox"
                             className="cursor-pointer"
                             name={title}
-                            value={item.toString() || ""}
+                            value={item.toString()}
                             id={`${title}_${index}`}
                             checked={checkedId === `${title}_${index}`}
                             onChange={handleChange}

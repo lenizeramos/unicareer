@@ -15,7 +15,10 @@ import {
   classNameDivLgWidth,
   classNameField,
   classNamePadding,
-} from "@/app/constants/index"
+  categoriesArray,
+  jobsTypes,
+  jobLevel,
+} from "@/app/constants/index";
 
 const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
   const stepperRef = useRef(null);
@@ -117,11 +120,11 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 name="level"
                 value={level}
                 onChange={(e) => setLevel(e.target.value)}
-                options={[
-                  { value: "entryLevel", label: "Entry Level" },
-                  { value: "intermediate", label: "Intermediate" },
-                  { value: "senior", label: "Senior" },
-                ]}
+                options={jobLevel.map((option, index) => ({
+                  value: option.toLowerCase(),
+                  label: option,
+                  key: index,
+                }))}
                 classNameDivContainer={classNameDivContainer}
                 classNameLabel={classNameLabel}
                 classNameDivLgWidth={classNameDivLgWidth}
@@ -137,11 +140,11 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 name="type"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-                options={[
-                  { value: "full-time", label: "Full-Time" },
-                  { value: "part-time", label: "Part-Time" },
-                  { value: "freelance", label: "Freelance" },
-                ]}
+                options={jobsTypes.map((option, index) => ({
+                  value: option.toLowerCase(),
+                  label: option,
+                  key: index,
+                }))}
                 classNameDivContainer={classNameDivContainer}
                 classNameLabel={classNameLabel}
                 classNameDivLgWidth={classNameDivLgWidth}
@@ -156,7 +159,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 id="salaryRange"
                 min={10}
                 max={100}
-                step={1}
+                step={10}
                 initialValues={salary}
                 onChange={(newValues: number[]) => setSalary(newValues)}
                 classNameDivContainer={classNameDivContainer}
@@ -173,11 +176,11 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 name="categories"
                 value={categories}
                 onChange={(e) => setCategories(e.target.value)}
-                options={[
-                  { value: "marketing", label: "Marketing" },
-                  { value: "design", label: "Design" },
-                  { value: "development", label: "Development" },
-                ]}
+                options={categoriesArray.map((option, index) => ({
+                  value: option.toLowerCase(),
+                  label: option,
+                  key: index,
+                }))}
                 classNameDivContainer={classNameDivContainer}
                 classNameLabel={classNameLabel}
                 classNameDivLgWidth={classNameDivLgWidth}

@@ -106,7 +106,7 @@ const jobsCategories = [
     border: "border border-[#524d41]",
   },
 ];
-const categories = [
+const categoriesArray = [
   "Design",
   "Sales",
   "Marketing",
@@ -131,7 +131,7 @@ const jobLevel = [
   "Mid Level",
   "Senior Level",
   "Director",
-  "VP o Above",
+  "VP or Above",
 ];
 
 const salaryRange = [
@@ -145,8 +145,8 @@ const salaryRange = [
   { min: 90, max: 10 },
 ];
 const filtersValues: IFilterJobs[] = [
-  { array: categories, title: "Type of Employment", type: "jobType" },
-  { array: jobsTypes, title: "Categories", type: "category" },
+  { array: jobsTypes, title: "Type of Employment", type: "jobType" },
+  { array: categoriesArray, title: "Categories", type: "category" },
   { array: jobLevel, title: "Job Level", type: "jobLevel" },
   { array: salaryRange, title: "Salary Range", type: "salary" },
 ];
@@ -207,7 +207,7 @@ const monthNames = [
 export {
   perksData,
   jobsCategories,
-  categories,
+  categoriesArray,
   jobsTypes,
   salaryRange,
   jobLevel,
