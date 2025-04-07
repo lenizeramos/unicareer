@@ -2,6 +2,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import ButtonComp from "@/app/components/ButtonComp";
 import DashboardNavbar from "@/app/components/DashboardNavbar";
+import NoResultsPage from "@/app/components/NoResultsPage";
 import { styles } from "@/app/styles";
 import { CiSearch } from "react-icons/ci";
 import { MdOutlinePlace } from "react-icons/md";
@@ -29,7 +30,7 @@ export default function FindJobs() {
     jobType: "",
     category: "",
     jobLevel: "",
-    salary: {min:0, max:0},
+    salary: { min: 0, max: 0 },
   });
 
   const filtersJobs = jobs.filter((job) => {
@@ -46,10 +47,11 @@ export default function FindJobs() {
       ? job.categories === filters.category.toLowerCase()
       : true;
     const matchesSalary = filters.salary
-      ? job.salaryMax.toString() === filters.salary.toString()
+      ? job.salaryMax >= filters.salary.min &&
+        job.salaryMax <= filters.salary.max
       : true;
     const matchesJobLevel = filters.jobLevel
-      ? job.level === filters.jobLevel.toLowerCase()
+      ? job.level.toLowerCase() === filters.jobLevel.toLowerCase()
       : true;
 
     return (
@@ -61,10 +63,21 @@ export default function FindJobs() {
       matchesJobLevel
     );
   });
-  const handleFilterChange = (key: string, value: string) => {
+  const handleFilterChange = (
+    key: string,
+    value: string | { min: number; max: number }
+  ) => {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
   };
-  console.log("filters=>", filters, "jobsfilter =.=>", filtersJobs);
+  console.log(
+    "jobs from candidate/jobs=>",
+    jobs,
+    "filtersJobs=>",
+    filtersJobs,
+    "filters=>",
+    filters
+  );
+
   return (
     <>
       <DashboardNavbar
@@ -81,9 +94,13 @@ export default function FindJobs() {
                 <CiSearch className="text-gray-400" size={30} />
                 <input
                   type="text"
+                  value={filters.searchTerm}
                   name="searchInput"
                   placeholder="Job title or keyword"
                   className={`${styles.sectionSubText} px-2 w-90 outline-none border-b border-gray-200`}
+                  onChange={(e) =>
+                    handleFilterChange("searchTerm", e.target.value)
+                  }
                 />
               </div>
             </div>
@@ -94,8 +111,12 @@ export default function FindJobs() {
                 <input
                   type="text"
                   name="locationInput"
+                  value={filters.searchLocation}
                   placeholder="Vancouver, Canada"
                   className={`${styles.sectionSubText} px-2 w-90 outline-none border-b border-gray-200`}
+                  onChange={(e) =>
+                    handleFilterChange("searchLocation", e.target.value)
+                  }
                 />
               </div>
             </div>
@@ -126,7 +147,7 @@ export default function FindJobs() {
             {filtersJobs.length > 0 ? (
               <CardsContainer cardId="allJobs" params={filtersJobs} />
             ) : (
-              <div>Not Found</div>
+              <NoResultsPage />
             )}
           </div>
         </div>

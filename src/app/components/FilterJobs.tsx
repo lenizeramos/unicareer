@@ -13,12 +13,25 @@ const FilterJobs = ({ array, title, type, onFilterChange }: IFilterJobs) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
     if (onFilterChange) {
-      if (event.target.checked) {
-        setCheckedId(event.target.id);
-        onFilterChange(type, event.target.value);
+      const { checked, value, id, dataset } = event.target;
+      if (checked) {
+        const min = dataset.min ? parseInt(dataset.min, 10) : 0;
+        const max = dataset.max ? parseInt(dataset.max, 10) : 0;
+
+        if (type === "salary") {
+          onFilterChange(type, { min, max });
+        } else {
+          onFilterChange(type, value);
+        }
+
+        setCheckedId(id);
       } else {
         setCheckedId("");
-        onFilterChange(type, "");
+        if (type === "salary") {
+          onFilterChange(type, { min: 0, max: 0 });
+        } else {
+          onFilterChange(type, "");
+        }
       }
     }
   };
@@ -49,7 +62,7 @@ const FilterJobs = ({ array, title, type, onFilterChange }: IFilterJobs) => {
                             type="checkbox"
                             className="cursor-pointer"
                             name={title}
-                            value={item.max || ""}
+                            value={`${item.min}-${item.max}`}
                             data-min={item.min}
                             data-max={item.max}
                             id={`${title}_${index}`}

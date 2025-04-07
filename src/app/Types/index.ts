@@ -77,7 +77,7 @@ interface IFilterJobs {
   array: string[] | {min:number, max:number}[];
   title: string;
   type: "jobType" | "category" | "jobLevel" | "salary";
-  onFilterChange?: (key: string, value: string) => void;
+  onFilterChange?: (key: string, value: string | { min: number; max: number }) => void;
 }
 
 export type {
