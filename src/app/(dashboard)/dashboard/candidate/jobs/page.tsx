@@ -46,7 +46,7 @@ export default function FindJobs() {
     const matchesCategory = filters.category
       ? job.categories === filters.category.toLowerCase()
       : true;
-    const matchesSalary = filters.salary
+    const matchesSalary = filters.salary.max
       ? job.salaryMax >= filters.salary.min &&
         job.salaryMax <= filters.salary.max
       : true;
