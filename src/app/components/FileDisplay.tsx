@@ -25,12 +25,17 @@ export default function FileDisplay({
     const fetchFile = async () => {
       try {
         const response = await fetch(`/api/get-file?modelName=${modelName}&userId=${userId}`);
+
+        if (response.status === 404) {
+          setFileData(null);
+          return;
+        }
         
         if (!response.ok) throw new Error('Failed to fetch file');
         const data = await response.json();
         setFileData(data);
       } catch (error) {
-        console.error('Error fetching file:', error);
+        
       } finally {
         setLoading(false);
       }
