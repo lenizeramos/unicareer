@@ -26,6 +26,12 @@ interface IJobsState {
   error: string | null;
 }
 
+interface ICompanyJobsState {
+  jobs: Ijobs[];
+  loading: boolean;
+  error: string | null;
+}
+
 interface IUsers {
   id?: string;
   clerkId?: string;
@@ -106,6 +112,7 @@ interface ICandidateState {
 export type {
   Ijobs,
   IJobsState,
+  ICompanyJobsState,
   IUsers,
   IUserState,
   IApplicants,

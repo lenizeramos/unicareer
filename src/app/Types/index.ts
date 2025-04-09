@@ -114,13 +114,6 @@ export interface ICompanyHeader {
 }
 
 export interface IJob {
-  /* roles: string;
-  status: string;
-  datePosted: string;
-  dueDate: string;
-  jobType: string;
-  applicants: string;
-  needs: string; */
   title: string;
   status: string;
   location: string;

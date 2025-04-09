@@ -1,8 +1,8 @@
 "use client"
 import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
-import CompanyHeader from "@/app/components/CompanyHeader";
-import { FaPlus } from "react-icons/fa";
+/* import CompanyHeader from "@/app/components/CompanyHeader";
+import { FaPlus } from "react-icons/fa"; */
 import { SlArrowRight } from "react-icons/sl";
 import StatusCard from "@/app/components/StatusCard";
 import ApplicantsSummary from "@/app/components/ApplicantsSummary";
@@ -11,10 +11,23 @@ import CardsContainer from "@/app/components/Cards/CardsContainer";
 import Link from "next/link";
 import { GoArrowRight } from "react-icons/go";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/context/store";
+import { IApplicantsState } from "@/app/Types/slices";
+import { useEffect } from "react";
+import { fetchApplicants } from "@/app/context/slices/applicantsSlices";
 
 
 const CompanyPage = () => {
-  
+  const dispatch: AppDispatch = useDispatch();
+    const { applicants } = useSelector((state: RootState) => state.applicants as IApplicantsState);
+
+
+    useEffect(() => {
+      if (applicants.length === 0) {
+        dispatch(fetchApplicants());
+      }
+    }, [dispatch, applicants.length]);
 
   return (
     <div className="space-y-8 pb-8">
@@ -67,7 +80,7 @@ const CompanyPage = () => {
           <div className="space-y-4">
             <StatusCard
               title="Job Applied"
-              value={654}
+              value={applicants.length}
               trend="up"
               percentage="0.5%"
             />
