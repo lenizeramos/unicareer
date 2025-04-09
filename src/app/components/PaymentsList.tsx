@@ -109,7 +109,7 @@ export default function PaymentsList({
               key={page}
               onClick={() => onPageChange(page)}
               className={`w-8 h-8 rounded ${
-                currentPage === page ? "bg-primary text-white bg-primary" : ""
+                currentPage === page ? "bg-primary text-white" : ""
               }`}
             >
               {page}

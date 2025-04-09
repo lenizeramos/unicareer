@@ -77,6 +77,7 @@ export default function CompanyHeaderPaymentButton() {
         width: "w-xs",
         icon: <FaPlus />,
         onClick: handleButtonClick,
+        // onClick: buttonClick,
       }}
     />
   );

@@ -25,14 +25,14 @@ export interface Payment {
   updatedAt: string;
 }
 
-  export interface FileDisplayProps {
-    modelName: 'candidateDocument' | 'userProfileImage' | 'companyProfileImage';
-    userId: string;
-    className?: string;
-    width?: number;
-    height?: number;
-    fallbackImage?: string;
-  }
+export interface FileDisplayProps {
+  modelName: "candidateDocument" | "userProfileImage" | "companyProfileImage";
+  userId: string;
+  className?: string;
+  width?: number;
+  height?: number;
+  fallbackImage?: string;
+}
 
 export interface User {
   image_url: string;
@@ -72,4 +72,12 @@ export interface Candidate {
   skills?: string[];
   resume?: string;
   bio?: string;
+}
+
+export interface Application {
+  id?: string;
+  jobId: string;
+  candidateId: string;
+  status?: string;
+  applyedAt?: string;
 }

@@ -29,18 +29,19 @@ model User {
 }
 
 model Candidate {
-  id        String              @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String              @unique @db.ObjectId
-  user      User                @relation(fields: [userId], references: [id])
-  firstName String
-  lastName  String
-  skills    String[]
-  resume    String?
-  bio       String?
-  website   String?
-  documents CandidateDocument[]
-  createdAt DateTime            @default(now())
-  updatedAt DateTime            @updatedAt
+  id          String              @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String              @unique @db.ObjectId
+  user        User                @relation(fields: [userId], references: [id])
+  firstName   String
+  lastName    String
+  skills      String[]
+  resume      String?
+  bio         String?
+  website     String?
+  documents   CandidateDocument[]
+  Application Application[]
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
   //compatibilityScores CompatibilityScore[]
 
   @@map("candidate")
@@ -63,7 +64,7 @@ model Company {
 }
 
 model Job {
-  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
   title            String
   /**
    * status           JobStatus @default(OPEN)
@@ -71,7 +72,7 @@ model Job {
   description      String?
   location         String?
   skills           String[]
-  companyId        String    @db.ObjectId
+  companyId        String        @db.ObjectId
   level            String?
   type             String?
   categories       String?
@@ -81,32 +82,40 @@ model Job {
   whoYouAre        String?
   niceToHave       String?
   benefits         String[]
-  company          Company   @relation(fields: [companyId], references: [id])
+  company          Company       @relation(fields: [companyId], references: [id])
+  applications     Application[]
   /**
-   * applications Application[]
    * jobRecommendations JobRecommendation[]
    * compatibilityScores CompatibilityScore[]
    */
   closingDate      DateTime?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 
   applicantsCount Int @ignore // applicants = applications.count??????
 
   @@map("job")
 }
 
+model Application {
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
+  jobId       String            @db.ObjectId
+  job         Job               @relation(fields: [jobId], references: [id])
+  candidateId String            @db.ObjectId
+  candidate   Candidate         @relation(fields: [candidateId], references: [id])
+  status      ApplicationStatus @default(PENDING)
+  applyedAt   DateTime          @default(now())
+
+  @@map("application")
+}
+
+enum ApplicationStatus {
+  PENDING
+  INTERVIEWED
+  REJECTED
+}
+
 /**
- * model Application {
- * id String @id @default(auto()) @map("_id") @db.ObjectId
- * jobId String
- * job Job @relation(fields: [jobId], references: [id])
- * candidateId String
- * candidate Candidate        @relation(fields: [candidateId], references: [id])
- * status ApplicationStatus @default(PENDING)
- * createdAt DateTime @default(now())
- * @@map("application")
- * }
  * model Payment {
  * id String @id @default(auto()) @map("_id") @db.ObjectId
  * userId String

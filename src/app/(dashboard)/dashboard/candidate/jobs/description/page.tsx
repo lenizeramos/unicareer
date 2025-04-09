@@ -16,8 +16,13 @@ import { IJobsState, IUserState } from "@/app/Types/slices";
 import { useEffect } from "react";
 import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 import { fetchUsers } from "@/app/context/slices/usersSlices";
+import { useRouter } from "next/navigation";
+import { useCandidateData } from "@/Lib/client/candidate";
 
 export default function JobDescription() {
+  const router = useRouter();
+  const { candidateId, isLoading } = useCandidateData();
+
   const dispatch: AppDispatch = useDispatch();
   const { jobs, loading } = useSelector(
     (state: RootState) => state.jobs as IJobsState
@@ -50,6 +55,37 @@ export default function JobDescription() {
   };
   const category =
     typeof job.categories === "string" ? job.categories.toLowerCase() : "";
+
+  const handleApplicationSubmit = async () => {
+    if (!candidateId) {
+      console.error("No candidate ID available");
+      return;
+    }
+    try {
+      const applicationData = {
+        jobId: job.id,
+        candidateId: candidateId,
+        applyedAt: new Date().toISOString(),
+      };
+      const response = await fetch("/api/apply-job", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          jobId: job.id,
+          candidateId: candidateId
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Application error: ${response.statusText}`);
+      }
+
+      router.push("/dashboard/candidate/jobs");
+    } catch (error) {
+      console.error("Error submitting your application:", error);
+    }
+  };
+
   return (
     <>
       <DashboardNavbar
@@ -83,7 +119,12 @@ export default function JobDescription() {
                 </div>
               </div>
               <div className="md:pl-10 md:border-l-[1px] border-gray-200 md:w-[8rem] w-full">
-                <ButtonComp text="Apply" IsWhite={false} width="w-full" />
+                <ButtonComp
+                  text="Apply"
+                  IsWhite={false}
+                  width="w-full"
+                  onClick={handleApplicationSubmit}
+                />
               </div>
             </div>
           </div>

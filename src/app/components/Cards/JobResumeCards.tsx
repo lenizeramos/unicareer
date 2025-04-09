@@ -112,7 +112,7 @@ const JobResumeCards = ({
         {cardId === "allJobs" ? (
           <div className="flex flex-col gap-2">
             <Link href={`/dashboard/candidate/jobs/description?id=${id}`}>
-              <ButtonComp text="Apply" IsWhite={false} width="w-full" />
+              <ButtonComp text="See Details" IsWhite={false} width="w-full" />
             </Link>
             <ProgressBar totalLength={10} value={5} />
           </div>
