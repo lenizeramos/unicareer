@@ -9,7 +9,7 @@ const initialState: IUserState = {
 };
 
 export const fetchUsers = createAsyncThunk(
-  "company/fetchUsers",
+  "fetchUsers",
   async (role: string) => {
     const url = role
       ? `http://localhost:3000/api/get-users?role=${role}`

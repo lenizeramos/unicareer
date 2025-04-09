@@ -17,7 +17,6 @@ export async function POST(req: NextRequest) {
       return new NextResponse("User not Found", { status: 404 });
     }
     payload.candidateId = user.candidate?.id;
-    console.log(payload);
     await createApplication(payload);
     return NextResponse.json("Your application was successfully submitted.");
   } catch (error) {

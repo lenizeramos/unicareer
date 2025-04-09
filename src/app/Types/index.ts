@@ -6,6 +6,7 @@ interface IButtton {
   width?: string;
   onClick?: () => void;
   icon?: React.ReactNode;
+  isDissable?: boolean;
 }
 
 interface ILogo {
@@ -74,10 +75,13 @@ interface ITagComp {
 }
 
 interface IFilterJobs {
-  array: string[] | {min:number, max:number}[];
+  array: string[] | { min: number; max: number }[];
   title: string;
   type: "jobType" | "category" | "jobLevel" | "salary";
-  onFilterChange?: (key: string, value: string | { min: number; max: number }) => void;
+  onFilterChange?: (
+    key: string,
+    value: string | { min: number; max: number }
+  ) => void;
 }
 
 export type {

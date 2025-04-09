@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import prisma from "@/Lib/prisma"
+import prisma from "@/Lib/prisma";
 
 export async function GET() {
   try {
@@ -18,6 +18,10 @@ export async function GET() {
         candidate: {
           select: {
             id: true,
+            firstName: true,
+            lastName: true,
+            skills: true,
+            Application: true,
           },
         },
       },
@@ -34,7 +38,13 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json({ candidateId: user.candidate.id });
+    return NextResponse.json({
+      candidateId: user.candidate.id,
+      firstName: user.candidate.firstName,
+      lastName: user.candidate.lastName,
+      skills: user.candidate.skills,
+      applications: user.candidate.Application,
+    });
   } catch (error) {
     console.error("Error fetching candidate:", error);
     return NextResponse.json(

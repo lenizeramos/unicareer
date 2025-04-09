@@ -3,8 +3,10 @@ import prisma from "@/Lib/prisma";
 
 export async function GET() {
   try {
-    const jobs = await prisma.job.findMany();
-    return NextResponse.json(jobs);
+    const applicants = await prisma.application.findMany({
+      include: { candidate: true, job: true },
+    });
+    return NextResponse.json(applicants);
   } catch (error) {
     console.error("Error", error);
     return new NextResponse("Error", { status: 500 });

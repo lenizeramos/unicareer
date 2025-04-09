@@ -2,7 +2,6 @@ import prisma from "./prisma";
 import { Application } from "../types/index";
 
 export async function createApplication(data: Application) {
-  console.log(data);
   try {
     return await prisma.application.create({
       data: {

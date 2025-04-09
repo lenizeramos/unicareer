@@ -32,7 +32,6 @@ const JobResumeCards = ({
       dispatch(fetchUsers("company"));
     }
   }, [dispatch, users.length]);
-  console.log(users)
   const company = users.find((company) => company.id === companyId);
   return (
     <>

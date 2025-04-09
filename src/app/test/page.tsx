@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import ButtonComp from "../components/ButtonComp";
 import { styles } from "../styles";
@@ -8,30 +8,58 @@ import CardsContainer from "../components/Cards/CardsContainer";
 import { useEffect, useState } from "react";
 import FileUpload from "../components/FileUpload";
 import FileDisplay from "../components/FileDisplay";
+import { useDispatch, useSelector } from "react-redux";
+import { IApplicantsState, ICandidateState, IUserState } from "../Types/slices";
+import { AppDispatch, RootState } from "../context/store";
+import { fetchApplicants } from "../context/slices/applicantsSlices";
+import { fetchUsers } from "../context/slices/usersSlices";
+import { fetchCandidate } from "../context/slices/candidateSlice";
 
 export default function Home() {
-  
+  const dispatch: AppDispatch = useDispatch();
+  const { applicants } = useSelector(
+    (state: RootState) => state.applicants as IApplicantsState
+  );
+  const { users } = useSelector(
+    (state: RootState) => state.users as IUserState
+  );
+  const { candidate } = useSelector(
+    (state: RootState) => state.candidate as ICandidateState
+  );
   const [userId, setUserId] = useState<string>("");
 
   useEffect(() => {
-    const getUserId = async () => {        
-        try {
-            const response = await fetch('/api/get-user-by-clerk-id', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+    const getUserId = async () => {
+      try {
+        const response = await fetch("/api/get-user-by-clerk-id", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error);
-            setUserId(data.id);
-        } catch (error) {
-            console.error('Failed to fetch user ID:', error);
-        }
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error);
+        setUserId(data.id);
+      } catch (error) {
+        console.error("Failed to fetch user ID:", error);
+      }
     };
+
     getUserId();
+
+    if (applicants.length === 0) {
+      dispatch(fetchApplicants());
+    }
+    if (users.length === 0) {
+      dispatch(fetchUsers("candidate"));
+    }
+    if (candidate.length === 0) {
+      dispatch(fetchCandidate());
+    }
   }, []);
+
+  console.log("applicants=>", applicants, "candidate=>", candidate);
 
   return (
     <>
@@ -72,63 +100,62 @@ export default function Home() {
             <CardsContainer cardId="recentApply" />
           </div>
         </div>
-      
 
         {userId && (
           <div className="space-y-8">
             <div className="flex items-center gap-6">
-                <FileUpload 
-                    allowedFileTypes={['application/pdf']}
-                    apiRoute="/api/upload"
-                    modelName="candidateDocument"
-                    fieldName="fileKey"
-                    userId={userId}
-                    uploadText="Upload your resume"
-                    maxSizeMB={5}
-                />
-                <FileDisplay
-                    modelName="candidateDocument"
-                    userId={userId}
-                    className="min-w-[200px]"
-                />
+              <FileUpload
+                allowedFileTypes={["application/pdf"]}
+                apiRoute="/api/upload"
+                modelName="candidateDocument"
+                fieldName="fileKey"
+                userId={userId}
+                uploadText="Upload your resume"
+                maxSizeMB={5}
+              />
+              <FileDisplay
+                modelName="candidateDocument"
+                userId={userId}
+                className="min-w-[200px]"
+              />
             </div>
 
             <div className="flex items-center gap-6">
-                <FileUpload 
-                    allowedFileTypes={['image/jpeg', 'image/png']}
-                    apiRoute="/api/upload"
-                    modelName="userProfileImage"
-                    fieldName="fileKey"
-                    userId={userId}
-                    uploadText="Upload your profile image"
-                    maxSizeMB={5}
-                />
-                <FileDisplay
-                    modelName="userProfileImage"
-                    userId={userId}
-                    width={150}
-                    height={150}
-                    className="rounded-full overflow-hidden"
-                />
+              <FileUpload
+                allowedFileTypes={["image/jpeg", "image/png"]}
+                apiRoute="/api/upload"
+                modelName="userProfileImage"
+                fieldName="fileKey"
+                userId={userId}
+                uploadText="Upload your profile image"
+                maxSizeMB={5}
+              />
+              <FileDisplay
+                modelName="userProfileImage"
+                userId={userId}
+                width={150}
+                height={150}
+                className="rounded-full overflow-hidden"
+              />
             </div>
 
             <div className="flex items-center gap-6">
-                <FileUpload 
-                    allowedFileTypes={['image/jpeg', 'image/png']}
-                    apiRoute="/api/upload"
-                    modelName="companyProfileImage"
-                    fieldName="fileKey"
-                    userId={userId}
-                    uploadText="Upload your company profile image"
-                    maxSizeMB={5}
-                />
-                <FileDisplay
-                    modelName="companyProfileImage"
-                    userId={userId}
-                    width={200}
-                    height={200}
-                    className="rounded-lg overflow-hidden"
-                />
+              <FileUpload
+                allowedFileTypes={["image/jpeg", "image/png"]}
+                apiRoute="/api/upload"
+                modelName="companyProfileImage"
+                fieldName="fileKey"
+                userId={userId}
+                uploadText="Upload your company profile image"
+                maxSizeMB={5}
+              />
+              <FileDisplay
+                modelName="companyProfileImage"
+                userId={userId}
+                width={200}
+                height={200}
+                className="rounded-lg overflow-hidden"
+              />
             </div>
           </div>
         )}

@@ -7,7 +7,7 @@ export const useCandidateData = () => {
   const { getToken } = useAuth();
 
   useEffect(() => {
-    const fetchCompanyData = async () => {
+    const fetchCandidateData = async () => {
       try {
         const token = await getToken();
         if (!token) {
@@ -32,7 +32,7 @@ export const useCandidateData = () => {
       }
     };
 
-    fetchCompanyData();
+    fetchCandidateData();
   }, [getToken]);
 
   return { candidateId, isLoading };

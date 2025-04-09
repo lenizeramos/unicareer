@@ -5,6 +5,7 @@ import { PrimeReactProvider } from "primereact/api";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { Provider } from "react-redux";
 import store from "./context/store";
+import { Toaster } from 'sonner';
 
 export default function RootLayout({
   children,
@@ -17,6 +18,7 @@ export default function RootLayout({
         <Provider store={store}>
           <html lang="en">
             <body className="antialiased">{children}</body>
+          <Toaster />
           </html>
         </Provider>
       </PrimeReactProvider>

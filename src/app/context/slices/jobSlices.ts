@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { IJobsState } from "../../Types/slices";
+import { IJobsState } from "@/app/Types/slices";
 import { RootState } from "../store";
 
 const initialState: IJobsState = {
@@ -9,7 +9,7 @@ const initialState: IJobsState = {
 };
 
 export const fetchAllJobs = createAsyncThunk(
-  "jobs/fetchAll",
+  "fetchAllJobs",
   async () => {
     const response = await fetch("http://localhost:3000/api/get-jobs");
     if (!response.ok) {

@@ -12,12 +12,14 @@ import ProgressBar from "@/app/components/ProgressBar";
 import TagComp from "@/app/components/TagComp";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useDispatch, useSelector } from "react-redux";
-import { IJobsState, IUserState } from "@/app/Types/slices";
+import { IApplicantsState, IJobsState, IUserState } from "@/app/Types/slices";
 import { useEffect } from "react";
 import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 import { fetchUsers } from "@/app/context/slices/usersSlices";
 import { useRouter } from "next/navigation";
 import { useCandidateData } from "@/Lib/client/candidate";
+import { fetchApplicants } from "@/app/context/slices/applicantsSlices";
+import { toast } from "sonner";
 
 export default function JobDescription() {
   const router = useRouter();
@@ -30,13 +32,17 @@ export default function JobDescription() {
   const { users } = useSelector(
     (state: RootState) => state.users as IUserState
   );
+  const { applicants } = useSelector(
+    (state: RootState) => state.applicants as IApplicantsState
+  );
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const job = jobs.find((item) => item.id === id);
   useEffect(() => {
     dispatch(fetchAllJobs());
     dispatch(fetchUsers("company"));
-  }, [users.length, jobs.length]);
+    dispatch(fetchApplicants());
+  }, [users.length, jobs.length, applicants.length]);
   const company = users.find((company) => company.id === job?.companyId);
   if (loading) {
     return <div>loading</div>;
@@ -56,31 +62,42 @@ export default function JobDescription() {
   const category =
     typeof job.categories === "string" ? job.categories.toLowerCase() : "";
 
+  const application = applicants.some(
+    (application) => application.candidateId === candidateId
+  );
+
   const handleApplicationSubmit = async () => {
     if (!candidateId) {
       console.error("No candidate ID available");
       return;
     }
     try {
-      const applicationData = {
-        jobId: job.id,
-        candidateId: candidateId,
-        applyedAt: new Date().toISOString(),
-      };
       const response = await fetch("/api/apply-job", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           jobId: job.id,
-          candidateId: candidateId
+          candidateId: candidateId,
         }),
       });
 
       if (!response.ok) {
         throw new Error(`Application error: ${response.statusText}`);
       }
-
-      router.push("/dashboard/candidate/jobs");
+      toast.success("You've successfully applied to the job!", {
+        duration: 2000,
+        position: "top-center",
+        style: {
+          background: "#6f66ff4a",
+          fontFamily: "fantasy",
+          fontSize: "1rem",
+          borderRadius: "8px",
+          letterSpacing: "0.5px",
+        },
+      });
+      setTimeout(() => {
+        router.push("/dashboard/candidate/jobs");
+      }, 2500);
     } catch (error) {
       console.error("Error submitting your application:", error);
     }
@@ -119,12 +136,21 @@ export default function JobDescription() {
                 </div>
               </div>
               <div className="md:pl-10 md:border-l-[1px] border-gray-200 md:w-[8rem] w-full">
-                <ButtonComp
-                  text="Apply"
-                  IsWhite={false}
-                  width="w-full"
-                  onClick={handleApplicationSubmit}
-                />
+                {application ? (
+                  <ButtonComp
+                    text="Apply"
+                    IsWhite={false}
+                    width="w-full"
+                    isDissable={true}
+                  />
+                ) : (
+                  <ButtonComp
+                    text="Apply"
+                    IsWhite={false}
+                    width="w-full"
+                    onClick={handleApplicationSubmit}
+                  />
+                )}
               </div>
             </div>
           </div>

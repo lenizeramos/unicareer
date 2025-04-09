@@ -18,12 +18,12 @@ export default function FindJobs() {
   //Jobs
   const dispatch: AppDispatch = useDispatch();
   const { jobs } = useSelector((state: RootState) => state.jobs as IJobsState);
+
   useEffect(() => {
     if (jobs.length === 0) {
       dispatch(fetchAllJobs());
     }
-  }, [dispatch, jobs.length]);
-  //Filters
+  }, [jobs.length]);
   const [filters, setFilters] = useState({
     searchTerm: "",
     searchLocation: "",
@@ -69,14 +69,6 @@ export default function FindJobs() {
   ) => {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
   };
-  console.log(
-    "jobs from candidate/jobs=>",
-    jobs,
-    "filtersJobs=>",
-    filtersJobs,
-    "filters=>",
-    filters
-  );
 
   return (
     <>

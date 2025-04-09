@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient, Role } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { Role } from "@prisma/client";
+import prisma from "@/Lib/prisma";
 
 export async function GET(req: NextRequest) {
   try {
@@ -13,7 +12,7 @@ export async function GET(req: NextRequest) {
       switch (role.toLowerCase()) {
         case "candidate":
           users = await prisma.candidate.findMany({
-            include: { user: true },
+            include: { user: true, Application: true },
           });
           break;
         case "company":
@@ -36,7 +35,6 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    console.log("from get-users =>", users);
     return NextResponse.json(users);
   } catch (error) {
     console.log("Error", error);

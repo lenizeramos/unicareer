@@ -34,11 +34,11 @@ interface IUsers {
   userId?: string;
   name?: string;
   bio?: string;
-  firstName?:string;
-  lastName?:string;
-  skills?:string[];
-  resume?:string;
-  website?:string;
+  firstName?: string;
+  lastName?: string;
+  skills?: string[];
+  resume?: string;
+  website?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -49,4 +49,44 @@ interface IUserState {
   error: string | null;
 }
 
-export type { Ijobs, IJobsState, IUsers, IUserState };
+interface IApplicants {
+  id: string;
+  jobId: string;
+  candidateId: string;
+  status: string;
+  applydAd: string;
+}
+
+interface IApplicantsState {
+  applicants: IApplicants[];
+  loading: boolean;
+  error: string | null;
+}
+
+interface ICandidate {
+  id: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  skills?: string[];
+  resume?: string;
+  bio?: string;
+  website?: string;
+}
+
+interface ICandidateState {
+  candidate: ICandidate [];
+  loading: boolean;
+  error: string | null;
+}
+
+export type {
+  Ijobs,
+  IJobsState,
+  IUsers,
+  IUserState,
+  IApplicants,
+  IApplicantsState,
+  ICandidate,
+  ICandidateState,
+};
