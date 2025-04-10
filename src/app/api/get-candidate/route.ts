@@ -22,7 +22,7 @@ export async function GET() {
             firstName: true,
             lastName: true,
             skills: true,
-            application: true,
+            applications: true,
           },
         },
       },
@@ -44,7 +44,7 @@ export async function GET() {
       firstName: user.candidate.firstName,
       lastName: user.candidate.lastName,
       skills: user.candidate.skills,
-      applications: user.candidate.application,
+      applications: user.candidate.applications,
     });
   } catch (error) {
     console.error("Error fetching candidate:", error);

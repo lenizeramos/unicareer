@@ -76,11 +76,11 @@ interface ICandidate {
   resume?: string;
   bio?: string;
   website?: string;
-  application: IApplicants[];
+  applications: IApplicants[];
 }
 
 interface ICandidateState {
-  candidate: ICandidate[];
+  candidate: ICandidate;
   loading: boolean;
   error: string | null;
 }

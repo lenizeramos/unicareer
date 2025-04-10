@@ -14,7 +14,6 @@ import { AppDispatch, RootState } from "@/app/context/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
   IApplicantsState,
-  ICandidateState,
   IJobsState,
   IUserState,
 } from "@/app/Types/slices";
@@ -25,11 +24,11 @@ import { useRouter } from "next/navigation";
 import { useCandidateData } from "@/Lib/client/candidate";
 import { fetchApplicants } from "@/app/context/slices/applicantsSlices";
 import { toast } from "sonner";
-import { fetchCandidate } from "@/app/context/slices/candidateSlice";
+import Loader from "@/app/components/Loader";
 
 export default function JobDescription() {
   const router = useRouter();
-  const { candidateId, isLoading } = useCandidateData();
+  const { candidate, isLoading } = useCandidateData();
 
   const dispatch: AppDispatch = useDispatch();
   const { jobs, loading } = useSelector(
@@ -41,23 +40,43 @@ export default function JobDescription() {
   const { applicants } = useSelector(
     (state: RootState) => state.applicants as IApplicantsState
   );
-  const { candidate } = useSelector(
-    (state: RootState) => state.candidate as ICandidateState
-  );
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const job = jobs.find((item) => item.id === id);
+
   useEffect(() => {
-    dispatch(fetchAllJobs());
-    dispatch(fetchUsers("company"));
-    dispatch(fetchApplicants());
-    dispatch(fetchCandidate());
-  }, [users.length, jobs.length, applicants.length, candidate.length]);
+    if (jobs.length === 0) {
+      dispatch(fetchAllJobs());
+    }
+  }, [jobs.length]);
+
+  useEffect(() => {
+    if (users.length === 0) {
+      dispatch(fetchUsers("company"));
+    }
+  }, [users.length]);
+
+  useEffect(() => {
+    if (applicants.length === 0) {
+      dispatch(fetchApplicants());
+    }
+  }, [applicants.length]);
+
   const company = users.find((company) => company.id === job?.companyId);
   if (loading) {
-    return <div>loading</div>;
+    return <Loader />;
+  }
+  if (isLoading) {
+    return <Loader />;
   }
   if (!job) {
+    return (
+      <>
+        <p>Not Found</p>
+      </>
+    );
+  }
+  if (!candidate) {
     return (
       <>
         <p>Not Found</p>
@@ -72,12 +91,13 @@ export default function JobDescription() {
   const category =
     typeof job.categories === "string" ? job.categories.toLowerCase() : "";
 
-  const application = applicants.some(
-    (application) => application.candidateId === candidateId
+  const application = candidate.applications.some(
+    (item) => item.jobId === job.id
   );
-  console.log("candidate=>", candidate);
+
+  console.log("job=>", job, "candidate=>", application);
   const handleApplicationSubmit = async () => {
-    if (!candidateId) {
+    if (!candidate) {
       console.error("No candidate ID available");
       return;
     }
@@ -87,7 +107,7 @@ export default function JobDescription() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           jobId: job.id,
-          candidateId: candidateId,
+          candidateId: candidate.id,
         }),
       });
 

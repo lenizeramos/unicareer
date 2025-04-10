@@ -1,8 +1,9 @@
 import { useAuth } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
+import { ICandidate } from "@/app/Types/slices";
 
 export const useCandidateData = () => {
-  const [candidateId, setCandidateId] = useState<string | null>(null);
+  const [candidate, setCandidate] = useState<ICandidate | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { getToken } = useAuth();
 
@@ -23,7 +24,8 @@ export const useCandidateData = () => {
         
         if (response.ok) {
           const data = await response.json();
-          setCandidateId(data.candidateId);
+          setCandidate(data);
+          console.log('data=>',data)
         }
       } catch (error) {
         console.error('Error fetching candidate data:', error);
@@ -35,5 +37,5 @@ export const useCandidateData = () => {
     fetchCandidateData();
   }, [getToken]);
 
-  return { candidateId, isLoading };
+  return { candidate, isLoading };
 };
