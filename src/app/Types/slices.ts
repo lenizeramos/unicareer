@@ -18,6 +18,7 @@ interface Ijobs {
   applications: IApplicants[];
   createdAt: string;
   updatedAt: string;
+  status: "OPEN" | "CLOSED";
 }
 
 interface IJobsState {
