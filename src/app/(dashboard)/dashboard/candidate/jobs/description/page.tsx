@@ -12,7 +12,12 @@ import ProgressBar from "@/app/components/ProgressBar";
 import TagComp from "@/app/components/TagComp";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useDispatch, useSelector } from "react-redux";
-import { IApplicantsState, IJobsState, IUserState } from "@/app/Types/slices";
+import {
+  IApplicantsState,
+  ICandidateState,
+  IJobsState,
+  IUserState,
+} from "@/app/Types/slices";
 import { useEffect } from "react";
 import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 import { fetchUsers } from "@/app/context/slices/usersSlices";
@@ -20,6 +25,7 @@ import { useRouter } from "next/navigation";
 import { useCandidateData } from "@/Lib/client/candidate";
 import { fetchApplicants } from "@/app/context/slices/applicantsSlices";
 import { toast } from "sonner";
+import { fetchCandidate } from "@/app/context/slices/candidateSlice";
 
 export default function JobDescription() {
   const router = useRouter();
@@ -35,6 +41,9 @@ export default function JobDescription() {
   const { applicants } = useSelector(
     (state: RootState) => state.applicants as IApplicantsState
   );
+  const { candidate } = useSelector(
+    (state: RootState) => state.candidate as ICandidateState
+  );
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const job = jobs.find((item) => item.id === id);
@@ -42,7 +51,8 @@ export default function JobDescription() {
     dispatch(fetchAllJobs());
     dispatch(fetchUsers("company"));
     dispatch(fetchApplicants());
-  }, [users.length, jobs.length, applicants.length]);
+    dispatch(fetchCandidate());
+  }, [users.length, jobs.length, applicants.length, candidate.length]);
   const company = users.find((company) => company.id === job?.companyId);
   if (loading) {
     return <div>loading</div>;
@@ -65,7 +75,7 @@ export default function JobDescription() {
   const application = applicants.some(
     (application) => application.candidateId === candidateId
   );
-  console.log("application=>", application, "job=>", job);
+  console.log("candidate=>", candidate);
   const handleApplicationSubmit = async () => {
     if (!candidateId) {
       console.error("No candidate ID available");

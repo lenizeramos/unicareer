@@ -15,6 +15,7 @@ interface Ijobs {
   niceToHave: string;
   benefits: string | string[];
   closingDate: string;
+  applications: IApplicants[];
   createdAt: string;
   updatedAt: string;
 }
@@ -39,6 +40,8 @@ interface IUsers {
   skills?: string[];
   resume?: string;
   website?: string;
+  jobs?: Ijobs[];
+  application?: IApplicants[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -53,8 +56,9 @@ interface IApplicants {
   id: string;
   jobId: string;
   candidateId: string;
-  status: string;
-  applydAd: string;
+  status: "PENDING" | "INTERVIEWED" | "REJECTED";
+  applyedAt: string;
+  updatedAt?: string;
 }
 
 interface IApplicantsState {
@@ -68,17 +72,36 @@ interface ICandidate {
   userId: string;
   firstName: string;
   lastName: string;
-  skills?: string[];
+  skills: string[];
   resume?: string;
   bio?: string;
   website?: string;
+  application: IApplicants[];
 }
 
 interface ICandidateState {
-  candidate: ICandidate [];
+  candidate: ICandidate[];
   loading: boolean;
   error: string | null;
 }
+
+// interface ICompany {
+//   id: string;
+//   userId: string;
+//   firstName: string;
+//   lastName: string;
+//   skills?: string[];
+//   resume?: string;
+//   bio?: string;
+//   website?: string;
+//   Application: IApplicants[];
+// }
+
+// interface ICompanyState {
+//   company: ICompany[];
+//   loading: boolean;
+//   error: string | null;
+// }
 
 export type {
   Ijobs,
