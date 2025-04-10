@@ -94,8 +94,6 @@ export default function JobDescription() {
   const application = candidate.applications.some(
     (item) => item.jobId === job.id
   );
-
-  console.log("job=>", job, "candidate=>", application);
   const handleApplicationSubmit = async () => {
     if (!candidate) {
       console.error("No candidate ID available");
