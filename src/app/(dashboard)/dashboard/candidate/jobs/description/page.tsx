@@ -65,7 +65,7 @@ export default function JobDescription() {
   const application = applicants.some(
     (application) => application.candidateId === candidateId
   );
-
+  console.log("application=>", application, "job=>", job);
   const handleApplicationSubmit = async () => {
     if (!candidateId) {
       console.error("No candidate ID available");
@@ -167,7 +167,9 @@ export default function JobDescription() {
               <h2 className={`${styles.JobDescriptionTitle}`}>
                 Responsibilities
               </h2>
-              <p>{job.responsibilities}</p>
+              <p className={`${styles.JobDescriptionText}`}>
+                {job.responsibilities}
+              </p>
               {/* <ul>
                 {job.responsibilities.map((item, index) => {
                   return (
@@ -195,7 +197,7 @@ export default function JobDescription() {
                   );
                 })}
               </ul> */}
-              {job.whoYouAre}
+              <p className={`${styles.JobDescriptionText}`}>{job.whoYouAre}</p>
             </div>
             <div>
               <h2 className={`${styles.JobDescriptionTitle}`}>Nice To Have</h2>
@@ -211,7 +213,7 @@ export default function JobDescription() {
                   );
                 })}
               </ul> */}
-              {job.niceToHave}
+              <p className={`${styles.JobDescriptionText}`}>{job.niceToHave}</p>
             </div>
           </div>
           <div className=" 2xl:w-[20%] xl:w-[30%] lg:w-[45%] flex lg:flex-col xs:flex-row flex-col justify-around">

@@ -62,10 +62,8 @@ export default function CompanyHeaderPaymentButton() {
     checkMembershipStatus();
   }, []);
 
-  // const buttonText = isLoading ? "Loading..." : showPaymentButton ? "Post a Job" : "Get a membership";
-  // const buttonClick = showPaymentButton ? handleButtonClick : handlePaymentClick;
-
-  const buttonText = "Post a Job";
+  const buttonText = isLoading ? "Loading..." : showPaymentButton ? "Post a Job" : "Get a membership";
+  const buttonClick = showPaymentButton ? handleButtonClick : handlePaymentClick;
 
   return (
     <CompanyHeader
@@ -76,8 +74,7 @@ export default function CompanyHeaderPaymentButton() {
         IsWhite: false,
         width: "w-xs",
         icon: <FaPlus />,
-        onClick: handleButtonClick,
-        // onClick: buttonClick,
+        onClick: buttonClick,
       }}
     />
   );
