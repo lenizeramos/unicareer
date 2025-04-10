@@ -3,23 +3,19 @@ import React from 'react';
 const JobAppliedGraphic: React.FC = () => {
   return (
     <div className="grid grid-cols-4 gap-6 p-6">
-      {/* Columna izquierda (2 cards) */}
       <div className="col-span-1">
-        {/* Total Jobs Applied */}
         <div className="bg-white shadow-md rounded-lg p-4 mb-6">
           <h2 className="text-lg font-semibold">Total Jobs Applied</h2>
           <p className="text-4xl font-bold">45</p>
         </div>
 
-        {/* Interviewed */}
         <div className="bg-white shadow-md rounded-lg p-4">
           <h2 className="text-lg font-semibold">Interviewed</h2>
           <p className="text-4xl font-bold">18</p>
         </div>
       </div>
 
-      {/* Jobs Applied Status (centro, 2 columnas) */}
-      <div className="col-span-2">
+      <div className="col-span-1">
         <div className="bg-white shadow-md rounded-lg p-4">
           <h2 className="text-lg font-semibold">Jobs Applied Status</h2>
           <div className="flex items-center justify-center">
@@ -44,8 +40,7 @@ const JobAppliedGraphic: React.FC = () => {
         </div>
       </div>
 
-      {/* Upcoming Interviews (derecha, 1 columna) */}
-      <div className="col-span-1">
+      <div className="col-span-2">
         <div className="bg-white shadow-md rounded-lg p-4">
           <h2 className="text-lg font-semibold">Upcoming Interviews</h2>
           <p className="text-gray-500">Today, 26 November</p>
