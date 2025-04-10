@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
+import { waitForUserRole } from "@/Lib/client/roleService";
 import CandidateForm from "@/app/components/CandidateForm";
 import CompanyForm from "@/app/components/CompanyForm";
 
@@ -28,13 +30,34 @@ import CompanyForm from "@/app/components/CompanyForm";
   }
 }; */
 
+const awaitRoleUpdate = async (expectedRole: string, maxAttempts = 10): Promise<boolean> => {
+  for (let i = 0; i < maxAttempts; i++) {
+    try {
+      const response = await fetch("/api/check-role");
+      if (!response.ok) {
+        throw new Error(`Failed to check role: ${response.statusText}`);
+      }
+      const data = await response.json();
+      
+      if (data.role === expectedRole) {
+        return true;
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 200));
+    } catch (error) {
+      console.error("Error checking role:", error);
+    }
+  }
+  return false;
+};
+
 export default function RegisterPage() {
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
-  const [formType, setFormType] = useState<"candidate" | "company" | null>(
-    null
-  );
+  const [formType, setFormType] = useState<"candidate" | "company" | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { user } = useUser();
 
   useEffect(() => {
     if (role === "candidate" || role === "company") {
@@ -70,6 +93,7 @@ export default function RegisterPage() {
       photo: File | null;
       role?: string;
     }) => {
+      setIsLoading(true);
       try {
         candidate.role = "CANDIDATE";
         const response = await fetch("/api/register", {
@@ -80,15 +104,21 @@ export default function RegisterPage() {
           body: JSON.stringify(candidate),
         });
 
+        const data = await response.json();
+        
         if (!response.ok) {
-          throw new Error(`Registration error: ${response.statusText}`);
+          throw new Error(data.error || `Registration error: ${response.statusText}`);
         }
 
-        //await awaitNewClerkRoleToSyncWithApp();
+        const roleUpdated = await waitForUserRole("CANDIDATE");
+        if (!roleUpdated) {
+          throw new Error("Role update timeout");
+        }
 
-        router.push("dashboard/candidate");
+        router.push("/dashboard/candidate");
       } catch (error) {
         console.error("Error registering the user:", error);
+        setIsLoading(false);
       }
     },
     [router]
@@ -96,6 +126,7 @@ export default function RegisterPage() {
 
   const handleCompanyFormSubmit = useCallback(
     async (company: { name: string; logo: File | null; role?: string }) => {
+      setIsLoading(true);
       try {
         company.role = "COMPANY";
         const response = await fetch("/api/register", {
@@ -106,26 +137,37 @@ export default function RegisterPage() {
           body: JSON.stringify(company),
         });
 
+        const data = await response.json();
+        
         if (!response.ok) {
-          throw new Error(`Registration error: ${response}`);
+          throw new Error(data.error || `Registration error: ${response.statusText}`);
         }
 
-        //await awaitNewClerkRoleToSyncWithApp();
-        router.push("dashboard/company");
+        const roleUpdated = await waitForUserRole("COMPANY");
+        if (!roleUpdated) {
+          throw new Error("Role update timeout");
+        }
+
+        router.push("/dashboard/company");
       } catch (error) {
         console.error("Error registering the user:", error);
+        setIsLoading(false);
       }
     },
     [router]
   );
 
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-2xl p-4">
-        <h1 className="text-2xl font-semibold text-center mb-6">
-          Registration Form
-        </h1>
-
         {formType === "candidate" && (
           <CandidateForm onSubmit={handleCandidateFormSubmit} />
         )}

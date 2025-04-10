@@ -1,11 +1,12 @@
 import { ICardId } from "@/app/Types";
-import { jobsCategories } from "@/app/constants";
+import { jobsCategories, perksData } from "@/app/constants";
 import BasicCards from "./BasicCards";
 import JobCard from "./JobCard";
 import JobResumeCards from "./JobResumeCards";
 import RecentCard from "./RecentCard";
 
 const CardsContainer = ({ cardId, params }: ICardId) => {
+
   const renderCard = () => {
     switch (cardId) {
       case "category":
@@ -15,17 +16,19 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
           <>
             {cardId === "dashboardCard" ? (
               <div className="flex flex-row flex-wrap gap-5 justify-center">
-                <BasicCards
-                  cardId="dashboardCard"
-                  icon={params?.[0].icon}
-                  subicons={params?.[0].subicons}
-                  title={params?.[0].title}
-                  total={params?.[0].total}
-                />
+                {params?.map((param, index) => (
+                  <BasicCards
+                    key={index}
+                    cardId={cardId}
+                    icon={param.icon}
+                    subicons={param.subicons}
+                    title={param.title}
+                    total={param?.total}
+                  />
+                ))}
               </div>
             ) : cardId === "category" ? (
               <div className="flex flex-row gap-10 flex-wrap justify-center">
-                <p className="text-white">cardId= category</p>
                 {jobsCategories.map((data, index) => {
                   return (
                     <div className="" key={index}>
@@ -39,9 +42,10 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
                 })}
               </div>
             ) : (
-              <div className="flex flex-row gap-10 flex-wrap justify-center">
-                <p className="text-white">cardId= perks</p>
-                <BasicCards cardId="perks" />
+              <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-10 pointer-events-none">
+                {perksData.map((item, index) => {
+                  return <BasicCards cardId="perks" {...item} key={index} />;
+                })}
               </div>
             )}
           </>
@@ -52,19 +56,27 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
           <>
             {cardId === "featuredJob" ? (
               <div className="flex flex-row gap-10 flex-wrap justify-center">
-                <p className="text-white">cardId= featuredJob</p>
                 <JobCard cardId={cardId} />
                 <JobCard cardId={cardId} />
                 <JobCard cardId={cardId} />
               </div>
             ) : (
               <div className="flex flex-row gap-10 flex-wrap justify-center">
-                <p className="text-white">cardId= jobUpdates</p>
-                <JobCard cardId={cardId} />
-                <JobCard cardId={cardId} />
-                <JobCard cardId={cardId} />
-                <JobCard cardId={cardId} />
-                <JobCard cardId={cardId} />
+                {params?.map((param, index) => (
+                  <JobCard
+                    key={index}
+                    cardId={cardId}
+                    title={param.title}
+                    date={param.date}
+                    company={param.company}
+                    text={param.text}
+                    logo={param.logo}
+                    subtitle={param.subtitle}
+                    alt={param.alt}
+                    categories={param.categories}
+                    type={param.type}
+                  />
+                ))}
               </div>
             )}
           </>
@@ -76,21 +88,21 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
           <>
             {cardId === "latestJob" ? (
               <div className="flex flex-row gap-5 flex-wrap justify-center">
-                <p className="text-white">cardId= latestJob</p>
                 <JobResumeCards cardId={cardId} />
                 <JobResumeCards cardId={cardId} />
               </div>
             ) : cardId === "openPositions" ? (
               <div className="flex flex-col gap-3 w-fit mx-auto">
-                <p className="text-white">cardId= openPositions</p>
                 <JobResumeCards cardId={cardId} />
                 <JobResumeCards cardId={cardId} />
               </div>
             ) : (
               <div className="flex flex-col gap-3 w-full mx-auto">
-                <p className="text-white">cardId= allJobs</p>
-                <JobResumeCards cardId={cardId} />
-                <JobResumeCards cardId={cardId} />
+                {params?.map((info, index) => {
+                  return (
+                    <JobResumeCards cardId={cardId} {...info} key={index} />
+                  );
+                })}
               </div>
             )}
           </>
@@ -100,13 +112,20 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
         return (
           <>
             {cardId === "recentPosted" ? (
-              <div className="flex flex-col gap-4 w-full">                
-                <RecentCard cardId={cardId} title={params?.[0].title} date={params?.[0].date} company={params?.[0].company} text={params?.[0].text} />
-                <RecentCard cardId={cardId} title={params?.[1].title} date={params?.[1].date} company={params?.[1].company} text={params?.[1].text} />
+              <div className="flex flex-col gap-4 w-full">
+                {params?.map((param, index) => (
+                  <RecentCard
+                    key={index}
+                    cardId={cardId}
+                    title={param.title}
+                    date={param.date}
+                    company={param.company}
+                    text={param.text}
+                  />
+                ))}
               </div>
             ) : (
               <div className="flex flex-col gap-4 w-full">
-                <p className="text-white">cardId= recentApply</p>
                 <RecentCard cardId={cardId} />
                 <RecentCard cardId={cardId} />
               </div>

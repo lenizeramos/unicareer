@@ -42,6 +42,60 @@ body {
   color: var(--text-focus);
 }
 
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  border: 3px solid;
+  border-color: #4640de #4640de transparent transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.loader::after,
+.loader::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: 3px solid;
+  border-color: transparent transparent #b1aff1 #b1aff1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  animation: rotationBack 0.5s linear infinite;
+  transform-origin: center center;
+}
+.loader::before {
+  width: 32px;
+  height: 32px;
+  border-color: #4640de #4640de transparent transparent;
+  animation: rotation 1.5s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
 @font-face {
   font-family: "Big_Shoulder_Stencil";
   src: url("/Fonts/Big_Shoulders_Stencil/BigShouldersStencil-VariableFont_opsz\,wght.ttf")
@@ -107,8 +161,8 @@ body {
   color: transparent;
 }
 
-.border-open {
-  border-color: var(--color-openColor);
+.border-live {
+  border-color: var(--color-liveColor);
 }
 
 .border-closed {
@@ -121,6 +175,16 @@ body {
 
 .border-freelance {
   border-color: var(--color-freelanceColor);
+}
+
+.border-COMPLETED {
+  border-color: var(--color-openColor);
+  color: var(--color-openColor);
+}
+
+.border-PENDING {
+  border-color: var(--color-freelanceColor);
+  color: var(--color-freelanceColor);
 }
 
 .text-openColor {
@@ -193,4 +257,33 @@ body {
   .p-stepper-separator {
     display: none;
   }
+}
+
+/* CLerk */
+.cl-formButtonPrimary {
+  font-size: 14px;
+  text-transform: none;
+  background-color: var(--color-primary);
+}
+
+.cl-formButtonPrimary:hover,
+.cl-formButtonPrimary:focus,
+.cl-formButtonPrimary:active {
+  background-color: #49247a;
+}
+
+.cl-footer {
+  display: none;
+}
+/*Skills - forms*/
+.p-chips:not(.p-disabled):hover .p-chips-multiple-container {
+  border-color: lightgray;
+}
+.p-chips:not(.p-disabled).p-focus .p-chips-multiple-container {
+  box-shadow: 0 0 0 0.05rem var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.p-chips .p-chips-multiple-container .p-chips-token {
+  color: var(--color-menuItem);
 }

@@ -1,5 +1,5 @@
 import prisma from "./prisma";
-import { Job } from "../types/job";
+import { Job } from "../types/index";
 
 export async function createJob(data: Job) {
   try {

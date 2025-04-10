@@ -1,3 +1,4 @@
+'use client';
 import DashboardNavbar from "@/app/components/DashboardNavbar";
 import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
@@ -15,3 +16,5 @@ export default function CandidatePage() {
         </>
     );
 } 
+
+

@@ -6,24 +6,32 @@ const isCompanyRoute = createRouteMatcher(["/dashboard/company(.*)"]);
 const isAdminUserRoute = createRouteMatcher(["/dashboard/adminuser(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
-  const { sessionClaims } = await auth();
-  const userRole = sessionClaims?.metadata?.role;
 
-  if (isCandidateRoute(req) && userRole !== "candidate") {
-    const newRole = userRole === "admin" ? "adminuser" : userRole;
-    const url = new URL("/dashboard/" + newRole, req.url);
-    return NextResponse.redirect(url);
-  }
+  if (req.nextUrl.pathname.startsWith('/dashboard')) {
+    const { sessionClaims } = await auth();
+    const userRole = sessionClaims?.metadata?.role;
 
-  if (isCompanyRoute(req) && userRole !== "company") {
-    const newRole = userRole === "admin" ? "adminuser" : userRole;
-    const url = new URL("/dashboard/" + newRole, req.url);
-    return NextResponse.redirect(url);
-  }
+    if (!userRole) {
+      const url = new URL("/", req.url);
+      return NextResponse.redirect(url);
+    }
 
-  if (isAdminUserRoute(req) && userRole !== "admin") {
-    const url = new URL("/dashboard/" + userRole, req.url);
-    return NextResponse.redirect(url);
+    if (isCandidateRoute(req) && userRole !== "candidate") {
+      const newRole = userRole === "admin" ? "adminuser" : userRole;
+      const url = new URL("/dashboard/" + newRole, req.url);
+      return NextResponse.redirect(url);
+    }
+
+    if (isCompanyRoute(req) && userRole !== "company") {
+      const newRole = userRole === "admin" ? "adminuser" : userRole;
+      const url = new URL("/dashboard/" + newRole, req.url);
+      return NextResponse.redirect(url);
+    }
+
+    if (isAdminUserRoute(req) && userRole !== "admin") {
+      const url = new URL("/dashboard/" + userRole, req.url);
+      return NextResponse.redirect(url);
+    }
   }
 });
 

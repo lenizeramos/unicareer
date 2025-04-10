@@ -6,6 +6,7 @@ interface IButtton {
   width?: string;
   onClick?: () => void;
   icon?: React.ReactNode;
+  isDissable?: boolean;
 }
 
 interface ILogo {
@@ -31,18 +32,34 @@ interface ICardId extends Omit<ICards, "cardId"> {
 interface ICards {
   icon?: React.ElementType;
   subicons?: React.ElementType;
+  cardId?: string;
+  logo?: string;
+  id?: string;
   title?: string;
+  description?: string;
+  location?: string;
+  skills?: string[] | string;
+  level?: string;
+  type?: string;
+  categories?: string[] | string;
+  salaryMin?: number;
+  salaryMax?: number;
+  responsibilities?: string;
+  whoYouAre?: string;
+  niceToHave?: string;
+  // benefits?: { icon: React.ElementType; title: string; text: string }[];
+  benefits?: string[] | string;
+  company?: string;
+  companyId?: string;
+  closingDate?: string;
+  createdAt?: string;
+  applicantsCount?: number;
   subtitle?: string;
   text?: string;
-  logo?: string;
   alt?: string;
-  category?: string;
-  company?: string;
-  type?: string;
-  date?: string;
   progress?: string;
   total?: number;
-  cardId: string;
+  date?: string;
 }
 
 interface IProgressBarProps {
@@ -58,26 +75,13 @@ interface ITagComp {
 }
 
 interface IFilterJobs {
-  array: string[];
+  array: string[] | { min: number; max: number }[];
   title: string;
-}
-
-interface IJobDescription {
-  logo: string;
-  position: string;
-  company: string;
-  place: string;
-  type: string;
-  description: string[];
-  whoYouAre: string[];
-  plus: string[];
-  applyBefore: string;
-  createdAt: string;
-  jobType: string;
-  salary: string;
-  category: string[];
-  skills: string[];
-  perks: { icon: React.ElementType; title: string; text: string }[];
+  type: "jobType" | "category" | "jobLevel" | "salary";
+  onFilterChange?: (
+    key: string,
+    value: string | { min: number; max: number }
+  ) => void;
 }
 
 export type {
@@ -88,7 +92,6 @@ export type {
   IProgressBarProps,
   ITagComp,
   IFilterJobs,
-  IJobDescription,
 };
 
 export interface IDashboardNavbar {
@@ -140,6 +143,27 @@ export interface JobListProps extends IJobList {
   totalItems: number;
 }
 
+export interface IPayment {
+  amount: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  invoice?: string;
+}
+
+export interface IPaymentsList {
+  payments: IPayment[];
+  columns: { [key: string]: string };
+}
+
+export interface PaymentsListProps extends IPaymentsList {
+  itemsPerPage: number;
+  onItemsPerPageChange: (value: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+}
+
 export interface IBadge {
   status: string;
   color: string;
@@ -171,8 +195,8 @@ export interface InputFieldProps {
   label: string;
   small?: string;
   id: string;
-  name: string;
-  value: string | number | null;
+  name?: string;
+  value?: string | number | null;
   minDate?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
@@ -184,11 +208,14 @@ export interface InputFieldProps {
   classNameLabel?: string;
   classNameDivLgWidth?: string;
   classNameField?: string;
+  accept?: string;
+  fileLabel?: string;
+  filePreview?: React.ReactNode;
 }
 
 export interface ISalaryRangeSliderProps {
   label: string;
-  small: string;
+  small?: string;
   id: string;
   min: number;
   max: number;
@@ -203,7 +230,7 @@ export interface ISalaryRangeSliderProps {
 
 export interface ISelectFieldProps {
   label: string;
-  small: string;
+  small?: string;
   id: string;
   name: string;
   value: string;
@@ -218,9 +245,9 @@ export interface ISelectFieldProps {
 }
 export interface ITextAreaFieldProps {
   label: string;
-  small: string;
+  small?: string;
   id: string;
-  name: string;
+  name?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
@@ -232,4 +259,54 @@ export interface ITextAreaFieldProps {
   classNameLabel?: string;
   classNameDivLgWidth?: string;
   classNameField?: string;
+}
+
+export interface IChipsFieldProps {
+  label: string;
+  value: string[];
+  onChange: (value: string[]) => void;
+  placeholder?: string;
+  itemTemplate?: (item: string) => React.ReactNode;
+  className?: string;
+  labelClass?: string;
+  containerClass?: string;
+  helperText?: string;
+}
+
+export interface AuthFormProps {
+  type: "sign-in" | "sign-up";
+  role?: "company" | "candidate";
+  onRoleChange?: (role: "company" | "candidate") => void;
+}
+
+export interface IApplicantProps {
+  label: string;
+  count: number;
+  color: string;
+}
+
+export interface ITotalApplicantProps {
+  applicants: IApplicantProps[];
+  totalApplicants: number;
+}
+
+export interface IStatusCardProps {
+  title: string;
+  value: number;
+  icon?: React.ReactNode;
+  color?: string;
+  backgroundColor?: string;
+  trend?: "up" | "down";
+  percentage?: string;
+}
+
+export interface ICandidateFormProps {
+  onSubmit: (formData: {
+    firstName: string;
+    lastName: string;
+    photo: File | null;
+    skills: string[];
+    resume: File | null;
+    bio: string;
+  }) => void;
 }

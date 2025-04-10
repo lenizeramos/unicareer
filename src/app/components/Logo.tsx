@@ -3,7 +3,8 @@ import { ILogo } from "../Types";
 
 const Logo = ({ logoSize, fontSize }: ILogo) => {
   const size = logoSize ? logoSize : 40;
-  const fontsize = fontSize ? fontSize : 'text-3xl'
+  const fontsize = fontSize ? fontSize : "text-3xl";
+
   return (
     <>
       <div className={`flex items-center gap-2`}>
