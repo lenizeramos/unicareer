@@ -307,4 +307,13 @@ export interface ICandidateFormProps {
   initialData: ResumeData | null;
 }
 
-
+export interface IDashboardData {
+  totalApplications: number;
+  jobView: number;
+  jobOpen: number;
+  applicantsSummary: {
+    label: string;
+    count: number;
+    color: string;
+  }[];
+}
