@@ -1,8 +1,6 @@
-"use client"
+"use client";
 import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
-/* import CompanyHeader from "@/app/components/CompanyHeader";
-import { FaPlus } from "react-icons/fa"; */
 import { SlArrowRight } from "react-icons/sl";
 import StatusCard from "@/app/components/StatusCard";
 import ApplicantsSummary from "@/app/components/ApplicantsSummary";
@@ -13,21 +11,50 @@ import { GoArrowRight } from "react-icons/go";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
-import { IApplicantsState } from "@/app/Types/slices";
 import { useEffect } from "react";
-import { fetchApplicants } from "@/app/context/slices/applicantsSlices";
+import { fetchCompanyJobs } from "@/app/context/slices/companyJobsSlice";
+import { Ijobs } from "@/app/Types/slices";
 
+
+const jobTypes = [
+  { label: "Full-Time", value: "full-time", color: "bg-pink-500" },
+  { label: "Part-Time", value: "part-time", color: "bg-green-500" },
+  { label: "Remote", value: "remote", color: "bg-blue-500" },
+  { label: "Internship", value: "internship", color: "bg-yellow-500" },
+  { label: "Contract", value: "contract", color: "bg-red-500" },
+  { label: "Frellance", value: "frellance", color: "bg-purple-500" },
+];
+
+function getApplicantStatsByJobType(companyJobs: Ijobs[]) {
+  const stats = jobTypes.map(({ label, value, color }) => {
+    const jobsOfType = companyJobs.filter((job) => job.type === value);
+    const totalApplications = jobsOfType.reduce(
+      (acc, job) => acc + (job.applications?.length || 0),
+      0
+    );
+    return { label, count: totalApplications, color };
+  });
+
+  const totalApplicants = companyJobs.reduce(
+    (acc, job) => acc + (job.applications?.length || 0),
+    0
+  );
+
+  return { applicants: stats, totalApplicants };
+}
 
 const CompanyPage = () => {
   const dispatch: AppDispatch = useDispatch();
-    const { applicants } = useSelector((state: RootState) => state.applicants as IApplicantsState);
+  const companyJobs = useSelector((state: RootState) => state.companyJobs.jobs);
 
+  useEffect(() => {
+    if (companyJobs.length === 0) {
+      dispatch(fetchCompanyJobs());
+    }
+  }, [dispatch, companyJobs.length]);
 
-    useEffect(() => {
-      if (applicants.length === 0) {
-        dispatch(fetchApplicants());
-      }
-    }, [dispatch, applicants.length]);
+  const { applicants, totalApplicants } =
+    getApplicantStatsByJobType(companyJobs);
 
   return (
     <div className="space-y-8 pb-8">
@@ -79,8 +106,8 @@ const CompanyPage = () => {
 
           <div className="space-y-4">
             <StatusCard
-              title="Job Applied"
-              value={applicants.length}
+              title="Total Applications"
+              value={totalApplicants}
               trend="up"
               percentage="0.5%"
             />
@@ -93,18 +120,18 @@ const CompanyPage = () => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <StatusCard title="Job Open" value={12} icon={<SlArrowRight />} />
+            <StatusCard
+              title="Job Open"
+              value={companyJobs.reduce((acc, job) => {
+                return acc + (job.status === "OPEN" ? 1 : 0);
+              }, 0)}
+              icon={<SlArrowRight />}
+            />
 
             <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
               <ApplicantsSummary
-                applicants={[
-                  { label: "Full Time", count: 12, color: "bg-purple-500" },
-                  { label: "Part-Time", count: 24, color: "bg-green-500" },
-                  { label: "Remote", count: 22, color: "bg-blue-500" },
-                  { label: "Internship", count: 32, color: "bg-yellow-500" },
-                  { label: "Contract", count: 30, color: "bg-red-500" },
-                ]}
-                totalApplicants={62}
+                applicants={applicants}
+                totalApplicants={totalApplicants}
               />
             </div>
           </div>
@@ -124,48 +151,19 @@ const CompanyPage = () => {
 
         <CardsContainer
           cardId="jobUpdates"
-          params={[
-            {
-              title: "Job Title 1",
+          params={companyJobs
+            .map((job) => ({
+              title: job.title,
               cardId: "jobUpdates",
-              company: "Company",
+              /* company: "Company", */
               logo: "logo",
-              subtitle: "subtitle",
-              alt: "alt",
-              categories: "category",
-              type: "type",
-            },
-            {
-              title: "Job Title 2",
-              cardId: "jobUpdates",
-              company: "Company",
-              logo: "logo",
-              subtitle: "subtitle",
-              alt: "alt",
-              categories: "category",
-              type: "type",
-            },
-            {
-              title: "Job Title 3",
-              cardId: "jobUpdates",
-              company: "Company",
-              logo: "logo",
-              subtitle: "subtitle",
-              alt: "alt",
-              categories: "category",
-              type: "type",
-            },
-            {
-              title: "Job Title 4",
-              cardId: "jobUpdates",
-              company: "Company",
-              logo: "logo",
-              subtitle: "subtitle",
-              alt: "alt",
-              categories: "category",
-              type: "type",
-            },
-          ]}
+              subtitle: job.location || "No location",
+              alt: "Job image",
+              categories: Array.isArray(job.categories)
+                ? job.categories.join(", ")
+                : job.categories || "Uncategorized",
+              type: job.type || "N/A",
+            }))}
         />
       </div>
     </div>

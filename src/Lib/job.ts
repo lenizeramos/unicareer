@@ -33,6 +33,7 @@ export async function getJobByCompanyId(companyId: string) {
     const jobs = await prisma.job.findMany({
       where: { companyId: companyId },
       orderBy: { createdAt: "desc" },
+      include: { applications: true },
     });
 
     const jobsWithStatus = jobs.map((job) => ({

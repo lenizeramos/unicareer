@@ -1,6 +1,5 @@
 import { FaArrowLeft, FaArrowRight, FaFilter } from "react-icons/fa";
-import { JobListProps } from "../Types";
-import { Ijobs } from "../Types/slices";
+import { JobListProps, IJob } from "../Types";
 import Badge from "./Badge";
 
 export default function JobList({
@@ -38,7 +37,7 @@ export default function JobList({
             {jobs.map((job, index) => (
               <tr key={index}>
                 {Object.keys(columns).map((key, index) => {
-                  const value = job[key as keyof Ijobs];
+                  const value = job[key as keyof IJob];
                   return (
                     <td
                       key={index}
@@ -62,20 +61,7 @@ export default function JobList({
                             ? new Date(value).toLocaleDateString()
                             : "-"}
                         </div>
-                      ) /* : key === "applicants" ? (
-                        <div className="text-lg font-[500]">
-                          {job[key as keyof Ijobs]}
-                        </div>
-                      ) : key === "needs" ? (
-                        <div className="flex items-center justify-center gap-1">
-                          <p className="text-title-color font-medium text-lg">
-                            {job[key as keyof Ijobs].split("/")[0]}
-                          </p>
-                          <p className="text-not-focus-color font-medium text-lg">
-                            / {job[key as keyof Ijobs].split("/")[1]}
-                          </p>
-                        </div>
-                      )  */: (
+                      ) : (
                         value
                       )}
                     </td>

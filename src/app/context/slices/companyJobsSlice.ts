@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { ICompanyJobsState } from "@/app/Types/slices";
 import { RootState } from "../store";
 
-
 const initialState: ICompanyJobsState = {
   jobs: [],
   loading: false,
@@ -15,13 +14,14 @@ export const fetchCompanyJobs = createAsyncThunk(
     try {
       const response = await fetch(`/api/get-company-jobs`);
       if (!response.ok) throw new Error("Failed to fetch company jobs");
-      return await response.json();
+      const jobs = await response.json();
+      console.log("JOBSSSSS", jobs)
+      return jobs;
     } catch (error) {
       console.error("Error fetching job:", error);
       throw error;
     }
   }
-  
 );
 
 const CompanyJobsSlice = createSlice({

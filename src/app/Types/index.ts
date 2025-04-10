@@ -1,6 +1,5 @@
 import { ResumeData } from "@/types/resume";
 import React from "react";
-import { Ijobs } from "./slices";
 
 interface IButtton {
   text: string | React.ReactNode;
@@ -114,8 +113,19 @@ export interface ICompanyHeader {
   button?: IButtton;
 }
 
+export interface IJob {
+  title: string;
+  status: string;
+  location: string;
+  level: string;
+  categories: string;
+  createdAt: string;
+  closingDate: string;
+  type: string;
+}
+
 export interface IJobList {
-  jobs: Ijobs[];
+  jobs: IJob[];
   columns: { [key: string]: string };
 }
 
