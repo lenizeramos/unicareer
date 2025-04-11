@@ -35,10 +35,10 @@ export default function CompanyPage() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentJobs = companyJobs
     .slice(indexOfFirstItem, indexOfLastItem)
-    /* .map(job => ({
+    .map(job => ({
       ...job,
       categories: Array.isArray(job.categories) ? job.categories.join(", ") : job.categories,
-    }))*/;
+    }));
 
   return (
     <>
