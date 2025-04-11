@@ -4,7 +4,13 @@ import { format } from "date-fns";
 import { FcCalendar } from "react-icons/fc";
 import "react-datepicker/dist/react-datepicker.css";
 
-const DateRangePicker: React.FC = () => {
+const DateRangePicker = ({
+  setStartDate,
+  setEndDate,
+}: {
+  setStartDate: (date: Date) => void;
+  setEndDate: (date: Date) => void;
+}) => {
   const startDefault = new Date();
   const endDefault = new Date();
   endDefault.setDate(startDefault.getDate() + 5);
@@ -22,6 +28,14 @@ const DateRangePicker: React.FC = () => {
       ? `${format(startDate, "MMM d")} – ${format(endDate, "MMM d")}`
       : "Select a date range";
 
+  const handleOnChange = (update: [Date | null, Date | null]) => {
+    setDateRange(update);
+    const [start, end] = update;
+    if (start && end) {
+      setStartDate(start);
+      setEndDate(end);
+    }
+  };
   return (
     <div className={`flex items-center gap-[10px]`}>
       <span className="font-[1rem] cursor-pointer py-[0.5rem] px-[1rem] border-[1px] border-gray-200 inline-flex items-center gap-[0.5rem]">
@@ -31,9 +45,7 @@ const DateRangePicker: React.FC = () => {
       <DatePicker
         ref={pickerRef}
         selected={startDate}
-        onChange={(update: [Date | null, Date | null]) => {
-          setDateRange(update);
-        }}
+        onChange={handleOnChange}
         startDate={startDate ?? undefined}
         endDate={endDate ?? undefined}
         selectsRange
