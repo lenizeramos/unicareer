@@ -335,7 +335,7 @@ export interface Applicant {
   phone?: string;
   position: string;
   appliedDate: string;
-  status: "pending" | "reviewed" | "interviewed" | "rejected" | "accepted";
+  status: "PENDING" | "INTERVIEWED" | "REJECTED";
   linkedIn?: string;
   resume?: string;
 }

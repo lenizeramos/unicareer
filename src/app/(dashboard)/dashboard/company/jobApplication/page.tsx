@@ -41,7 +41,7 @@ export default function ApplicationsPage() {
           phone: '',
           position: job.title,
           appliedDate: new Date(application.appliedAt).toLocaleDateString(),
-          status: application.status.toLowerCase(),
+          status: application.status.toUpperCase() as "PENDING" | "INTERVIEWED" | "REJECTED",
           linkedIn: '',
         }))
       );
@@ -60,10 +60,7 @@ export default function ApplicationsPage() {
                 date="Jul 19 - Jul 25" 
             />
             <ApplicantsList 
-                applicants={currentApplicants.map(applicant => ({
-                    ...applicant,
-                    status: applicant.status as "pending" | "reviewed" | "interviewed" | "rejected" | "accepted"
-                }))}
+                applicants={currentApplicants}
                 columns={columns}
                 itemsPerPage={itemsPerPage}
                 onItemsPerPageChange={setItemsPerPage}
