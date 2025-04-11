@@ -18,8 +18,8 @@ export default function RootLayout({
         <Provider store={store}>
           <html lang="en">
             <body className="antialiased">{children}</body>
-          <Toaster />
           </html>
+          <Toaster />
         </Provider>
       </PrimeReactProvider>
     </ClerkProvider>

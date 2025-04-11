@@ -9,11 +9,10 @@ import { useEffect, useState } from "react";
 import FileUpload from "../components/FileUpload";
 import FileDisplay from "../components/FileDisplay";
 import { useDispatch, useSelector } from "react-redux";
-import { IApplicantsState, ICandidateState, IUserState } from "../Types/slices";
+import { IApplicantsState, IUserState } from "../Types/slices";
 import { AppDispatch, RootState } from "../context/store";
 import { fetchApplicants } from "../context/slices/applicantsSlices";
 import { fetchUsers } from "../context/slices/usersSlices";
-import { fetchCandidate } from "../context/slices/candidateSlice";
 
 export default function Home() {
   const dispatch: AppDispatch = useDispatch();
@@ -22,9 +21,6 @@ export default function Home() {
   );
   const { users } = useSelector(
     (state: RootState) => state.users as IUserState
-  );
-  const { candidate } = useSelector(
-    (state: RootState) => state.candidate as ICandidateState
   );
   const [userId, setUserId] = useState<string>("");
 
@@ -54,12 +50,19 @@ export default function Home() {
     if (users.length === 0) {
       dispatch(fetchUsers("candidate"));
     }
-    if (candidate.length === 0) {
-      dispatch(fetchCandidate());
-    }
-  }, []);
-
-  console.log("applicants=>", applicants, "candidate=>", candidate);
+    // if (candidate === 0) {
+    //   dispatch(fetchCandidate());
+    // }
+    // console.log('====>',candidate.length)
+  }, [users.length, applicants.length]);
+  // console.log(
+  //   "applicants=>",
+  //   applicants,
+  //   "candidate=>",
+  //   candidate.length,
+  //   "users=>",
+  //   users
+  // );
 
   return (
     <>

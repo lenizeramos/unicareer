@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
       switch (role.toLowerCase()) {
         case "candidate":
           users = await prisma.candidate.findMany({
-            include: { user: true, Application: true },
+            include: { user: true, applications: true },
           });
           break;
         case "company":

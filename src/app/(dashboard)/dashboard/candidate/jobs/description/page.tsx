@@ -12,7 +12,11 @@ import ProgressBar from "@/app/components/ProgressBar";
 import TagComp from "@/app/components/TagComp";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useDispatch, useSelector } from "react-redux";
-import { IApplicantsState, IJobsState, IUserState } from "@/app/Types/slices";
+import {
+  IApplicantsState,
+  IJobsState,
+  IUserState,
+} from "@/app/Types/slices";
 import { useEffect } from "react";
 import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 import { fetchUsers } from "@/app/context/slices/usersSlices";
@@ -20,10 +24,11 @@ import { useRouter } from "next/navigation";
 import { useCandidateData } from "@/Lib/client/candidate";
 import { fetchApplicants } from "@/app/context/slices/applicantsSlices";
 import { toast } from "sonner";
+import Loader from "@/app/components/Loader";
 
 export default function JobDescription() {
   const router = useRouter();
-  const { candidateId, isLoading } = useCandidateData();
+  const { candidate, isLoading } = useCandidateData();
 
   const dispatch: AppDispatch = useDispatch();
   const { jobs, loading } = useSelector(
@@ -38,16 +43,40 @@ export default function JobDescription() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const job = jobs.find((item) => item.id === id);
+
   useEffect(() => {
-    dispatch(fetchAllJobs());
-    dispatch(fetchUsers("company"));
-    dispatch(fetchApplicants());
-  }, [users.length, jobs.length, applicants.length]);
+    if (jobs.length === 0) {
+      dispatch(fetchAllJobs());
+    }
+  }, [jobs.length]);
+
+  useEffect(() => {
+    if (users.length === 0) {
+      dispatch(fetchUsers("company"));
+    }
+  }, [users.length]);
+
+  useEffect(() => {
+    if (applicants.length === 0) {
+      dispatch(fetchApplicants());
+    }
+  }, [applicants.length]);
+
   const company = users.find((company) => company.id === job?.companyId);
   if (loading) {
-    return <div>loading</div>;
+    return <Loader />;
+  }
+  if (isLoading) {
+    return <Loader />;
   }
   if (!job) {
+    return (
+      <>
+        <p>Not Found</p>
+      </>
+    );
+  }
+  if (!candidate) {
     return (
       <>
         <p>Not Found</p>
@@ -62,12 +91,11 @@ export default function JobDescription() {
   const category =
     typeof job.categories === "string" ? job.categories.toLowerCase() : "";
 
-  const application = applicants.some(
-    (application) => application.candidateId === candidateId
+  const application = candidate.applications.some(
+    (item) => item.jobId === job.id
   );
-
   const handleApplicationSubmit = async () => {
-    if (!candidateId) {
+    if (!candidate) {
       console.error("No candidate ID available");
       return;
     }
@@ -77,7 +105,7 @@ export default function JobDescription() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           jobId: job.id,
-          candidateId: candidateId,
+          candidateId: candidate.id,
         }),
       });
 
@@ -167,7 +195,9 @@ export default function JobDescription() {
               <h2 className={`${styles.JobDescriptionTitle}`}>
                 Responsibilities
               </h2>
-              <p>{job.responsibilities}</p>
+              <p className={`${styles.JobDescriptionText}`}>
+                {job.responsibilities}
+              </p>
               {/* <ul>
                 {job.responsibilities.map((item, index) => {
                   return (
@@ -195,7 +225,7 @@ export default function JobDescription() {
                   );
                 })}
               </ul> */}
-              {job.whoYouAre}
+              <p className={`${styles.JobDescriptionText}`}>{job.whoYouAre}</p>
             </div>
             <div>
               <h2 className={`${styles.JobDescriptionTitle}`}>Nice To Have</h2>
@@ -211,7 +241,7 @@ export default function JobDescription() {
                   );
                 })}
               </ul> */}
-              {job.niceToHave}
+              <p className={`${styles.JobDescriptionText}`}>{job.niceToHave}</p>
             </div>
           </div>
           <div className=" 2xl:w-[20%] xl:w-[30%] lg:w-[45%] flex lg:flex-col xs:flex-row flex-col justify-around">
