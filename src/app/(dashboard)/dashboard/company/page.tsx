@@ -21,12 +21,12 @@ const defaultDashboardData: IDashboardData = {
   jobView: 0,
   jobOpen: 0,
   applicantsSummary: [
-    { label: "Full-Time", count: 0, color: "bg-pink-500" },
-    { label: "Part-Time", count: 0, color: "bg-green-500" },
-    { label: "Remote", count: 0, color: "bg-blue-500" },
-    { label: "Internship", count: 0, color: "bg-yellow-500" },
-    { label: "Contract", count: 0, color: "bg-red-500" },
-    { label: "Freelance", count: 0, color: "bg-purple-500" },
+    { label: "Full-Time", count: 0 },
+    { label: "Part-Time", count: 0 },
+    { label: "Remote", count: 0 },
+    { label: "Internship", count: 0 },
+    { label: "Contract", count: 0 },
+    { label: "Freelance", count: 0 },
   ],
 };
 
@@ -95,10 +95,8 @@ const CompanyPage = () => {
   const companyJobs = useSelector((state: RootState) => state.companyJobs.jobs);
 
   useEffect(() => {
-    if (companyJobs.length === 0) {
-      dispatch(fetchCompanyJobs());
-    }
-  }, [dispatch, companyJobs.length]);
+    dispatch(fetchCompanyJobs());
+  }, [dispatch]);
 
   const dashboardData = useMemo(
     () => getDashboardData(companyJobs),

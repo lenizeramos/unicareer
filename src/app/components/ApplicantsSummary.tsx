@@ -20,7 +20,7 @@ export default function ApplicantsSummary({
         {applicants.map((applicant) => (
           <div
             key={applicant.label}
-            className={`${applicant.color} h-full`}
+            className={`background-${applicant.label.toLowerCase()} h-full`}
             style={{ width: `${(applicant.count / totalApplicants) * 100}%` }}
           />
         ))}
@@ -28,7 +28,7 @@ export default function ApplicantsSummary({
       <div className="mt-4 grid grid-cols-2 gap-2">
         {applicants.map((applicant) => (
           <div key={applicant.label} className="flex items-center space-x-2">
-            <span className={`w-4 h-4 ${applicant.color} rounded`}></span>
+            <span className={`w-4 h-4 background-${applicant.label.toLowerCase()} rounded`}></span>
             <span className="text-gray-700 text-sm">
               {applicant.label} : <strong>{applicant.count}</strong>
             </span>

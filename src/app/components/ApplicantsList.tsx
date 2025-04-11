@@ -97,11 +97,9 @@ const ApplicantsList = ({
 
   const getStatusColor = (status: Applicant["status"]) => {
     const colors = {
-      pending: "bg-yellow-50 text-yellow-400",
-      reviewed: "bg-sky-50 text-sky-600",
-      interviewed: "bg-indigo-50 text-indigo-600",
-      rejected: "bg-rose-50 text-rose-600",
-      accepted: "bg-emerald-50 text-emerald-600",
+      PENDING: "bg-yellow-50 text-yellow-400",
+      INTERVIEWED: "bg-indigo-50 text-indigo-600",
+      REJECTED: "bg-rose-50 text-rose-600",
     };
     return colors[status];
   };
