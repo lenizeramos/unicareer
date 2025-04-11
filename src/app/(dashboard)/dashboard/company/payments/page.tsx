@@ -41,7 +41,7 @@ export default function CompanyPage() {
   useEffect(() => {
     const getPayments = async () => {
       const fetchedPayments = await fetchCompanyPayments();
-      console.log(fetchedPayments, "fetchCompanyPayments")
+
       if (fetchedPayments) {
         setPayments(fetchedPayments);
       }

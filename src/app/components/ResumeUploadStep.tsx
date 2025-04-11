@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import FileUpload from './FileUpload';
+import Loader from './Loader';
 import { ResumeData } from '@/types/resume';
 
 interface ResumeUploadStepProps {
@@ -12,15 +13,10 @@ export default function ResumeUploadStep({ onUpload, onSkip, userId }: ResumeUpl
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  console.log('ResumeUploadStep rendered');
-
   const handleUploadComplete = async (fileKey: string, file: File) => {
-    console.log('handleUploadComplete called with fileKey:', fileKey);
     try {
       setIsProcessing(true);
       setError(null);
-
-      console.log('Entered handleUploadComplete');
 
       if (!fileKey || !file) {
         console.error('No file or fileKey provided to handleUploadComplete');
@@ -37,9 +33,8 @@ export default function ResumeUploadStep({ onUpload, onSkip, userId }: ResumeUpl
       });
 
       const result = await response.json();
-      console.log('Result:', result);
+
       if (result.success) {
-        console.log('Extracted data:', result.extractedData);
         onUpload(result.extractedData);
       } else {
         throw new Error(result.error.message || result.error || 'Failed to process resume');
@@ -52,24 +47,26 @@ export default function ResumeUploadStep({ onUpload, onSkip, userId }: ResumeUpl
     }
   };
 
-  console.log('Rendering ResumeUploadStep, handleUploadComplete is:', handleUploadComplete);
-
   return (
     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Upload Your Resume</h2>
       
-      <FileUpload
-        allowedFileTypes={['application/pdf']}
-        uploadText="Drop your resume here or click to browse. We will analyze it with AI and extract your data."
-        uploadingText="Processing your resume..."
-        successText="Resume uploaded successfully!"
-        apiRoute="/api/process-resume"
-        modelName="candidateDocument"
-        fieldName="resume"
-        maxSizeMB={5}
-        userId={userId}
-        onUploadComplete={handleUploadComplete}
-      />
+      {isProcessing ? (
+        <Loader />
+      ) : (
+        <FileUpload
+          allowedFileTypes={['application/pdf']}
+          uploadText="Drop your resume here or click to browse. We will analyze it with AI and extract your data."
+          uploadingText="Processing your resume..."
+          successText="Resume uploaded successfully!"
+          apiRoute="/api/process-resume"
+          modelName="candidateDocument"
+          fieldName="resume"
+          maxSizeMB={5}
+          userId={userId}
+          onUploadComplete={handleUploadComplete}
+        />
+      )}
 
       {error && (
         <div className="mt-4 p-3 bg-red-50 text-red-700 rounded">

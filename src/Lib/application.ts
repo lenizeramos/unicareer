@@ -10,7 +10,6 @@ export async function createApplication(data: Application) {
       },
     });
   } catch (error) {
-    console.log("Error creating application:", error);
     throw new Error("Application failed due to database issue.");
   }
 }

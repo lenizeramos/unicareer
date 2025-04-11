@@ -10,6 +10,7 @@ import Link from "next/link";
 import Logo from "../components/Logo";
 import store from "../context/store";
 import { Provider } from "react-redux";
+import Loader from "../components/Loader";
 
 export default function DashboardLayout({
   children,
@@ -21,8 +22,8 @@ export default function DashboardLayout({
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      <div className="flex min-h-screen h-screen">
+        <Loader />
       </div>
     );
   }

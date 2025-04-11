@@ -121,7 +121,6 @@ export default function CompanyPage() {
   useEffect(() => {
     const getJobs = async () => {
       const fetchedJobs = await fetchCompanyJobs();
-      console.log(fetchedJobs, "fetchCompanyJobs")
       if (fetchedJobs) {
         setJobs(fetchedJobs);
       }

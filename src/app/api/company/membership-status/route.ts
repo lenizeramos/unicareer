@@ -27,8 +27,6 @@ export async function GET() {
       }
     });
 
-    console.log(user);
-
     if (!user || !user.company) {
       return NextResponse.json({ isActive: false });
     }
@@ -41,10 +39,6 @@ export async function GET() {
     }
 
     const isActive = membership.status === 'ACTIVE';
-    
-    if (latestPayment) {
-      console.log('Latest payment status:', latestPayment.status);
-    }
 
     return NextResponse.json({ isActive });
     

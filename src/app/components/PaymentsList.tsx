@@ -13,7 +13,6 @@ export default function PaymentsList({
   totalItems,
 }: PaymentsListProps) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  console.log(payments);
   return (
     <div className="mt-8 border-light">
       <div className="flex justify-between items-center border-bottom-light p-8">

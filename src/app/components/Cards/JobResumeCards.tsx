@@ -33,7 +33,6 @@ const JobResumeCards = ({
     }
   }, [dispatch, users.length]);
   const company = users.find((company) => company.id === companyId);
-  console.log("users=>", users)
   return (
     <>
       <div

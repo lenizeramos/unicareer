@@ -37,7 +37,6 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(users);
   } catch (error) {
-    console.log("Error", error);
     return new NextResponse("Error", { status: 500 });
   }
 }

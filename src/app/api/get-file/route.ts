@@ -39,7 +39,6 @@ export async function GET(request: Request) {
     }
 
     if (!file) {
-      console.log('File not found');
       return NextResponse.json({ error: 'File not found' }, { status: 404 });
     }
 

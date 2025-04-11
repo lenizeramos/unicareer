@@ -8,6 +8,7 @@ import CandidateForm from "@/app/components/CandidateForm";
 import CompanyForm from "@/app/components/CompanyForm";
 import ResumeUploadStep from '@/app/components/ResumeUploadStep';
 import { ResumeData } from '@/types/resume';
+import Loader from "@/app/components/Loader";
 
 /* const awaitNewClerkRoleToSyncWithApp = async () => {
   let userRole = null;
@@ -162,7 +163,6 @@ export default function RegisterPage() {
   );
 
   const handleResumeData = (data: ResumeData) => {
-    console.log('Resume data received:', data);
     setCandidateData(data);
     setShowResumeUpload(false);
   };
@@ -173,15 +173,15 @@ export default function RegisterPage() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      <div className="flex min-h-screen h-screen">
+        <Loader />
       </div>
     );
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-2xl p-4">
+      <div className="w-full max-w-2xl p-4 flex flex-col items-center justify-center">
         {formType === "candidate" && showResumeUpload ? (
           <ResumeUploadStep 
             onUpload={handleResumeData}
