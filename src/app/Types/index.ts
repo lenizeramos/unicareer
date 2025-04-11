@@ -276,7 +276,6 @@ export interface AuthFormProps {
 export interface IApplicantProps {
   label: string;
   count: number;
-  color: string;
 }
 
 export interface ITotalApplicantProps {
@@ -314,7 +313,6 @@ export interface IDashboardData {
   applicantsSummary: {
     label: string;
     count: number;
-    color: string;
   }[];
 }
 
