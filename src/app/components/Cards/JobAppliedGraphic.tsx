@@ -2,7 +2,7 @@ import React from 'react';
 
 const JobAppliedGraphic: React.FC = () => {
   return (
-    <div className="grid grid-cols-4 gap-6 p-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 p-6">
       <div className="col-span-1">
         <div className="bg-white shadow-md rounded-lg p-4 mb-6">
           <h2 className="text-lg font-semibold">Total Jobs Applied</h2>
