@@ -42,8 +42,16 @@ const Footer = () => {
                     <h4 className="font-bold mb-4">Get job notifications</h4>
                     <p>The latest job news, articles, sent to your inbox weekly.</p>
                     <div className="flex flex-col md:flex-row justify-center gap-2 subscribe-form w-full">
-                        <input className="p-2 border border-gray-300 w-full md:w-52 bg-white text-black" type="email" placeholder="Email Address" />
-                        <ButtonComp text="Subscribe" IsWhite={false} className="w-full md:w-auto" />
+                        <input 
+                            className="p-2 border border-gray-300 w-full md:w-52 bg-white text-black" 
+                            type="email" 
+                            placeholder="Email Address" 
+                        />
+                        <ButtonComp 
+                            text="Subscribe" 
+                            IsWhite={false} 
+                            /* className="w-full md:w-auto"  */
+                        />
                     </div>
                 </div>
             </div>
