@@ -4,8 +4,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 
-import { Pagination } from "swiper/modules";
+import { Pagination, Navigation } from "swiper/modules";
 
 const portfolioItems = [
     {
@@ -27,15 +28,18 @@ const PortfolioSlider = () => {
         <div className="px-4 py-8">
             <h2 className="text-2xl font-bold mb-4">Portfolios</h2>
             <Swiper
-                spaceBetween={30}
+                /* spaceBetween={30}
                 slidesPerView={3}
-                pagination={{ clickable: true }}
-                modules={[Pagination]}
-                breakpoints={{
+                pagination={{ clickable: true }} */
+                pagination={{ type: "fraction" }}
+                navigation
+                modules={[Pagination, Navigation]}
+               /*  breakpoints={{
                     320: { slidesPerView: 1 },
                     640: { slidesPerView: 2 },
                     1024: { slidesPerView: 3 },
-                }}
+                }} */
+               className="h-96 w-[20rem] md:w-[50rem] lg:w-[80rem] rounded-lg"
             >
                 {portfolioItems.map((item, index) => (
                     <SwiperSlide key={index}>
@@ -43,8 +47,8 @@ const PortfolioSlider = () => {
                             <Image
                                 src={item.image}
                                 alt={item.title}
-                                width={15}
-                                height={15}
+                                width={500}
+                                height={500}
                                 className="w-full h-60 object-cover"
                             />
                             <div className="p-4">
