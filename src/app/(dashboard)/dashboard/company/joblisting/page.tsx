@@ -26,10 +26,8 @@ export default function CompanyPage() {
   };
 
   useEffect(() => {
-    if (companyJobs.length === 0) {
-      dispatch(fetchCompanyJobs());
-    }
-  }, [dispatch, companyJobs.length]);
+    dispatch(fetchCompanyJobs());
+  }, [dispatch]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;

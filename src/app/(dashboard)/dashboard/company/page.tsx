@@ -95,10 +95,8 @@ const CompanyPage = () => {
   const companyJobs = useSelector((state: RootState) => state.companyJobs.jobs);
 
   useEffect(() => {
-    if (companyJobs.length === 0) {
-      dispatch(fetchCompanyJobs());
-    }
-  }, [dispatch, companyJobs.length]);
+    dispatch(fetchCompanyJobs());
+  }, [dispatch]);
 
   const dashboardData = useMemo(
     () => getDashboardData(companyJobs),
