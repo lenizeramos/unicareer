@@ -1,3 +1,4 @@
+import { ResumeData } from "@/types/resume";
 import React from "react";
 
 interface IButtton {
@@ -302,11 +303,15 @@ export interface IStatusCardProps {
 
 export interface ICandidateFormProps {
   onSubmit: (formData: {
+    id?: string;
     firstName: string;
     lastName: string;
     photo: File | null;
     skills: string[];
-    resume: File | null;
+    resume?: File | null;
     bio: string;
   }) => void;
+  initialData: ResumeData | null;
 }
+
+

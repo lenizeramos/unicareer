@@ -61,6 +61,24 @@ export async function createUserAndCandidate(data: User & Candidate) {
   }
 }
 
+export async function updateCandidate(data: Candidate) {
+  try {
+    return await prisma.candidate.update({ 
+      where: { userId: data.userId }, 
+      data: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        skills: data.skills,
+        bio: data.bio,
+        website: data.website
+      }
+    });
+  } catch (error) {
+    console.error("Error updating candidate:", error);
+    throw new Error("Failed to update candidate profile. Please try again.");
+  }
+}
+
 export async function createUserAndCompany(data: User & Company) {
   try {
     const user = await createUser(data);

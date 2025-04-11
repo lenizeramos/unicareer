@@ -6,6 +6,8 @@ import { useUser } from "@clerk/nextjs";
 import { waitForUserRole } from "@/Lib/client/roleService";
 import CandidateForm from "@/app/components/CandidateForm";
 import CompanyForm from "@/app/components/CompanyForm";
+import ResumeUploadStep from '@/app/components/ResumeUploadStep';
+import { ResumeData } from '@/types/resume';
 
 /* const awaitNewClerkRoleToSyncWithApp = async () => {
   let userRole = null;
@@ -58,6 +60,8 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { user } = useUser();
+  const [showResumeUpload, setShowResumeUpload] = useState(true);
+  const [candidateData, setCandidateData] = useState<ResumeData | null>(null);
 
   useEffect(() => {
     if (role === "candidate" || role === "company") {
@@ -157,6 +161,16 @@ export default function RegisterPage() {
     [router]
   );
 
+  const handleResumeData = (data: ResumeData) => {
+    console.log('Resume data received:', data);
+    setCandidateData(data);
+    setShowResumeUpload(false);
+  };
+
+  const handleSkipResume = () => {
+    setShowResumeUpload(false);
+  };
+
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -168,13 +182,22 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-2xl p-4">
-        {formType === "candidate" && (
-          <CandidateForm onSubmit={handleCandidateFormSubmit} />
-        )}
-        {formType === "company" && (
+        {formType === "candidate" && showResumeUpload ? (
+          <ResumeUploadStep 
+            onUpload={handleResumeData}
+            onSkip={handleSkipResume}
+            userId={user?.id || ''}
+          />
+        ) : formType === "candidate" ? (
+          <CandidateForm 
+            onSubmit={handleCandidateFormSubmit}
+            initialData={candidateData}
+          />
+        ) : formType === "company" ? (
           <CompanyForm onSubmit={handleCompanyFormSubmit} />
+        ) : (
+          <p>Invalid role or missing parameter.</p>
         )}
-        {formType === null && <p>Invalid role or missing parameter.</p>}
       </div>
     </div>
   );

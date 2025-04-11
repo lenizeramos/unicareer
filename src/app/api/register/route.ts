@@ -2,8 +2,10 @@ import { NextResponse, NextRequest } from "next/server";
 import {
   createUserAndCandidate,
   createUserAndCompany,
+  updateCandidate,
 } from "@/Lib/usersService";
 import { getClerkUserId } from "@/utils/user";
+import prisma from "@/Lib/prisma";
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,9 +26,29 @@ export async function POST(req: NextRequest) {
 
     if (payload.role === "CANDIDATE") {
       try {
-        const result = await createUserAndCandidate(payload);
+        // First get the user by clerkId to get their MongoDB _id
+        const dbUser = await prisma.user.findUnique({
+          where: { clerkId: userId }
+        });
+
+        if (!dbUser) {
+          throw new Error("User not found");
+        }
+
+        // Now look for candidate using the MongoDB userId
+        const existingCandidate = await prisma.candidate.findUnique({
+          where: { userId: dbUser.id }
+        });
+
+        // Add the MongoDB userId to the payload
+        payload.userId = dbUser.id;
+
+        const result = existingCandidate 
+          ? await updateCandidate(payload)
+          : await createUserAndCandidate(payload);
+
         return NextResponse.json({ 
-          message: "Candidate created successfully",
+          message: `Candidate ${existingCandidate ? 'updated' : 'created'} successfully`,
           data: result 
         });
       } catch (error) {

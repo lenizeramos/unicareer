@@ -12,22 +12,21 @@ import {
   classNameDivContainerTextArea,
 } from "@/app/constants/index";
 
-const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData }) => {
+  const [firstName, setFirstName] = useState(initialData?.firstName || "");
+  const [lastName, setLastName] = useState(initialData?.lastName || "");
   const [photo, setPhoto] = useState<File | null>(null);
-  const [skills, setSkills] = useState<string[]>([]);
-  const [resume, setResume] = useState<File | null>(null);
-  const [bio, setBio] = useState("");
+  const [skills, setSkills] = useState<string[]>(initialData?.skills || []);
+  const [bio, setBio] = useState(initialData?.bio || "");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit({
+      id: initialData?.id,
       firstName,
       lastName,
       photo,
       skills,
-      resume,
       bio,
     });
   };
@@ -41,7 +40,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit }) => {
         onSubmit={handleSubmit}
         className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-6"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-6">
           <InputField
             label="First Name"
             id="firstName"
@@ -82,20 +81,6 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit }) => {
             accept="image/*"
             fileLabel={photo ? photo.name : "Upload photo"}
             filePreview={<RxImage className="h-6 w-6" />}
-          />
-
-          <InputField
-            label="Resume"
-            id="resume"
-            type="file"
-            onChange={(e) =>
-              setResume(e.target.files ? e.target.files[0] : null)
-            }
-            classNameDivContainer="space-y-2"
-            classNameLabel="text-sm font-semibold text-gray-700"
-            accept=".pdf,.doc,.docx"
-            fileLabel={resume ? resume.name : "Upload resume"}
-            filePreview={<LuFileText className="h-6 w-6" />}
           />
 
           <ChipsField

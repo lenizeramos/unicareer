@@ -10,7 +10,8 @@ export default function FileUpload({
     modelName,
     fieldName,
     maxSizeMB = 5,
-    userId
+    userId,
+    onUploadComplete
 }: FileUploadProps) {
 
     const [isUploading, setIsUploading] = useState(false);
@@ -72,6 +73,11 @@ export default function FileUpload({
 
             setFileKey(data.fileKey);
             await getPresignedUrl(data.fileKey);
+            
+            // Call onUploadComplete with the fileKey and file
+            if (onUploadComplete) {
+                onUploadComplete(data.fileKey, file);
+            }
         } catch (error) {
             console.error('File upload failed:', error);
             alert('Upload failed: ' + (error as Error).message);
