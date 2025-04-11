@@ -16,42 +16,52 @@ import { Applicant, ApplicantsListProps } from "../Types";
 const MobileApplicantCard = ({
   applicant,
   getStatusColor,
+  columns,
 }: {
   applicant: Applicant;
   getStatusColor: (status: Applicant["status"]) => string;
+  columns: { [key: string]: string };
 }) => (
   <div className="bg-white p-3 border-b">
-    <div className="flex items-center gap-2">
-      <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-        <FaUser className="text-gray-500 text-xs" />
-      </div>
-      <div>
-        <h3 className="text-sm font-semibold">{applicant.name}</h3>
-        <p className="text-xs text-gray-500">{applicant.position}</p>
-      </div>
-    </div>
-    <div className="mt-2 space-y-1">
-      <div className="flex items-center gap-1 text-xs text-gray-500">
-        <FaEnvelope className="text-[10px]" />
-        <span>{applicant.email}</span>
-      </div>
-      <div className="flex items-center gap-1 text-xs text-gray-500">
-        <span>
-          Applied: {new Date(applicant.appliedDate).toLocaleDateString()}
-        </span>
-      </div>
-      <div className="flex justify-between items-center mt-2">
-        <Badge
-          status={applicant.status}
-          color={getStatusColor(applicant.status)}
-        />
-        <div className="flex items-center gap-2">
-          <ButtonComp
-            text={<span className="text-xs">View Profile</span>}
-            IsWhite={true}
-          />
+    {columns.name && (
+      <div className="flex items-center gap-2">
+        <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
+          <FaUser className="text-gray-500 text-xs" />
+        </div>
+        <div>
+          <h3 className="text-sm font-semibold">{applicant.name}</h3>
+          <p className="text-xs text-gray-500">{applicant.position}</p>
         </div>
       </div>
+    )}
+    <div className="mt-2 space-y-1">
+      {columns.email && (
+        <div className="flex items-center gap-1 text-xs text-gray-500">
+          <FaEnvelope className="text-[10px]" />
+          <span>{applicant.email}</span>
+        </div>
+      )}
+      {columns.appliedDate && (
+        <div className="flex items-center gap-1 text-xs text-gray-500">
+          <span>
+            Applied: {new Date(applicant.appliedDate).toLocaleDateString()}
+          </span>
+        </div>
+      )}
+      {columns.status && (
+        <div className="flex justify-between items-center mt-2">
+          <Badge
+            status={applicant.status}
+            color={getStatusColor(applicant.status)}
+          />
+          <div className="flex items-center gap-2">
+            <ButtonComp
+              text={<span className="text-xs">View Profile</span>}
+              IsWhite={true}
+            />
+          </div>
+        </div>
+      )}
     </div>
   </div>
 );
@@ -78,11 +88,11 @@ const ApplicantsList = ({
   const filteredApplicants = applicants.filter((applicant) => {
     const matchesName =
       searchTerm === "" ||
-      applicant.name.toLowerCase().includes(searchTerm.toLowerCase());
+      applicant.name?.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesEmail =
       emailFilter === "" ||
-      applicant.email.toLowerCase().includes(emailFilter.toLowerCase());
+      applicant.email?.toLowerCase().includes(emailFilter.toLowerCase());
 
     const matchesStatus =
       statusFilter === "all" || applicant.status === statusFilter;
@@ -250,6 +260,7 @@ const ApplicantsList = ({
               key={applicant.id}
               applicant={applicant}
               getStatusColor={getStatusColor}
+              columns={columns}
             />
           ))}
         </div>
@@ -270,42 +281,56 @@ const ApplicantsList = ({
             <tbody>
               {filteredApplicants.map((applicant) => (
                 <tr key={applicant.id}>
-                  <td className="p-4 border-bottom-light">
-                    <div className="flex items-center">
-                      <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                        <FaUser className="text-gray-500" />
-                      </div>
-                      <div className="ml-4 text-left">
-                        <div className="text-lg font-[600]">
-                          {applicant.name}
+                  {columns.name && (
+                    <td className="p-4 border-bottom-light">
+                      <div className="flex items-center">
+                        <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                          <FaUser className="text-gray-500" />
                         </div>
-                        <div className="text-sm text-gray-500">
-                          {applicant.email}
+                        <div className="ml-4 text-left">
+                          <div className="text-lg font-[600]">
+                            {applicant.name}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {applicant.email}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="p-4 border-bottom-light">
-                    <div className="text-lg font-[500]">
-                      {applicant.position}
-                    </div>
-                  </td>
-                  <td className="p-4 border-bottom-light">
-                    <div className="text-lg font-[500]">
-                      {new Date(applicant.appliedDate).toLocaleDateString()}
-                    </div>
-                  </td>
-                  <td className="p-4 border-bottom-light">
-                    <Badge
-                      status={applicant.status}
-                      color={getStatusColor(applicant.status)}
-                    />
-                  </td>
-                  <td className="p-4 border-bottom-light">
-                    <div className="flex justify-center gap-2">
-                      <ButtonComp text="View Profile" IsWhite={true} />
-                    </div>
-                  </td>
+                    </td>
+                  )}
+
+                  {columns.position && (
+                    <td className="p-4 border-bottom-light">
+                      <div className="text-lg font-[500]">
+                        {applicant.position}
+                      </div>
+                    </td>
+                  )}
+
+                  {columns.appliedDate && (
+                    <td className="p-4 border-bottom-light">
+                      <div className="text-lg font-[500]">
+                        {new Date(applicant.appliedDate).toLocaleDateString()}
+                      </div>
+                    </td>
+                  )}
+
+                  {columns.status && (
+                    <td className="p-4 border-bottom-light">
+                      <Badge
+                        status={applicant.status}
+                        color={getStatusColor(applicant.status)}
+                      />
+                    </td>
+                  )}
+
+                  {columns.actions && (
+                    <td className="p-4 border-bottom-light">
+                      <div className="flex justify-center gap-2">
+                        <ButtonComp text="View Profile" IsWhite={true} />
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
