@@ -40,7 +40,7 @@ export default function ApplicationsPage() {
           email: application.candidate?.user.email ?? "",
           phone: '',
           position: job.title,
-          appliedDate: new Date(application.applyedAt).toLocaleDateString(),
+          appliedDate: new Date(application.appliedAt).toLocaleDateString(),
           status: application.status.toLowerCase(),
           linkedIn: '',
         }))

@@ -64,8 +64,8 @@ interface IApplicants {
   jobId: string;
   candidateId: string;
   status: "PENDING" | "INTERVIEWED" | "REJECTED";
-  applyedAt: string;
   updatedAt?: string;
+  appliedAt: string;
   candidate?: {
     firstName: string;
     lastName: string;
