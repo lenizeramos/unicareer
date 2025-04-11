@@ -317,3 +317,25 @@ export interface IDashboardData {
     color: string;
   }[];
 }
+
+export interface ApplicantsListProps {
+  applicants: Applicant[];
+  columns: { [key: string]: string };
+  itemsPerPage: number;
+  onItemsPerPageChange: (value: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+}
+
+export interface Applicant {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  position: string;
+  appliedDate: string;
+  status: "pending" | "reviewed" | "interviewed" | "rejected" | "accepted";
+  linkedIn?: string;
+  resume?: string;
+}

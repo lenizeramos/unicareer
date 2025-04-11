@@ -18,7 +18,6 @@ interface Ijobs {
   applications: IApplicants[];
   createdAt: string;
   updatedAt: string;
-  applications: IApplicants[];
   status: "OPEN" | "CLOSED";
 }
 
@@ -67,6 +66,13 @@ interface IApplicants {
   status: "PENDING" | "INTERVIEWED" | "REJECTED";
   applyedAt: string;
   updatedAt?: string;
+  candidate?: {
+    firstName: string;
+    lastName: string;
+    user: {
+      email: string;
+    };
+  };
 }
 
 interface IApplicantsState {
