@@ -134,7 +134,7 @@ export default function FindJobs() {
               All Jobs
             </h2>
             <p className={`${styles.sectionSubText} text-gray-500`}>
-              Showing 73 results
+              Showing {filtersJobs.length} results
             </p>
             {filtersJobs.length > 0 ? (
               <CardsContainer cardId="allJobs" params={filtersJobs} />

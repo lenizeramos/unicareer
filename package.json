@@ -13,7 +13,7 @@
     "@aws-sdk/s3-request-presigner": "^3.772.0",
     "@clerk/elements": "^0.23.3",
     "@clerk/nextjs": "^6.12.1",
-    "@prisma/client": "^6.2.1",
+    "@prisma/client": "^6.6.0",
     "@reduxjs/toolkit": "^2.6.1",
     "@stripe/react-stripe-js": "^3.5.0",
     "@stripe/stripe-js": "^6.1.0",
@@ -52,7 +52,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.0",
-    "prisma": "^6.2.1",
+    "prisma": "^6.6.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

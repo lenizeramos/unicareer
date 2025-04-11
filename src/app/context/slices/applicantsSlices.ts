@@ -35,8 +35,8 @@ const ApplicantsSlice = createSlice({
         state.applicants = action.payload;
       })
       .addCase(fetchApplicants.rejected, (state, action) => {
-        (state.loading = false),
-          (state.error = action.error.message || "Failed to fetch applicants");
+        state.loading = false;
+        state.error = action.error.message || "Failed to fetch applicants";
       });
   },
 });
