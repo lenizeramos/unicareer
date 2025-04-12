@@ -26,7 +26,6 @@ export async function POST(req: NextRequest) {
 
     if (payload.role === "CANDIDATE") {
       try {
-        console.log("userId", userId);
         const dbUser = await prisma.user.findUnique({
           where: { clerkId: userId }
         });
@@ -40,7 +39,12 @@ export async function POST(req: NextRequest) {
         }
 
         const existingCandidate = await prisma.candidate.findUnique({
-          where: { userId: dbUser.id }
+          where: { userId: dbUser.id },
+          include: {
+            education: true,
+            workExperience: true,
+            languages: true,
+          }
         });
 
         payload.userId = dbUser.id;

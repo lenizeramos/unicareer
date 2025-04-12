@@ -15,7 +15,6 @@ export const fetchCompanyJobs = createAsyncThunk(
       const response = await fetch(`/api/get-company-jobs`);
       if (!response.ok) throw new Error("Failed to fetch company jobs");
       const jobs = await response.json();
-      console.log("JOBSSSSS", jobs)
       return jobs;
     } catch (error) {
       console.error("Error fetching job:", error);

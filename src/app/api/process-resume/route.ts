@@ -28,7 +28,6 @@ export async function POST(request: Request) {
 
     // If no candidate exists, create both user and candidate
     if (!user?.candidate) {
-      // Get user email from Clerk
       const clerkUser = await fetch(`https://api.clerk.com/v1/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
@@ -46,10 +45,82 @@ export async function POST(request: Request) {
         bio: extractedData.bio,
         website: extractedData.website,
         image_url: clerkUser.image_url || '',
+        education: extractedData.education,
+        workExperience: extractedData.workExperience,
+        languages: extractedData.languages,
       });
       user = await prisma.user.findUnique({
-        where: { id: result.user.id },
-        include: { candidate: true }
+        where: { clerkId: userId },
+        include: { 
+          candidate: {
+            include: {
+              education: true,
+              workExperience: true,
+              languages: true
+            }
+          } 
+        }
+      });
+    } else {
+      // Update existing candidate with new information
+      await prisma.$transaction(async (prisma) => {
+        // Update main candidate info
+        await prisma.candidate.update({
+          where: { id: user!.candidate!.id },
+          data: {
+            firstName: extractedData.firstName,
+            lastName: extractedData.lastName,
+            skills: extractedData.skills,
+            bio: extractedData.bio,
+            website: extractedData.website,
+          },
+        });
+
+        // Delete existing records
+        await prisma.education.deleteMany({ where: { candidateId: user!.candidate!.id } });
+        await prisma.workExperience.deleteMany({ where: { candidateId: user!.candidate!.id } });
+        await prisma.language.deleteMany({ where: { candidateId: user!.candidate!.id } });
+
+        // Create new records
+        if (extractedData.education?.length) {
+          await prisma.education.createMany({
+            data: extractedData.education.map(edu => ({
+              institution: edu.institution,
+              degree: edu.degree,
+              fieldOfStudy: edu.fieldOfStudy,
+              country: edu.country,
+              description: edu.description,
+              candidateId: user!.candidate!.id,
+              startDate: new Date(edu.startDate),
+              endDate: edu.endDate && edu.endDate !== 'Present' ? new Date(edu.endDate) : null,
+              current: edu.endDate === 'Present'
+            }))
+          });
+        }
+
+        if (extractedData.workExperience?.length) {
+          await prisma.workExperience.createMany({
+            data: extractedData.workExperience.map(exp => ({
+              company: exp.company,
+              position: exp.position,
+              country: exp.country,
+              description: exp.description,
+              candidateId: user!.candidate!.id,
+              startDate: new Date(exp.startDate),
+              endDate: exp.endDate && exp.endDate !== 'Present' ? new Date(exp.endDate) : null,
+              current: exp.endDate === 'Present'
+            }))
+          });
+        }
+
+        if (extractedData.languages?.length) {
+          await prisma.language.createMany({
+            data: extractedData.languages.map(lang => ({
+              ...lang,
+              candidateId: user!.candidate!.id,
+            })),
+          });
+        }
       });
     }
 

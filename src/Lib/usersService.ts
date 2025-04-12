@@ -50,15 +50,55 @@ async function createCompany(data: Company, userId: string) {
   }
 }
 
-export async function createUserAndCandidate(data: User & Candidate) {
-  try {
-    const user = await createUser(data);
-    const candidate = await createCandidate(data, user.id);
-    return { user, candidate };
-  } catch (error) {
-    console.error("Error creating user and candidate:", error);
-    throw new Error("Failed to create candidate profile. Please try again.");
-  }
+export async function createUserAndCandidate(data: any) {
+  return await prisma.user.create({
+    data: {
+      clerkId: data.id,
+      email: data.email,
+      role: data.role,
+      candidate: {
+        create: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          skills: data.skills || [],
+          bio: data.bio,
+          website: data.website,
+          education: {
+            createMany: {
+              data: (data.education || []).map((edu: any) => ({
+                ...edu,
+                startDate: new Date(edu.startDate),
+                endDate: edu.endDate && edu.endDate !== 'Present' ? new Date(edu.endDate) : null
+              }))
+            }
+          },
+          workExperience: {
+            createMany: {
+              data: (data.workExperience || []).map((exp: any) => ({
+                ...exp,
+                startDate: new Date(exp.startDate),
+                endDate: exp.endDate && exp.endDate !== 'Present' ? new Date(exp.endDate) : null
+              }))
+            }
+          },
+          languages: {
+            createMany: {
+              data: data.languages || []
+            }
+          }
+        }
+      }
+    },
+    include: {
+      candidate: {
+        include: {
+          education: true,
+          workExperience: true,
+          languages: true
+        }
+      }
+    }
+  });
 }
 
 export async function updateCandidate(data: Candidate) {

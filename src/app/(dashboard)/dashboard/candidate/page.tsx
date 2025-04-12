@@ -8,7 +8,6 @@ import { useCandidateData } from "@/Lib/client/candidate";
 
 export default function CandidatePage() {
     const { candidate, isLoading } = useCandidateData();
-    console.log(candidate);
     return (
         <>
             <DashboardNavbar title="Dashboard" button={{ text: "Back to home page", IsWhite: true }} />
