@@ -18,9 +18,16 @@ interface Ijobs {
   applications: IApplicants[];
   createdAt: string;
   updatedAt: string;
+  status: "OPEN" | "CLOSED";
 }
 
 interface IJobsState {
+  jobs: Ijobs[];
+  loading: boolean;
+  error: string | null;
+}
+
+interface ICompanyJobsState {
   jobs: Ijobs[];
   loading: boolean;
   error: string | null;
@@ -57,8 +64,15 @@ interface IApplicants {
   jobId: string;
   candidateId: string;
   status: "PENDING" | "INTERVIEWED" | "REJECTED";
-  applyedAt: string;
   updatedAt?: string;
+  appliedAt: string;
+  candidate?: {
+    firstName: string;
+    lastName: string;
+    user: {
+      email: string;
+    };
+  };
 }
 
 interface IApplicantsState {
@@ -106,6 +120,7 @@ interface ICandidateState {
 export type {
   Ijobs,
   IJobsState,
+  ICompanyJobsState,
   IUsers,
   IUserState,
   IApplicants,

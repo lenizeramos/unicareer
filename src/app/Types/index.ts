@@ -114,13 +114,6 @@ export interface ICompanyHeader {
 }
 
 export interface IJob {
-  /* roles: string;
-  status: string;
-  datePosted: string;
-  dueDate: string;
-  jobType: string;
-  applicants: string;
-  needs: string; */
   title: string;
   status: string;
   location: string;
@@ -283,7 +276,6 @@ export interface AuthFormProps {
 export interface IApplicantProps {
   label: string;
   count: number;
-  color: string;
 }
 
 export interface ITotalApplicantProps {
@@ -314,4 +306,35 @@ export interface ICandidateFormProps {
   initialData: ResumeData | null;
 }
 
+export interface IDashboardData {
+  totalApplications: number;
+  jobView: number;
+  jobOpen: number;
+  applicantsSummary: {
+    label: string;
+    count: number;
+  }[];
+}
 
+export interface ApplicantsListProps {
+  applicants: Applicant[];
+  columns: { [key: string]: string };
+  itemsPerPage: number;
+  onItemsPerPageChange: (value: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+}
+
+export interface Applicant {
+  id: string;
+  userId?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  position: string;
+  appliedDate: string;
+  status: "PENDING" | "INTERVIEWED" | "REJECTED";
+  linkedIn?: string;
+  resume?: string;
+}

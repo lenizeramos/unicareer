@@ -137,7 +137,13 @@ body {
   --color-lightBackground: #f8f8fd;
   --color-openColor: #56cdad;
   --color-closedColor: #ff6550;
-  --color-freelanceColor: #ffb836;
+  --color-pendingColor: #ffb836;
+  --color-fulltimeColor: #ec4899;
+  --color-parttimeColor: #22c55e;
+  --color-freelanceColor: #a855f7;
+  --color-contractColor: #ef4444;
+  --color-internshipColor: #eab308;
+  --color-remoteColor: #3b82f6;
   --breakpoint-xs: 30rem;
   --color-borders: #d2d6ff;
 }
@@ -165,14 +171,43 @@ body {
   border-color: var(--color-liveColor);
 }
 
+.background-full-time {
+  background-color: var(--color-fulltimeColor);
+}
+.background-part-time {
+  background-color: var(--color-parttimeColor);
+}
+.background-internship {
+  background-color: var(--color-internshipColor);
+}
+.background-remote {
+  background-color: var(--color-remoteColor);
+}
+.background-contract {
+  background-color: var(--color-contractColor);
+}
+.background-freelance {
+  background-color: var(--color-freelanceColor);
+}
 .border-closed {
   border-color: var(--color-closedColor);
 }
 
-.border-fulltime {
-  border-color: var(--color-primary);
+.border-full-time {
+  border-color: var(--color-fulltimeColor);
 }
-
+.border-part-time {
+  border-color: var(--color-parttimeColor);
+}
+.border-internship {
+  border-color: var(--color-internshipColor);
+}
+.border-remote {
+  border-color: var(--color-remoteColor);
+}
+.border-contract {
+  border-color: var(--color-contractColor);
+}
 .border-freelance {
   border-color: var(--color-freelanceColor);
 }
@@ -183,8 +218,8 @@ body {
 }
 
 .border-PENDING {
-  border-color: var(--color-freelanceColor);
-  color: var(--color-freelanceColor);
+  border-color: var(--color-pendingColor);
+  color: var(--color-pendingColor);
 }
 
 .text-openColor {
@@ -195,10 +230,21 @@ body {
   color: var(--color-closedColor);
 }
 
-.text-fulltimeColor {
+.text-full-timeColor {
   color: var(--color-fulltimeColor);
 }
-
+.text-internshipColor {
+  color: var(--color-internshipColor);
+}
+.text-remoteColor {
+  color: var(--color-remoteColor);
+}
+.text-part-timeColor {
+  color: var(--color-parttimeColor);
+}
+.text-contractColor {
+  color: var(--color-contractColor);
+}
 .text-freelanceColor {
   color: var(--color-freelanceColor);
 }

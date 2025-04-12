@@ -1,106 +1,115 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
-import { FaUser, FaEnvelope, FaPhone, FaLinkedin, FaSearch, FaArrowLeft, FaArrowRight, FaFilter } from 'react-icons/fa';
-import ButtonComp from './ButtonComp';
+import React, { useState } from "react";
+import {
+  FaUser,
+  FaEnvelope,
+  FaSearch,
+  FaArrowLeft,
+  FaArrowRight,
+  FaFilter,
+} from "react-icons/fa";
+import ButtonComp from "./ButtonComp";
 import Badge from "./Badge";
+import { Applicant, ApplicantsListProps } from "../Types";
 
-interface ApplicantsListProps {
-  applicants: Applicant[];
+const MobileApplicantCard = ({
+  applicant,
+  getStatusColor,
+  columns,
+}: {
+  applicant: Applicant;
+  getStatusColor: (status: Applicant["status"]) => string;
   columns: { [key: string]: string };
-  itemsPerPage: number;
-  onItemsPerPageChange: (value: number) => void;
-  currentPage: number;
-  onPageChange: (page: number) => void;
-  totalItems: number;
-}
-
-interface Applicant {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  position: string;
-  appliedDate: string;
-  status: 'pending' | 'reviewed' | 'interviewed' | 'rejected' | 'accepted';
-  linkedIn?: string;
-  resume?: string;
-}
-
-const MobileApplicantCard = ({ applicant, getStatusColor }: { applicant: Applicant, getStatusColor: (status: Applicant['status']) => string }) => (
+}) => (
   <div className="bg-white p-3 border-b">
-    <div className="flex items-center gap-2">
-      <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-        <FaUser className="text-gray-500 text-xs" />
-      </div>
-      <div>
-        <h3 className="text-sm font-semibold">{applicant.name}</h3>
-        <p className="text-xs text-gray-500">{applicant.position}</p>
-      </div>
-    </div>
-    <div className="mt-2 space-y-1">
-      <div className="flex items-center gap-1 text-xs text-gray-500">
-        <FaEnvelope className="text-[10px]" />
-        <span>{applicant.email}</span>
-      </div>
-      <div className="flex items-center gap-1 text-xs text-gray-500">
-        <span>Applied: {new Date(applicant.appliedDate).toLocaleDateString()}</span>
-      </div>
-      <div className="flex justify-between items-center mt-2">
-        <Badge status={applicant.status} color={getStatusColor(applicant.status)} />
-        <div className="flex items-center gap-2">
-          <ButtonComp 
-            text={<span className="text-xs">View Profile</span>} 
-            IsWhite={true} 
-          />
+    {columns.name && (
+      <div className="flex items-center gap-2">
+        <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
+          <FaUser className="text-gray-500 text-xs" />
+        </div>
+        <div>
+          <h3 className="text-sm font-semibold">{applicant.name}</h3>
+          <p className="text-xs text-gray-500">{applicant.position}</p>
         </div>
       </div>
+    )}
+    <div className="mt-2 space-y-1">
+      {columns.email && (
+        <div className="flex items-center gap-1 text-xs text-gray-500">
+          <FaEnvelope className="text-[10px]" />
+          <span>{applicant.email}</span>
+        </div>
+      )}
+      {columns.appliedDate && (
+        <div className="flex items-center gap-1 text-xs text-gray-500">
+          <span>
+            Applied: {new Date(applicant.appliedDate).toLocaleDateString()}
+          </span>
+        </div>
+      )}
+      {columns.status && (
+        <div className="flex justify-between items-center mt-2">
+          <Badge
+            status={applicant.status}
+            color={getStatusColor(applicant.status)}
+          />
+          <div className="flex items-center gap-2">
+            <ButtonComp
+              text={<span className="text-xs">View Profile</span>}
+              IsWhite={true}
+            />
+          </div>
+        </div>
+      )}
     </div>
   </div>
 );
 
-const ApplicantsList = ({ 
-  applicants, 
-  columns, 
-  itemsPerPage, 
-  onItemsPerPageChange, 
-  currentPage, 
+const ApplicantsList = ({
+  applicants,
+  columns,
+  itemsPerPage,
+  onItemsPerPageChange,
+  currentPage,
   onPageChange,
-  totalItems 
+  totalItems,
 }: ApplicantsListProps) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
-  const [statusFilter, setStatusFilter] = useState<Applicant['status'] | 'all'>('all');
-  const [positionFilter, setPositionFilter] = useState('all');
-  const [emailFilter, setEmailFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState<Applicant["status"] | "all">(
+    "all"
+  );
+  const [positionFilter, setPositionFilter] = useState("all");
+  const [emailFilter, setEmailFilter] = useState("");
 
-  const positions = [...new Set(applicants.map(a => a.position))];
-  
-  const filteredApplicants = applicants.filter(applicant => {
-    const matchesName = searchTerm === '' || 
-      applicant.name.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesEmail = emailFilter === '' || 
-      applicant.email.toLowerCase().includes(emailFilter.toLowerCase());
+  const positions = [...new Set(applicants.map((a) => a.position))];
 
-    const matchesStatus = statusFilter === 'all' || 
-      applicant.status === statusFilter;
+  const filteredApplicants = applicants.filter((applicant) => {
+    const matchesName =
+      searchTerm === "" ||
+      applicant.name?.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesPosition = positionFilter === 'all' || 
-      applicant.position === positionFilter;
+    const matchesEmail =
+      emailFilter === "" ||
+      applicant.email?.toLowerCase().includes(emailFilter.toLowerCase());
+
+    const matchesStatus =
+      statusFilter === "all" || applicant.status === statusFilter;
+
+    const matchesPosition =
+      positionFilter === "all" || applicant.position === positionFilter;
 
     return matchesName && matchesEmail && matchesStatus && matchesPosition;
   });
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const getStatusColor = (status: Applicant['status']) => {
+  const getStatusColor = (status: Applicant["status"]) => {
     const colors = {
-      pending: 'bg-yellow-50 text-yellow-400',
-      reviewed: 'bg-sky-50 text-sky-600',
-      interviewed: 'bg-indigo-50 text-indigo-600',
-      rejected: 'bg-rose-50 text-rose-600',
-      accepted: 'bg-emerald-50 text-emerald-600'
+      PENDING: "bg-yellow-50 text-yellow-400",
+      INTERVIEWED: "bg-indigo-50 text-indigo-600",
+      REJECTED: "bg-rose-50 text-rose-600",
     };
     return colors[status];
   };
@@ -108,7 +117,9 @@ const ApplicantsList = ({
   return (
     <div className="mt-2 md:mt-8 border-light">
       <div className="p-3 md:p-8 space-y-3 border-b">
-        <h2 className="text-base md:text-xl text-title-color font-bold">Applicants List</h2>
+        <h2 className="text-base md:text-xl text-title-color font-bold">
+          Applicants List
+        </h2>
         <div className="flex flex-col md:flex-row gap-2">
           <div className="relative flex-1">
             <FaSearch className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-xs" />
@@ -121,7 +132,7 @@ const ApplicantsList = ({
             />
           </div>
           <div className="relative w-full md:w-32">
-            <button 
+            <button
               onClick={() => setShowFilters(!showFilters)}
               className="flex items-center justify-center gap-1 text-xs border border-primary rounded py-1.5 px-2 w-full"
             >
@@ -131,24 +142,35 @@ const ApplicantsList = ({
 
             {showFilters && (
               <>
-                <div 
-                  className="fixed inset-0 z-0" 
+                <div
+                  className="fixed inset-0 z-0"
                   onClick={() => setShowFilters(false)}
                 />
-                
+
                 <div className="absolute right-0 mt-2 w-full sm:w-64 bg-white border border-primary rounded-lg shadow-lg p-4 z-10">
-                  <button 
+                  <button
                     onClick={() => setShowFilters(false)}
                     className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   </button>
 
                   <div className="space-y-3">
                     <div>
-                      <label className="block text-xs font-medium text-gray-700 mb-1">Filter by Name</label>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">
+                        Filter by Name
+                      </label>
                       <input
                         type="text"
                         placeholder="Search by name..."
@@ -159,7 +181,9 @@ const ApplicantsList = ({
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-gray-700 mb-1">Filter by Email</label>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">
+                        Filter by Email
+                      </label>
                       <input
                         type="email"
                         placeholder="Search by email..."
@@ -170,10 +194,16 @@ const ApplicantsList = ({
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-gray-700 mb-1">Status</label>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">
+                        Status
+                      </label>
                       <select
                         value={statusFilter}
-                        onChange={(e) => setStatusFilter(e.target.value as Applicant['status'] | 'all')}
+                        onChange={(e) =>
+                          setStatusFilter(
+                            e.target.value as Applicant["status"] | "all"
+                          )
+                        }
                         className="w-full p-1.5 text-xs border border-primary rounded"
                       >
                         <option value="all">All Status</option>
@@ -186,15 +216,19 @@ const ApplicantsList = ({
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-gray-700 mb-1">Position</label>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">
+                        Position
+                      </label>
                       <select
                         value={positionFilter}
                         onChange={(e) => setPositionFilter(e.target.value)}
                         className="w-full p-1.5 text-xs border border-primary rounded"
                       >
                         <option value="all">All Positions</option>
-                        {positions.map(position => (
-                          <option key={position} value={position}>{position}</option>
+                        {positions.map((position) => (
+                          <option key={position} value={position}>
+                            {position}
+                          </option>
                         ))}
                       </select>
                     </div>
@@ -204,10 +238,10 @@ const ApplicantsList = ({
                         text="Clear Filters"
                         IsWhite={true}
                         onClick={() => {
-                          setSearchTerm('');
-                          setEmailFilter('');
-                          setStatusFilter('all');
-                          setPositionFilter('all');
+                          setSearchTerm("");
+                          setEmailFilter("");
+                          setStatusFilter("all");
+                          setPositionFilter("all");
                         }}
                       />
                     </div>
@@ -222,10 +256,11 @@ const ApplicantsList = ({
       <div className="block md:hidden">
         <div className="divide-y divide-gray-200">
           {filteredApplicants.map((applicant) => (
-            <MobileApplicantCard 
-              key={applicant.id} 
-              applicant={applicant} 
+            <MobileApplicantCard
+              key={applicant.id}
+              applicant={applicant}
               getStatusColor={getStatusColor}
+              columns={columns}
             />
           ))}
         </div>
@@ -246,31 +281,56 @@ const ApplicantsList = ({
             <tbody>
               {filteredApplicants.map((applicant) => (
                 <tr key={applicant.id}>
-                  <td className="p-4 border-bottom-light">
-                    <div className="flex items-center">
-                      <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                        <FaUser className="text-gray-500" />
+                  {columns.name && (
+                    <td className="p-4 border-bottom-light">
+                      <div className="flex items-center">
+                        <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                          <FaUser className="text-gray-500" />
+                        </div>
+                        <div className="ml-4 text-left">
+                          <div className="text-lg font-[600]">
+                            {applicant.name}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {applicant.email}
+                          </div>
+                        </div>
                       </div>
-                      <div className="ml-4 text-left">
-                        <div className="text-lg font-[600]">{applicant.name}</div>
-                        <div className="text-sm text-gray-500">{applicant.email}</div>
+                    </td>
+                  )}
+
+                  {columns.position && (
+                    <td className="p-4 border-bottom-light">
+                      <div className="text-lg font-[500]">
+                        {applicant.position}
                       </div>
-                    </div>
-                  </td>
-                  <td className="p-4 border-bottom-light">
-                    <div className="text-lg font-[500]">{applicant.position}</div>
-                  </td>
-                  <td className="p-4 border-bottom-light">
-                    <div className="text-lg font-[500]">{new Date(applicant.appliedDate).toLocaleDateString()}</div>
-                  </td>
-                  <td className="p-4 border-bottom-light">
-                    <Badge status={applicant.status} color={getStatusColor(applicant.status)} />
-                  </td>
-                  <td className="p-4 border-bottom-light">
-                    <div className="flex justify-center gap-2">
-                      <ButtonComp text="View Profile" IsWhite={true} />
-                    </div>
-                  </td>
+                    </td>
+                  )}
+
+                  {columns.appliedDate && (
+                    <td className="p-4 border-bottom-light">
+                      <div className="text-lg font-[500]">
+                        {new Date(applicant.appliedDate).toLocaleDateString()}
+                      </div>
+                    </td>
+                  )}
+
+                  {columns.status && (
+                    <td className="p-4 border-bottom-light">
+                      <Badge
+                        status={applicant.status}
+                        color={getStatusColor(applicant.status)}
+                      />
+                    </td>
+                  )}
+
+                  {columns.actions && (
+                    <td className="p-4 border-bottom-light">
+                      <div className="flex justify-center gap-2">
+                        <ButtonComp text="View Profile" IsWhite={true} />
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -287,7 +347,7 @@ const ApplicantsList = ({
       <div className="flex flex-col gap-3 p-3 border-t md:hidden">
         <div className="flex items-center justify-center gap-1 text-xs">
           <span className="text-gray-500">View</span>
-          <select 
+          <select
             className="border rounded py-1 px-1.5"
             value={itemsPerPage}
             onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
@@ -300,7 +360,7 @@ const ApplicantsList = ({
         </div>
 
         <div className="flex justify-center items-center gap-1">
-          <button 
+          <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
             className="p-1 rounded disabled:opacity-50"
@@ -310,7 +370,7 @@ const ApplicantsList = ({
           <span className="text-xs">
             Page {currentPage} of {totalPages}
           </span>
-          <button 
+          <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
             className="p-1 rounded disabled:opacity-50"
@@ -323,7 +383,7 @@ const ApplicantsList = ({
       <div className="hidden md:flex justify-between items-center p-8 border-t">
         <div className="flex items-center gap-2">
           <span className="text-lg text-not-focus-color">View</span>
-          <select 
+          <select
             className="border-light rounded p-2"
             value={itemsPerPage}
             onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
@@ -333,11 +393,13 @@ const ApplicantsList = ({
             <option value={20}>20</option>
             <option value={50}>50</option>
           </select>
-          <span className="text-lg text-not-focus-color">Applicants per page</span>
+          <span className="text-lg text-not-focus-color">
+            Applicants per page
+          </span>
         </div>
 
         <div className="flex items-center gap-2">
-          <button 
+          <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
             className="p-2 rounded disabled:opacity-50"
@@ -350,16 +412,14 @@ const ApplicantsList = ({
               key={page}
               onClick={() => onPageChange(page)}
               className={`w-8 h-8 rounded ${
-                currentPage === page 
-                ? 'bg-primary text-white' 
-                : ''
+                currentPage === page ? "bg-primary text-white" : ""
               }`}
             >
               {page}
             </button>
           ))}
 
-          <button 
+          <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
             className="p-2 rounded disabled:opacity-50"
@@ -372,4 +432,4 @@ const ApplicantsList = ({
   );
 };
 
-export default ApplicantsList; 
+export default ApplicantsList;

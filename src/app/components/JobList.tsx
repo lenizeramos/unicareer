@@ -1,5 +1,5 @@
 import { FaArrowLeft, FaArrowRight, FaFilter } from "react-icons/fa";
-import { IJob, JobListProps } from "../Types";
+import { JobListProps, IJob } from "../Types";
 import Badge from "./Badge";
 
 export default function JobList({
@@ -36,48 +36,37 @@ export default function JobList({
           <tbody>
             {jobs.map((job, index) => (
               <tr key={index}>
-                {Object.keys(columns).map((key, index) => (
-                  <td
-                    key={index}
-                    className="p-8 border-bottom-light text-center text-title-color font-medium"
-                  >
-                    {key === "status" || key === "type" ? (
-                      <Badge
-                        status={job[key as keyof IJob]}
-                        color={job[key as keyof IJob].toLowerCase()}
-                      />
-                    ) : key === "title" ? (
-                      <div className="text-lg font-[600]">
-                        {job[key as keyof IJob]}
-                      </div>
-                    ) : key === "closingDate" ||
-                      key === "createdAt" ||
-                      key === "updatedAt" ? (
-                      <div className="text-lg font-[500]">
-                        {job[key as keyof IJob]
-                          ? new Date(
-                              job[key as keyof IJob]
-                            ).toLocaleDateString()
-                          : "-"}
-                      </div>
-                    ) : key === "applicants" ? (
-                      <div className="text-lg font-[500]">
-                        {job[key as keyof IJob]}
-                      </div>
-                    ) : key === "needs" ? (
-                      <div className="flex items-center justify-center gap-1">
-                        <p className="text-title-color font-medium text-lg">
-                          {job[key as keyof IJob].split("/")[0]}{" "}
-                        </p>
-                        <p className="text-not-focus-color font-medium text-lg">
-                          / {job[key as keyof IJob].split("/")[1]}
-                        </p>
-                      </div>
-                    ) : (
-                      job[key as keyof IJob]
-                    )}
-                  </td>
-                ))}
+                {Object.keys(columns).map((key, index) => {
+                  const value = job[key as keyof IJob];
+                  return (
+                    <td
+                      key={index}
+                      className="p-8 border-bottom-light text-center text-title-color font-medium"
+                    >
+                      {key === "status" || key === "type" ? (
+                        typeof value === "string" ? (
+                          <Badge status={value} color={value.toLowerCase()} />
+                        ) : (
+                          "-"
+                        )
+                      ) : key === "title" ? (
+                        <div className="text-lg font-[600]">
+                          {typeof value === "string" ? value : "-"}
+                        </div>
+                      ) : key === "closingDate" ||
+                        key === "createdAt" ||
+                        key === "updatedAt" ? (
+                        <div className="text-lg font-[500]">
+                          {typeof value === "string" || typeof value === "number"
+                            ? new Date(value).toLocaleDateString()
+                            : "-"}
+                        </div>
+                      ) : (
+                        value
+                      )}
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>

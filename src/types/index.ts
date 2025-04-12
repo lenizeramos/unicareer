@@ -82,5 +82,5 @@ export interface Application {
   jobId: string;
   candidateId: string;
   status?: string;
-  applyedAt?: string;
+  appliedAt?: string;
 }

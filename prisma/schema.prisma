@@ -66,9 +66,6 @@ model Company {
 model Job {
   id               String        @id @default(auto()) @map("_id") @db.ObjectId
   title            String
-  /**
-   * status           JobStatus @default(OPEN)
-   */
   description      String?
   location         String?
   skills           String[]
@@ -92,8 +89,6 @@ model Job {
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
 
-  applicantsCount Int @ignore // applicants = applications.count??????
-
   @@map("job")
 }
 
@@ -104,7 +99,7 @@ model Application {
   candidateId String            @db.ObjectId
   candidate   Candidate         @relation(fields: [candidateId], references: [id])
   status      ApplicationStatus @default(PENDING)
-  applyedAt   DateTime          @default(now())
+  appliedAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
 
   @@map("application")

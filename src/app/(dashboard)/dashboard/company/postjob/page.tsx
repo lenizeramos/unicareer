@@ -6,6 +6,7 @@ import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { GoArrowLeft } from "react-icons/go";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function PostJobPage() {
   const router = useRouter();
@@ -26,7 +27,6 @@ export default function PostJobPage() {
       niceToHave?: string;
       benefits?: string[];
     }) => {
-
       try {
         const response = await fetch("/api/create-job", {
           method: "POST",
@@ -43,8 +43,20 @@ export default function PostJobPage() {
         if (!response.ok) {
           throw new Error(`Registration error: ${response.statusText}`);
         }
-
-        router.push("/dashboard/company/joblisting");
+        toast.success("You've successfully posted a job!", {
+          duration: 2000,
+          position: "top-center",
+          style: {
+            background: "#6f66ff4a",
+            fontFamily: "fantasy",
+            fontSize: "1rem",
+            borderRadius: "8px",
+            letterSpacing: "0.5px",
+          },
+        });
+        setTimeout(() => {
+          router.push("/dashboard/company/joblisting");
+        }, 2500);
       } catch (error) {
         console.error("Error creating the job:", error);
       }
