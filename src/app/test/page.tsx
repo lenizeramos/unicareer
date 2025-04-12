@@ -115,6 +115,7 @@ export default function Home() {
                 userId={userId}
                 uploadText="Upload your resume"
                 maxSizeMB={5}
+                onUploadComplete={() => {}}
               />
               <FileDisplay
                 modelName="candidateDocument"
@@ -132,6 +133,7 @@ export default function Home() {
                 userId={userId}
                 uploadText="Upload your profile image"
                 maxSizeMB={5}
+                onUploadComplete={() => {}}
               />
               <FileDisplay
                 modelName="userProfileImage"
@@ -151,6 +153,7 @@ export default function Home() {
                 userId={userId}
                 uploadText="Upload your company profile image"
                 maxSizeMB={5}
+                onUploadComplete={() => {}}
               />
               <FileDisplay
                 modelName="companyProfileImage"
