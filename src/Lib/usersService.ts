@@ -24,10 +24,48 @@ async function createCandidate(data: Candidate, userId: string) {
         userId,
         firstName: data.firstName,
         lastName: data.lastName,
-        skills: data.skills,
+        skills: data.skills || [],
         resume: data.resume,
         bio: data.bio,
+        website: data.website,
+        education: data.education?.length ? {
+          createMany: {
+            data: data.education.map(edu => ({
+              institution: edu.institution,
+              degree: edu.degree,
+              fieldOfStudy: edu.fieldOfStudy,
+              country: edu.country,
+              startDate: new Date(edu.startDate),
+              endDate: edu.endDate && edu.endDate !== 'Present' ? new Date(edu.endDate) : null,
+              current: edu.endDate === 'Present',
+              description: edu.description
+            }))
+          }
+        } : undefined,
+        workExperience: data.workExperience?.length ? {
+          createMany: {
+            data: data.workExperience.map(exp => ({
+              company: exp.company,
+              position: exp.position,
+              country: exp.country,
+              startDate: new Date(exp.startDate),
+              endDate: exp.endDate && exp.endDate !== 'Present' ? new Date(exp.endDate) : null,
+              current: exp.endDate === 'Present',
+              description: exp.description
+            }))
+          }
+        } : undefined,
+        languages: data.languages?.length ? {
+          createMany: {
+            data: data.languages
+          }
+        } : undefined
       },
+      include: {
+        education: true,
+        workExperience: true,
+        languages: true
+      }
     });
   } catch (error) {
     console.error("Error creating candidate profile:", error);
@@ -63,29 +101,47 @@ export async function createUserAndCandidate(data: any) {
           skills: data.skills || [],
           bio: data.bio,
           website: data.website,
-          education: {
-            createMany: {
-              data: (data.education || []).map((edu: any) => ({
-                ...edu,
-                startDate: new Date(edu.startDate),
-                endDate: edu.endDate && edu.endDate !== 'Present' ? new Date(edu.endDate) : null
-              }))
+          ...(data.education?.length && {
+            education: {
+              createMany: {
+                data: data.education.map((edu: any) => ({
+                  institution: edu.institution,
+                  degree: edu.degree,
+                  fieldOfStudy: edu.fieldOfStudy,
+                  country: edu.country,
+                  startDate: new Date(edu.startDate),
+                  endDate: edu.endDate && edu.endDate !== 'Present' ? new Date(edu.endDate) : null,
+                  current: edu.endDate === 'Present',
+                  description: edu.description
+                }))
+              }
             }
-          },
-          workExperience: {
-            createMany: {
-              data: (data.workExperience || []).map((exp: any) => ({
-                ...exp,
-                startDate: new Date(exp.startDate),
-                endDate: exp.endDate && exp.endDate !== 'Present' ? new Date(exp.endDate) : null
-              }))
+          }),
+          ...(data.workExperience?.length && {
+            workExperience: {
+              createMany: {
+                data: data.workExperience.map((exp: any) => ({
+                  company: exp.company,
+                  position: exp.position,
+                  country: exp.country,
+                  startDate: new Date(exp.startDate),
+                  endDate: exp.endDate && exp.endDate !== 'Present' ? new Date(exp.endDate) : null,
+                  current: exp.endDate === 'Present',
+                  description: exp.description
+                }))
+              }
             }
-          },
-          languages: {
-            createMany: {
-              data: data.languages || []
+          }),
+          ...(data.languages?.length && {
+            languages: {
+              createMany: {
+                data: data.languages.map((lang: any) => ({
+                  name: lang.name,
+                  level: lang.level
+                }))
+              }
             }
-          }
+          })
         }
       }
     },
