@@ -12,6 +12,7 @@ import {
 import ButtonComp from "./ButtonComp";
 import Badge from "./Badge";
 import { Applicant, ApplicantsListProps } from "../Types";
+import { useRouter } from "next/navigation";
 
 const MobileApplicantCard = ({
   applicant,
@@ -75,6 +76,7 @@ const ApplicantsList = ({
   onPageChange,
   totalItems,
 }: ApplicantsListProps) => {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [statusFilter, setStatusFilter] = useState<Applicant["status"] | "all">(
@@ -327,7 +329,7 @@ const ApplicantsList = ({
                   {columns.actions && (
                     <td className="p-4 border-bottom-light">
                       <div className="flex justify-center gap-2">
-                        <ButtonComp text="View Profile" IsWhite={true} />
+                        <ButtonComp text="View Profile" IsWhite={true} onClick={() => router.push("/dashboard/company/applicantdetails")} />
                       </div>
                     </td>
                   )}
