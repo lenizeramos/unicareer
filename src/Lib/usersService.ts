@@ -92,7 +92,6 @@ export async function createUserAndCompany(data: User & Company) {
 
 export async function getUserByClerkId(clerkId: string | undefined) {
   if (!clerkId) {
-    console.error("Clerk ID is missing or undefined");
     return null;
   }
 

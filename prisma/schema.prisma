@@ -29,19 +29,22 @@ model User {
 }
 
 model Candidate {
-  id          String              @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String              @unique @db.ObjectId
-  user        User                @relation(fields: [userId], references: [id])
-  firstName   String
-  lastName    String
-  skills      String[]
-  resume      String?
-  bio         String?
-  website     String?
-  documents   CandidateDocument[]
-  applications Application[]
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
+  id              String              @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String              @unique @db.ObjectId
+  user            User                @relation(fields: [userId], references: [id])
+  firstName       String
+  lastName        String
+  skills          String[]
+  resume          String?
+  bio             String?
+  website         String?
+  education       Education[]
+  workExperience  WorkExperience[]
+  languages       Language[]
+  documents       CandidateDocument[]
+  applications    Application[]
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
   //compatibilityScores CompatibilityScore[]
 
   @@map("candidate")
@@ -241,4 +244,58 @@ model CompanyProfileImage {
   updatedAt DateTime @updatedAt
 
   @@map("company_profile_images")
+}
+
+model Education {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  candidateId String    @db.ObjectId
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  institution String
+  degree      String
+  fieldOfStudy String
+  country     String
+  startDate   DateTime
+  endDate     DateTime?
+  current     Boolean   @default(false)
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("education")
+}
+
+model WorkExperience {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  candidateId String    @db.ObjectId
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  company     String
+  position    String
+  country     String
+  startDate   DateTime
+  endDate     DateTime?
+  current     Boolean   @default(false)
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("work_experience")
+}
+
+model Language {
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  candidateId String         @db.ObjectId
+  candidate   Candidate      @relation(fields: [candidateId], references: [id])
+  name        String
+  level       LanguageLevel
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@map("language")
+}
+
+enum LanguageLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  NATIVE
 }
