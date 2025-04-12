@@ -71,14 +71,33 @@ export async function POST(request: Request) {
                 });
                 break;
             case 'companyProfileImage':
-                await prisma.companyProfileImage.create({
-                    data: {
-                        companyId: userId,
-                        fileKey: fileName,
-                        fileType: file.type,
-                        fileName: file.name
-                    },
+                const existingCompanyImage = await prisma.companyProfileImage.findFirst({
+                    where: {
+                        companyId: userId
+                    }
                 });
+
+                if (existingCompanyImage) {
+                    await prisma.companyProfileImage.update({
+                        where: {
+                            id: existingCompanyImage.id
+                        },
+                        data: {
+                            fileKey: fileName,
+                            fileType: file.type,
+                            fileName: file.name
+                        },
+                    });
+                } else {
+                    await prisma.companyProfileImage.create({
+                        data: {
+                            companyId: userId,
+                            fileKey: fileName,
+                            fileType: file.type,
+                            fileName: file.name
+                        },
+                    });
+                }
                 break;
             default:
                 await (prisma[modelName] as any).create({

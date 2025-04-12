@@ -16,7 +16,17 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ name, logo, bio });
+    // Convert logo to base64 before sending
+    if (logo) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        onSubmit({ name, logo: base64String, bio });
+      };
+      reader.readAsDataURL(logo);
+    } else {
+      onSubmit({ name, logo: null, bio });
+    }
   };
 
   return (

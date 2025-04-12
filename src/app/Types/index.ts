@@ -182,7 +182,7 @@ export interface IJobFormProps {
 }
 
 export interface ICompanyFormProps {
-  onSubmit: (company: { name: string; logo: File | null; bio: string }) => void;
+  onSubmit: (company: { name: string; logo: string | null; bio: string }) => void;
 }
 
 export interface InputFieldProps {

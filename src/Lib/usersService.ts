@@ -3,7 +3,7 @@ import { User, Candidate, Company } from "../types/index";
 
 async function createUser(data: User) {
   try {
-    return await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         clerkId: data.id,
         email: data.email || "",
@@ -11,6 +11,23 @@ async function createUser(data: User) {
         role: data.role,
       },
     });
+    console.log(data.role, data.image_url);
+    if (data.role === "COMPANY" && data.logo) {
+      const matches = data.logo.match(/^data:image\/([a-zA-Z]+);base64,/);
+      const fileExtension = matches ? matches[1] : 'jpeg';
+      const fileName = `companyProfileImage/${user.id}/logo.${fileExtension}`;
+      
+      await prisma.companyProfileImage.create({
+        data: {
+          companyId: user.id,
+          fileKey: fileName,
+          fileType: `image/${fileExtension}`,
+          fileName: `logo.${fileExtension}`
+        },
+      });
+    }
+
+    return user;
   } catch (error) {
     console.error("Error creating user:", error);
     throw new Error("User creation failed due to database issue.");
@@ -177,7 +194,11 @@ export async function updateCandidate(data: Candidate) {
 
 export async function createUserAndCompany(data: User & Company) {
   try {
-    const user = await createUser(data);
+    const userWithLogo = {
+      ...data,
+      logo: data.logo
+    };
+    const user = await createUser(userWithLogo);
     const company = await createCompany(data, user.id);
     return { user, company };
   } catch (error) {

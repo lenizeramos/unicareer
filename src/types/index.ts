@@ -41,6 +41,7 @@ export interface User {
   email: string;
   role: Role;
   company?: Company;
+  logo?: string;
 }
 
 export interface Job {
@@ -65,6 +66,7 @@ export interface Company {
   name: string;
   bio?: string;
   jobs?: Job[];
+  logo?: string;
 }
 
 export interface Candidate {
