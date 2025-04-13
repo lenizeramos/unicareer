@@ -3,7 +3,7 @@ import { User, Candidate, Company } from "../types/index";
 
 async function createUser(data: User) {
   try {
-    return await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         clerkId: data.id,
         email: data.email || "",
@@ -11,6 +11,23 @@ async function createUser(data: User) {
         role: data.role,
       },
     });
+    console.log(data.role, data.image_url);
+    if (data.role === "COMPANY" && data.logo) {
+      const matches = data.logo.match(/^data:image\/([a-zA-Z]+);base64,/);
+      const fileExtension = matches ? matches[1] : 'jpeg';
+      const fileName = `companyProfileImage/${user.id}/logo.${fileExtension}`;
+      
+      await prisma.companyProfileImage.create({
+        data: {
+          companyId: user.id,
+          fileKey: fileName,
+          fileType: `image/${fileExtension}`,
+          fileName: `logo.${fileExtension}`
+        },
+      });
+    }
+
+    return user;
   } catch (error) {
     console.error("Error creating user:", error);
     throw new Error("User creation failed due to database issue.");
@@ -24,10 +41,48 @@ async function createCandidate(data: Candidate, userId: string) {
         userId,
         firstName: data.firstName,
         lastName: data.lastName,
-        skills: data.skills,
+        skills: data.skills || [],
         resume: data.resume,
         bio: data.bio,
+        website: data.website,
+        education: data.education?.length ? {
+          createMany: {
+            data: data.education.map(edu => ({
+              institution: edu.institution,
+              degree: edu.degree,
+              fieldOfStudy: edu.fieldOfStudy,
+              country: edu.country,
+              startDate: new Date(edu.startDate),
+              endDate: edu.endDate && edu.endDate !== 'Present' ? new Date(edu.endDate) : null,
+              current: edu.endDate === 'Present',
+              description: edu.description
+            }))
+          }
+        } : undefined,
+        workExperience: data.workExperience?.length ? {
+          createMany: {
+            data: data.workExperience.map(exp => ({
+              company: exp.company,
+              position: exp.position,
+              country: exp.country,
+              startDate: new Date(exp.startDate),
+              endDate: exp.endDate && exp.endDate !== 'Present' ? new Date(exp.endDate) : null,
+              current: exp.endDate === 'Present',
+              description: exp.description
+            }))
+          }
+        } : undefined,
+        languages: data.languages?.length ? {
+          createMany: {
+            data: data.languages
+          }
+        } : undefined
       },
+      include: {
+        education: true,
+        workExperience: true,
+        languages: true
+      }
     });
   } catch (error) {
     console.error("Error creating candidate profile:", error);
@@ -50,15 +105,73 @@ async function createCompany(data: Company, userId: string) {
   }
 }
 
-export async function createUserAndCandidate(data: User & Candidate) {
-  try {
-    const user = await createUser(data);
-    const candidate = await createCandidate(data, user.id);
-    return { user, candidate };
-  } catch (error) {
-    console.error("Error creating user and candidate:", error);
-    throw new Error("Failed to create candidate profile. Please try again.");
-  }
+export async function createUserAndCandidate(data: any) {
+  return await prisma.user.create({
+    data: {
+      clerkId: data.id,
+      email: data.email,
+      role: data.role,
+      candidate: {
+        create: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          skills: data.skills || [],
+          bio: data.bio,
+          website: data.website,
+          ...(data.education?.length && {
+            education: {
+              createMany: {
+                data: data.education.map((edu: any) => ({
+                  institution: edu.institution,
+                  degree: edu.degree,
+                  fieldOfStudy: edu.fieldOfStudy,
+                  country: edu.country,
+                  startDate: new Date(edu.startDate),
+                  endDate: edu.endDate && edu.endDate !== 'Present' ? new Date(edu.endDate) : null,
+                  current: edu.endDate === 'Present',
+                  description: edu.description
+                }))
+              }
+            }
+          }),
+          ...(data.workExperience?.length && {
+            workExperience: {
+              createMany: {
+                data: data.workExperience.map((exp: any) => ({
+                  company: exp.company,
+                  position: exp.position,
+                  country: exp.country,
+                  startDate: new Date(exp.startDate),
+                  endDate: exp.endDate && exp.endDate !== 'Present' ? new Date(exp.endDate) : null,
+                  current: exp.endDate === 'Present',
+                  description: exp.description
+                }))
+              }
+            }
+          }),
+          ...(data.languages?.length && {
+            languages: {
+              createMany: {
+                data: data.languages.map((lang: any) => ({
+                  name: lang.name,
+                  level: lang.level
+                }))
+              }
+            }
+          })
+        }
+      }
+    },
+    include: {
+      candidate: {
+        include: {
+          education: true,
+          workExperience: true,
+          languages: true
+        }
+      }
+    }
+  });
 }
 
 export async function updateCandidate(data: Candidate) {
@@ -81,7 +194,11 @@ export async function updateCandidate(data: Candidate) {
 
 export async function createUserAndCompany(data: User & Company) {
   try {
-    const user = await createUser(data);
+    const userWithLogo = {
+      ...data,
+      logo: data.logo
+    };
+    const user = await createUser(userWithLogo);
     const company = await createCompany(data, user.id);
     return { user, company };
   } catch (error) {
@@ -92,7 +209,6 @@ export async function createUserAndCompany(data: User & Company) {
 
 export async function getUserByClerkId(clerkId: string | undefined) {
   if (!clerkId) {
-    console.error("Clerk ID is missing or undefined");
     return null;
   }
 

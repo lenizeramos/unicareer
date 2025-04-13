@@ -12,8 +12,15 @@ export async function analyzeResume(text: string): Promise<ResumeData> {
   - Skills (as an array)
   - Professional summary/bio
   - Website/portfolio URL (if any)
+  - Education history (array of objects with: institution, degree, fieldOfStudy, country, startDate, endDate)
+  - Work experience (array of objects with: company, position, country, startDate, endDate, description)
+  - Languages (array of objects with: name, level [BEGINNER/INTERMEDIATE/ADVANCED/NATIVE])
 
-  Format the response as a JSON object with these fields: firstName, lastName, skills, bio, website.
+  Format the response as a JSON object with these fields: 
+  firstName, lastName, skills, bio, website, education, workExperience, languages.
+  
+  For dates, use ISO format (YYYY-MM-DD).
+  For language levels, use only: BEGINNER, INTERMEDIATE, ADVANCED, or NATIVE.
   
   Resume text:
   ${text}`;

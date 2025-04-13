@@ -199,7 +199,7 @@ export interface IJobFormProps {
 }
 
 export interface ICompanyFormProps {
-  onSubmit: (company: { name: string; logo: File | null; bio: string }) => void;
+  onSubmit: (company: { name: string; logo: string | null; bio: string }) => void;
 }
 
 export interface InputFieldProps {
@@ -293,7 +293,6 @@ export interface AuthFormProps {
 export interface IApplicantProps {
   label: string;
   count: number;
-  color: string;
 }
 
 export interface ITotalApplicantProps {
@@ -312,16 +311,38 @@ export interface IStatusCardProps {
 }
 
 export interface ICandidateFormProps {
-  onSubmit: (formData: {
+  onSubmit: (data: {
     id?: string;
     firstName: string;
     lastName: string;
     photo: File | null;
     skills: string[];
-    resume?: File | null;
     bio: string;
+    education: Array<{
+      institution: string;
+      degree: string;
+      fieldOfStudy: string;
+      country: string;
+      startDate: Date;
+      endDate?: Date | null;
+      current?: boolean;
+      description?: string;
+    }>;
+    workExperience: Array<{
+      company: string;
+      position: string;
+      country: string;
+      startDate: Date;
+      endDate?: Date | null;
+      current?: boolean;
+      description?: string;
+    }>;
+    languages: Array<{
+      name: string;
+      level: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'NATIVE';
+    }>;
   }) => void;
-  initialData: ResumeData | null;
+  initialData?: any;
 }
 
 export interface IDashboardData {
@@ -331,7 +352,6 @@ export interface IDashboardData {
   applicantsSummary: {
     label: string;
     count: number;
-    color: string;
   }[];
 }
 
@@ -347,8 +367,9 @@ export interface ApplicantsListProps {
 
 export interface Applicant {
   id: string;
-  name: string;
-  email: string;
+  userId?: string;
+  name?: string;
+  email?: string;
   phone?: string;
   position: string;
   appliedDate: string;

@@ -41,6 +41,7 @@ export interface User {
   email: string;
   role: Role;
   company?: Company;
+  logo?: string;
 }
 
 export interface Job {
@@ -65,16 +66,40 @@ export interface Company {
   name: string;
   bio?: string;
   jobs?: Job[];
+  logo?: string;
 }
 
 export interface Candidate {
   userId: string;
   firstName: string;
   lastName: string;
-  skills?: string[];
+  skills: string[];
   resume?: string;
   bio?: string;
   website?: string;
+  education?: Array<{
+    institution: string;
+    degree: string;
+    fieldOfStudy: string;
+    country: string;
+    startDate: Date | string;
+    endDate?: Date | string | null;
+    current?: boolean;
+    description?: string;
+  }>;
+  workExperience?: Array<{
+    company: string;
+    position: string;
+    country: string;
+    startDate: Date | string;
+    endDate?: Date | string | null;
+    current?: boolean;
+    description?: string;
+  }>;
+  languages?: Array<{
+    name: string;
+    level: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'NATIVE';
+  }>;
 }
 
 export interface Application {

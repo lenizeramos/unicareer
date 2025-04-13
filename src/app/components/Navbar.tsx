@@ -10,7 +10,8 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
   const { signOut, user } = useClerk();
-
+  const userRole = user?.publicMetadata?.role as string;
+  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -61,6 +62,12 @@ const Navbar = () => {
           <ButtonComp text="Sign Up" IsWhite={false} width="w-[120px]" onClick={() => router.push("/sign-up")}/>
         </SignedOut>
         <SignedIn>
+          <button
+            onClick={() => router.push(`/dashboard/${userRole}`)}
+            className="text-white hover:text-[#6a5acd] text-base mr-4"
+          >
+            Dashboard
+          </button>
           <button
             onClick={handleSignOut}
             className="text-white hover:text-[#6a5acd] text-base"
@@ -127,6 +134,12 @@ const Navbar = () => {
             />
           </SignedOut>
           <SignedIn>
+            <button
+              onClick={() => router.push('/dashboard/{')}
+              className="text-white hover:text-[#6a5acd] text-base mr-4"
+            >
+              Dashboard
+            </button>
             <button
               onClick={handleSignOut}
               className="text-white hover:text-[#6a5acd] text-base"

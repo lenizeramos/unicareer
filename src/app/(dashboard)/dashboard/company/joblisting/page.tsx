@@ -26,19 +26,17 @@ export default function CompanyPage() {
   };
 
   useEffect(() => {
-    if (companyJobs.length === 0) {
-      dispatch(fetchCompanyJobs());
-    }
-  }, [dispatch, companyJobs.length]);
+    dispatch(fetchCompanyJobs());
+  }, [dispatch]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentJobs = companyJobs
     .slice(indexOfFirstItem, indexOfLastItem)
-    /* .map(job => ({
+    .map(job => ({
       ...job,
       categories: Array.isArray(job.categories) ? job.categories.join(", ") : job.categories,
-    }))*/;
+    }));
 
   return (
     <>

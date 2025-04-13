@@ -26,21 +26,27 @@ export async function POST(req: NextRequest) {
 
     if (payload.role === "CANDIDATE") {
       try {
-        // First get the user by clerkId to get their MongoDB _id
         const dbUser = await prisma.user.findUnique({
           where: { clerkId: userId }
         });
 
         if (!dbUser) {
-          throw new Error("User not found");
+          const result = await createUserAndCandidate(payload);
+          return NextResponse.json({ 
+            message: "Candidate created successfully",
+            data: result 
+          });
         }
 
-        // Now look for candidate using the MongoDB userId
         const existingCandidate = await prisma.candidate.findUnique({
-          where: { userId: dbUser.id }
+          where: { userId: dbUser.id },
+          include: {
+            education: true,
+            workExperience: true,
+            languages: true,
+          }
         });
 
-        // Add the MongoDB userId to the payload
         payload.userId = dbUser.id;
 
         const result = existingCandidate 

@@ -4,13 +4,15 @@ import { ICandidateFormProps } from "../Types/index";
 import ButtonComp from "@/app/components/ButtonComp";
 import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
-import { LuFileText } from "react-icons/lu";
 import { RxImage } from "react-icons/rx";
 import {
   classNameLabel,
   classNameField,
   classNameDivContainerTextArea,
 } from "@/app/constants/index";
+import EducationSection from './EducationSection';
+import WorkExperienceSection from './WorkExperienceSection';
+import LanguagesSection from './LanguagesSection';
 
 const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData }) => {
   const [firstName, setFirstName] = useState(initialData?.firstName || "");
@@ -18,6 +20,9 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
   const [photo, setPhoto] = useState<File | null>(null);
   const [skills, setSkills] = useState<string[]>(initialData?.skills || []);
   const [bio, setBio] = useState(initialData?.bio || "");
+  const [education, setEducation] = useState(initialData?.education || []);
+  const [workExperience, setWorkExperience] = useState(initialData?.workExperience || []);
+  const [languages, setLanguages] = useState(initialData?.languages || []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +33,9 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
       photo,
       skills,
       bio,
+      education,
+      workExperience,
+      languages,
     });
   };
 
@@ -51,7 +59,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
             required
             maxLength={100}
             classNameDivContainer="flex flex-col"
-            classNameLabel="text-sm font-semibold text-gray-700"
+            classNameLabel={classNameLabel}
             classNameField={classNameField}
           />
 
@@ -65,7 +73,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
             required
             maxLength={100}
             classNameDivContainer="flex flex-col"
-            classNameLabel="text-sm font-semibold text-gray-700"
+            classNameLabel={classNameLabel}
             classNameField={classNameField}
           />
 
@@ -77,7 +85,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
               setPhoto(e.target.files ? e.target.files[0] : null)
             }
             classNameDivContainer="space-y-2"
-            classNameLabel="text-sm font-semibold text-gray-700"
+            classNameLabel={classNameLabel}
             accept="image/*"
             fileLabel={photo ? photo.name : "Upload photo"}
             filePreview={<RxImage className="h-6 w-6" />}
@@ -89,7 +97,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
             onChange={setSkills}
             className="w-full text-gray-700 rounded-lg"
             containerClass="md:col-span-2 space-y-2"
-            labelClass="text-sm font-semibold text-gray-700"
+            labelClass={classNameLabel}
             itemTemplate={(skill) => <div>{skill}</div>}
           />
 
@@ -104,6 +112,21 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
             classNameDivContainer={classNameDivContainerTextArea}
             classNameLabel={classNameLabel}
             classNameField={classNameField}
+          />
+
+          <EducationSection 
+            education={education}
+            onChange={setEducation}
+          />
+
+          <WorkExperienceSection 
+            experience={workExperience}
+            onChange={setWorkExperience}
+          />
+
+          <LanguagesSection 
+            languages={languages}
+            onChange={setLanguages}
           />
         </div>
 
