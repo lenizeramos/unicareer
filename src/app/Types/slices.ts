@@ -16,6 +16,7 @@ interface Ijobs {
   benefits: string | string[];
   closingDate: string;
   applications: IApplicants[];
+  company: ICompany;
   createdAt: string;
   updatedAt: string;
   status: "OPEN" | "CLOSED";
@@ -99,17 +100,22 @@ interface ICandidateState {
   error: string | null;
 }
 
-// interface ICompany {
-//   id: string;
-//   userId: string;
-//   firstName: string;
-//   lastName: string;
-//   skills?: string[];
-//   resume?: string;
-//   bio?: string;
-//   website?: string;
-//   Application: IApplicants[];
-// }
+interface ICompany {
+  id: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  skills?: string[];
+  resume?: string;
+  bio?: string;
+  website?: string;
+  profileImages?: {
+    id: string;
+    fileKey: string;
+    fileType: string;
+    fileName: string;
+  }[];
+}
 
 // interface ICompanyState {
 //   company: ICompany[];

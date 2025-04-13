@@ -85,6 +85,21 @@ interface IFilterJobs {
   ) => void;
 }
 
+interface IApplicantFilters {
+  type: "All" | "In Review" | "Interviewing" | "Unsuitable";
+  searchTerm: string;
+}
+
+interface ISummaryTable {
+  columnNames: string[];
+  data?: {
+    companyName: { name: string; logo: string };
+    jobTitle: string;
+    dateApplied: string;
+    status: string;
+  }[];
+}
+
 export type {
   IButtton,
   ILogo,
@@ -93,6 +108,8 @@ export type {
   IProgressBarProps,
   ITagComp,
   IFilterJobs,
+  IApplicantFilters,
+  ISummaryTable,
 };
 
 export interface IDashboardNavbar {

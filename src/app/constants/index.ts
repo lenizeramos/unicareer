@@ -151,6 +151,25 @@ const filtersValues: IFilterJobs[] = [
   { array: salaryRange, title: "Salary Range", type: "salary" },
 ];
 
+const statusTags = [
+  { id: "all", type: "All", stylesTags: "" },
+  {
+    id: "pending",
+    type: "In Review",
+    styles: `text-[#f5c650] border border-[#f5c650] rounded-full w-fit px-2 py-1 text-center`,
+  },
+  {
+    id: "interviewed",
+    type: "Interviewing",
+    styles: `text-[#6c7dfe] border border-[#6c7dfe] rounded-full w-fit px-2 py-1`,
+  },
+  {
+    id: "rejected",
+    type: "Unsuitable",
+    styles: `text-[#ff3c2c] border  border-[#ff3c2c] rounded-full w-fit px-2 py-1`,
+  },
+];
+
 const perksData = [
   {
     icon: MdOutlineHealthAndSafety,
@@ -189,6 +208,7 @@ const perksData = [
   },
 ];
 
+const columnNames = ["#", "Company Name", "Roles", "Date Applied", "Status"];
 const monthNames = [
   "January",
   "February",
@@ -203,6 +223,20 @@ const monthNames = [
   "November",
   "December",
 ];
+const dataFa = [
+  {
+    companyName: { name: "xxxx", logo: "" },
+    jobTitle: "xxx",
+    dateApplied: "sssss",
+    status: "pending",
+  },
+  {
+    companyName: { name: "xxxx", logo: "" },
+    jobTitle: "xxx",
+    dateApplied: "sssss",
+    status: "interviewed",
+  },
+];
 
 export {
   perksData,
@@ -214,6 +248,9 @@ export {
   stylesTags,
   monthNames,
   filtersValues,
+  statusTags,
+  columnNames,
+  dataFa,
 };
 
 /* forms*/
