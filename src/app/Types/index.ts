@@ -1,4 +1,4 @@
-import { ResumeData } from "@/types/resume";
+/* import { ResumeData } from "@/types/resume"; */
 import React from "react";
 
 interface IButtton {
@@ -54,7 +54,7 @@ interface ICards {
   companyId?: string;
   closingDate?: string;
   createdAt?: string;
-  applicantsCount?: number;
+  applicationsCount?: number;
   subtitle?: string;
   text?: string;
   alt?: string;
@@ -284,14 +284,14 @@ export interface AuthFormProps {
   onRoleChange?: (role: "company" | "candidate") => void;
 }
 
-export interface IApplicantProps {
+export interface IApplicationProps {
   label: string;
   count: number;
 }
 
-export interface ITotalApplicantProps {
-  applicants: IApplicantProps[];
-  totalApplicants: number;
+export interface ITotalApplicationProps {
+  applications: IApplicationProps[];
+  totalApplications: number;
 }
 
 export interface IStatusCardProps {
@@ -343,14 +343,14 @@ export interface IDashboardData {
   totalApplications: number;
   jobView: number;
   jobOpen: number;
-  applicantsSummary: {
+  applicationsSummary: {
     label: string;
     count: number;
   }[];
 }
 
-export interface ApplicantsListProps {
-  applicants: Applicant[];
+export interface ApplicationsListProps {
+  applications: Application[];
   columns: { [key: string]: string };
   itemsPerPage: number;
   onItemsPerPageChange: (value: number) => void;
@@ -360,7 +360,7 @@ export interface ApplicantsListProps {
   onViewProfile?: (id: string) => void; 
 }
 
-export interface Applicant {
+export interface Application {
   id: string;
   userId?: string;
   name?: string;

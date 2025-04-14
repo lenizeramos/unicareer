@@ -3,7 +3,7 @@ import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
 import { SlArrowRight } from "react-icons/sl";
 import StatusCard from "@/app/components/StatusCard";
-import ApplicantsSummary from "@/app/components/ApplicantsSummary";
+import ApplicationsSummary from "@/app/components/ApplicationsSummary";
 import CompanyChart from "@/app/components/CompanyChart";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import Link from "next/link";
@@ -20,7 +20,7 @@ const defaultDashboardData: IDashboardData = {
   totalApplications: 0,
   jobView: 0,
   jobOpen: 0,
-  applicantsSummary: [
+  applicationsSummary: [
     { label: "Full-Time", count: 0 },
     { label: "Part-Time", count: 0 },
     { label: "Remote", count: 0 },
@@ -64,7 +64,7 @@ const getDashboardData = (companyJobs: Ijobs[]): IDashboardData => {
     0
   );
 
-  const applicantsSummary = defaultDashboardData.applicantsSummary.map(
+  const applicationsSummary = defaultDashboardData.applicationsSummary.map(
     (item) => ({
       ...item,
       count: 0,
@@ -73,11 +73,11 @@ const getDashboardData = (companyJobs: Ijobs[]): IDashboardData => {
 
   companyJobs.forEach((job) => {
     if (job.applications?.length) {
-      const applicantSummary = applicantsSummary.find(
+      const applicationSummary = applicationsSummary.find(
         (a) => a.label.toLowerCase() === job.type?.toLowerCase()
       );
-      if (applicantSummary) {
-        applicantSummary.count += job.applications.length;
+      if (applicationSummary) {
+        applicationSummary.count += job.applications.length;
       }
     }
   });
@@ -86,7 +86,7 @@ const getDashboardData = (companyJobs: Ijobs[]): IDashboardData => {
     ...defaultDashboardData,
     jobOpen,
     totalApplications,
-    applicantsSummary,
+    applicationsSummary,
   };
 };
 
@@ -173,9 +173,9 @@ const CompanyPage = () => {
             />
 
             <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-              <ApplicantsSummary
-                applicants={dashboardData.applicantsSummary}
-                totalApplicants={dashboardData.totalApplications}
+              <ApplicationsSummary
+                applications={dashboardData.applicationsSummary}
+                totalApplications={dashboardData.totalApplications}
               />
             </div>
           </div>

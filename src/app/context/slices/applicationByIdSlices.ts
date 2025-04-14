@@ -3,7 +3,7 @@ import { IApplicationByIdState } from "@/app/Types/slices";
 import { RootState } from "../store";
 
 const initialState: IApplicationByIdState = {
-  applicants: [],
+  application: undefined,
   loading: false,
   error: null,
 };
@@ -11,7 +11,9 @@ const initialState: IApplicationByIdState = {
 export const fetchApplicationById = createAsyncThunk(
   "fetchApplicationById",
   async (applicationId: string) => {
-    const response = await fetch(`http://localhost:3000/api/get-application-by-id?id=${applicationId}`);
+    const response = await fetch(
+      `http://localhost:3000/api/get-application-by-id?id=${applicationId}`
+    );
     if (!response.ok) {
       throw new Error("Failed to fetch application data");
     }
@@ -32,7 +34,7 @@ const ApplicationByIdSlice = createSlice({
       })
       .addCase(fetchApplicationById.fulfilled, (state, action) => {
         state.loading = false;
-        state.applicants = action.payload;
+        state.application = action.payload;
       })
       .addCase(fetchApplicationById.rejected, (state, action) => {
         state.loading = false;
@@ -41,5 +43,5 @@ const ApplicationByIdSlice = createSlice({
   },
 });
 
-export const selectData = (state:RootState) =>state.applicationById;
+export const selectData = (state: RootState) => state.applicationById;
 export default ApplicationByIdSlice.reducer;

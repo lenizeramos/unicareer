@@ -87,7 +87,7 @@ export default function JobList({
             <option value={50}>50</option>
           </select>
           <span className="text-lg text-not-focus-color">
-            Applicants per page
+            Applications per page
           </span>
         </div>
 

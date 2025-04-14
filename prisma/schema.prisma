@@ -114,55 +114,7 @@ enum ApplicationStatus {
   REJECTED
 }
 
-/**
- * model Payment {
- * id String @id @default(auto()) @map("_id") @db.ObjectId
- * userId String
- * user User @relation(fields: [userId], references: [id])
- * amount Float
- * status PaymentStatus @default(PENDING)
- * createdAt DateTime @default(now())
- * @@map("payment")
- * }
- * model Message {
- * id String @id @default(auto()) @map("_id") @db.ObjectId
- * senderId String
- * sender User @relation(fields: [senderId], references: [id], name: "SenderMessages")
- * receiverId String
- * receiver User @relation(fields: [receiverId], references: [id], name: "ReceiverMessages")
- * content String
- * createdAt DateTime @default(now())
- * @@map("message")
- * }
- * model Metric {
- * id String @id @default(auto()) @map("_id") @db.ObjectId
- * totalUsers Int @default(0)
- * totalJobs Int @default(0)
- * totalApplications Int @default(0)
- * updatedAt DateTime @updatedAt
- * @@map("metric")
- * }
- * model JobRecommendation {
- * id String @id @default(auto()) @map("_id") @db.ObjectId
- * userId String
- * user User @relation(fields: [userId], references: [id])
- * jobId String
- * job Job @relation(fields: [jobId], references: [id])
- * compatibilityScore Float
- * generatedAt DateTime @default(now())
- * @@map("job_recommendation")
- * }
- * model CompatibilityScore {
- * id String @id @default(auto()) @map("_id") @db.ObjectId
- * profileId String
- * profile CandidateProfile @relation(fields: [profileId], references: [id])
- * jobId String
- * job Job @relation(fields: [jobId], references: [id])
- * score Float
- * analysisDate DateTime @default(now())
- * @@map("compatibility_score")
- * }
- */
+
 
 enum Role {
   ADMIN

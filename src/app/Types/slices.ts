@@ -15,8 +15,8 @@ interface Ijobs {
   niceToHave: string;
   benefits: string | string[];
   closingDate: string;
-  applications: IApplicants[];
   company?: ICompany;
+  applications: IApplications[];
   createdAt: string;
   updatedAt: string;
   user: IUsers;
@@ -50,7 +50,7 @@ interface IUsers {
   resume?: string;
   website?: string;
   jobs?: Ijobs[];
-  application?: IApplicants[];
+  application?: IApplications[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -61,25 +61,19 @@ interface IUserState {
   error: string | null;
 }
 
-interface IApplicants {
+interface IApplications {
   id: string;
   jobId: string;
   candidateId: string;
-  status: "PENDING" | "INTERVIEWED" | "REJECTED";
+  status?: "PENDING" | "INTERVIEWED" | "REJECTED";
   updatedAt?: string;
   appliedAt: string;
-  candidate?: {
-    firstName: string;
-    lastName: string;
-    user: {
-      email: string;
-    };
-  };
+  candidate?: ICandidate;
   job?: Ijobs;
 }
 
-interface IApplicantsState {
-  applicants: IApplicants[];
+interface IApplicationsState {
+  applications: IApplications[];
   loading: boolean;
   error: string | null;
 }
@@ -93,7 +87,7 @@ interface ICandidate {
   resume?: string;
   bio?: string;
   website?: string;
-  applications: IApplicants[];
+  applications: IApplications[];
 }
 
 interface ICandidateState {
@@ -115,9 +109,8 @@ interface ICompany {
   }[];
 }
 
-
 interface IApplicationByIdState {
-  applicants: IApplicants[];
+  application?: IApplications;
   loading: boolean;
   error: string | null;
 }
@@ -128,8 +121,8 @@ export type {
   ICompanyJobsState,
   IUsers,
   IUserState,
-  IApplicants,
-  IApplicantsState,
+  IApplications,
+  IApplicationsState,
   ICandidate,
   ICandidateState,
   IApplicationByIdState

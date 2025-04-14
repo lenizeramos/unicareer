@@ -54,14 +54,14 @@ const ApplicantDetailsPage = () => {
   const applicationId = params?.id as string;
 
   const dispatch = useDispatch<AppDispatch>();
-  const application = useSelector((state: RootState) => state.applicationById);
+  const {application} = useSelector((state: RootState) => state.applicationById);
 
   useEffect(() => {
     dispatch(fetchApplicationById(applicationId));
   }, [dispatch, applicationId ]);
 
-  console.log("**************Application:", application);
-
+  console.log("**************Application:xxxxxxxxxx", application);
+  
   const {
     fullName,
     email,
@@ -71,6 +71,7 @@ const ApplicantDetailsPage = () => {
     personalInfo,
     professionalInfo,
   } = candidateData;
+
 
   return (
     <>
@@ -89,7 +90,7 @@ const ApplicantDetailsPage = () => {
               <FaUser className="text-gray-500" />
             </div>
             <div>
-              <h3 className="text-3xl font-bold text-gray-900">{fullName}</h3>
+              <h3 className="text-3xl font-bold text-gray-900">{application?.candidate?.firstName}</h3>
              
             </div>
           </div>

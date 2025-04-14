@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
-import ApplicantsList from "@/app/components/ApplicantsList";
+import ApplicationsList from "@/app/components/ApplicationsList";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
@@ -60,11 +60,11 @@ export default function ApplicationsPage() {
       <div className={styles.borderBottomLight}></div>
       <DashboardWelcome
         greeting="Job Applications"
-        message="Here is your applicants listing status from July 19 - July 25."
+        message="Here is your applications listing status from July 19 - July 25."
         date="Jul 19 - Jul 25"
       />
-      <ApplicantsList
-        applicants={currentApplications}
+      <ApplicationsList
+        applications={currentApplications}
         columns={columns}
         itemsPerPage={itemsPerPage}
         onItemsPerPageChange={setItemsPerPage}

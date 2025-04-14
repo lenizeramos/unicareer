@@ -20,8 +20,15 @@ export async function getApplicationById(id: string) {
       where: { id },
       include: {
         candidate: {
-          include: { user: true },
+          include: {
+            user: true,
+            education: true,
+            workExperience: true,
+            languages: true,
+            documents: true,
+          },
         },
+        job: true,
       },
     });
   } catch (error) {
