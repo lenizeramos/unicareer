@@ -85,8 +85,7 @@ export default function Application() {
         title="My Applications"
         button={{ text: "Back to home page", IsWhite: true }}
       />
-      <div className="flex justify-center gap-10 items-center border border-gray-200 px-5 py-8 w-full">
-        <div className="flex justify-between w-full">
+        <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
           <div>
             <h3 className={`${styles.JobDescriptionTitle}`}>
               Keep it up, {candidate.firstName}
@@ -101,9 +100,8 @@ export default function Application() {
             setEndDate={setEndDate}
           />
         </div>
-      </div>
       <div className="mt-3">
-        <div className="font-shafarik flex gap-20 text-lg border-b-[1px] border-gray-200 px-3 pt-3">
+        <div className="font-shafarik flex md:gap-20 sm:gap-15 gap-5 sm:text-lg text-[14px] border-b-[1px] border-gray-200 px-3 pt-3">
           {statusTags.map((status, index) => {
             return (
               <p
@@ -122,7 +120,7 @@ export default function Application() {
           })}
         </div>
         <div className="mt-10 px-3 flex justify-between">
-          <h2 className="font-semibold font-monomakh text-xl">
+          <h2 className="font-semibold font-shafarik text-xl">
             Applications History
           </h2>
           <div className="flex items-center border rounded-xl p-1 border-gray-400 w-fit h-fit">
@@ -130,7 +128,7 @@ export default function Application() {
             <input
               type="text"
               placeholder="Search"
-              className="font-shafarik px-3 w-[5rem] border-none outline-none"
+              className="font-shafarik px-3 w-[5rem] sm:text-md text-sm border-none outline-none"
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>

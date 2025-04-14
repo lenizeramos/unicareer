@@ -37,8 +37,8 @@ const DateRangePicker = ({
     }
   };
   return (
-    <div className={`flex items-center gap-[10px]`}>
-      <span className="font-[1rem] cursor-pointer py-[0.5rem] px-[1rem] border-[1px] border-gray-200 inline-flex items-center gap-[0.5rem]">
+    <div className={`flex items-center md:gap-[10px] gap-[5px]`}>
+      <span className="font-[1rem] cursor-pointer py-[0.5rem] sm:px-[1rem] px-[0.5rem] border-[1px] border-gray-200 inline-flex items-center gap-[0.5rem] sm:text-[14px] text-[10px]">
         {displayText}
         <FcCalendar onClick={() => pickerRef.current?.setOpen(true)} />
       </span>

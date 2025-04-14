@@ -156,17 +156,17 @@ const statusTags = [
   {
     id: "pending",
     type: "In Review",
-    styles: `text-[#f5c650] border border-[#f5c650] rounded-full w-fit px-2 py-1 text-center`,
+    styles: `text-[#f5c650] border border-[#f5c650] rounded-full w-fit px-2 py-1 text-center font-monomakh sm:text-[14px] text-[10px]`,
   },
   {
     id: "interviewed",
     type: "Interviewing",
-    styles: `text-[#6c7dfe] border border-[#6c7dfe] rounded-full w-fit px-2 py-1`,
+    styles: `text-[#6c7dfe] border border-[#6c7dfe] rounded-full w-fit px-2 py-1 font-monomakh sm:text-[14px] text-[10px]`,
   },
   {
     id: "rejected",
     type: "Unsuitable",
-    styles: `text-[#ff3c2c] border  border-[#ff3c2c] rounded-full w-fit px-2 py-1`,
+    styles: `text-[#ff3c2c] border  border-[#ff3c2c] rounded-full w-fit px-2 py-1 font-monomakh sm:text-[14px] text-[10px]`,
   },
 ];
 
