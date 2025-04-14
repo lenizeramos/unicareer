@@ -12,16 +12,18 @@ import {
 import ButtonComp from "./ButtonComp";
 import Badge from "./Badge";
 import { Applicant, ApplicantsListProps } from "../Types";
-import { useRouter } from "next/navigation";
+/* import { useRouter } from "next/navigation"; */
 
 const MobileApplicantCard = ({
   applicant,
   getStatusColor,
   columns,
+  onViewProfile,
 }: {
   applicant: Applicant;
   getStatusColor: (status: Applicant["status"]) => string;
   columns: { [key: string]: string };
+  onViewProfile?: (id: string) => void;
 }) => (
   <div className="bg-white p-3 border-b">
     {columns.name && (
@@ -59,6 +61,7 @@ const MobileApplicantCard = ({
             <ButtonComp
               text={<span className="text-xs">View Profile</span>}
               IsWhite={true}
+              onClick={() => onViewProfile && onViewProfile(applicant.id)}
             />
           </div>
         </div>
@@ -75,8 +78,9 @@ const ApplicantsList = ({
   currentPage,
   onPageChange,
   totalItems,
+  onViewProfile
 }: ApplicantsListProps) => {
-  const router = useRouter();
+  /* const router = useRouter(); */
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [statusFilter, setStatusFilter] = useState<Applicant["status"] | "all">(
@@ -263,6 +267,7 @@ const ApplicantsList = ({
               applicant={applicant}
               getStatusColor={getStatusColor}
               columns={columns}
+              onViewProfile={onViewProfile}
             />
           ))}
         </div>
@@ -329,7 +334,11 @@ const ApplicantsList = ({
                   {columns.actions && (
                     <td className="p-4 border-bottom-light">
                       <div className="flex justify-center gap-2">
-                        <ButtonComp text="View Profile" IsWhite={true} onClick={() => router.push("/dashboard/company/applicantdetails")} />
+                        <ButtonComp
+                          text="View Profile"
+                          IsWhite={true}
+                          onClick={() => onViewProfile && onViewProfile(applicant.id)}
+                        />
                       </div>
                     </td>
                   )}

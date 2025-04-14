@@ -3,6 +3,8 @@ import jobReducer from "./slices/jobSlices";
 import userReducer from "./slices/usersSlices";
 import applicantsReducer from "./slices/applicantsSlices";
 import companyJobsReducer from "./slices/companyJobsSlice";
+import applicationByIdReducer from "./slices/applicationByIdSlices";
+
 
 const store = configureStore({
   reducer: {
@@ -10,6 +12,7 @@ const store = configureStore({
     users: userReducer,
     applicants: applicantsReducer,
     companyJobs: companyJobsReducer,
+    applicationById: applicationByIdReducer,
   },
 });
 

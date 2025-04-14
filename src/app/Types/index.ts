@@ -357,6 +357,7 @@ export interface ApplicantsListProps {
   currentPage: number;
   onPageChange: (page: number) => void;
   totalItems: number;
+  onViewProfile?: (id: string) => void; 
 }
 
 export interface Applicant {

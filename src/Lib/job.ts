@@ -37,15 +37,7 @@ export async function getJobByCompanyId(companyId: string) {
         applications: {
           include: {
             candidate: {
-              select: {
-                firstName: true,
-                lastName: true,
-                user: {
-                  select: {
-                    email: true,
-                  }
-                }
-              },
+              include: { user: true },
             },
           },
         },

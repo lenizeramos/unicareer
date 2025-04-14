@@ -7,8 +7,10 @@ import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentBut
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { fetchCompanyJobs } from "@/app/context/slices/companyJobsSlice";
+import { useRouter } from "next/navigation";
 
 export default function ApplicationsPage() {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
@@ -19,6 +21,10 @@ export default function ApplicationsPage() {
     dispatch(fetchCompanyJobs());
   }, [dispatch]);
 
+  const handleViewProfile = (id: string) => {
+    router.push(`/dashboard/company/applicantdetails/${id}`);
+  };
+
   const columns = {
     name: "Applicant",
     position: "Position",
@@ -26,7 +32,7 @@ export default function ApplicationsPage() {
     status: "Status",
     actions: "Actions",
   };
-  const applicants = companyJobs.flatMap((job) =>
+  const applications = companyJobs.flatMap((job) =>
     job.applications.map((application) => ({
       id: application.id,
       name: application.candidate
@@ -46,7 +52,7 @@ export default function ApplicationsPage() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentApplicants = applicants.slice(indexOfFirstItem, indexOfLastItem);
+  const currentApplications = applications.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <>
@@ -58,13 +64,14 @@ export default function ApplicationsPage() {
         date="Jul 19 - Jul 25"
       />
       <ApplicantsList
-        applicants={currentApplicants}
+        applicants={currentApplications}
         columns={columns}
         itemsPerPage={itemsPerPage}
         onItemsPerPageChange={setItemsPerPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-        totalItems={applicants.length}
+        totalItems={applications.length}
+        onViewProfile={handleViewProfile}
       />
     </>
   );

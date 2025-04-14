@@ -115,6 +115,13 @@ interface ICompany {
   }[];
 }
 
+
+interface IApplicationByIdState {
+  applicants: IApplicants[];
+  loading: boolean;
+  error: string | null;
+}
+
 export type {
   Ijobs,
   IJobsState,
@@ -125,4 +132,5 @@ export type {
   IApplicantsState,
   ICandidate,
   ICandidateState,
+  IApplicationByIdState
 };

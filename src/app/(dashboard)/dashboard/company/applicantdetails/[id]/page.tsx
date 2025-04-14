@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 import { styles } from "@/app/styles";
 import {
@@ -13,9 +14,13 @@ import { GoArrowLeft } from "react-icons/go";
 import Link from "next/link";
 import ButtonComp from "@/app/components/ButtonComp";
 
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/context/store";
+import { fetchApplicationById } from "@/app/context/slices/applicationByIdSlices";
+import { useParams } from "next/navigation";
+
 const candidateData = {
   fullName: "Jerome Bell",
-  
   email: "jeromeBell45@gmail.com",
   phone: "+44 1245 572 135",
   socialLinks: {
@@ -29,8 +34,6 @@ const candidateData = {
     type: "Marketing • Full-Time",
   },
   personalInfo: {
-    gender: "Male",
-    dob: "March 23, 1995 (26 y.o)",
     language: "English, French, Bahasa",
     address: "4517 Washington Ave.\nManchester, Kentucky 39495",
   },
@@ -47,9 +50,20 @@ const candidateData = {
 };
 
 const ApplicantDetailsPage = () => {
+  const params = useParams();
+  const applicationId = params?.id as string;
+
+  const dispatch = useDispatch<AppDispatch>();
+  const application = useSelector((state: RootState) => state.applicationById);
+
+  useEffect(() => {
+    dispatch(fetchApplicationById(applicationId));
+  }, [dispatch, applicationId ]);
+
+  console.log("**************Application:", application);
+
   const {
     fullName,
-    
     email,
     phone,
     socialLinks,
@@ -134,16 +148,6 @@ const ApplicantDetailsPage = () => {
               <div>
                 <h4 className="text-sm font-medium text-gray-500">Full Name</h4>
                 <p className="text-gray-800">{fullName}</p>
-              </div>
-              <div>
-                <h4 className="text-sm font-medium text-gray-500">Gender</h4>
-                <p className="text-gray-800">{personalInfo.gender}</p>
-              </div>
-              <div>
-                <h4 className="text-sm font-medium text-gray-500">
-                  Date of Birth
-                </h4>
-                <p className="text-gray-800">{personalInfo.dob}</p>
               </div>
               <div>
                 <h4 className="text-sm font-medium text-gray-500">Language</h4>

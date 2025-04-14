@@ -10,6 +10,21 @@ export async function createApplication(data: Application) {
       },
     });
   } catch (error) {
-    throw new Error("Application failed due to database issue.");
+    throw new Error("Application failed due to database issue." + error);
+  }
+}
+
+export async function getApplicationById(id: string) {
+  try {
+    return await prisma.application.findUnique({
+      where: { id },
+      include: {
+        candidate: {
+          include: { user: true },
+        },
+      },
+    });
+  } catch (error) {
+    throw new Error("Application not found." + error);
   }
 }
