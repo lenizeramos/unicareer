@@ -1,4 +1,4 @@
-interface Ijobs {
+export interface Ijobs {
   id: string;
   title: string;
   description: string;
@@ -16,26 +16,26 @@ interface Ijobs {
   benefits: string | string[];
   closingDate: string;
   company?: ICompany;
-  applications: IApplications[];
+  applications: IApplication[];
   createdAt: string;
   updatedAt: string;
   user: IUsers;
   status: "OPEN" | "CLOSED";
 }
 
-interface IJobsState {
+export interface IJobsState {
   jobs: Ijobs[];
   loading: boolean;
   error: string | null;
 }
 
-interface ICompanyJobsState {
+export interface ICompanyJobsState {
   jobs: Ijobs[];
   loading: boolean;
   error: string | null;
 }
 
-interface IUsers {
+export interface IUsers {
   id?: string;
   clerkId?: string;
   email?: string;
@@ -50,18 +50,18 @@ interface IUsers {
   resume?: string;
   website?: string;
   jobs?: Ijobs[];
-  application?: IApplications[];
+  application?: IApplication[];
   createdAt?: string;
   updatedAt?: string;
 }
 
-interface IUserState {
+export interface IUserState {
   users: IUsers[];
   loading: boolean;
   error: string | null;
 }
 
-interface IApplications {
+export interface IApplication {
   id: string;
   jobId: string;
   candidateId: string;
@@ -72,13 +72,13 @@ interface IApplications {
   job?: Ijobs;
 }
 
-interface IApplicationsState {
-  applications: IApplications[];
+export interface IApplicationsState {
+  applications: IApplication[];
   loading: boolean;
   error: string | null;
 }
 
-interface ICandidate {
+export interface ICandidate {
   id: string;
   userId: string;
   firstName: string;
@@ -87,10 +87,14 @@ interface ICandidate {
   resume?: string;
   bio?: string;
   website?: string;
-  applications: IApplications[];
+  applications: IApplication[];
+  user?: IUsers;
+  education?: IEducation[];
+  workExperience?: IWorkExperience[];
+  language?: ILanguage[];
 }
 
-interface ICandidateState {
+export interface ICandidateState {
   candidate: ICandidate;
   loading: boolean;
   error: string | null;
@@ -109,21 +113,46 @@ interface ICompany {
   }[];
 }
 
-interface IApplicationByIdState {
-  application?: IApplications;
+export interface IApplicationByIdState {
+  application?: IApplication;
   loading: boolean;
   error: string | null;
 }
 
-export type {
-  Ijobs,
-  IJobsState,
-  ICompanyJobsState,
-  IUsers,
-  IUserState,
-  IApplications,
-  IApplicationsState,
-  ICandidate,
-  ICandidateState,
-  IApplicationByIdState
-};
+export interface IEducation {
+  id: string;
+  candidateId: string;
+  institution: string;
+  degree: string;
+  fieldOfStudy: string;
+  country: string;
+  startDate: string;
+  endDate?: string;
+  current: boolean;
+  description?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IWorkExperience {
+  id: string;
+  candidateId: string;
+  company: string;
+  position: string;
+  country: string;
+  startDate: string;
+  endDate?: string; 
+  current?: boolean;
+  description?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ILanguage {
+  id: string;
+  candidateId: string;
+  name: string;
+  level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
+  createdAt: string;
+  updatedAt: string;
+}
