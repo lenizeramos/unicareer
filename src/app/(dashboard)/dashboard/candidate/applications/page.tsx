@@ -13,15 +13,14 @@ import { BsSearch } from "react-icons/bs";
 import SummaryTable from "@/app/components/SummaryTable";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useDispatch, useSelector } from "react-redux";
-import { IJobsState } from "@/app/Types/slices";
-import { fetchAllJobs } from "@/app/context/slices/jobSlices";
+import { IApplicantsState } from "@/app/Types/slices";
+import { fetchApplicants } from "@/app/context/slices/applicantsSlices";
 
 export default function Application() {
   const dispatch: AppDispatch = useDispatch();
-  const { jobs, loading } = useSelector(
-    (state: RootState) => state.jobs as IJobsState
+  const { applicants, loading } = useSelector(
+    (state: RootState) => state.applicants as IApplicantsState
   );
-
   const { candidate, isLoading } = useCandidateData();
   const startDefault = new Date();
   const endDefault = new Date();
@@ -30,6 +29,13 @@ export default function Application() {
   const [startDate, setStartDate] = useState<Date | null>(startDefault);
   const [endDate, setEndDate] = useState<Date | null>(endDefault);
   const [isActive, setIsActive] = useState<string>("all");
+
+  useEffect(() => {
+    if (applicants.length === 0) {
+      dispatch(fetchApplicants());
+    }
+  }, [applicants.length]);
+
   if (isLoading) {
     return <Loader />;
   }
@@ -51,15 +57,18 @@ export default function Application() {
     const month = monthNames[createDate.getMonth()];
     return `${month} ${createDate.getDate()}`;
   };
-  useEffect(() => {
-    if (jobs.length === 0) {
-      dispatch(fetchAllJobs());
-    }
-  }, [jobs.length]);
 
-//   const companyInfo =  
+  const dataCompany = candidate.applications.map((application) => {
+    const companyName = application.job?.company?.name ?? "Unknown Company";
+    return {
+      companyName: { name: companyName, logo: "" },
+      jobTitle: application.job?.title ?? "Unknown",
+      dateApplied: application.appliedAt,
+      status: application.status,
+    };
+  });
 
-  console.log("candidate=>", candidate);
+  console.log("dataCompany=>", dataCompany);
   return (
     <>
       <DashboardNavbar
@@ -116,7 +125,7 @@ export default function Application() {
           </div>
         </div>
         <div>
-          <SummaryTable columnNames={columnNames} />
+          <SummaryTable columnNames={columnNames} data={dataCompany}/>
         </div>
       </div>
     </>

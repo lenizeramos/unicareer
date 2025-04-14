@@ -22,8 +22,15 @@ export async function GET() {
             firstName: true,
             lastName: true,
             skills: true,
-            applications: true,
+            applications: { include: { job: { include: { company: true } } } },
           },
+          // include: {
+          //   education: true,
+          //   workExperience: true,
+          //   languages: true,
+          //   documents: true,
+          //   applications: { include: { job: { include: { company: true } } } },
+          // },
         },
       },
     });

@@ -1,14 +1,20 @@
 import Image from "next/image";
-import { dataFa } from "../constants";
 import { ISummaryTable } from "../Types";
-import { statusTags } from "../constants";
+import { monthNames, statusTags } from "../constants";
 
 const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
-  // const { companyName, jobTitle, dateApplied, status } = data;
-  const statusNames = new Set(dataFa.map((item) => item.status));
+  const statusNames = new Set(data.map((item) => item.status.toLowerCase()));
   const statusStyles = statusTags.filter((tag) => statusNames.has(tag.id));
 
-  console.log(statusStyles);
+  const getDate = (date: string) => {
+    if (!date) {
+      return <p>Not Found</p>;
+    }
+    const createDate = new Date(date);
+    const month = monthNames[createDate.getMonth()];
+    const year = createDate.getFullYear();
+    return `${createDate.getDate()} ${month} ${year}`;
+  };
   return (
     <>
       <div className="flex flex-col w-full mt-5">
@@ -17,14 +23,16 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
             return <p key={index}>{column}</p>;
           })}
         </div>
-        {dataFa.map((item, index) => {
-          const statusTag = statusStyles.find((tag) => tag.id === item.status);
+        {data.map((item, index) => {
+          const statusTag = statusStyles.find(
+            (tag) => tag.id === item.status.toLowerCase()
+          );
           return (
             <div
               className="grid [grid-template-columns:80px_2fr_2fr_1fr_1fr] gap-4 py-3 border-b border-gray-100 text-sm px-3 items-center"
               key={index}
             >
-              <p className="w-fit">{index}</p>
+              <p className="w-fit">{index + 1}</p>
               <div className="flex gap-2 w-fit items-center">
                 <Image
                   src={"/img/Avatar.png"}
@@ -35,8 +43,10 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
                 <p>{item.companyName.name}</p>
               </div>
               <p>{item.jobTitle}</p>
-              <p>{item.dateApplied}</p>
-              <p className={statusTag?.styles || ""}>{statusTag?.type || item.status}</p>
+              <p>{getDate(item.dateApplied)}</p>
+              <p className={statusTag?.styles || ""}>
+                {statusTag?.type || item.status}
+              </p>
             </div>
           );
         })}

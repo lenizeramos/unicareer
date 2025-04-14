@@ -92,7 +92,7 @@ interface IApplicantFilters {
 
 interface ISummaryTable {
   columnNames: string[];
-  data?: {
+  data: {
     companyName: { name: string; logo: string };
     jobTitle: string;
     dateApplied: string;

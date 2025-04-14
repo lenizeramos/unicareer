@@ -4,7 +4,15 @@ import prisma from "@/Lib/prisma";
 export async function GET() {
   try {
     const jobs = await prisma.job.findMany({
-      include: { company: true, applications: true },
+      include: {
+        company: {
+          include: {
+            profileImages: true,
+            user: true,
+          },
+        },
+        applications: true,
+      },
     });
     return NextResponse.json(jobs);
   } catch (error) {

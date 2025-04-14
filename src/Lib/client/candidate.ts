@@ -25,6 +25,7 @@ export const useCandidateData = () => {
         if (response.ok) {
           const data = await response.json();
           setCandidate(data);
+          console.log("data=>>>", data)
         }
       } catch (error) {
         console.error('Error fetching candidate data:', error);

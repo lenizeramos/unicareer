@@ -19,6 +19,7 @@ interface Ijobs {
   company: ICompany;
   createdAt: string;
   updatedAt: string;
+  user: IUsers;
   status: "OPEN" | "CLOSED";
 }
 
@@ -74,6 +75,7 @@ interface IApplicants {
       email: string;
     };
   };
+  job: Ijobs;
 }
 
 interface IApplicantsState {
@@ -103,12 +105,8 @@ interface ICandidateState {
 interface ICompany {
   id: string;
   userId: string;
-  firstName: string;
-  lastName: string;
-  skills?: string[];
-  resume?: string;
+  name:string;
   bio?: string;
-  website?: string;
   profileImages?: {
     id: string;
     fileKey: string;
