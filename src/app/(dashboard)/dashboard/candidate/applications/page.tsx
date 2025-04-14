@@ -7,7 +7,6 @@ import { columnNames, monthNames } from "@/app/constants";
 import { styles } from "@/app/styles";
 import { useCandidateData } from "@/Lib/client/candidate";
 import { useEffect, useState } from "react";
-import { IApplicantFilters } from "@/app/Types";
 import { statusTags } from "@/app/constants";
 import { BsSearch } from "react-icons/bs";
 import SummaryTable from "@/app/components/SummaryTable";
@@ -28,7 +27,8 @@ export default function Application() {
 
   const [startDate, setStartDate] = useState<Date | null>(startDefault);
   const [endDate, setEndDate] = useState<Date | null>(endDefault);
-  const [isActive, setIsActive] = useState<string>("all");
+  const [active, setActive] = useState<string>("all");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     if (applicants.length === 0) {
@@ -58,7 +58,18 @@ export default function Application() {
     return `${month} ${createDate.getDate()}`;
   };
 
-  const dataCompany = candidate.applications.map((application) => {
+  const filters = candidate.applications.filter((item) => {
+    const companyName = item.job?.company?.name?.toLowerCase() ?? "";
+    const jobTitle = item.job?.title?.toLowerCase() ?? "";
+    const search = searchTerm.toLowerCase();
+    const matchesName = companyName.includes(search);
+    const matchesJob = jobTitle.includes(search);
+    const matchesStatus =
+      active === "all" ? true : item.status.toLowerCase() === active;
+    return (matchesName || matchesJob) && matchesStatus;
+  });
+
+  const data = filters.map((application) => {
     const companyName = application.job?.company?.name ?? "Unknown Company";
     return {
       companyName: { name: companyName, logo: "" },
@@ -68,7 +79,6 @@ export default function Application() {
     };
   });
 
-  console.log("dataCompany=>", dataCompany);
   return (
     <>
       <DashboardNavbar
@@ -99,9 +109,9 @@ export default function Application() {
               <p
                 id={status.id}
                 key={index}
-                onClick={() => setIsActive(status.id)}
+                onClick={() => setActive(status.id)}
                 className={`${
-                  isActive === status.id
+                  active === status.id
                     ? "text-black font-semibold border-b-2 border-[#5939c6] px-2"
                     : "text-gray-500"
                 } cursor-pointer`}
@@ -121,11 +131,12 @@ export default function Application() {
               type="text"
               placeholder="Search"
               className="font-shafarik px-3 w-[5rem] border-none outline-none"
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
         </div>
         <div>
-          <SummaryTable columnNames={columnNames} data={dataCompany}/>
+          <SummaryTable columnNames={columnNames} data={data} />
         </div>
       </div>
     </>

@@ -27,7 +27,7 @@ export default function AdminDashboardPage() {
                     <div className={styles.borderBottomLight + " flex justify-between items-center p-8 mb-8"}>
                         <h2 className="text-xl text-title-color font-bold">Recent Jobs Posted</h2>
                     </div>
-                    <CardsContainer cardId={"recentPosted"} params={[{title: "Social Media Assistant", date: "25 October 2024", company: "Google", text: "Full-time", cardId: "dashboardCard"}, {title: "React Developer", date: "12 March 2025", company: "Facebook", text: "Part-time", cardId: "dashboardCard"}]} />
+                    <CardsContainer cardId={"recentPosted"} params={[{title: "Social Media Assistant", date: "25 October 2024", companyname: "Google", text: "Full-time", cardId: "dashboardCard"}, {title: "React Developer", date: "12 March 2025", companyname: "Facebook", text: "Part-time", cardId: "dashboardCard"}]} />
                 </div>
             </div>
         </>

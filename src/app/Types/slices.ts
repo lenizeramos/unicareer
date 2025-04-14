@@ -16,7 +16,7 @@ interface Ijobs {
   benefits: string | string[];
   closingDate: string;
   applications: IApplicants[];
-  company: ICompany;
+  company?: ICompany;
   createdAt: string;
   updatedAt: string;
   user: IUsers;
@@ -75,7 +75,7 @@ interface IApplicants {
       email: string;
     };
   };
-  job: Ijobs;
+  job?: Ijobs;
 }
 
 interface IApplicantsState {
@@ -114,12 +114,6 @@ interface ICompany {
     fileName: string;
   }[];
 }
-
-// interface ICompanyState {
-//   company: ICompany[];
-//   loading: boolean;
-//   error: string | null;
-// }
 
 export type {
   Ijobs,

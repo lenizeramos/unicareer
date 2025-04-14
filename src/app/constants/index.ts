@@ -223,20 +223,6 @@ const monthNames = [
   "November",
   "December",
 ];
-const dataFa = [
-  {
-    companyName: { name: "xxxx", logo: "" },
-    jobTitle: "xxx",
-    dateApplied: "sssss",
-    status: "pending",
-  },
-  {
-    companyName: { name: "xxxx", logo: "" },
-    jobTitle: "xxx",
-    dateApplied: "sssss",
-    status: "interviewed",
-  },
-];
 
 export {
   perksData,
@@ -250,7 +236,6 @@ export {
   filtersValues,
   statusTags,
   columnNames,
-  dataFa,
 };
 
 /* forms*/

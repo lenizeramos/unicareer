@@ -50,7 +50,7 @@ interface ICards {
   niceToHave?: string;
   // benefits?: { icon: React.ElementType; title: string; text: string }[];
   benefits?: string[] | string;
-  company?: string;
+  companyname?: string;
   companyId?: string;
   closingDate?: string;
   createdAt?: string;
@@ -85,11 +85,6 @@ interface IFilterJobs {
   ) => void;
 }
 
-interface IApplicantFilters {
-  type: "All" | "In Review" | "Interviewing" | "Unsuitable";
-  searchTerm: string;
-}
-
 interface ISummaryTable {
   columnNames: string[];
   data: {
@@ -108,7 +103,6 @@ export type {
   IProgressBarProps,
   ITagComp,
   IFilterJobs,
-  IApplicantFilters,
   ISummaryTable,
 };
 

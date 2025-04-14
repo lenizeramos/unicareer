@@ -243,14 +243,14 @@ const CompanyProfile = async () => {
                 {
                   cardId: "openPositions",
                   title: "Senior Frontend Developer",
-                  company: "Your Company Name",
+                  companyname: "Your Company Name",
                   date: "Posted 2 days ago",
                   text: "Full-time · Remote · Senior Level"
                 },
                 {
                   cardId: "openPositions",
                   title: "Backend Engineer",
-                  company: "Your Company Name",
+                  companyname: "Your Company Name",
                   date: "Posted 3 days ago",
                   text: "Full-time · Remote · Mid Level"
                 }

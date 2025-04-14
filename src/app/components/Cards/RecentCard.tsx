@@ -10,7 +10,7 @@ const RecentCard = ({
   alt,
   date,
   progress,
-  company,
+  companyname,
   cardId,
   createdAt
 }: ICards) => {
@@ -30,7 +30,7 @@ const RecentCard = ({
             <h4
               className={`${styles.sectionSubText} text-gray-600 flex items-center gap-2`}
             >
-              {company ?? "Company"}
+              {companyname ?? "Company"}
               <div className="w-1 h-1 rounded-full bg-gray-400" />
               {text ?? "text"}
             </h4>

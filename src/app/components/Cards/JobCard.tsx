@@ -13,7 +13,7 @@ const JobCard = ({
   text,
   alt,
   categories,
-  company,
+  companyname,
   type,
   cardId,
 }: ICards) => {
@@ -42,7 +42,7 @@ const JobCard = ({
           <h3
             className={`${styles.sectionSubText} text-gray-600 flex items-center gap-2`}
           >
-            {company}
+            {companyname}
             <div className="w-1 h-1 rounded-full bg-gray-400" />
             {subtitle}
           </h3>
