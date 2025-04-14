@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+/* import Image from "next/image"; */
 import ButtonComp from "../components/ButtonComp";
 import { styles } from "../styles";
 import Logo from "../components/Logo";
@@ -9,15 +9,15 @@ import { useEffect, useState } from "react";
 import FileUpload from "../components/FileUpload";
 import FileDisplay from "../components/FileDisplay";
 import { useDispatch, useSelector } from "react-redux";
-import { IApplicantsState, IUserState } from "../Types/slices";
+import { IApplicationsState, IUserState } from "../Types/slices";
 import { AppDispatch, RootState } from "../context/store";
-import { fetchApplicants } from "../context/slices/applicantsSlices";
+import { fetchApplications } from "../context/slices/applicationsSlices";
 import { fetchUsers } from "../context/slices/usersSlices";
 
 export default function Home() {
   const dispatch: AppDispatch = useDispatch();
-  const { applicants } = useSelector(
-    (state: RootState) => state.applicants as IApplicantsState
+  const { applications } = useSelector(
+    (state: RootState) => state.applications as IApplicationsState
   );
   const { users } = useSelector(
     (state: RootState) => state.users as IUserState
@@ -44,8 +44,8 @@ export default function Home() {
 
     getUserId();
 
-    if (applicants.length === 0) {
-      dispatch(fetchApplicants());
+    if (applications.length === 0) {
+      dispatch(fetchApplications());
     }
     if (users.length === 0) {
       dispatch(fetchUsers("candidate"));
@@ -54,10 +54,10 @@ export default function Home() {
     //   dispatch(fetchCandidate());
     // }
     // console.log('====>',candidate.length)
-  }, [users.length, applicants.length]);
+  }, [users.length, applications.length]);
   // console.log(
-  //   "applicants=>",
-  //   applicants,
+  //   "applications=>",
+  //   applications,
   //   "candidate=>",
   //   candidate.length,
   //   "users=>",

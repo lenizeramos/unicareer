@@ -12,13 +12,13 @@ import { BsSearch } from "react-icons/bs";
 import SummaryTable from "@/app/components/SummaryTable";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useDispatch, useSelector } from "react-redux";
-import { IApplicantsState } from "@/app/Types/slices";
-import { fetchApplicants } from "@/app/context/slices/applicantsSlices";
+import { IApplicationsState } from "@/app/Types/slices";
+import { fetchApplications } from "@/app/context/slices/applicationsSlices";
 
 export default function Application() {
   const dispatch: AppDispatch = useDispatch();
-  const { applicants, loading } = useSelector(
-    (state: RootState) => state.applicants as IApplicantsState
+  const { applications, loading } = useSelector(
+    (state: RootState) => state.applications as IApplicationsState
   );
   const { candidate, isLoading } = useCandidateData();
   const startDefault = new Date();
@@ -31,10 +31,10 @@ export default function Application() {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
-    if (applicants.length === 0) {
-      dispatch(fetchApplicants());
+    if (applications.length === 0) {
+      dispatch(fetchApplications());
     }
-  }, [applicants.length]);
+  }, [applications.length]);
 
   if (isLoading) {
     return <Loader />;
@@ -65,7 +65,7 @@ export default function Application() {
     const matchesName = companyName.includes(search);
     const matchesJob = jobTitle.includes(search);
     const matchesStatus =
-      active === "all" ? true : item.status.toLowerCase() === active;
+      active === "all" ? true : (item.status ?? "").toLowerCase() === active;
     return (matchesName || matchesJob) && matchesStatus;
   });
 
@@ -75,7 +75,7 @@ export default function Application() {
       companyName: { name: companyName, logo: "" },
       jobTitle: application.job?.title ?? "Unknown",
       dateApplied: application.appliedAt,
-      status: application.status,
+      status: application.status ?? "Unknown",
     };
   });
 

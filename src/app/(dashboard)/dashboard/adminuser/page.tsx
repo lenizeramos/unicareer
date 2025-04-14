@@ -18,7 +18,7 @@ export default function AdminDashboardPage() {
                     <CardsContainer cardId={"dashboardCard"} params={[{title: "Total Jobs Posted", total: 10, icon: GrDocumentText, cardId: "dashboardCard"}]} />
                 </div>
                 <div className="flex flex-row gap-5">
-                    <CardsContainer cardId={"dashboardCard"} params={[{title: "Total Applicants", total: 20, icon: LuMessageCircleQuestion, subicons: BiMessageRoundedDetail, cardId: "dashboardCard"}]} />
+                    <CardsContainer cardId={"dashboardCard"} params={[{title: "Total Applications", total: 20, icon: LuMessageCircleQuestion, subicons: BiMessageRoundedDetail, cardId: "dashboardCard"}]} />
                     <CardsContainer cardId={"dashboardCard"} params={[{title: "Total Payments", total: 10, icon: LuMessageCircleQuestion, subicons: BiMessageRoundedDetail, cardId: "dashboardCard"}]} />
                 </div>
             </div>

@@ -1,7 +1,7 @@
-import { ResumeData } from "@/types/resume";
+/* import { ResumeData } from "@/types/resume"; */
 import React from "react";
 
-interface IButtton {
+export interface IButtton {
   text: string | React.ReactNode;
   IsWhite: boolean;
   width?: string;
@@ -10,12 +10,12 @@ interface IButtton {
   isDissable?: boolean;
 }
 
-interface ILogo {
+export interface ILogo {
   logoSize?: number;
   fontSize?: string;
 }
 
-interface ICardId extends Omit<ICards, "cardId"> {
+export interface ICardId extends Omit<ICards, "cardId"> {
   cardId:
     | "category"
     | "perks"
@@ -30,7 +30,7 @@ interface ICardId extends Omit<ICards, "cardId"> {
   params?: ICards[];
 }
 
-interface ICards {
+export interface ICards {
   icon?: React.ElementType;
   subicons?: React.ElementType;
   cardId?: string;
@@ -54,7 +54,7 @@ interface ICards {
   companyId?: string;
   closingDate?: string;
   createdAt?: string;
-  applicantsCount?: number;
+  applicationsCount?: number;
   subtitle?: string;
   text?: string;
   alt?: string;
@@ -63,19 +63,19 @@ interface ICards {
   date?: string;
 }
 
-interface IProgressBarProps {
+export interface IProgressBarProps {
   totalLength: number;
   value: number;
 }
 
-interface ITagComp {
+export interface ITagComp {
   bgColor?: string;
   textColor: string;
   text: string;
   borderColor?: string;
 }
 
-interface IFilterJobs {
+export interface IFilterJobs {
   array: string[] | { min: number; max: number }[];
   title: string;
   type: "jobType" | "category" | "jobLevel" | "salary";
@@ -85,7 +85,7 @@ interface IFilterJobs {
   ) => void;
 }
 
-interface ISummaryTable {
+export interface ISummaryTable {
   columnNames: string[];
   data: {
     companyName: { name: string; logo: string };
@@ -94,17 +94,6 @@ interface ISummaryTable {
     status: string;
   }[];
 }
-
-export type {
-  IButtton,
-  ILogo,
-  ICards,
-  ICardId,
-  IProgressBarProps,
-  ITagComp,
-  IFilterJobs,
-  ISummaryTable,
-};
 
 export interface IDashboardNavbar {
   title: string;
@@ -284,14 +273,14 @@ export interface AuthFormProps {
   onRoleChange?: (role: "company" | "candidate") => void;
 }
 
-export interface IApplicantProps {
+export interface IApplicationProps {
   label: string;
   count: number;
 }
 
-export interface ITotalApplicantProps {
-  applicants: IApplicantProps[];
-  totalApplicants: number;
+export interface ITotalApplicationProps {
+  applications: IApplicationProps[];
+  totalApplications: number;
 }
 
 export interface IStatusCardProps {
@@ -343,23 +332,24 @@ export interface IDashboardData {
   totalApplications: number;
   jobView: number;
   jobOpen: number;
-  applicantsSummary: {
+  applicationsSummary: {
     label: string;
     count: number;
   }[];
 }
 
-export interface ApplicantsListProps {
-  applicants: Applicant[];
+export interface ApplicationsListProps {
+  applications: Application[];
   columns: { [key: string]: string };
   itemsPerPage: number;
   onItemsPerPageChange: (value: number) => void;
   currentPage: number;
   onPageChange: (page: number) => void;
   totalItems: number;
+  onViewProfile?: (id: string) => void; 
 }
 
-export interface Applicant {
+export interface Application {
   id: string;
   userId?: string;
   name?: string;
@@ -370,4 +360,20 @@ export interface Applicant {
   status: "PENDING" | "INTERVIEWED" | "REJECTED";
   linkedIn?: string;
   resume?: string;
+}
+
+export interface IContactInfoItemProps {
+  icon: React.ReactNode;
+  value: string;
+}
+
+export interface InfoSectionProps {
+  title: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+export interface InfoItemProps {
+  label: string;
+  value: string | React.ReactNode;
 }

@@ -11,16 +11,19 @@ import {
 } from "react-icons/fa";
 import ButtonComp from "./ButtonComp";
 import Badge from "./Badge";
-import { Applicant, ApplicantsListProps } from "../Types";
+import { Application, ApplicationsListProps } from "../Types";
+/* import { useRouter } from "next/navigation"; */
 
 const MobileApplicantCard = ({
-  applicant,
+  application,
   getStatusColor,
   columns,
+  onViewProfile,
 }: {
-  applicant: Applicant;
-  getStatusColor: (status: Applicant["status"]) => string;
+  application: Application;
+  getStatusColor: (status: Application["status"]) => string;
   columns: { [key: string]: string };
+  onViewProfile?: (id: string) => void;
 }) => (
   <div className="bg-white p-3 border-b">
     {columns.name && (
@@ -29,8 +32,8 @@ const MobileApplicantCard = ({
           <FaUser className="text-gray-500 text-xs" />
         </div>
         <div>
-          <h3 className="text-sm font-semibold">{applicant.name}</h3>
-          <p className="text-xs text-gray-500">{applicant.position}</p>
+          <h3 className="text-sm font-semibold">{application.name}</h3>
+          <p className="text-xs text-gray-500">{application.position}</p>
         </div>
       </div>
     )}
@@ -38,26 +41,27 @@ const MobileApplicantCard = ({
       {columns.email && (
         <div className="flex items-center gap-1 text-xs text-gray-500">
           <FaEnvelope className="text-[10px]" />
-          <span>{applicant.email}</span>
+          <span>{application.email}</span>
         </div>
       )}
       {columns.appliedDate && (
         <div className="flex items-center gap-1 text-xs text-gray-500">
           <span>
-            Applied: {new Date(applicant.appliedDate).toLocaleDateString()}
+            Applied: {new Date(application.appliedDate).toLocaleDateString()}
           </span>
         </div>
       )}
       {columns.status && (
         <div className="flex justify-between items-center mt-2">
           <Badge
-            status={applicant.status}
-            color={getStatusColor(applicant.status)}
+            status={application.status}
+            color={getStatusColor(application.status)}
           />
           <div className="flex items-center gap-2">
             <ButtonComp
               text={<span className="text-xs">View Profile</span>}
               IsWhite={true}
+              onClick={() => onViewProfile && onViewProfile(application.id)}
             />
           </div>
         </div>
@@ -66,46 +70,48 @@ const MobileApplicantCard = ({
   </div>
 );
 
-const ApplicantsList = ({
-  applicants,
+const ApplicationsList = ({
+  applications,
   columns,
   itemsPerPage,
   onItemsPerPageChange,
   currentPage,
   onPageChange,
   totalItems,
-}: ApplicantsListProps) => {
+  onViewProfile
+}: ApplicationsListProps) => {
+  /* const router = useRouter(); */
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
-  const [statusFilter, setStatusFilter] = useState<Applicant["status"] | "all">(
+  const [statusFilter, setStatusFilter] = useState<Application["status"] | "all">(
     "all"
   );
   const [positionFilter, setPositionFilter] = useState("all");
   const [emailFilter, setEmailFilter] = useState("");
 
-  const positions = [...new Set(applicants.map((a) => a.position))];
+  const positions = [...new Set(applications.map((a) => a.position))];
 
-  const filteredApplicants = applicants.filter((applicant) => {
+  const filteredApplications = applications.filter((application) => {
     const matchesName =
       searchTerm === "" ||
-      applicant.name?.toLowerCase().includes(searchTerm.toLowerCase());
+      application.name?.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesEmail =
       emailFilter === "" ||
-      applicant.email?.toLowerCase().includes(emailFilter.toLowerCase());
+      application.email?.toLowerCase().includes(emailFilter.toLowerCase());
 
     const matchesStatus =
-      statusFilter === "all" || applicant.status === statusFilter;
+      statusFilter === "all" || application.status === statusFilter;
 
     const matchesPosition =
-      positionFilter === "all" || applicant.position === positionFilter;
+      positionFilter === "all" || application.position === positionFilter;
 
     return matchesName && matchesEmail && matchesStatus && matchesPosition;
   });
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const getStatusColor = (status: Applicant["status"]) => {
+  const getStatusColor = (status: Application["status"]) => {
     const colors = {
       PENDING: "bg-yellow-50 text-yellow-400",
       INTERVIEWED: "bg-indigo-50 text-indigo-600",
@@ -118,7 +124,7 @@ const ApplicantsList = ({
     <div className="mt-2 md:mt-8 border-light">
       <div className="p-3 md:p-8 space-y-3 border-b">
         <h2 className="text-base md:text-xl text-title-color font-bold">
-          Applicants List
+          Applications List
         </h2>
         <div className="flex flex-col md:flex-row gap-2">
           <div className="relative flex-1">
@@ -201,7 +207,7 @@ const ApplicantsList = ({
                         value={statusFilter}
                         onChange={(e) =>
                           setStatusFilter(
-                            e.target.value as Applicant["status"] | "all"
+                            e.target.value as Application["status"] | "all"
                           )
                         }
                         className="w-full p-1.5 text-xs border border-primary rounded"
@@ -255,12 +261,13 @@ const ApplicantsList = ({
 
       <div className="block md:hidden">
         <div className="divide-y divide-gray-200">
-          {filteredApplicants.map((applicant) => (
+          {filteredApplications.map((application) => (
             <MobileApplicantCard
-              key={applicant.id}
-              applicant={applicant}
+              key={application.id}
+              application={application}
               getStatusColor={getStatusColor}
               columns={columns}
+              onViewProfile={onViewProfile}
             />
           ))}
         </div>
@@ -279,8 +286,8 @@ const ApplicantsList = ({
               </tr>
             </thead>
             <tbody>
-              {filteredApplicants.map((applicant) => (
-                <tr key={applicant.id}>
+              {filteredApplications.map((application) => (
+                <tr key={application.id}>
                   {columns.name && (
                     <td className="p-4 border-bottom-light">
                       <div className="flex items-center">
@@ -289,10 +296,10 @@ const ApplicantsList = ({
                         </div>
                         <div className="ml-4 text-left">
                           <div className="text-lg font-[600]">
-                            {applicant.name}
+                            {application.name}
                           </div>
                           <div className="text-sm text-gray-500">
-                            {applicant.email}
+                            {application.email}
                           </div>
                         </div>
                       </div>
@@ -302,7 +309,7 @@ const ApplicantsList = ({
                   {columns.position && (
                     <td className="p-4 border-bottom-light">
                       <div className="text-lg font-[500]">
-                        {applicant.position}
+                        {application.position}
                       </div>
                     </td>
                   )}
@@ -310,7 +317,7 @@ const ApplicantsList = ({
                   {columns.appliedDate && (
                     <td className="p-4 border-bottom-light">
                       <div className="text-lg font-[500]">
-                        {new Date(applicant.appliedDate).toLocaleDateString()}
+                        {new Date(application.appliedDate).toLocaleDateString()}
                       </div>
                     </td>
                   )}
@@ -318,8 +325,8 @@ const ApplicantsList = ({
                   {columns.status && (
                     <td className="p-4 border-bottom-light">
                       <Badge
-                        status={applicant.status}
-                        color={getStatusColor(applicant.status)}
+                        status={application.status}
+                        color={getStatusColor(application.status)}
                       />
                     </td>
                   )}
@@ -327,7 +334,11 @@ const ApplicantsList = ({
                   {columns.actions && (
                     <td className="p-4 border-bottom-light">
                       <div className="flex justify-center gap-2">
-                        <ButtonComp text="View Profile" IsWhite={true} />
+                        <ButtonComp
+                          text="View Profile"
+                          IsWhite={true}
+                          onClick={() => onViewProfile && onViewProfile(application.id)}
+                        />
                       </div>
                     </td>
                   )}
@@ -338,9 +349,9 @@ const ApplicantsList = ({
         </div>
       </div>
 
-      {filteredApplicants.length === 0 && (
+      {filteredApplications.length === 0 && (
         <div className="text-center py-4 text-xs md:text-base text-gray-500">
-          No applicants found matching your search
+          No applications found matching your search
         </div>
       )}
 
@@ -394,7 +405,7 @@ const ApplicantsList = ({
             <option value={50}>50</option>
           </select>
           <span className="text-lg text-not-focus-color">
-            Applicants per page
+            Applications per page
           </span>
         </div>
 
@@ -432,4 +443,4 @@ const ApplicantsList = ({
   );
 };
 
-export default ApplicantsList;
+export default ApplicationsList;

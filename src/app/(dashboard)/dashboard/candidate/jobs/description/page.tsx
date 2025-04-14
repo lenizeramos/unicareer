@@ -6,14 +6,14 @@ import DashboardNavbar from "../../../../../components/DashboardNavbar";
 import ButtonComp from "@/app/components/ButtonComp";
 import { styles } from "@/app/styles";
 import { jobsCategories, monthNames, stylesTags } from "@/app/constants";
-import { CiCircleCheck } from "react-icons/ci";
+/* import { CiCircleCheck } from "react-icons/ci"; */
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import ProgressBar from "@/app/components/ProgressBar";
 import TagComp from "@/app/components/TagComp";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  IApplicantsState,
+  IApplicationsState,
   IJobsState,
   IUserState,
 } from "@/app/Types/slices";
@@ -22,7 +22,7 @@ import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 import { fetchUsers } from "@/app/context/slices/usersSlices";
 import { useRouter } from "next/navigation";
 import { useCandidateData } from "@/Lib/client/candidate";
-import { fetchApplicants } from "@/app/context/slices/applicantsSlices";
+import { fetchApplications } from "@/app/context/slices/applicationsSlices";
 import { toast } from "sonner";
 import Loader from "@/app/components/Loader";
 
@@ -37,8 +37,8 @@ export default function JobDescription() {
   const { users } = useSelector(
     (state: RootState) => state.users as IUserState
   );
-  const { applicants } = useSelector(
-    (state: RootState) => state.applicants as IApplicantsState
+  const { applications } = useSelector(
+    (state: RootState) => state.applications as IApplicationsState
   );
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
@@ -57,10 +57,10 @@ export default function JobDescription() {
   }, [users.length]);
 
   useEffect(() => {
-    if (applicants.length === 0) {
-      dispatch(fetchApplicants());
+    if (applications.length === 0) {
+      dispatch(fetchApplications());
     }
-  }, [applicants.length]);
+  }, [applications.length]);
 
   const company = users.find((company) => company.id === job?.companyId);
   if (loading) {

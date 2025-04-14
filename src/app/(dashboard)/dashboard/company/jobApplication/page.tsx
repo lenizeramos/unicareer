@@ -2,13 +2,15 @@
 import { useState, useEffect } from "react";
 import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
-import ApplicantsList from "@/app/components/ApplicantsList";
+import ApplicationsList from "@/app/components/ApplicationsList";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { fetchCompanyJobs } from "@/app/context/slices/companyJobsSlice";
+import { useRouter } from "next/navigation";
 
 export default function ApplicationsPage() {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
@@ -19,6 +21,10 @@ export default function ApplicationsPage() {
     dispatch(fetchCompanyJobs());
   }, [dispatch]);
 
+  const handleViewProfile = (id: string) => {
+    router.push(`/dashboard/company/applicantdetails/${id}`);
+  };
+
   const columns = {
     name: "Applicant",
     position: "Position",
@@ -26,7 +32,7 @@ export default function ApplicationsPage() {
     status: "Status",
     actions: "Actions",
   };
-  const applicants = companyJobs.flatMap((job) =>
+  const applications = companyJobs.flatMap((job) =>
     job.applications.map((application) => ({
       id: application.id,
       name: application.candidate
@@ -46,7 +52,7 @@ export default function ApplicationsPage() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentApplicants = applicants.slice(indexOfFirstItem, indexOfLastItem);
+  const currentApplications = applications.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <>
@@ -54,17 +60,18 @@ export default function ApplicationsPage() {
       <div className={styles.borderBottomLight}></div>
       <DashboardWelcome
         greeting="Job Applications"
-        message="Here is your applicants listing status from July 19 - July 25."
+        message="Here is your applications listing status from July 19 - July 25."
         date="Jul 19 - Jul 25"
       />
-      <ApplicantsList
-        applicants={currentApplicants}
+      <ApplicationsList
+        applications={currentApplications}
         columns={columns}
         itemsPerPage={itemsPerPage}
         onItemsPerPageChange={setItemsPerPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-        totalItems={applicants.length}
+        totalItems={applications.length}
+        onViewProfile={handleViewProfile}
       />
     </>
   );

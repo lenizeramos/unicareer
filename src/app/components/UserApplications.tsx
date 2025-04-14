@@ -1,6 +1,6 @@
-import ApplicantsList from "@/app/components/ApplicantsList";
+import ApplicationsList from "@/app/components/ApplicationsList";
 import { useState } from "react";
-import { Applicant } from "../Types";
+import { Application } from "../Types";
 
 export default function UserApplications() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,7 +15,7 @@ export default function UserApplications() {
 
   const currentUserId = "currentUserId";
 
-  const allApplications: Applicant[] = [
+  const allApplications: Application[] = [
     {
       id: "1",
       userId: currentUserId,
@@ -38,8 +38,8 @@ export default function UserApplications() {
 
   return (
     <>
-      <ApplicantsList
-        applicants={userApplications}
+      <ApplicationsList
+        applications={userApplications}
         columns={columns}
         itemsPerPage={itemsPerPage}
         onItemsPerPageChange={setItemsPerPage}
