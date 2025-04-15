@@ -38,7 +38,7 @@ const JobResumeCards = ({
 
   const handleSeeDetails = async () => {
     try {
-      const response = await fetch(`/api/jobs/${id}/view`, {
+      const response = await fetch(`/api/job/${id}/view/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

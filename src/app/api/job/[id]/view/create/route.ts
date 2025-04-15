@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
 import { getUserByClerkId } from "@/Lib/usersService";
-import prisma from "@/Lib/prisma";
+import { createJobView, getJobById } from "@/Lib/job";
 
 export async function POST(
   req: NextRequest,
@@ -12,8 +12,8 @@ export async function POST(
     console.log("jobId*********", jobId);
 
     if (!jobId) {
-        return new NextResponse("Job ID is required", { status: 400 });
-      }
+      return new NextResponse("Job ID is required", { status: 400 });
+    }
 
     const clerkUserId = await getClerkUserId();
 
@@ -28,27 +28,13 @@ export async function POST(
       return new NextResponse("Only candidates can view jobs", { status: 403 });
     }
 
-    const jobExists = await prisma.job.findUnique({
-      where: { id: jobId },
-    });
+    const jobExists = await getJobById(jobId);
 
     if (!jobExists) {
       return new NextResponse("Job not found", { status: 404 });
     }
 
-    await prisma.jobView.upsert({
-      where: {
-        jobId_candidateId: {
-          jobId,
-          candidateId: user.candidate.id,
-        },
-      },
-      create: {
-        jobId,
-        candidateId: user.candidate.id,
-      },
-      update: {},
-    });
+    await createJobView(jobId, user.candidate.id);
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {

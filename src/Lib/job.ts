@@ -55,3 +55,50 @@ export async function getJobByCompanyId(companyId: string) {
     throw new Error("Failed to fetch jobs due to database issue.");
   }
 }
+
+export async function createJobView(jobId: string, candidateId: string) {
+  try {
+    return await prisma.jobView.upsert({
+      where: {
+        jobId_candidateId: {
+          jobId,
+          candidateId,
+        },
+      },
+      create: {
+        jobId,
+        candidateId,
+      },
+      update: {},
+    });
+  } catch (error) {
+    console.error("Error creating job view:", error);
+    throw new Error("Job view creation failed due to database issue.");
+  }
+}
+
+export async function getJobViewsCount(companyId: string) {
+  try {
+    return await prisma.jobView.count({
+      where: {
+        job: {
+          companyId: companyId,
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching job views count:", error);
+    throw new Error("Failed to fetch job views count due to database issue.");
+  }
+}
+
+export async function getJobById(jobId: string) {
+  try {
+    return await prisma.job.findUnique({
+      where: { id: jobId },
+    });
+  } catch (error) {
+    console.error("Error checking job existence:", error);
+    throw new Error("Failed to check job existence due to database issue.");
+  }
+}

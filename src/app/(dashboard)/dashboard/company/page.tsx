@@ -114,7 +114,7 @@ const CompanyPage = () => {
 
   useEffect(() => {
     const fetchJobViewCount = async () => {
-      const res = await fetch(`/api/get-job-views`);
+      const res = await fetch(`/api/job/total-views`);
       const data = await res.json();
       console.log(data, "COUNT");
       setJobViewCount(data);

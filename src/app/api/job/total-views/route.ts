@@ -1,7 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
 import { getUserByClerkId } from "@/Lib/usersService";
-import prisma from "@/Lib/prisma";
+import { getJobViewsCount } from "@/Lib/job";
+
 
 export async function GET(req: NextRequest) {
   try {
@@ -19,14 +20,8 @@ export async function GET(req: NextRequest) {
     const companyId = user.company?.id;
 
     if (companyId) {
-      const count = await prisma.jobView.count({
-        where: {
-          job: {
-            companyId: companyId,
-          },
-        },
-      });
-      console.log("countttttttttt", count)
+      const count = await getJobViewsCount(companyId);
+      console.log("counttttttttttXXXXX", count)
       return NextResponse.json(count);
     }
   } catch (error) {
