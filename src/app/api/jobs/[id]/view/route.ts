@@ -8,7 +8,7 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
-    const jobId = params.id;
+    const { id: jobId } = await params;
     console.log("jobId*********", jobId);
 
     if (!jobId) {
@@ -27,8 +27,6 @@ export async function POST(
     if (!user.candidate) {
       return new NextResponse("Only candidates can view jobs", { status: 403 });
     }
-
-    
 
     const jobExists = await prisma.job.findUnique({
       where: { id: jobId },

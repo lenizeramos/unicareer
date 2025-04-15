@@ -1,7 +1,8 @@
 "use client";
-import DashboardWelcome from "@/app/components/DashboardWelcome";
+//import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
 import { SlArrowRight } from "react-icons/sl";
+import { FaUserCheck, FaEye } from "react-icons/fa";
 import StatusCard from "@/app/components/StatusCard";
 import ApplicationsSummary from "@/app/components/ApplicationsSummary";
 import CompanyChart from "@/app/components/CompanyChart";
@@ -11,10 +12,13 @@ import { GoArrowRight } from "react-icons/go";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fetchCompanyJobs } from "@/app/context/slices/companyJobsSlice";
 import { Ijobs } from "@/app/Types/slices";
 import { IDashboardData } from "@/app/Types";
+import { useCompanyData } from "@/Lib/client/company";
+import DateRangePicker from "@/app/components/DateTimePicker";
+import { monthNames } from "@/app/constants";
 
 const defaultDashboardData: IDashboardData = {
   totalApplications: 0,
@@ -30,7 +34,7 @@ const defaultDashboardData: IDashboardData = {
   ],
 };
 
-const cards = [
+/* const cards = [
   {
     title: "New candidates to review",
     value: 76,
@@ -52,7 +56,7 @@ const cards = [
     color: "text-white",
     backgroundColor: "bg-purple-500",
   },
-];
+]; */
 
 const getDashboardData = (companyJobs: Ijobs[]): IDashboardData => {
   if (!companyJobs.length) return defaultDashboardData;
@@ -91,17 +95,41 @@ const getDashboardData = (companyJobs: Ijobs[]): IDashboardData => {
 };
 
 const CompanyPage = () => {
+  const { companyId } = useCompanyData();
   const dispatch = useDispatch<AppDispatch>();
   const companyJobs = useSelector((state: RootState) => state.companyJobs.jobs);
+  const [jobViewCount, setJobViewCount] = useState(0);
+
+  const startDefault = new Date();
+  const endDefault = new Date();
+  endDefault.setDate(startDefault.getDate() + 5);
+  const [startDate, setStartDate] = useState<Date | null>(startDefault);
+  const [endDate, setEndDate] = useState<Date | null>(endDefault);
+
+  console.log(companyJobs, "companyyyyyyyyyyyyyyyyyyy");
 
   useEffect(() => {
     dispatch(fetchCompanyJobs());
   }, [dispatch]);
 
-  const dashboardData = useMemo(
-    () => getDashboardData(companyJobs),
-    [companyJobs]
-  );
+  useEffect(() => {
+    const fetchJobViewCount = async () => {
+      const res = await fetch(`/api/get-job-views`);
+      const data = await res.json();
+      console.log(data, "COUNT");
+      setJobViewCount(data);
+    };
+
+    fetchJobViewCount();
+  }, []);
+
+  const dashboardData = useMemo(() => {
+    const baseData = getDashboardData(companyJobs);
+    return {
+      ...baseData,
+      jobView: jobViewCount,
+    };
+  }, [companyJobs, jobViewCount]);
 
   const jobUpdatesCards = useMemo(
     () =>
@@ -121,18 +149,34 @@ const CompanyPage = () => {
     [companyJobs]
   );
 
+  const getDate = (date: Date | undefined | null) => {
+    if (!date) {
+      return <p>Not Found</p>;
+    }
+    const createDate = date;
+    const month = monthNames[createDate.getMonth()];
+    return `${month} ${createDate.getDate()}`;
+  };
+
   return (
     <div className="space-y-8 pb-8">
       <CompanyHeaderPaymentButton />
       <div className={styles.borderBottomLight} />
 
-      <DashboardWelcome
-        greeting="Good Morning, Sam"
-        message="Here is what's happening with your job applications from July 19 - July 25."
-        date="Jul 19 - Jul 25"
-      />
+      <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
+        <div>
+          <h3 className={`${styles.JobDescriptionTitle}`}>
+            Hello, {companyId}
+          </h3>
+          <p className={`${styles.JobDescriptionText}`}>
+            Here is job applications status from {getDate(startDate)} -
+            {getDate(endDate)}
+          </p>
+        </div>
+        <DateRangePicker setStartDate={setStartDate} setEndDate={setEndDate} />
+      </div>
 
-      <section className="space-y-6">
+      {/* <section className="space-y-6">
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -140,28 +184,29 @@ const CompanyPage = () => {
             <StatusCard key={index} {...card} />
           ))}
         </div>
-      </section>
+      </section> */}
 
       <section className="space-y-6 border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
         <h2 className="text-xl font-semibold text-gray-900">Job statistics</h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr] gap-6">
           <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-            <CompanyChart />
+            <CompanyChart
+              totalApplications={dashboardData.totalApplications}
+              totalJobView={dashboardData.jobView}
+            />
           </div>
 
           <div className="space-y-4">
             <StatusCard
               title="Total Applications"
               value={dashboardData.totalApplications}
-              trend="up"
-              percentage="0.5%"
+              icon={<FaUserCheck />}
             />
             <StatusCard
               title="Job View"
               value={dashboardData.jobView}
-              trend="down"
-              percentage="0.5%"
+              icon={<FaEye />}
             />
           </div>
 
