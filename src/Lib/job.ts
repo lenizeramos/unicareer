@@ -77,12 +77,16 @@ export async function createJobView(jobId: string, candidateId: string) {
   }
 }
 
-export async function getJobViewsCount(companyId: string) {
+export async function getJobViewsCount(companyId: string, startDate?: Date, endDate?: Date) {
   try {
     return await prisma.jobView.count({
       where: {
         job: {
           companyId: companyId,
+        },
+        viewedAt: {
+          gte: startDate,
+          lt: endDate,
         },
       },
     });

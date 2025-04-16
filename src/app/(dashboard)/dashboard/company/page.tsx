@@ -1,5 +1,4 @@
 "use client";
-//import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
 import { SlArrowRight } from "react-icons/sl";
 import { FaUserCheck, FaEye } from "react-icons/fa";
@@ -17,8 +16,7 @@ import { fetchCompanyJobs } from "@/app/context/slices/companyJobsSlice";
 import { fetchCompany } from "@/app/context/slices/companySlice";
 import { Ijobs } from "@/app/Types/slices";
 import { IDashboardData } from "@/app/Types";
-/* import { useCompanyData } from "@/Lib/client/company"; */
-import DateRangePicker from "@/app/components/DateTimePicker";
+import DateRangePicker from "@/app/components/DateRangePicker";
 import { monthNames } from "@/app/constants";
 import { jobsTypes } from "@/app/constants/index";
 
@@ -26,37 +24,11 @@ const defaultDashboardData: IDashboardData = {
   totalApplications: 0,
   jobView: 0,
   jobOpen: 0,
-  applicationsSummary: jobsTypes.map(type => ({
+  applicationsSummary: jobsTypes.map((type) => ({
     label: type,
     count: 0,
   })),
 };
-
-
-
-/* const cards = [
-  {
-    title: "New candidates to review",
-    value: 76,
-    icon: <SlArrowRight />,
-    color: "text-white",
-    backgroundColor: "bg-blue-500",
-  },
-  {
-    title: "Schedule for today",
-    value: 3,
-    icon: <SlArrowRight />,
-    color: "text-white",
-    backgroundColor: "bg-green-500",
-  },
-  {
-    title: "Messages received",
-    value: 24,
-    icon: <SlArrowRight />,
-    color: "text-white",
-    backgroundColor: "bg-purple-500",
-  },
-]; */
 
 const getDashboardData = (companyJobs: Ijobs[]): IDashboardData => {
   if (!companyJobs.length) return defaultDashboardData;
@@ -95,17 +67,16 @@ const getDashboardData = (companyJobs: Ijobs[]): IDashboardData => {
 };
 
 const CompanyPage = () => {
-  /* const { company } = useCompanyData(); */
   const dispatch = useDispatch<AppDispatch>();
   const companyJobs = useSelector((state: RootState) => state.companyJobs.jobs);
   const company = useSelector((state: RootState) => state.companyState.company);
   const [jobViewCount, setJobViewCount] = useState(0);
 
-  const startDefault = new Date();
+ /*  const startDefault = new Date();
   const endDefault = new Date();
-  endDefault.setDate(startDefault.getDate() + 5);
-  const [startDate, setStartDate] = useState<Date | null>(startDefault);
-  const [endDate, setEndDate] = useState<Date | null>(endDefault);
+  startDefault.setDate(startDefault.getDate() - 5); */
+  const [startDate, setStartDate] = useState<Date | null>();
+  const [endDate, setEndDate] = useState<Date | null>();
 
   useEffect(() => {
     dispatch(fetchCompanyJobs());
@@ -116,14 +87,20 @@ const CompanyPage = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    let queryParams = "";
+    if (startDate && endDate) {
+      queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
+    }
     const fetchJobViewCount = async () => {
-      const res = await fetch(`/api/job/total-views`);
+      const res = await fetch(
+        `/api/job/total-views${queryParams}`,
+      );
       const data = await res.json();
       setJobViewCount(data);
     };
 
     fetchJobViewCount();
-  }, []);
+  }, [startDate, endDate, companyJobs]);
 
   const dashboardData = useMemo(() => {
     const baseData = getDashboardData(companyJobs);
@@ -156,6 +133,7 @@ const CompanyPage = () => {
       return <p>Not Found</p>;
     }
     const createDate = date;
+    console.log(createDate.toUTCString(), "createDateeeee");
     const month = monthNames[createDate.getMonth()];
     return `${month} ${createDate.getDate()}`;
   };
@@ -171,22 +149,16 @@ const CompanyPage = () => {
             Hello, {company?.name}
           </h3>
           <p className={`${styles.JobDescriptionText}`}>
-            Here is job applications status from {getDate(startDate)} -
-            {getDate(endDate)}
+            Here is job applications status
+            {startDate && endDate && (
+              <>
+                from {getDate(startDate)} - {getDate(endDate)}
+              </>
+            )}
           </p>
         </div>
         <DateRangePicker setStartDate={setStartDate} setEndDate={setEndDate} />
       </div>
-
-      {/* <section className="space-y-6">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {cards.map((card, index) => (
-            <StatusCard key={index} {...card} />
-          ))}
-        </div>
-      </section> */}
 
       <section className="space-y-6 border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
         <h2 className="text-xl font-semibold text-gray-900">Job statistics</h2>

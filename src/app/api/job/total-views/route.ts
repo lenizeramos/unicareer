@@ -3,7 +3,6 @@ import { getClerkUserId } from "@/utils/user";
 import { getUserByClerkId } from "@/Lib/usersService";
 import { getJobViewsCount } from "@/Lib/job";
 
-
 export async function GET(req: NextRequest) {
   try {
     const clerkUserId = await getClerkUserId();
@@ -18,9 +17,14 @@ export async function GET(req: NextRequest) {
     }
 
     const companyId = user.company?.id;
+    const startDateParam = req.nextUrl.searchParams.get("startDate");
+    const endDateParam = req.nextUrl.searchParams.get("endDate");
+
+    const startDate = startDateParam ? new Date(startDateParam) : undefined;
+    const endDate = endDateParam ? new Date(endDateParam) : undefined;
 
     if (companyId) {
-      const count = await getJobViewsCount(companyId);
+      const count = await getJobViewsCount(companyId, startDate, endDate);
       return NextResponse.json(count);
     }
   } catch (error) {
