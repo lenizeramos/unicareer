@@ -1,4 +1,7 @@
-import { Company } from "@/types";
+
+// This code has been moved to the context folder.
+
+/* import { Company } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 
@@ -37,4 +40,4 @@ export const useCompanyData = () => {
   }, [getToken]);
 
   return { company, isLoading };
-};
+}; */

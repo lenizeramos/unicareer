@@ -14,9 +14,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useEffect, useMemo, useState } from "react";
 import { fetchCompanyJobs } from "@/app/context/slices/companyJobsSlice";
+import { fetchCompany } from "@/app/context/slices/companySlice";
 import { Ijobs } from "@/app/Types/slices";
 import { IDashboardData } from "@/app/Types";
-import { useCompanyData } from "@/Lib/client/company";
+/* import { useCompanyData } from "@/Lib/client/company"; */
 import DateRangePicker from "@/app/components/DateTimePicker";
 import { monthNames } from "@/app/constants";
 import { jobsTypes } from "@/app/constants/index";
@@ -94,9 +95,10 @@ const getDashboardData = (companyJobs: Ijobs[]): IDashboardData => {
 };
 
 const CompanyPage = () => {
-  const { company } = useCompanyData();
+  /* const { company } = useCompanyData(); */
   const dispatch = useDispatch<AppDispatch>();
   const companyJobs = useSelector((state: RootState) => state.companyJobs.jobs);
+  const company = useSelector((state: RootState) => state.companyState.company);
   const [jobViewCount, setJobViewCount] = useState(0);
 
   const startDefault = new Date();
@@ -107,6 +109,10 @@ const CompanyPage = () => {
 
   useEffect(() => {
     dispatch(fetchCompanyJobs());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchCompany());
   }, [dispatch]);
 
   useEffect(() => {
