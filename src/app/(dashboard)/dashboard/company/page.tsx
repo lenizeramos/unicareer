@@ -12,9 +12,9 @@ import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentBut
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useEffect, useMemo, useState } from "react";
-import { fetchCompanyJobs } from "@/app/context/slices/companyJobsSlice";
+/* import { fetchCompanyJobs } from "@/app/context/slices/companyJobsSlice"; */
 import { fetchCompany } from "@/app/context/slices/companySlice";
-import { Ijobs } from "@/app/Types/slices";
+/* import { Ijobs } from "@/app/Types/slices"; */
 import { IDashboardData } from "@/app/Types";
 import DateRangePicker from "@/app/components/DateRangePicker";
 import { monthNames } from "@/app/constants";
@@ -30,7 +30,7 @@ const defaultDashboardData: IDashboardData = {
   })),
 };
 
-const getDashboardData = (companyJobs: Ijobs[]): IDashboardData => {
+/* const getDashboardData = (companyJobs: Ijobs[]): IDashboardData => {
   if (!companyJobs.length) return defaultDashboardData;
 
   const jobOpen = companyJobs.filter((job) => job.status === "OPEN").length;
@@ -64,29 +64,31 @@ const getDashboardData = (companyJobs: Ijobs[]): IDashboardData => {
     totalApplications,
     applicationsSummary,
   };
-};
+}; */
 
 const CompanyPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const companyJobs = useSelector((state: RootState) => state.companyJobs.jobs);
   const company = useSelector((state: RootState) => state.companyState.company);
-  const [jobViewCount, setJobViewCount] = useState(0);
+  /* const [jobViewCount, setJobViewCount] = useState(0); */
+  const [dashboardDataX, setDashboardDataX] =
+    useState<IDashboardData>(defaultDashboardData);
 
- /*  const startDefault = new Date();
+  /*  const startDefault = new Date();
   const endDefault = new Date();
   startDefault.setDate(startDefault.getDate() - 5); */
   const [startDate, setStartDate] = useState<Date | null>();
   const [endDate, setEndDate] = useState<Date | null>();
 
-  useEffect(() => {
+  /*  useEffect(() => {
     dispatch(fetchCompanyJobs());
-  }, [dispatch]);
+  }, [dispatch]); */
 
   useEffect(() => {
     dispatch(fetchCompany());
   }, [dispatch]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     let queryParams = "";
     if (startDate && endDate) {
       queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
@@ -100,15 +102,43 @@ const CompanyPage = () => {
     };
 
     fetchJobViewCount();
+  }, [startDate, endDate, companyJobs]); */
+
+  useEffect(() => {
+    let queryParams = "";
+    if (startDate && endDate) {
+      queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
+    }
+    const fetchDashboard = async () => {
+      const res = await fetch(`/api/company/get-dashboard${queryParams}`);
+      const data = await res.json();
+      console.log(data, "dataaaaaaa");
+
+      const transformedData: IDashboardData = {
+        totalApplications: data.totalApplications || 0,
+        jobView: data.jobView || 0,
+        jobOpen: data.jobOpen || 0,
+        applicationsSummary: jobsTypes.map((type) => ({
+          label: type,
+          count: data.applicationsSummary?.[type.toLowerCase()] || 0,
+        })),
+      };
+
+      console.log(transformedData, "transformedDataaaaaaa");
+
+      setDashboardDataX(transformedData);
+    };
+
+    fetchDashboard();
   }, [startDate, endDate, companyJobs]);
 
-  const dashboardData = useMemo(() => {
+  /*  const dashboardData = useMemo(() => {
     const baseData = getDashboardData(companyJobs);
     return {
       ...baseData,
       jobView: jobViewCount,
     };
-  }, [companyJobs, jobViewCount]);
+  }, [companyJobs, jobViewCount]); */
 
   const jobUpdatesCards = useMemo(
     () =>
@@ -166,20 +196,20 @@ const CompanyPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr] gap-6">
           <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
             <CompanyChart
-              totalApplications={dashboardData.totalApplications}
-              totalJobView={dashboardData.jobView}
+              totalApplications={dashboardDataX.totalApplications}
+              totalJobView={dashboardDataX.jobView}
             />
           </div>
 
           <div className="space-y-4">
             <StatusCard
               title="Total Applications"
-              value={dashboardData.totalApplications}
+              value={dashboardDataX.totalApplications}
               icon={<FaUserCheck />}
             />
             <StatusCard
               title="Job View"
-              value={dashboardData.jobView}
+              value={dashboardDataX.jobView}
               icon={<FaEye />}
             />
           </div>
@@ -187,14 +217,14 @@ const CompanyPage = () => {
           <div className="flex flex-col gap-4">
             <StatusCard
               title="Job Open"
-              value={dashboardData.jobOpen}
+              value={dashboardDataX.jobOpen}
               icon={<SlArrowRight />}
             />
 
             <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
               <ApplicationsSummary
-                applications={dashboardData.applicationsSummary}
-                totalApplications={dashboardData.totalApplications}
+                applications={dashboardDataX.applicationsSummary}
+                totalApplications={dashboardDataX.totalApplications}
               />
             </div>
           </div>

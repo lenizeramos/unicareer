@@ -1,5 +1,6 @@
 import prisma from "./prisma";
 import { Job } from "../types/index";
+import { getTotalApplicationsCountByCompanyId } from "./application";
 
 export async function createJob(data: Job) {
   try {
@@ -77,7 +78,11 @@ export async function createJobView(jobId: string, candidateId: string) {
   }
 }
 
-export async function getJobViewsCount(companyId: string, startDate?: Date, endDate?: Date) {
+export async function getJobViewsCount(
+  companyId: string,
+  startDate?: Date,
+  endDate?: Date
+) {
   try {
     return await prisma.jobView.count({
       where: {
@@ -104,5 +109,107 @@ export async function getJobById(jobId: string) {
   } catch (error) {
     console.error("Error checking job existence:", error);
     throw new Error("Failed to check job existence due to database issue.");
+  }
+}
+
+export async function getTotalOpenJobsByCompanyId(
+  companyId: string,
+  startDate?: Date,
+  endDate?: Date
+) {
+  try {
+    const referenceDate = startDate || new Date();
+    
+    return await prisma.job.count({
+      where: {
+        companyId: companyId,
+        OR: [
+          { closingDate: null },
+          { 
+            closingDate: { 
+              gte: referenceDate
+            } 
+          }
+        ],
+        ...(startDate && { createdAt: { gte: startDate } }),
+        ...(endDate && { createdAt: { lte: endDate } })
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching total open jobs:", error);
+    throw new Error("Failed to fetch total open jobs due to database issue.");
+  }
+}
+
+export async function getJobsByType(companyId: string, startDate?: Date, endDate?: Date) {
+  try {
+    const jobTypesFromDB = await prisma.job.groupBy({
+      by: ["type"],
+      where: {
+        companyId: companyId,
+        applications: {
+          some: {
+            appliedAt: {
+              gte: startDate,
+              lte: endDate,
+            },
+          },
+        }
+      },
+      _count: {
+        type: true,
+      },
+    });
+
+    const allJobTypes = [
+      "full-time",
+      "part-time",
+      "remote",
+      "internship",
+      "contract",
+      "freelance",
+    ];
+
+    const result: Record<string, number> = {};
+    allJobTypes.forEach((type) => {
+      result[type] = 0;
+    });
+
+    jobTypesFromDB.forEach(({ type, _count }) => {
+      if (type && allJobTypes.includes(type.toLowerCase())) {
+        result[type.toLowerCase()] = _count.type;
+      }
+    });
+
+    return result;
+  } catch (error) {
+    console.error("Error fetching jobs by type:", error);
+    throw new Error("Failed to fetch jobs by type due to database issue.");
+  }
+}
+
+export async function getCompanyDashboardData(
+  companyId: string,
+  startDate?: Date,
+  endDate?: Date
+) {
+  try {
+    const [totalApplications, jobOpen, applicationsSummary, jobView] =
+      await Promise.all([
+        getTotalApplicationsCountByCompanyId(companyId, startDate, endDate),
+        getTotalOpenJobsByCompanyId(companyId, startDate, endDate),
+        getJobsByType(companyId, startDate, endDate),
+        getJobViewsCount(companyId, startDate, endDate),
+      ]);
+
+    return {
+      totalApplications,
+      jobOpen,
+      applicationsSummary,
+      jobView,
+    };
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    throw new Error("Failed to fetch dashboard data due to database issue.");
   }
 }
