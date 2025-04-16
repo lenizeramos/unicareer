@@ -57,6 +57,40 @@ export async function getJobByCompanyId(companyId: string) {
   }
 }
 
+export async function getJobByCompanyId6(companyId: string, limit?: number, startDate?: Date, endDate?: Date) {
+  try {
+
+    const referenceDate = startDate || new Date();
+    const jobs = await prisma.job.findMany({
+      where: {
+        companyId: companyId,
+        OR: [
+          { closingDate: null },
+          { 
+            closingDate: { 
+              gte: referenceDate
+            } 
+          }
+        ],
+        ...(startDate && { createdAt: { gte: startDate } }),
+        ...(endDate && { createdAt: { lte: endDate } })
+      },
+      orderBy: { createdAt: "desc" },
+      take: limit,
+    });
+
+    const jobsWithStatus = jobs.map((job) => ({
+      ...job,
+      status:
+        job.closingDate && job.closingDate > new Date() ? "OPEN" : "CLOSED",
+    }));
+    return jobsWithStatus;
+  } catch (error) {
+    console.error("Error fetching jobs:", error);
+    throw new Error("Failed to fetch jobs due to database issue.");
+  }
+}
+
 export async function createJobView(jobId: string, candidateId: string) {
   try {
     return await prisma.jobView.upsert({
@@ -194,12 +228,13 @@ export async function getCompanyDashboardData(
   endDate?: Date
 ) {
   try {
-    const [totalApplications, jobOpen, applicationsSummary, jobView] =
+    const [totalApplications, jobOpen, applicationsSummary, jobView, companyJobs] =
       await Promise.all([
         getTotalApplicationsCountByCompanyId(companyId, startDate, endDate),
         getTotalOpenJobsByCompanyId(companyId, startDate, endDate),
         getJobsByType(companyId, startDate, endDate),
         getJobViewsCount(companyId, startDate, endDate),
+        getJobByCompanyId6(companyId, 6, startDate, endDate),
       ]);
 
     return {
@@ -207,6 +242,7 @@ export async function getCompanyDashboardData(
       jobOpen,
       applicationsSummary,
       jobView,
+      companyJobs,
     };
   } catch (error) {
     console.error("Error fetching dashboard data:", error);

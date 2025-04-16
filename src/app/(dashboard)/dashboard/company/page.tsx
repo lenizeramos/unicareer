@@ -12,9 +12,7 @@ import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentBut
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useEffect, useMemo, useState } from "react";
-/* import { fetchCompanyJobs } from "@/app/context/slices/companyJobsSlice"; */
 import { fetchCompany } from "@/app/context/slices/companySlice";
-/* import { Ijobs } from "@/app/Types/slices"; */
 import { IDashboardData } from "@/app/Types";
 import DateRangePicker from "@/app/components/DateRangePicker";
 import { monthNames } from "@/app/constants";
@@ -28,81 +26,20 @@ const defaultDashboardData: IDashboardData = {
     label: type,
     count: 0,
   })),
+  companyJobs: [],
 };
-
-/* const getDashboardData = (companyJobs: Ijobs[]): IDashboardData => {
-  if (!companyJobs.length) return defaultDashboardData;
-
-  const jobOpen = companyJobs.filter((job) => job.status === "OPEN").length;
-
-  const totalApplications = companyJobs.reduce(
-    (acc, job) => acc + (job.applications?.length || 0),
-    0
-  );
-
-  const applicationsSummary = defaultDashboardData.applicationsSummary.map(
-    (item) => ({
-      ...item,
-      count: 0,
-    })
-  );
-
-  companyJobs.forEach((job) => {
-    if (job.applications?.length) {
-      const applicationSummary = applicationsSummary.find(
-        (a) => a.label.toLowerCase() === job.type?.toLowerCase()
-      );
-      if (applicationSummary) {
-        applicationSummary.count += job.applications.length;
-      }
-    }
-  });
-
-  return {
-    ...defaultDashboardData,
-    jobOpen,
-    totalApplications,
-    applicationsSummary,
-  };
-}; */
 
 const CompanyPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const companyJobs = useSelector((state: RootState) => state.companyJobs.jobs);
   const company = useSelector((state: RootState) => state.companyState.company);
-  /* const [jobViewCount, setJobViewCount] = useState(0); */
   const [dashboardDataX, setDashboardDataX] =
     useState<IDashboardData>(defaultDashboardData);
-
-  /*  const startDefault = new Date();
-  const endDefault = new Date();
-  startDefault.setDate(startDefault.getDate() - 5); */
   const [startDate, setStartDate] = useState<Date | null>();
   const [endDate, setEndDate] = useState<Date | null>();
-
-  /*  useEffect(() => {
-    dispatch(fetchCompanyJobs());
-  }, [dispatch]); */
 
   useEffect(() => {
     dispatch(fetchCompany());
   }, [dispatch]);
-
-  /* useEffect(() => {
-    let queryParams = "";
-    if (startDate && endDate) {
-      queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
-    }
-    const fetchJobViewCount = async () => {
-      const res = await fetch(
-        `/api/job/total-views${queryParams}`,
-      );
-      const data = await res.json();
-      setJobViewCount(data);
-    };
-
-    fetchJobViewCount();
-  }, [startDate, endDate, companyJobs]); */
 
   useEffect(() => {
     let queryParams = "";
@@ -122,27 +59,18 @@ const CompanyPage = () => {
           label: type,
           count: data.applicationsSummary?.[type.toLowerCase()] || 0,
         })),
+        companyJobs: data.companyJobs || [],
       };
-
-      console.log(transformedData, "transformedDataaaaaaa");
 
       setDashboardDataX(transformedData);
     };
 
     fetchDashboard();
-  }, [startDate, endDate, companyJobs]);
-
-  /*  const dashboardData = useMemo(() => {
-    const baseData = getDashboardData(companyJobs);
-    return {
-      ...baseData,
-      jobView: jobViewCount,
-    };
-  }, [companyJobs, jobViewCount]); */
+  }, [startDate, endDate]);
 
   const jobUpdatesCards = useMemo(
     () =>
-      companyJobs
+      dashboardDataX?.companyJobs
         .filter((job) => job.status === "OPEN")
         .map((job) => ({
           title: job.title,
@@ -155,7 +83,7 @@ const CompanyPage = () => {
             : job.categories || "Uncategorized",
           type: job.type || "N/A",
         })),
-    [companyJobs]
+    [dashboardDataX?.companyJobs]
   );
 
   const getDate = (date: Date | undefined | null) => {
