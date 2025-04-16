@@ -21,7 +21,6 @@ export async function GET(req: NextRequest) {
 
     if (companyId) {
       const count = await getJobViewsCount(companyId);
-      console.log("counttttttttttXXXXX", count)
       return NextResponse.json(count);
     }
   } catch (error) {

@@ -7,13 +7,15 @@ import { useCompanyData } from "@/Lib/client/company";
 export default function CompanyHeaderPaymentButton() {
   const router = useRouter();
   const [showPaymentButton, setShowPaymentButton] = useState(true);
-  const { companyId, isLoading } = useCompanyData();
+  const { company, isLoading } = useCompanyData();
 
   const handleButtonClick = () => {
     router.push("/dashboard/company/postjob");
   };
 
   const handlePaymentClick = async () => {
+    const companyId = company?.id;
+
     if (!companyId) {
       console.error("No company ID available");
       return;

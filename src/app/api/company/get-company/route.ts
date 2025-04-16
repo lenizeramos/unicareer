@@ -17,7 +17,8 @@ export async function GET() {
       include: {
         company: {
           select: {
-            id: true
+            id: true,
+            name: true,
           }
         }
       }
@@ -31,7 +32,7 @@ export async function GET() {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ companyId: user.company.id });
+    return NextResponse.json({ company: user.company });
   } catch (error) {
     console.error('Error fetching company:', error);
     return NextResponse.json(

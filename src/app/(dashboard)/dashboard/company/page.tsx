@@ -19,20 +19,19 @@ import { IDashboardData } from "@/app/Types";
 import { useCompanyData } from "@/Lib/client/company";
 import DateRangePicker from "@/app/components/DateTimePicker";
 import { monthNames } from "@/app/constants";
+import { jobsTypes } from "@/app/constants/index";
 
 const defaultDashboardData: IDashboardData = {
   totalApplications: 0,
   jobView: 0,
   jobOpen: 0,
-  applicationsSummary: [
-    { label: "Full-Time", count: 0 },
-    { label: "Part-Time", count: 0 },
-    { label: "Remote", count: 0 },
-    { label: "Internship", count: 0 },
-    { label: "Contract", count: 0 },
-    { label: "Freelance", count: 0 },
-  ],
+  applicationsSummary: jobsTypes.map(type => ({
+    label: type,
+    count: 0,
+  })),
 };
+
+
 
 /* const cards = [
   {
@@ -95,7 +94,7 @@ const getDashboardData = (companyJobs: Ijobs[]): IDashboardData => {
 };
 
 const CompanyPage = () => {
-  const { companyId } = useCompanyData();
+  const { company } = useCompanyData();
   const dispatch = useDispatch<AppDispatch>();
   const companyJobs = useSelector((state: RootState) => state.companyJobs.jobs);
   const [jobViewCount, setJobViewCount] = useState(0);
@@ -106,8 +105,6 @@ const CompanyPage = () => {
   const [startDate, setStartDate] = useState<Date | null>(startDefault);
   const [endDate, setEndDate] = useState<Date | null>(endDefault);
 
-  console.log(companyJobs, "companyyyyyyyyyyyyyyyyyyy");
-
   useEffect(() => {
     dispatch(fetchCompanyJobs());
   }, [dispatch]);
@@ -116,7 +113,6 @@ const CompanyPage = () => {
     const fetchJobViewCount = async () => {
       const res = await fetch(`/api/job/total-views`);
       const data = await res.json();
-      console.log(data, "COUNT");
       setJobViewCount(data);
     };
 
@@ -166,7 +162,7 @@ const CompanyPage = () => {
       <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
         <div>
           <h3 className={`${styles.JobDescriptionTitle}`}>
-            Hello, {companyId}
+            Hello, {company?.name}
           </h3>
           <p className={`${styles.JobDescriptionText}`}>
             Here is job applications status from {getDate(startDate)} -

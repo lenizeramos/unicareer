@@ -9,8 +9,6 @@ export async function POST(
 ) {
   try {
     const { id: jobId } = await params;
-    console.log("jobId*********", jobId);
-
     if (!jobId) {
       return new NextResponse("Job ID is required", { status: 400 });
     }
