@@ -6,16 +6,17 @@ import ButtonComp from "../ButtonComp";
 import ProgressBar from "../ProgressBar";
 import TagComp from "../TagComp";
 import { jobsCategories } from "@/app/constants";
-import Link from "next/link";
+/* import Link from "next/link"; */
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { IUserState } from "@/app/Types/slices";
 import { useEffect } from "react";
 import { fetchUsers } from "@/app/context/slices/usersSlices";
+import { useRouter } from "next/navigation";
 
 const JobResumeCards = ({
   id,
-  logo,
+  /* logo, */
   title,
   categories,
   companyId,
@@ -27,12 +28,33 @@ const JobResumeCards = ({
   const { users } = useSelector(
     (state: RootState) => state.users as IUserState
   );
+  const router = useRouter();
   useEffect(() => {
     if (users.length === 0) {
       dispatch(fetchUsers("company"));
     }
   }, [dispatch, users.length]);
   const company = users.find((company) => company.id === companyId);
+
+  const handleSeeDetails = async () => {
+    try {
+      const response = await fetch(`/api/job/${id}/view/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to record view");
+      }
+
+      router.push(`/dashboard/candidate/jobs/description?id=${id}`);
+    } catch (error) {
+      console.error("Error recording view:", error);
+      router.push(`/dashboard/candidate/jobs/description?id=${id}`);
+    }
+  };
+
   return (
     <>
       <div
@@ -110,9 +132,12 @@ const JobResumeCards = ({
         </div>
         {cardId === "allJobs" ? (
           <div className="flex flex-col gap-2">
-            <Link href={`/dashboard/candidate/jobs/description?id=${id}`}>
-              <ButtonComp text="See Details" IsWhite={false} width="w-full" />
-            </Link>
+           <ButtonComp
+              text="See Details"
+              IsWhite={false}
+              width="w-full"
+              onClick={handleSeeDetails}
+            />
             <ProgressBar totalLength={10} value={5} />
           </div>
         ) : (

@@ -336,6 +336,7 @@ export interface IDashboardData {
     label: string;
     count: number;
   }[];
+  companyJobs: IJob[];
 }
 
 export interface ApplicationsListProps {

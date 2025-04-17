@@ -38,11 +38,11 @@ export default function ApplicationsPage() {
       name: application.candidate
         ? `${application.candidate.firstName} ${application.candidate.lastName}`
         : `Candidate ${application.candidateId}`,
-      email: application.candidate?.user.email ?? "",
+      email: application.candidate?.user?.email ?? "",
       phone: "",
       position: job.title,
       appliedDate: new Date(application.appliedAt).toLocaleDateString(),
-      status: application.status.toUpperCase() as
+      status: application.status?.toUpperCase() as
         | "PENDING"
         | "INTERVIEWED"
         | "REJECTED",

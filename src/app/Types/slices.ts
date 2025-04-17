@@ -113,6 +113,12 @@ interface ICompany {
   }[];
 }
 
+export interface ICompanyState {
+  company?: ICompany;
+  loading: boolean;
+  error: string | null;
+}
+
 export interface IApplicationByIdState {
   application?: IApplication;
   loading: boolean;

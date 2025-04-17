@@ -2,18 +2,30 @@ import CompanyHeader from "./CompanyHeader";
 import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { useCompanyData } from "@/Lib/client/company";
+import { fetchCompany } from "@/app/context/slices/companySlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/context/store";
 
 export default function CompanyHeaderPaymentButton() {
   const router = useRouter();
   const [showPaymentButton, setShowPaymentButton] = useState(true);
-  const { companyId, isLoading } = useCompanyData();
+  const dispatch = useDispatch<AppDispatch>();
+  const company = useSelector((state: RootState) => state.companyState.company);
+  const isLoading = useSelector(
+    (state: RootState) => state.companyState.loading
+  );
+
+  useEffect(() => {
+    dispatch(fetchCompany());
+  }, [dispatch]);
 
   const handleButtonClick = () => {
     router.push("/dashboard/company/postjob");
   };
 
   const handlePaymentClick = async () => {
+    const companyId = company?.id;
+
     if (!companyId) {
       console.error("No company ID available");
       return;
@@ -62,13 +74,19 @@ export default function CompanyHeaderPaymentButton() {
     checkMembershipStatus();
   }, []);
 
-  const buttonText = isLoading ? "Loading..." : showPaymentButton ? "Post a Job" : "Get a membership";
-  const buttonClick = showPaymentButton ? handleButtonClick : handlePaymentClick;
+  const buttonText = isLoading
+    ? "Loading..."
+    : showPaymentButton
+    ? "Post a Job"
+    : "Get a membership";
+  const buttonClick = showPaymentButton
+    ? handleButtonClick
+    : handlePaymentClick;
 
   return (
     <CompanyHeader
       image="/img/company_logo.png"
-      name="Nomad"
+      name={company?.name || ""}
       button={{
         text: buttonText,
         IsWhite: false,

@@ -35,3 +35,22 @@ export async function getApplicationById(id: string) {
     throw new Error("Application not found." + error);
   }
 }
+
+export async function getTotalApplicationsCountByCompanyId(companyId: string, startDate?: Date, endDate?: Date) {
+  try {
+    return await prisma.application.count({
+      where: {
+        job: {
+          companyId: companyId,
+        },
+        appliedAt: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching total applications:", error);
+    throw new Error("Failed to fetch total applications due to database issue.");
+  }
+}

@@ -3,86 +3,53 @@ import React, { useState, useEffect } from "react";
 import { Chart } from "primereact/chart";
 import "chart.js/auto";
 
-export default function CompanyChart() {
+interface CompanyChartProps {
+  totalApplications: number;
+  totalJobView: number;
+}
+
+export default function CompanyChart({ totalApplications, totalJobView }: CompanyChartProps) {
   const [chartData, setChartData] = useState({});
   const [chartOptions, setChartOptions] = useState({});
 
   useEffect(() => {
     const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue("--text-color");
-    const textColorSecondary = documentStyle.getPropertyValue(
-      "--text-color-secondary"
-    );
-    const surfaceBorder = documentStyle.getPropertyValue("--surface-border");
     const data = {
       labels: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
+        "Total Applications",
+        "Job View",
       ],
       datasets: [
         {
-          type: "bar",
-          label: "Job View",
-          backgroundColor: documentStyle.getPropertyValue("--blue-500"),
-          data: [50, 25, 12, 48, 90, 76, 42],
-        },
-        {
-          type: "bar",
-          label: "Job Applied",
-          backgroundColor: documentStyle.getPropertyValue("--yellow-500"),
-          data: [41, 52, 24, 74, 23, 21, 32],
-        },
-      ],
+            data: [totalApplications, totalJobView],
+            backgroundColor: [
+                documentStyle.getPropertyValue('--yellow-500'), 
+                documentStyle.getPropertyValue('--green-500')
+            ],
+            hoverBackgroundColor: [
+                documentStyle.getPropertyValue('--yellow-400'), 
+                documentStyle.getPropertyValue('--green-400')
+            ]
+        }
+    ]
     };
     const options = {
-      /* responsive: true, */
-      maintainAspectRatio: false,
-      aspectRatio: 0.8,
       plugins: {
-        tooltips: {
-          mode: "index",
-          intersect: false,
-        },
-        legend: {
-          labels: {
-            color: textColor,
-          },
-        },
-      },
-      scales: {
-        x: {
-          stacked: true,
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-          },
-        },
-        y: {
-          stacked: true,
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-          },
-        },
-      },
-    };
+          legend: {
+              labels: {
+                  usePointStyle: true
+              }
+          }
+      }
+  };
 
     setChartData(data);
     setChartOptions(options);
-  }, []);
+  }, [totalApplications, totalJobView]);
 
   return (
-    <div className="card">
-      <Chart type="bar" data={chartData} options={chartOptions} />
+    <div className="card max-w-[300px] mx-auto" >
+      <Chart type="pie" data={chartData} options={chartOptions}/>
     </div>
   );
 }

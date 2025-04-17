@@ -43,11 +43,13 @@ model Candidate {
   languages       Language[]
   documents       CandidateDocument[]
   applications    Application[]
+  jobView JobView[]
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
   //compatibilityScores CompatibilityScore[]
 
   @@map("candidate")
+  
 }
 
 model Company {
@@ -84,6 +86,7 @@ model Job {
   benefits         String[]
   company          Company       @relation(fields: [companyId], references: [id])
   applications     Application[]
+  jobView JobView[]
   /**
    * jobRecommendations JobRecommendation[]
    * compatibilityScores CompatibilityScore[]
@@ -93,6 +96,19 @@ model Job {
   updatedAt        DateTime      @updatedAt
 
   @@map("job")
+  
+}
+
+model JobView {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  jobId      String   @db.ObjectId
+  job        Job      @relation(fields: [jobId], references: [id])
+  candidateId String  @db.ObjectId
+  candidate  Candidate @relation(fields: [candidateId], references: [id])
+  viewedAt   DateTime @default(now())
+  
+  @@unique([jobId, candidateId])
+  @@map("job_views")
 }
 
 model Application {
@@ -113,8 +129,6 @@ enum ApplicationStatus {
   INTERVIEWED
   REJECTED
 }
-
-
 
 enum Role {
   ADMIN
@@ -251,3 +265,4 @@ enum LanguageLevel {
   ADVANCED
   NATIVE
 }
+

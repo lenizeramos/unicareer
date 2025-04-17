@@ -1,7 +1,7 @@
 "use client";
 
 import DashboardNavbar from "@/app/components/DashboardNavbar";
-import DateRangePicker from "@/app/components/DateTimePicker";
+import DateRangePicker from "@/app/components/DateRangePicker";
 import Loader from "@/app/components/Loader";
 import { columnNames, monthNames } from "@/app/constants";
 import { styles } from "@/app/styles";
@@ -85,21 +85,26 @@ export default function Application() {
         title="My Applications"
         button={{ text: "Back to home page", IsWhite: true }}
       />
-        <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
-          <div>
-            <h3 className={`${styles.JobDescriptionTitle}`}>
-              Keep it up, {candidate.firstName}
-            </h3>
-            <p className={`${styles.JobDescriptionText}`}>
-              Here is job applications status from {getDate(startDate)} -
-              {getDate(endDate)}
-            </p>
-          </div>
-          <DateRangePicker
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-          />
+      <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
+        <div>
+          <h3 className={`${styles.JobDescriptionTitle}`}>
+            Keep it up, {candidate.firstName}
+          </h3>
+          {/* <p className={`${styles.JobDescriptionText}`}>
+            Here is job applications status from {getDate(startDate)} -
+            {getDate(endDate)}
+          </p> */}
+          <p className={`${styles.JobDescriptionText}`}>
+            Here is job applications status
+            {startDate && endDate && (
+              <>
+                from {getDate(startDate)} - {getDate(endDate)}
+              </>
+            )}
+          </p>
         </div>
+        <DateRangePicker setStartDate={setStartDate} setEndDate={setEndDate} />
+      </div>
       <div className="mt-3">
         <div className="font-shafarik flex md:gap-20 sm:gap-15 gap-5 sm:text-lg text-[14px] border-b-[1px] border-gray-200 px-3 pt-3">
           {statusTags.map((status, index) => {
