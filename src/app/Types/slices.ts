@@ -113,12 +113,6 @@ export interface ICompanyState {
   error: string | null;
 }
 
-export interface IApplicationByIdState {
-  application?: IApplication;
-  loading: boolean;
-  error: string | null;
-}
-
 export interface IEducation {
   id: string;
   candidateId: string;

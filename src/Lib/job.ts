@@ -45,12 +45,7 @@ export async function getJobByCompanyId(companyId: string) {
       },
     });
 
-    const jobsWithStatus = jobs.map((job) => ({
-      ...job,
-      status:
-        job.closingDate && job.closingDate > new Date() ? "OPEN" : "CLOSED",
-    }));
-    return jobsWithStatus;
+    return jobs;
   } catch (error) {
     console.error("Error fetching jobs:", error);
     throw new Error("Failed to fetch jobs due to database issue.");
