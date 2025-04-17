@@ -29,20 +29,17 @@ export async function createJob(data: Job) {
   }
 }
 
-export async function getJobByCompanyId(companyId: string) {
+export async function getJobByCompanyId(companyId: string, startDate?: Date, endDate?: Date) {
   try {
     const jobs = await prisma.job.findMany({
-      where: { companyId: companyId },
-      orderBy: { createdAt: "desc" },
-      include: {
-        applications: {
-          include: {
-            candidate: {
-              include: { user: true },
-            },
-          },
+      where: {
+        companyId: companyId,
+        createdAt: {
+          ...(startDate && { gte: startDate }),
+          ...(endDate && { lte: endDate }),
         },
       },
+      orderBy: { createdAt: "desc" },
     });
 
     const jobsWithStatus = jobs.map((job) => ({

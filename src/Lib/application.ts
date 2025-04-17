@@ -1,5 +1,6 @@
 import prisma from "./prisma";
 import { Application } from "../types/index";
+import { ApplicationStatus } from "@prisma/client";
 
 export async function createApplication(data: Application) {
   try {
@@ -36,7 +37,11 @@ export async function getApplicationById(id: string) {
   }
 }
 
-export async function getTotalApplicationsCountByCompanyId(companyId: string, startDate?: Date, endDate?: Date) {
+export async function getTotalApplicationsCountByCompanyId(
+  companyId: string,
+  startDate?: Date,
+  endDate?: Date
+) {
   try {
     return await prisma.application.count({
       where: {
@@ -51,6 +56,78 @@ export async function getTotalApplicationsCountByCompanyId(companyId: string, st
     });
   } catch (error) {
     console.error("Error fetching total applications:", error);
-    throw new Error("Failed to fetch total applications due to database issue.");
+    throw new Error(
+      "Failed to fetch total applications due to database issue."
+    );
+  }
+}
+
+export async function getApplicationsByCompanyId(
+  companyId: string,
+  startDate?: Date,
+  endDate?: Date,
+  searchTerm?: string
+) {
+  try {
+    let matchedStatus;
+    if (searchTerm) {
+      matchedStatus = ["PENDING", "INTERVIEWED", "REJECTED"].find((status) =>
+        status.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    const applications = await prisma.application.findMany({
+      where: {
+        job: {
+          companyId,
+        },
+        appliedAt: {
+          ...(startDate && { gte: startDate }),
+          ...(endDate && { lte: endDate }),
+        },
+        ...(searchTerm && {
+          OR: [
+            {
+              status: matchedStatus as ApplicationStatus,
+            },
+            {
+              candidate: {
+                firstName: { contains: searchTerm, mode: "insensitive" },
+              },
+            },
+            {
+              candidate: {
+                lastName: { contains: searchTerm, mode: "insensitive" },
+              },
+            },
+            {
+              candidate: {
+                user: {
+                  email: { contains: searchTerm, mode: "insensitive" },
+                },
+              },
+            },
+            {
+              job: {
+                title: { contains: searchTerm, mode: "insensitive" },
+              },
+            },
+          ],
+        }),
+      },
+      include: {
+        candidate: {
+          include: {
+            user: true,
+          },
+        },
+        job: true,
+      },
+    });
+
+    return applications;
+  } catch (error) {
+    console.error("Error fetching applications:", error);
+    throw new Error("Failed to fetch applications due to database issue.");
   }
 }

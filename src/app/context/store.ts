@@ -2,8 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import jobReducer from "./slices/jobSlices";
 import userReducer from "./slices/usersSlices";
 import applicationsReducer from "./slices/applicationsSlices";
-import companyJobsReducer from "./slices/companyJobsSlice";
-import applicationByIdReducer from "./slices/applicationByIdSlices";
 import companyReducer from "./slices/companySlice";
 
 
@@ -12,8 +10,6 @@ const store = configureStore({
     jobs: jobReducer,
     users: userReducer,
     applications: applicationsReducer,
-    companyJobs: companyJobsReducer,
-    applicationById: applicationByIdReducer,
     companyState: companyReducer,
   },
 });

@@ -29,12 +29,6 @@ export interface IJobsState {
   error: string | null;
 }
 
-export interface ICompanyJobsState {
-  jobs: Ijobs[];
-  loading: boolean;
-  error: string | null;
-}
-
 export interface IUsers {
   id?: string;
   clerkId?: string;
@@ -65,7 +59,7 @@ export interface IApplication {
   id: string;
   jobId: string;
   candidateId: string;
-  status?: "PENDING" | "INTERVIEWED" | "REJECTED";
+  status: "PENDING" | "INTERVIEWED" | "REJECTED";
   updatedAt?: string;
   appliedAt: string;
   candidate?: ICandidate;
@@ -115,12 +109,6 @@ interface ICompany {
 
 export interface ICompanyState {
   company?: ICompany;
-  loading: boolean;
-  error: string | null;
-}
-
-export interface IApplicationByIdState {
-  application?: IApplication;
   loading: boolean;
   error: string | null;
 }
