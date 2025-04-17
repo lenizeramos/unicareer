@@ -63,6 +63,7 @@ export interface Job {
 }
 
 export interface Company {
+  id?: string;
   name: string;
   bio?: string;
   jobs?: Job[];

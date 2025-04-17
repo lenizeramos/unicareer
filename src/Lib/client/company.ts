@@ -1,8 +1,12 @@
+
+// This code has been moved to the context folder.
+
+/* import { Company } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 
 export const useCompanyData = () => {
-  const [companyId, setCompanyId] = useState<string | null>(null);
+  const [company, setCompany] = useState<Company | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { getToken } = useAuth();
 
@@ -23,7 +27,7 @@ export const useCompanyData = () => {
         
         if (response.ok) {
           const data = await response.json();
-          setCompanyId(data.companyId);
+          setCompany(data.company);
         }
       } catch (error) {
         console.error('Error fetching company data:', error);
@@ -35,5 +39,5 @@ export const useCompanyData = () => {
     fetchCompanyData();
   }, [getToken]);
 
-  return { companyId, isLoading };
-};
+  return { company, isLoading };
+}; */

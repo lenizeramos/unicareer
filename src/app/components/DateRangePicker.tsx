@@ -11,13 +11,18 @@ const DateRangePicker = ({
   setStartDate: (date: Date) => void;
   setEndDate: (date: Date) => void;
 }) => {
-  const startDefault = new Date();
+  /* const startDefault = new Date();
   const endDefault = new Date();
-  endDefault.setDate(startDefault.getDate() + 5);
+  endDefault.setDate(startDefault.getDate() + 5); */
 
-  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
+  /* const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
     startDefault,
     endDefault,
+  ]); */
+
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
+    null,
+    null,
   ]);
   const [startDate, endDate] = dateRange;
 
