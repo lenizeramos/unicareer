@@ -57,7 +57,7 @@ export async function getJobByCompanyId(companyId: string) {
   }
 }
 
-export async function getJobByCompanyId6(companyId: string, limit?: number, startDate?: Date, endDate?: Date) {
+export async function getLastJobsByCompanyId(companyId: string, limit?: number, startDate?: Date, endDate?: Date) {
   try {
 
     const referenceDate = startDate || new Date();
@@ -234,7 +234,7 @@ export async function getCompanyDashboardData(
         getTotalOpenJobsByCompanyId(companyId, startDate, endDate),
         getJobsByType(companyId, startDate, endDate),
         getJobViewsCount(companyId, startDate, endDate),
-        getJobByCompanyId6(companyId, 6, startDate, endDate),
+        getLastJobsByCompanyId(companyId, 6, startDate, endDate),
       ]);
 
     return {
