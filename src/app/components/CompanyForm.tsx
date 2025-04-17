@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ICompanyFormProps } from "@/app/Types/index";
 import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
@@ -8,11 +8,40 @@ import {
   classNameDivContainerTextArea,
   classNameField,
 } from "@/app/constants/index";
+import FileUpload from "./FileUpload";
+import { fetchUsers } from "../context/slices/usersSlices";
+import { fetchApplications } from "../context/slices/applicationsSlices";
 
 const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
   const [name, setName] = useState("");
   const [logo, setLogo] = useState<File | null>(null);
   const [bio, setBio] = useState("");
+  const [userId, setUserId] = useState<string>("");
+
+  useEffect(() => {
+    const getUserId = async () => {
+      try {
+        const response = await fetch("/api/get-user-by-clerk-id", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          console.log("Failed to fetch user ID:", data.error);
+        }
+        setUserId(data.id);
+      } catch (error) {
+        if(userId === ""){
+          console.log("Failed to fetch user ID:", error);
+        }
+      }
+    };
+
+    getUserId();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,11 +50,11 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64String = reader.result as string;
-        onSubmit({ name, logo: base64String, bio });
+        onSubmit({ name, logo: base64String, bio, userId });
       };
       reader.readAsDataURL(logo);
     } else {
-      onSubmit({ name, logo: null, bio });
+      onSubmit({ name, logo: null, bio, userId });
     }
   };
 
@@ -52,16 +81,15 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
           classNameField={classNameField}
         />
 
-        <InputField
-          label="Company Logo"
-          id="logo"
-          type="file"
-          onChange={(e) => setLogo(e.target.files ? e.target.files[0] : null)}
-          classNameDivContainer="space-y-2"
-          classNameLabel="text-sm font-semibold text-gray-700"
-          accept="image/*"
-          fileLabel={logo ? logo.name : "Upload logo"}
-          filePreview={<RxImage className="h-6 w-6" />}
+        <FileUpload
+          allowedFileTypes={["image/jpeg", "image/png"]}
+          apiRoute="/api/upload"
+          modelName="companyProfileImage"
+          fieldName="fileKey"
+          userId={userId}
+          uploadText="Upload your company profile image"
+          maxSizeMB={5}
+          onUploadComplete={() => {}}
         />
 
         <TextAreaField

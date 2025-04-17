@@ -1,19 +1,36 @@
 import { getClerkUserId } from "@/utils/user";
 import { clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { getUserByClerkId, createUserAndCompany } from "@/Lib/usersService";
 
 export async function POST(req: Request) {
   try {
     const { role } = await req.json();
     if (!role) return new NextResponse("Role not provided", { status: 400 });
 
-    const userId  = await getClerkUserId();
+    const userId = await getClerkUserId();
     if (!userId) return new NextResponse("Unauthorized", { status: 401 });
 
     const client = await clerkClient();
-    await client.users.updateUser(userId, {
+    const clerkUser = await client.users.updateUser(userId, {
       publicMetadata: { role },
     });
+
+    const existingUser = await getUserByClerkId(userId);
+
+    if (!existingUser && role === "company") {
+      const userData = {
+        id: userId,
+        email: clerkUser.emailAddresses[0]?.emailAddress || "",
+        role: "COMPANY" as const,
+        image_url: clerkUser.imageUrl,
+        name: "",
+        bio: undefined,
+        logo: undefined
+      };
+      
+      await createUserAndCompany(userData);
+    }
 
     return NextResponse.json({ message: "Role successfully set!" });
   } catch (error) {

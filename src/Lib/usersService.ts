@@ -11,7 +11,6 @@ async function createUser(data: User) {
         role: data.role,
       },
     });
-    console.log(data.role, data.image_url);
     if (data.role === "COMPANY" && data.logo) {
       const matches = data.logo.match(/^data:image\/([a-zA-Z]+);base64,/);
       const fileExtension = matches ? matches[1] : 'jpeg';

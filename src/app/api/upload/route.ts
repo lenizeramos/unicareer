@@ -12,6 +12,11 @@ export async function POST(request: Request) {
     const modelName = formData.get('modelName') as FileUploadModelName;
     const fieldName = formData.get('fieldName') as string;
     const userId = formData.get('userId') as string;
+
+    console.log("file", file);
+    console.log("modelName", modelName);
+    console.log("fieldName", fieldName);
+    console.log("userId", userId);
     
     if (!file || !modelName || !fieldName || !userId) {
       return NextResponse.json({ 

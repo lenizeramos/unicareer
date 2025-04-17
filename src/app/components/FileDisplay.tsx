@@ -54,7 +54,7 @@ export default function FileDisplay({
         <div className="animate-pulse">Loading...</div>
       ) : fileData && fileData.fileType.startsWith('image/') ? (
         <Image
-          src={`${process.env.NEXT_PUBLIC_S3_BASE_URL}/${fileData.fileKey}`}
+          src={`${process.env.NEXT_PUBLIC_S3_BASE_URL}/${fileData.fileKey}`} 
           alt={fileData.fileName}
           width={width}
           height={height}

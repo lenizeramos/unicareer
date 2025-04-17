@@ -134,7 +134,7 @@ export default function RegisterPage() {
       setIsLoading(true);
       try {
         company.role = "COMPANY";
-        const response = await fetch("/api/register", {
+        const response = await fetch("/api/update-company-register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
