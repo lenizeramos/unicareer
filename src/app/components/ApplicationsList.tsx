@@ -123,9 +123,9 @@ const ApplicationsList = ({
   return (
     <div className="mt-2 md:mt-8 border-light">
       <div className="p-3 md:p-8 space-y-3 border-b">
-        <h2 className="text-base md:text-xl text-title-color font-bold">
+        {/* <h2 className="text-base md:text-xl text-title-color font-bold">
           Applications List
-        </h2>
+        </h2> */}
         <div className="flex flex-col md:flex-row gap-2">
           <div className="relative flex-1">
             <FaSearch className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-xs" />

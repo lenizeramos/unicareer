@@ -15,12 +15,12 @@ export default function PaymentsList({
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   return (
     <div className="mt-8 border-light">
-      <div className="flex justify-between items-center border-bottom-light p-8">
+      {/* <div className="flex justify-between items-center border-bottom-light p-8">
         <button className="flex items-center gap-2 text-sm text-title-color border-light p-4">
           <FaFilter />
           <p>Filters</p>
         </button>
-      </div>
+      </div> */}
       <div className="overflow-x-scroll max-w-[360px] md:max-w-full md:w-full text-center">
         <table className="w-full pe-8 ps-8">
           <thead className="border-bottom-light p-8">

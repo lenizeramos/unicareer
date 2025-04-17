@@ -11,7 +11,6 @@ export default function CompanyPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [companyJobs, setCompanyJobs] = useState<IJob[]>([]);
-  const [loading, setLoading] = useState(true);
   const [startDate, setStartDate] = useState<Date | null>();
   const [endDate, setEndDate] = useState<Date | null>();
 
@@ -34,7 +33,6 @@ export default function CompanyPage() {
 
     const fetchCompanyJobs = async () => {
       try {
-        setLoading(true);
         const response = await fetch(`/api/company/get-jobs${queryParams}`);
         if (!response.ok) throw new Error("Failed to fetch company jobs");
         const jobs = await response.json();
@@ -43,16 +41,11 @@ export default function CompanyPage() {
       } catch (error) {
         console.error("Error fetching job:", error);
         throw error;
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
     fetchCompanyJobs();
   }, [startDate, endDate]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
