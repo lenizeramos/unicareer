@@ -122,7 +122,7 @@ const ApplicationsListTable = ({
         <div className="flex items-center justify-center gap-1 text-xs">
           <span className="text-gray-500">View</span>
           <select
-            className="border rounded py-1 px-1.5"
+            className="rounded py-1 px-1.5"
             value={itemsPerPage}
             onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
           >
