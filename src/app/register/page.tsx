@@ -130,7 +130,7 @@ export default function RegisterPage() {
   );
 
   const handleCompanyFormSubmit = useCallback(
-    async (company: { name: string; logo: File | null; role?: string }) => {
+    async (company: { name: string; logo: string | null; bio: string; role?: string }) => {
       setIsLoading(true);
       try {
         company.role = "COMPANY";
