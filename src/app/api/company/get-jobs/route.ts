@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
+import { getCompanyJobs } from "@/Lib/job";
 import { getUserByClerkId } from "@/Lib/usersService";
-import { getJobViewsCount } from "@/Lib/job";
 
 export async function GET(req: NextRequest) {
   try {
@@ -17,18 +17,16 @@ export async function GET(req: NextRequest) {
     }
 
     const companyId = user.company?.id;
-    const startDateParam = req.nextUrl.searchParams.get("startDate");
-    const endDateParam = req.nextUrl.searchParams.get("endDate");
-
-    const startDate = startDateParam ? new Date(startDateParam) : undefined;
-    const endDate = endDateParam ? new Date(endDateParam) : undefined;
 
     if (companyId) {
-      const count = await getJobViewsCount(companyId, startDate, endDate);
-      return NextResponse.json(count);
+      const jobs = await getCompanyJobs(companyId);
+
+      return NextResponse.json(jobs);
+    } else {
+      return new NextResponse("Company ID not found", { status: 404 });
     }
   } catch (error) {
-    console.error("Failed to fetch job views count", error);
+    console.error("Error", error);
     return new NextResponse("Error", { status: 500 });
   }
 }

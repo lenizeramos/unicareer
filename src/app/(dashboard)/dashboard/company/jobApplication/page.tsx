@@ -4,22 +4,15 @@ import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
 import ApplicationsList from "@/app/components/ApplicationsList";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/app/context/store";
-import { fetchCompanyJobs } from "@/app/context/slices/companyJobsSlice";
 import { useRouter } from "next/navigation";
+import { IJob } from "@/app/Types";
 
 export default function ApplicationsPage() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-
-  const dispatch = useDispatch<AppDispatch>();
-  const companyJobs = useSelector((state: RootState) => state.companyJobs.jobs);
-
-  useEffect(() => {
-    dispatch(fetchCompanyJobs());
-  }, [dispatch]);
+  const [companyJobs, setCompanyJobs] = useState<IJob[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const handleViewProfile = (id: string) => {
     router.push(`/dashboard/company/applicantdetails/${id}`);
@@ -32,6 +25,30 @@ export default function ApplicationsPage() {
     status: "Status",
     actions: "Actions",
   };
+
+  useEffect(() => {
+    const fetchCompanyJobs = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`/api/get-company-jobs`);
+        if (!response.ok) throw new Error("Failed to fetch company jobs");
+        const jobs = await response.json();
+        console.log(jobs, "jobs");
+        setCompanyJobs(jobs);
+      } catch (error) {
+        console.error("Error fetching job:", error);
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCompanyJobs();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   const applications = companyJobs.flatMap((job) =>
     job.applications.map((application) => ({
       id: application.id,

@@ -29,12 +29,6 @@ export interface IJobsState {
   error: string | null;
 }
 
-export interface ICompanyJobsState {
-  jobs: Ijobs[];
-  loading: boolean;
-  error: string | null;
-}
-
 export interface IUsers {
   id?: string;
   clerkId?: string;
