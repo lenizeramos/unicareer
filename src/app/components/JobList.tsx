@@ -24,7 +24,7 @@ export default function JobList({
       </div> */}
       <div className="overflow-x-scroll max-w-[360px] md:max-w-full md:w-full text-center">
         <table className="w-full pe-8 ps-8">
-          <thead className="border-bottom-light p-8">
+          <thead className="p-8 bg-gray-100 text-gray-600 text-sm font-semibold border-t border-b">
             <tr>
               {Object.values(columns).map((column, index) => (
                 <th key={index} className="text-not-focus-color p-8">
@@ -41,7 +41,7 @@ export default function JobList({
                   return (
                     <td
                       key={index}
-                      className="p-8 border-bottom-light text-center text-title-color font-medium"
+                      className="p-8 border-b border-gray-200 text-center text-title-color font-medium"
                     >
                       {key === "status" || key === "type" ? (
                         typeof value === "string" ? (
@@ -50,7 +50,7 @@ export default function JobList({
                           "-"
                         )
                       ) : key === "title" ? (
-                        <div className="text-lg font-[600]">
+                        <div className="text-lg font-semibold text-gray-600">
                           {typeof value === "string" ? value : "-"}
                         </div>
                       ) : key === "closingDate" ||
