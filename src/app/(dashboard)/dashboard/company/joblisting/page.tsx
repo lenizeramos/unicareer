@@ -4,15 +4,13 @@ import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
 import JobList from "@/app/components/JobList";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/app/context/store";
-import { fetchCompanyJobs } from "@/app/context/slices/companyJobsSlice";
+import { IJob } from "@/app/Types";
 
 export default function CompanyPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const dispatch: AppDispatch = useDispatch();
-  const companyJobs = useSelector((state: RootState) => state.companyJobs.jobs);
+  const [companyJobs, setCompanyJobs] = useState<IJob[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const columns = {
     title: "Title",
@@ -26,16 +24,37 @@ export default function CompanyPage() {
   };
 
   useEffect(() => {
-    dispatch(fetchCompanyJobs());
-  }, [dispatch]);
+    const fetchCompanyJobs = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`/api/get-company-jobs`);
+        if (!response.ok) throw new Error("Failed to fetch company jobs");
+        const jobs = await response.json();
+        console.log(jobs, "jobs");
+        setCompanyJobs(jobs);
+      } catch (error) {
+        console.error("Error fetching job:", error);
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCompanyJobs();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentJobs = companyJobs
     .slice(indexOfFirstItem, indexOfLastItem)
-    .map(job => ({
+    .map((job) => ({
       ...job,
-      categories: Array.isArray(job.categories) ? job.categories.join(", ") : job.categories,
+      categories: Array.isArray(job.categories)
+        ? job.categories.join(", ")
+        : job.categories,
     }));
 
   return (

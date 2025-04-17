@@ -32,7 +32,7 @@ const defaultDashboardData: IDashboardData = {
 const CompanyPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const company = useSelector((state: RootState) => state.companyState.company);
-  const [dashboardDataX, setDashboardDataX] =
+  const [dashboardData, setDashboardData] =
     useState<IDashboardData>(defaultDashboardData);
   const [startDate, setStartDate] = useState<Date | null>();
   const [endDate, setEndDate] = useState<Date | null>();
@@ -62,7 +62,7 @@ const CompanyPage = () => {
         companyJobs: data.companyJobs || [],
       };
 
-      setDashboardDataX(transformedData);
+      setDashboardData(transformedData);
     };
 
     fetchDashboard();
@@ -70,7 +70,7 @@ const CompanyPage = () => {
 
   const jobUpdatesCards = useMemo(
     () =>
-      dashboardDataX?.companyJobs
+      dashboardData?.companyJobs
         .filter((job) => job.status === "OPEN")
         .map((job) => ({
           title: job.title,
@@ -83,7 +83,7 @@ const CompanyPage = () => {
             : job.categories || "Uncategorized",
           type: job.type || "N/A",
         })),
-    [dashboardDataX?.companyJobs]
+    [dashboardData?.companyJobs]
   );
 
   const getDate = (date: Date | undefined | null) => {
@@ -124,20 +124,20 @@ const CompanyPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr] gap-6">
           <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
             <CompanyChart
-              totalApplications={dashboardDataX.totalApplications}
-              totalJobView={dashboardDataX.jobView}
+              totalApplications={dashboardData.totalApplications}
+              totalJobView={dashboardData.jobView}
             />
           </div>
 
           <div className="space-y-4">
             <StatusCard
               title="Total Applications"
-              value={dashboardDataX.totalApplications}
+              value={dashboardData.totalApplications}
               icon={<FaUserCheck />}
             />
             <StatusCard
               title="Job View"
-              value={dashboardDataX.jobView}
+              value={dashboardData.jobView}
               icon={<FaEye />}
             />
           </div>
@@ -145,14 +145,14 @@ const CompanyPage = () => {
           <div className="flex flex-col gap-4">
             <StatusCard
               title="Job Open"
-              value={dashboardDataX.jobOpen}
+              value={dashboardData.jobOpen}
               icon={<SlArrowRight />}
             />
 
             <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
               <ApplicationsSummary
-                applications={dashboardDataX.applicationsSummary}
-                totalApplications={dashboardDataX.totalApplications}
+                applications={dashboardData.applicationsSummary}
+                totalApplications={dashboardData.totalApplications}
               />
             </div>
           </div>

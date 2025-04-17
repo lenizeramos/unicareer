@@ -114,6 +114,7 @@ export interface ICompanyHeader {
 }
 
 export interface IJob {
+  id?: string;
   title: string;
   status: string;
   location: string;
