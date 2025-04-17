@@ -52,10 +52,16 @@ export async function getJobByCompanyId(companyId: string) {
   }
 }
 
-export async function getCompanyJobs(companyId: string) {
+export async function getCompanyJobs(companyId: string, startDate?: Date, endDate?: Date) {
   try {
     const jobs = await prisma.job.findMany({
-      where: { companyId: companyId },
+      where: {
+        companyId: companyId,
+        createdAt: {
+          ...(startDate && { gte: startDate }),
+          ...(endDate && { lte: endDate }),
+        },
+      },
       orderBy: { createdAt: "desc" },
     });
 

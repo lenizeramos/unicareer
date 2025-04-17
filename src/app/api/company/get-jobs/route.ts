@@ -19,7 +19,13 @@ export async function GET(req: NextRequest) {
     const companyId = user.company?.id;
 
     if (companyId) {
-      const jobs = await getCompanyJobs(companyId);
+      const startDateParam = req.nextUrl.searchParams.get("startDate");
+      const endDateParam = req.nextUrl.searchParams.get("endDate");
+
+      const startDate = startDateParam ? new Date(startDateParam) : undefined;
+      const endDate = endDateParam ? new Date(endDateParam) : undefined;
+
+      const jobs = await getCompanyJobs(companyId, startDate, endDate);
 
       return NextResponse.json(jobs);
     } else {
