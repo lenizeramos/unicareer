@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
-import { getJobByCompanyId } from "@/Lib/job";
+import { getApplicationsByCompanyId } from "@/Lib/application";
 import { getUserByClerkId } from "@/Lib/usersService";
 
 export async function GET(req: NextRequest) {
@@ -21,12 +21,21 @@ export async function GET(req: NextRequest) {
     if (companyId) {
       const startDateParam = req.nextUrl.searchParams.get("startDate");
       const endDateParam = req.nextUrl.searchParams.get("endDate");
+      const searchTermParam = req.nextUrl.searchParams.get("search");
 
       const startDate = startDateParam ? new Date(startDateParam) : undefined;
       const endDate = endDateParam ? new Date(endDateParam) : undefined;
+      const searchTerm = searchTermParam ? searchTermParam : undefined;
 
-      const jobs = await getJobByCompanyId(companyId, startDate, endDate);
-      return NextResponse.json(jobs);
+      console.log(searchTerm, "searchTermBAck");
+
+      const applications = await getApplicationsByCompanyId(
+        companyId,
+        startDate,
+        endDate,
+        searchTerm
+      );
+      return NextResponse.json(applications);
     } else {
       return new NextResponse("Company ID not found", { status: 404 });
     }

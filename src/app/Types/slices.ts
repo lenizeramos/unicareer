@@ -59,7 +59,7 @@ export interface IApplication {
   id: string;
   jobId: string;
   candidateId: string;
-  status?: "PENDING" | "INTERVIEWED" | "REJECTED";
+  status: "PENDING" | "INTERVIEWED" | "REJECTED";
   updatedAt?: string;
   appliedAt: string;
   candidate?: ICandidate;

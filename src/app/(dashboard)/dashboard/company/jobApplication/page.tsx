@@ -1,20 +1,21 @@
 "use client";
 import { useState, useEffect } from "react";
 import { styles } from "@/app/styles";
-import ApplicationsList from "@/app/components/ApplicationsList";
+import ApplicationsListTable from "@/app/components/ApplicationsListTable";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 import { useRouter } from "next/navigation";
-import { IJob } from "@/app/Types";
 import DateRangePicker from "@/app/components/DateRangePicker";
 import { monthNames } from "@/app/constants";
+import { IApplication } from "@/app/Types/slices";
 
 export default function ApplicationsPage() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [companyJobs, setCompanyJobs] = useState<IJob[]>([]);
+  const [applications, setApplications] = useState<IApplication[]>([]);
   const [startDate, setStartDate] = useState<Date | null>();
   const [endDate, setEndDate] = useState<Date | null>();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleViewProfile = (id: string) => {
     router.push(`/dashboard/company/applicantdetails/${id}`);
@@ -23,7 +24,7 @@ export default function ApplicationsPage() {
   const columns = {
     name: "Applicant",
     position: "Position",
-    appliedDate: "Applied Date",
+    appliedAt: "Applied Date",
     status: "Status",
     actions: "Actions",
   };
@@ -33,39 +34,27 @@ export default function ApplicationsPage() {
     if (startDate && endDate) {
       queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
     }
-    const fetchCompanyJobs = async () => {
+    if (searchTerm && searchTerm.length > 2) {
+      queryParams += queryParams
+        ? `&search=${encodeURIComponent(searchTerm)}`
+        : `?search=${encodeURIComponent(searchTerm)}`;
+    }
+    const fetchCompanyApplications = async () => {
       try {
-        const response = await fetch(`/api/get-company-jobs${queryParams}`);
+        const response = await fetch(
+          `/api/company/get-applications${queryParams}`
+        );
         if (!response.ok) throw new Error("Failed to fetch company jobs");
-        const jobs = await response.json();
-        console.log(jobs, "jobs");
-        setCompanyJobs(jobs);
+        const applications = await response.json();
+        console.log(applications, "applicationsXX");
+        setApplications(applications);
       } catch (error) {
         console.error("Error fetching job:", error);
         throw error;
-      } 
+      }
     };
-    fetchCompanyJobs();
-  }, [startDate, endDate]);
-
-
-  const applications = companyJobs.flatMap((job) =>
-    job.applications.map((application) => ({
-      id: application.id,
-      name: application.candidate
-        ? `${application.candidate.firstName} ${application.candidate.lastName}`
-        : `Candidate ${application.candidateId}`,
-      email: application.candidate?.user?.email ?? "",
-      phone: "",
-      position: job.title,
-      appliedDate: new Date(application.appliedAt).toLocaleDateString(),
-      status: application.status?.toUpperCase() as
-        | "PENDING"
-        | "INTERVIEWED"
-        | "REJECTED",
-      linkedIn: "",
-    }))
-  );
+    fetchCompanyApplications();
+  }, [startDate, endDate, searchTerm]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -103,7 +92,7 @@ export default function ApplicationsPage() {
         <DateRangePicker setStartDate={setStartDate} setEndDate={setEndDate} />
       </div>
 
-      <ApplicationsList
+      <ApplicationsListTable
         applications={currentApplications}
         columns={columns}
         itemsPerPage={itemsPerPage}
@@ -112,6 +101,8 @@ export default function ApplicationsPage() {
         onPageChange={setCurrentPage}
         totalItems={applications.length}
         onViewProfile={handleViewProfile}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
       />
     </>
   );

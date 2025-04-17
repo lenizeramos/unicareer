@@ -1,5 +1,6 @@
 /* import { ResumeData } from "@/types/resume"; */
 import React from "react";
+import { IApplication } from "./slices";
 
 export interface IButtton {
   text: string | React.ReactNode;
@@ -349,6 +350,19 @@ export interface ApplicationsListProps {
   onPageChange: (page: number) => void;
   totalItems: number;
   onViewProfile?: (id: string) => void; 
+}
+
+export interface ApplicationsListTableProps {
+  applications: IApplication[];
+  columns: { [key: string]: string };
+  itemsPerPage: number;
+  onItemsPerPageChange: (value: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+  onViewProfile?: (id: string) => void; 
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
 }
 
 export interface Application {

@@ -32,35 +32,6 @@ export async function createJob(data: Job) {
 export async function getJobByCompanyId(companyId: string, startDate?: Date, endDate?: Date) {
   try {
     const jobs = await prisma.job.findMany({
-      where: { companyId: companyId },
-      orderBy: { createdAt: "desc" },
-      include: {
-        applications: {
-          where: {
-            appliedAt: {
-              ...(startDate && { gte: startDate }),
-              ...(endDate && { lte: endDate }),
-            },
-          },
-          include: {
-            candidate: {
-              include: { user: true },
-            },
-          },
-        },
-      },
-    });
-
-    return jobs;
-  } catch (error) {
-    console.error("Error fetching jobs:", error);
-    throw new Error("Failed to fetch jobs due to database issue.");
-  }
-}
-
-export async function getCompanyJobs(companyId: string, startDate?: Date, endDate?: Date) {
-  try {
-    const jobs = await prisma.job.findMany({
       where: {
         companyId: companyId,
         createdAt: {

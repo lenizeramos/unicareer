@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
-import { getCompanyJobs } from "@/Lib/job";
+import { getJobByCompanyId } from "@/Lib/job";
 import { getUserByClerkId } from "@/Lib/usersService";
 
 export async function GET(req: NextRequest) {
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
       const startDate = startDateParam ? new Date(startDateParam) : undefined;
       const endDate = endDateParam ? new Date(endDateParam) : undefined;
 
-      const jobs = await getCompanyJobs(companyId, startDate, endDate);
+      const jobs = await getJobByCompanyId(companyId, startDate, endDate);
 
       return NextResponse.json(jobs);
     } else {
