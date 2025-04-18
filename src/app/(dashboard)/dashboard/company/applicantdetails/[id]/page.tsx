@@ -19,7 +19,8 @@ import { IApplication } from "@/app/Types/slices";
 
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
-import InterviewButton from "@/app/components/InterviewButton";
+import ApplicationStatusButton from "@/app/components/ApplicationStatusButton";
+/* import RejectedButton from "@/app/components/RejectedButton"; */
 
 const InfoSection = ({ title, children, className = "" }: InfoSectionProps) => (
   <div className={`pb-4 border-b border-gray-400 ${className}`}>
@@ -39,12 +40,20 @@ const InfoItem = ({ label, value }: InfoItemProps) => (
   </div>
 );
 
+const applicationStatusOptions = [
+  { label: "Mark as Pending", status: "PENDING" },
+  { label: "Interview", status: "INTERVIEWED" },
+  { label: "Reject", status: "REJECTED" },
+  { label: "Hire", status: "HIRED" },
+];
+
 const ApplicantDetailsPage = () => {
   const toast = useRef<Toast>(null);
   const params = useParams();
   const applicationId = params?.id as string;
   const [application, setApplication] = useState<IApplication>();
   const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     if (applicationId) {
@@ -58,6 +67,7 @@ const ApplicantDetailsPage = () => {
           const application = await response.json();
           console.log(application, "application");
           setApplication(application);
+          setStatus(application.status);
         } catch (error) {
           console.error("Error fetching application:", error);
           throw error;
@@ -75,7 +85,6 @@ const ApplicantDetailsPage = () => {
 
   const candidate = application?.candidate;
   const user = candidate?.user;
-  const status = application?.status;
 
   const capitalize = (str: string | undefined) => {
     if (!str) return "";
@@ -145,7 +154,18 @@ const ApplicantDetailsPage = () => {
             </div>
           </div>
           <div className="pb-4 border-b border-gray-400 flex items-center justify-center">
-            <InterviewButton applicationId={applicationId} status={status}/>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {applicationStatusOptions.map((option) => (
+                <ApplicationStatusButton
+                  key={option.status}
+                  applicationId={applicationId}
+                  currentStatus={status || ""}
+                  targetStatus={option.status}
+                  label={option.label}
+                  setStatus={setStatus}
+                />
+              ))}
+            </div>
           </div>
 
           <InfoSection title="Contact">

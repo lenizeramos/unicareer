@@ -393,3 +393,11 @@ export interface InfoItemProps {
   label: string;
   value: string | React.ReactNode;
 }
+
+export interface IStatusButtonProps {
+  applicationId: string;
+  currentStatus: string;
+  targetStatus: string;
+  label: string;
+  setStatus: (status: string) => void;
+}

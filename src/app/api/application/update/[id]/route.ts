@@ -11,14 +11,21 @@ export async function PATCH(
       return new NextResponse("Application ID is required", { status: 400 });
     }
 
+    const body = await req.json();
+    const { status } = body;
+
+    if (!status) {
+      return new NextResponse("Status is required", { status: 400 });
+    }
+
     const updatedApplication = await prisma.application.update({
       where: { id },
-      data: { status: "INTERVIEWED" },
+      data: { status },
     });
 
     return NextResponse.json(updatedApplication);
   } catch (error) {
-    console.error("Error updating status to INTERVIEW:", error);
-    return new NextResponse("Internal error", { status: 500 });
+    console.error("Error updating status", error);
+    return new NextResponse("Internal server error", { status: 500 });
   }
 }
