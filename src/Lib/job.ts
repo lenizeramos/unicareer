@@ -29,7 +29,11 @@ export async function createJob(data: Job) {
   }
 }
 
-export async function getJobByCompanyId(companyId: string, startDate?: Date, endDate?: Date) {
+export async function getJobByCompanyId(
+  companyId: string,
+  startDate?: Date,
+  endDate?: Date
+) {
   try {
     const jobs = await prisma.job.findMany({
       where: {
@@ -54,23 +58,27 @@ export async function getJobByCompanyId(companyId: string, startDate?: Date, end
   }
 }
 
-export async function getLastJobsByCompanyId(companyId: string, limit?: number, startDate?: Date, endDate?: Date) {
+export async function getLastJobsByCompanyId(
+  companyId: string,
+  limit?: number,
+  startDate?: Date,
+  endDate?: Date
+) {
   try {
-
     const referenceDate = startDate || new Date();
     const jobs = await prisma.job.findMany({
       where: {
         companyId: companyId,
         OR: [
           { closingDate: null },
-          { 
-            closingDate: { 
-              gte: referenceDate
-            } 
-          }
+          {
+            closingDate: {
+              gte: referenceDate,
+            },
+          },
         ],
         ...(startDate && { createdAt: { gte: startDate } }),
-        ...(endDate && { createdAt: { lte: endDate } })
+        ...(endDate && { createdAt: { lte: endDate } }),
       },
       orderBy: { createdAt: "desc" },
       take: limit,
@@ -134,9 +142,19 @@ export async function getJobViewsCount(
 
 export async function getJobById(jobId: string) {
   try {
-    return await prisma.job.findUnique({
+    const job = await prisma.job.findUnique({
       where: { id: jobId },
     });
+    if (!job) {
+      return null;
+    }
+    const jobWithStatus = {
+      ...job,
+      status:
+        job.closingDate && job.closingDate > new Date() ? "OPEN" : "CLOSED",
+    };
+
+    return jobWithStatus;
   } catch (error) {
     console.error("Error checking job existence:", error);
     throw new Error("Failed to check job existence due to database issue.");
@@ -150,21 +168,21 @@ export async function getTotalOpenJobsByCompanyId(
 ) {
   try {
     const referenceDate = startDate || new Date();
-    
+
     return await prisma.job.count({
       where: {
         companyId: companyId,
         OR: [
           { closingDate: null },
-          { 
-            closingDate: { 
-              gte: referenceDate
-            } 
-          }
+          {
+            closingDate: {
+              gte: referenceDate,
+            },
+          },
         ],
         ...(startDate && { createdAt: { gte: startDate } }),
-        ...(endDate && { createdAt: { lte: endDate } })
-      }
+        ...(endDate && { createdAt: { lte: endDate } }),
+      },
     });
   } catch (error) {
     console.error("Error fetching total open jobs:", error);
@@ -172,7 +190,11 @@ export async function getTotalOpenJobsByCompanyId(
   }
 }
 
-export async function getJobsByType(companyId: string, startDate?: Date, endDate?: Date) {
+export async function getJobsByType(
+  companyId: string,
+  startDate?: Date,
+  endDate?: Date
+) {
   try {
     const jobTypesFromDB = await prisma.job.groupBy({
       by: ["type"],
@@ -185,7 +207,7 @@ export async function getJobsByType(companyId: string, startDate?: Date, endDate
               lte: endDate,
             },
           },
-        }
+        },
       },
       _count: {
         type: true,
@@ -225,14 +247,19 @@ export async function getCompanyDashboardData(
   endDate?: Date
 ) {
   try {
-    const [totalApplications, jobOpen, applicationsSummary, jobView, companyJobs] =
-      await Promise.all([
-        getTotalApplicationsCountByCompanyId(companyId, startDate, endDate),
-        getTotalOpenJobsByCompanyId(companyId, startDate, endDate),
-        getJobsByType(companyId, startDate, endDate),
-        getJobViewsCount(companyId, startDate, endDate),
-        getLastJobsByCompanyId(companyId, 6, startDate, endDate),
-      ]);
+    const [
+      totalApplications,
+      jobOpen,
+      applicationsSummary,
+      jobView,
+      companyJobs,
+    ] = await Promise.all([
+      getTotalApplicationsCountByCompanyId(companyId, startDate, endDate),
+      getTotalOpenJobsByCompanyId(companyId, startDate, endDate),
+      getJobsByType(companyId, startDate, endDate),
+      getJobViewsCount(companyId, startDate, endDate),
+      getLastJobsByCompanyId(companyId, 6, startDate, endDate),
+    ]);
 
     return {
       totalApplications,
