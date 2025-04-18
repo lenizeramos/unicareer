@@ -14,7 +14,7 @@ export default function CompanyHeader({ image, name, button }: ICompanyHeader) {
                     <h2 className={`text-md ${styles.subTitleSectionSize} font-[600] text-landingDark`}>{name}</h2>
                 </div>
             </div>
-            {button ? <ButtonComp text={button.text} IsWhite={button.IsWhite} icon={button.icon} onClick={button.onClick} /> : <div></div>}
+            {button && <ButtonComp text={button.text} IsWhite={button.IsWhite} icon={button.icon} onClick={button.onClick} />}
         </div>
     )
 }
