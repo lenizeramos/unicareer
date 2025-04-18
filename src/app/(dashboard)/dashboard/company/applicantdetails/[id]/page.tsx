@@ -52,7 +52,7 @@ const ApplicantDetailsPage = () => {
         try {
           setLoading(true);
           const response = await fetch(
-            `http://localhost:3000/api/get-application-by-id?id=${applicationId}`
+            `http://localhost:3000/api/application/get-by-id?id=${applicationId}`
           );
           if (!response.ok) throw new Error("Failed to fetch application data");
           const application = await response.json();
@@ -75,6 +75,7 @@ const ApplicantDetailsPage = () => {
 
   const candidate = application?.candidate;
   const user = candidate?.user;
+  const status = application?.status;
 
   const capitalize = (str: string | undefined) => {
     if (!str) return "";
@@ -144,7 +145,7 @@ const ApplicantDetailsPage = () => {
             </div>
           </div>
           <div className="pb-4 border-b border-gray-400 flex items-center justify-center">
-            <InterviewButton applicationId={applicationId} />
+            <InterviewButton applicationId={applicationId} status={status}/>
           </div>
 
           <InfoSection title="Contact">

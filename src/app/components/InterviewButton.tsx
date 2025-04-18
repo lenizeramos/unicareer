@@ -1,8 +1,17 @@
+"use client";
+import { useState } from "react";
 import { confirmDialog } from "primereact/confirmdialog";
 import { toast } from "sonner";
 import ButtonComp from "./ButtonComp";
 
-const InterviewButton = ({ applicationId }: { applicationId: string }) => {
+const InterviewButton = ({
+  applicationId,
+  status: initialStatus,
+}: {
+  applicationId: string;
+  status?: string;
+}) => {
+  const [status, setStatus] = useState(initialStatus);
   const handleConfirmInterview = () => {
     confirmDialog({
       message: "Do you want to interview this candidate?",
@@ -20,7 +29,7 @@ const InterviewButton = ({ applicationId }: { applicationId: string }) => {
           });
 
           if (!res.ok) throw new Error("Error updating status");
-
+          setStatus("INTERVIEWED");
           toast.success("Status updated to INTERVIEW!");
         } catch (error) {
           toast.error("Error updating status: " + error);
@@ -32,9 +41,10 @@ const InterviewButton = ({ applicationId }: { applicationId: string }) => {
   return (
     <ButtonComp
       text="Interview"
-      IsWhite={true}
+      IsWhite={false}
       width="w-full"
       onClick={handleConfirmInterview}
+      isDissable={status === "INTERVIEWED"}
     />
   );
 };
