@@ -18,6 +18,7 @@ import {
 import { FiLayers } from "react-icons/fi";
 import { Chip } from "primereact/chip";
 import Badge from "@/app/components/Badge";
+import EditJobButton from "@/app/components/EditJobButton";
 
 const JobDetailsPage = () => {
   const toast = useRef<Toast>(null);
@@ -210,10 +211,7 @@ const JobDetailsPage = () => {
                   <section className="mt-8 pt-4 border-t border-gray-200">
                     <h3 className="font-medium text-gray-800 mb-3">Actions</h3>
                     <div className="flex flex-row justify-between items-center">
-                      
-                      <button className="text-red-600 hover:underline">
-                        Edit Job
-                      </button>
+                      <EditJobButton jobId={jobId} />
                       <button className="text-red-600 hover:underline">
                         Delete Job
                       </button>

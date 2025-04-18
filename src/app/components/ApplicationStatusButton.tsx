@@ -22,7 +22,7 @@ const ApplicationStatusButton = ({
       rejectLabel: "Cancel",
       accept: async () => {
         try {
-          const res = await fetch(`/api/application/update/${applicationId}`, {
+          const res = await fetch(`/api/application/${applicationId}/update/`, {
             method: "PATCH",
             body: JSON.stringify({ status: targetStatus }),
             headers: {

@@ -1,5 +1,5 @@
 import prisma from "./prisma";
-import { Application } from "../types/index";
+import { Application } from "@prisma/client";
 import { ApplicationStatus } from "@prisma/client";
 
 export async function createApplication(data: Application) {
@@ -129,5 +129,30 @@ export async function getApplicationsByCompanyId(
   } catch (error) {
     console.error("Error fetching applications:", error);
     throw new Error("Failed to fetch applications due to database issue.");
+  }
+}
+
+export async function updateApplicationStatus(
+  id: string,
+  status: ApplicationStatus
+) {
+  try {
+    return await prisma.application.update({
+      where: { id },
+      data: { status },
+    });
+  } catch (error) {
+    throw new Error("Application update failed due to database issue." + error);
+  }
+}
+export async function deleteApplication(id: string) {
+  try {
+    return await prisma.application.delete({
+      where: { id },
+    });
+  } catch (error) {
+    throw new Error(
+      "Application deletion failed due to database issue." + error
+    );
   }
 }

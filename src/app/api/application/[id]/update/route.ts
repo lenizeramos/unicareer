@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/Lib/prisma";
+import { updateApplicationStatus } from "@/Lib/application";
 
 export async function PATCH(
   req: NextRequest,
@@ -18,10 +18,7 @@ export async function PATCH(
       return new NextResponse("Status is required", { status: 400 });
     }
 
-    const updatedApplication = await prisma.application.update({
-      where: { id },
-      data: { status },
-    });
+    const updatedApplication = await updateApplicationStatus(id, status);
 
     return NextResponse.json(updatedApplication);
   } catch (error) {
