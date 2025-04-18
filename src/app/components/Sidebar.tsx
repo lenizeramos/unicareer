@@ -93,6 +93,7 @@ export default function Sidebar({ userType, isOpen = true, onClose }: SidebarPro
                                 }`}>
                                     <Link 
                                         href={item.path}
+                                        onClick={onClose}
                                         className={`block p-2 ml-6 ${styles.menuHover} ${styles.menuItem} transition-colors ${
                                             pathname === item.path ? styles.menuItemFocus : ''
                                         } flex items-center gap-2 hover-icon-parent`}

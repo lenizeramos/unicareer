@@ -114,8 +114,6 @@ enum ApplicationStatus {
   REJECTED
 }
 
-
-
 enum Role {
   ADMIN
   COMPANY
