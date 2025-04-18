@@ -46,7 +46,7 @@ export default function ApplicationsPage() {
         );
         if (!response.ok) throw new Error("Failed to fetch company jobs");
         const applications = await response.json();
-        console.log(applications, "applicationsXX");
+        
         setApplications(applications);
       } catch (error) {
         console.error("Error fetching job:", error);
@@ -68,7 +68,7 @@ export default function ApplicationsPage() {
       return <p>Not Found</p>;
     }
     const createDate = date;
-    console.log(createDate.toUTCString(), "createDateeeee");
+    
     const month = monthNames[createDate.getMonth()];
     return `${month} ${createDate.getDate()}`;
   };

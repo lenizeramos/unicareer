@@ -137,6 +137,7 @@ export interface JobListProps extends IJobList {
   currentPage: number;
   onPageChange: (page: number) => void;
   totalItems: number;
+  onViewJobDetails: (id: string) => void;
 }
 
 export interface IPayment {

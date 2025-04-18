@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
       startDate,
       endDate
     );
-    console.log(companyDashboardData, "companyDashboardData backend!!!!");
+
     return NextResponse.json(companyDashboardData);
   } catch (error) {
     console.error("Failed to fetch company dashboard data", error);

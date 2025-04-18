@@ -3,26 +3,17 @@ import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
-import {
-  FaUser,
-  FaEnvelope,
-  /* FaInstagram,
-  FaTwitter,
-  FaGlobe,
-  FaPhone, */
-} from "react-icons/fa";
+/* import { FaUser, FaEnvelope } from "react-icons/fa"; */
 import { GoArrowLeft } from "react-icons/go";
 import { styles } from "@/app/styles";
-import { InfoSectionProps, InfoItemProps } from "@/app/Types";
-import ContactInfoItem from "@/app/components/ContactInfoItem";
-import { IApplication } from "@/app/Types/slices";
-
+/* import { InfoSectionProps, InfoItemProps } from "@/app/Types"; */
+/* import ContactInfoItem from "@/app/components/ContactInfoItem";
+import { IApplication } from "@/app/Types/slices"; */
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
-import ApplicationStatusButton from "@/app/components/ApplicationStatusButton";
-/* import RejectedButton from "@/app/components/RejectedButton"; */
+/* import ApplicationStatusButton from "@/app/components/ApplicationStatusButton"; */
 
-const InfoSection = ({ title, children, className = "" }: InfoSectionProps) => (
+/* const InfoSection = ({ title, children, className = "" }: InfoSectionProps) => (
   <div className={`pb-4 border-b border-gray-400 ${className}`}>
     <h2 className="text-xl font-semibold text-gray-800 mb-4">{title}</h2>
     {children}
@@ -45,29 +36,29 @@ const applicationStatusOptions = [
   { label: "Interview", status: "INTERVIEWED" },
   { label: "Reject", status: "REJECTED" },
   { label: "Hire", status: "HIRED" },
-];
+]; */
 
-const ApplicantDetailsPage = () => {
+const JobDetailsPage = () => {
   const toast = useRef<Toast>(null);
   const params = useParams();
-  const applicationId = params?.id as string;
-  const [application, setApplication] = useState<IApplication>();
+  const jobId = params?.id as string;
+  /* const [application, setApplication] = useState<IApplication>(); */
   const [loading, setLoading] = useState(true);
-  const [status, setStatus] = useState("");
+ /*  const [status, setStatus] = useState(""); */
 
   useEffect(() => {
-    if (applicationId) {
-      const fetchApplicationById = async (applicationId: string) => {
+    if (jobId) {
+      const fetchApplicationById = async (jobId: string) => {
         try {
           setLoading(true);
           const response = await fetch(
-            `http://localhost:3000/api/application/get-by-id?id=${applicationId}`
+            `http://localhost:3000/api/job/${jobId}`
           );
           if (!response.ok) throw new Error("Failed to fetch application data");
-          const application = await response.json();
-
-          setApplication(application);
-          setStatus(application.status);
+          const job = await response.json();
+          console.log(job, "job");
+          /* setApplication(application);
+          setStatus(application.status); */
         } catch (error) {
           console.error("Error fetching application:", error);
           throw error;
@@ -75,15 +66,15 @@ const ApplicantDetailsPage = () => {
           setLoading(false);
         }
       };
-      fetchApplicationById(applicationId);
+      fetchApplicationById(jobId);
     }
-  }, [applicationId]);
+  }, [jobId]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  const candidate = application?.candidate;
+  /* const candidate = application?.candidate;
   const user = candidate?.user;
 
   const capitalize = (str: string | undefined) => {
@@ -93,9 +84,9 @@ const ApplicantDetailsPage = () => {
       .split(" ")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
-  };
+  }; */
 
-  const education = candidate?.education?.[0];
+  /* const education = candidate?.education?.[0];
   const workExperience = candidate?.workExperience?.[0];
   const job = application?.job;
   const fullName = `${capitalize(candidate?.firstName)} ${capitalize(
@@ -103,7 +94,7 @@ const ApplicantDetailsPage = () => {
   )}`.trim();
   const qualification = education
     ? `${capitalize(education.degree)} in ${capitalize(education.fieldOfStudy)}`
-    : "N/A";
+    : "N/A"; */
 
   return (
     <>
@@ -114,16 +105,16 @@ const ApplicantDetailsPage = () => {
       <div className={styles.borderBottomLight} />
 
       <Link
-        href="/dashboard/company/jobApplication"
+        href="/dashboard/company/joblisting"
         className="hover:opacity-80 transition-opacity"
       >
         <div className="flex items-center text-2xl space-x-2 pt-4 pb-4">
           <GoArrowLeft className="text-xl" />
-          <p>Applicant Details</p>
+          <p>Job Details</p>
         </div>
       </Link>
 
-      <div className="flex flex-col md:flex-row gap-6">
+      {/* <div className="flex flex-col md:flex-row gap-6">
         <div className="md:basis-1/3 flex flex-col gap-6 bg-white p-6 rounded-lg shadow-sm">
           <div className="flex items-center gap-4 border-b border-gray-400 pb-4">
             <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
@@ -174,22 +165,6 @@ const ApplicantDetailsPage = () => {
                 icon={<FaEnvelope />}
                 value={user?.email || ""}
               />
-              {/* <ContactInfoItem
-                icon={<FaPhone />}
-                value={candidate?.phone || ""}
-              />
-              <ContactInfoItem
-                icon={<FaInstagram />}
-                value={candidate?.instagram || ""}
-              />
-              <ContactInfoItem
-                icon={<FaTwitter />}
-                value={candidate?.twitter || ""}
-              />
-              <ContactInfoItem
-                icon={<FaGlobe />}
-                value={candidate?.website || ""}
-              /> */}
             </ul>
           </InfoSection>
         </div>
@@ -210,16 +185,6 @@ const ApplicantDetailsPage = () => {
                     : ""
                 }
               />
-              {/* <InfoItem
-                label="Address"
-                value={
-                  candidate?.address && (
-                    <span className="whitespace-pre-line">
-                      {candidate.address}
-                    </span>
-                  )
-                }
-              /> */}
             </div>
           </InfoSection>
 
@@ -264,9 +229,9 @@ const ApplicantDetailsPage = () => {
             </div>
           </InfoSection>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
 
-export default ApplicantDetailsPage;
+export default JobDetailsPage;

@@ -21,7 +21,6 @@ import Loader from "@/app/components/Loader";
 
   while (!userRole && attempts < maxAttempts) {
     if (attempts > 0) {
-      //console.log("SLEEPING");
       await sleep(5000);
     }
     const roleResponse = await fetch("/api/get-role");

@@ -22,7 +22,6 @@ export default function CompanyPage() {
   };
 
   useEffect(() => {
-
     const fetchCompanyPayments = async () => {
       let queryParams = "";
       if (startDate && endDate) {
@@ -53,7 +52,7 @@ export default function CompanyPage() {
       return <p>Not Found</p>;
     }
     const createDate = date;
-    console.log(createDate.toUTCString(), "createDateeeee");
+
     const month = monthNames[createDate.getMonth()];
     return `${month} ${createDate.getDate()}`;
   };

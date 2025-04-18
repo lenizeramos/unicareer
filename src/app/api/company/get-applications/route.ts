@@ -27,8 +27,6 @@ export async function GET(req: NextRequest) {
       const endDate = endDateParam ? new Date(endDateParam) : undefined;
       const searchTerm = searchTermParam ? searchTermParam : undefined;
 
-      console.log(searchTerm, "searchTermBAck");
-
       const applications = await getApplicationsByCompanyId(
         companyId,
         startDate,
