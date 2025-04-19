@@ -16,10 +16,13 @@ export default function PostJobPage() {
     (state: RootState) => state.jobToEdit.jobToEdit
   );
   const pageTitle = jobToEdit ? "Edit Job" : "Post a Job";
-  const previousPage = jobToEdit ? `/dashboard/company/jobdetails/${jobToEdit.id}` : "/dashboard/company/joblisting";
+  const previousPage = jobToEdit
+    ? `/dashboard/company/jobdetails/${jobToEdit.id}`
+    : "/dashboard/company/joblisting";
 
-  const handlePostJobSubmit = useCallback(
+  const handleJobSubmit = useCallback(
     async (job: {
+      id: string | undefined;
       title: string;
       closingDate: Date | null;
       level: string;
@@ -35,22 +38,35 @@ export default function PostJobPage() {
       benefits?: string[];
     }) => {
       try {
-        const response = await fetch("/api/create-job", {
-          method: "POST",
+        let url = "/api/create-job";
+        let method = "POST";
+        let message = "You've successfully posted a job!";
+
+        if (jobToEdit) {
+          url = `/api/job/${jobToEdit.id}/update`;
+          method = "PATCH";
+          message = "You've successfully updated a job!";
+        }
+
+        const { salary, ...rest } = job;
+        const body = JSON.stringify({
+          ...rest,
+          salaryMin: salary?.[0] ?? null,
+          salaryMax: salary?.[1] ?? null,
+        });
+
+        const response = await fetch(url, {
+          method: method,
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            ...job,
-            salaryMin: job.salary ? job.salary[0] : null,
-            salaryMax: job.salary ? job.salary[1] : null,
-          }),
+          body: body,
         });
 
         if (!response.ok) {
           throw new Error(`Registration error: ${response.statusText}`);
         }
-        toast.success("You've successfully posted a job!", {
+        toast.success(message, {
           duration: 2000,
           position: "top-center",
           style: {
@@ -62,13 +78,13 @@ export default function PostJobPage() {
           },
         });
         setTimeout(() => {
-          router.push("/dashboard/company/joblisting");
+          router.push(previousPage);
         }, 2500);
       } catch (error) {
         console.error("Error creating the job:", error);
       }
     },
-    [router]
+    [router, jobToEdit, previousPage]
   );
   return (
     <>
@@ -82,10 +98,7 @@ export default function PostJobPage() {
         </div>
       </Link>
 
-      <JobForm
-        onClick={handlePostJobSubmit}
-        initialData={jobToEdit || undefined}
-      />
+      <JobForm onClick={handleJobSubmit} initialData={jobToEdit || undefined} />
     </>
   );
 }

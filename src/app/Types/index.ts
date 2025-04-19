@@ -168,7 +168,7 @@ export interface IBadge {
 
 export interface IJobFormProps {
   onClick: (job: {
-    id?: string;
+    id: string;
     title: string;
     closingDate: Date | null;
     level: string;
