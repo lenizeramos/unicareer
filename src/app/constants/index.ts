@@ -142,7 +142,7 @@ const salaryRange = [
   { min: 50, max: 60 },
   { min: 60, max: 70 },
   { min: 70, max: 80 },
-  { min: 90, max: 10 },
+  { min: 90, max: 100 },
 ];
 const filtersValues: IFilterJobs[] = [
   { array: jobsTypes, title: "Type of Employment", type: "jobType" },

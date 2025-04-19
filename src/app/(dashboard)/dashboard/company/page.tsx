@@ -132,8 +132,8 @@ const CompanyPage = () => {
         date="Jul 19 - Jul 25"
       />
 
-      <section className="space-y-6">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+      <section className="space-y-6 px-4 lg:px-0">
+        <h1 className="text-3xl font-bold text-gray-900 font-shafarik">Dashboard</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {cards.map((card, index) => (
@@ -143,7 +143,7 @@ const CompanyPage = () => {
       </section>
 
       <section className="space-y-6 border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900">Job statistics</h2>
+        <h2 className="text-xl font-semibold text-gray-900 font-shafarik">Job statistics</h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr] gap-6">
           <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">

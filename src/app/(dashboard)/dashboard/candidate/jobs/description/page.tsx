@@ -6,17 +6,12 @@ import DashboardNavbar from "../../../../../components/DashboardNavbar";
 import ButtonComp from "@/app/components/ButtonComp";
 import { styles } from "@/app/styles";
 import { jobsCategories, monthNames, stylesTags } from "@/app/constants";
-/* import { CiCircleCheck } from "react-icons/ci"; */
-import CardsContainer from "@/app/components/Cards/CardsContainer";
+import { CiCircleCheck } from "react-icons/ci";
 import ProgressBar from "@/app/components/ProgressBar";
 import TagComp from "@/app/components/TagComp";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  IApplicationsState,
-  IJobsState,
-  IUserState,
-} from "@/app/Types/slices";
+import { IApplicationsState, IJobsState, IUserState } from "@/app/Types/slices";
 import { useEffect } from "react";
 import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 import { fetchUsers } from "@/app/context/slices/usersSlices";
@@ -61,7 +56,6 @@ export default function JobDescription() {
       dispatch(fetchApplications());
     }
   }, [applications.length]);
-
   const company = users.find((company) => company.id === job?.companyId);
   if (loading) {
     return <Loader />;
@@ -346,9 +340,18 @@ export default function JobDescription() {
           <p className={`${styles.JobDescriptionText}`}>
             This job comes with several perks and benefits
           </p>
-          <div className="mt-4">
-            <CardsContainer cardId="perks" />
-          </div>
+          <ul className="mt-4 grid sm:grid-cols-2 grid-cols-1">
+            {job.benefits.map((benefit: string, index) => {
+              return (
+                <li
+                  key={index}
+                  className={`${styles.JobDescriptionText} ${styles.lists}`}
+                >
+                  <CiCircleCheck color="green" size={20} /> {benefit}
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </>

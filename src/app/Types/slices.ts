@@ -13,7 +13,7 @@ export interface Ijobs {
   responsibilities: string;
   whoYouAre: string;
   niceToHave: string;
-  benefits: string | string[];
+  benefits: string[];
   closingDate: string;
   company?: ICompany;
   applications: IApplication[];
