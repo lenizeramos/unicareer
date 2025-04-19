@@ -168,6 +168,7 @@ export interface IBadge {
 
 export interface IJobFormProps {
   onClick: (job: {
+    id?: string;
     title: string;
     closingDate: Date | null;
     level: string;
@@ -182,6 +183,7 @@ export interface IJobFormProps {
     niceToHave: string;
     benefits: string[];
   }) => void;
+  initialData?: any;
 }
 
 export interface ICompanyFormProps {

@@ -1,23 +1,20 @@
 "use client";
 import { toast } from "sonner";
 import ButtonComp from "./ButtonComp";
+import { useRouter } from "next/navigation";
 
 interface EditJobButtonProps {
   jobId: string;
+  jobApplications: number;
 }
 
-const EditJobButton = ({ jobId }: EditJobButtonProps) => {
-  const handleJobChange = async () => {
-    try {
-      const res = await fetch(`/api/job/${jobId}/update/`, {
-        method: "PATCH",
-      });
+const EditJobButton = ({ jobId, jobApplications }: EditJobButtonProps) => {
+  const router = useRouter();
 
-      if (!res.ok) throw new Error("Error updating job");
-
-      toast.success("Job updated!");
-    } catch (error) {
-      toast.error("Error updating status: " + error);
+  const handleEditClick = () => {
+    if (jobApplications > 0) {
+      toast.error("You cannot edit a job with applications.");
+      return;
     }
   };
 
@@ -26,7 +23,7 @@ const EditJobButton = ({ jobId }: EditJobButtonProps) => {
       text="Edit Job"
       IsWhite={false}
       width="w-full"
-      onClick={handleJobChange}
+      onClick={handleEditClick}
     />
   );
 };

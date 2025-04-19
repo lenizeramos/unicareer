@@ -6,8 +6,8 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await params;
-    if (!id) {
+    const { id: applicationId } = await params;
+    if (!applicationId) {
       return new NextResponse("Application ID is required", { status: 400 });
     }
 
@@ -18,7 +18,7 @@ export async function PATCH(
       return new NextResponse("Status is required", { status: 400 });
     }
 
-    const updatedApplication = await updateApplicationStatus(id, status);
+    const updatedApplication = await updateApplicationStatus(applicationId, status);
 
     return NextResponse.json(updatedApplication);
   } catch (error) {

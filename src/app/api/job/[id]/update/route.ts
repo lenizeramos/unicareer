@@ -1,42 +1,34 @@
-import { NextResponse, NextRequest } from "next/server";
-import { getClerkUserId } from "@/utils/user";
-import { getUserByClerkId } from "@/Lib/usersService";
-import { createJobView, getJobById } from "@/Lib/job";
+/* import { NextResponse, NextRequest } from "next/server";
+import prisma from "@/Lib/prisma";
 
-export async function POST(
+export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const { id: jobId } = await params;
-    if (!jobId) {
+    const { id } = await params;
+    if (!id) {
       return new NextResponse("Job ID is required", { status: 400 });
     }
 
-    const clerkUserId = await getClerkUserId();
+    const body = await req.json();
 
-    if (!clerkUserId) return new NextResponse("Unauthorized", { status: 401 });
+    const {
+      id: _,
+      candidateId: __,
+      jobId: ___,
+      updatedAt: ____,
+      ...safeData
+    } = body;
 
-    const user = await getUserByClerkId(clerkUserId);
+    const updatedJob = await prisma.job.update({
+      where: { id },
+      data: safeData, 
+    });
 
-    if (!user) {
-      return new NextResponse("User not found", { status: 404 });
-    }
-    if (!user.candidate) {
-      return new NextResponse("Only candidates can view jobs", { status: 403 });
-    }
-
-    const jobExists = await getJobById(jobId);
-
-    if (!jobExists) {
-      return new NextResponse("Job not found", { status: 404 });
-    }
-
-    await createJobView(jobId, user.candidate.id);
-
-    return NextResponse.json({ success: true }, { status: 200 });
+    return NextResponse.json(updatedJob);
   } catch (error) {
     console.error("Error recording job view:", error);
     return new NextResponse("Internal server error", { status: 500 });
   }
-}
+} */

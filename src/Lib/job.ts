@@ -144,17 +144,23 @@ export async function getJobById(jobId: string) {
   try {
     const job = await prisma.job.findUnique({
       where: { id: jobId },
+      include: {
+        _count: {
+          select: { applications: true },
+        },
+      },
     });
     if (!job) {
       return null;
     }
-    const jobWithStatus = {
+    const jobWithExtras  = {
       ...job,
+      totalApplications: job._count.applications,
       status:
         job.closingDate && job.closingDate > new Date() ? "OPEN" : "CLOSED",
     };
 
-    return jobWithStatus;
+    return jobWithExtras;
   } catch (error) {
     console.error("Error checking job existence:", error);
     throw new Error("Failed to check job existence due to database issue.");

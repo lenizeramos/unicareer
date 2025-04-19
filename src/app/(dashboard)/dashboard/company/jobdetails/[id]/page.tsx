@@ -9,6 +9,7 @@ import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import { IJob } from "@/app/Types/index";
 import {
+  FaUser,
   FaMapMarkerAlt,
   FaBriefcase,
   FaMoneyBillWave,
@@ -95,16 +96,17 @@ const JobDetailsPage = () => {
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="bg-gray-50 px-6 py-4 border-b">
             <div className="flex justify-between items-start">
-              <div>
-                <h1 className="text-2xl font-bold text-gray-800">
-                  {job.title}
-                </h1>
+              <h1 className="text-2xl font-bold text-gray-800">{job.title}</h1>
+              <div className="flex items-center gap-2 text-gray-600 text-sm font-medium">
+                <FaUser className="w-5 h-5" />
+                <span className="text-2xl font-extrabold text-gray-600">
+                  {job.totalApplications}
+                </span>
+                <span className="text-sm text-gray-500">Applications</span>
               </div>
-              {
-                <div className="flex items-center gap-4">
-                  <Badge status={job.status} color={job.status.toLowerCase()} />
-                </div>
-              }
+              <div className="flex items-center gap-4">
+                <Badge status={job.status} color={job.status.toLowerCase()} />
+              </div>
             </div>
           </div>
 
@@ -211,7 +213,7 @@ const JobDetailsPage = () => {
                   <section className="mt-8 pt-4 border-t border-gray-200">
                     <h3 className="font-medium text-gray-800 mb-3">Actions</h3>
                     <div className="flex flex-row justify-between items-center">
-                      <EditJobButton jobId={jobId} />
+                      <EditJobButton jobId={jobId} jobApplications={job.totalApplications}/>
                       <button className="text-red-600 hover:underline">
                         Delete Job
                       </button>
