@@ -1,5 +1,4 @@
 "use client";
-/* import { toast } from "sonner"; */
 import ButtonComp from "./ButtonComp";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -50,7 +49,6 @@ const EditJobButton = ({ jobApplications, jobData, onUpdateClosingDate }: EditJo
           dismissableMask
         >
           <EditClosingDateForm
-            jobId={jobData.id}
             currentClosingDate={new Date(jobData.closingDate)}
             closeDialog={() => setShowDialog(false)}
             onSuccess={onUpdateClosingDate}

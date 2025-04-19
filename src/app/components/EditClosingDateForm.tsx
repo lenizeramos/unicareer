@@ -1,18 +1,14 @@
 "use client";
 import { useState } from "react";
 import ButtonComp from "./ButtonComp";
-/* import { useRouter } from "next/navigation"; */
-import { toast } from "sonner";
 
 interface EditClosingDateFormProps {
-  jobId: string;
   currentClosingDate: Date;
   closeDialog: () => void;
   onSuccess: (newClosingDate: Date) => void;
 }
 
 const EditClosingDateForm = ({
-  jobId,
   currentClosingDate,
   closeDialog,
   onSuccess
@@ -20,8 +16,6 @@ const EditClosingDateForm = ({
   const [closingDate, setClosingDate] = useState<Date>(
     new Date(currentClosingDate)
   );
-  const [isSubmitting, setIsSubmitting] = useState(false);
- /*  const router = useRouter(); */
 
   const handleSubmit = async () => {
       closeDialog();
@@ -59,11 +53,10 @@ const EditClosingDateForm = ({
           onClick={closeDialog}
         />
         <ButtonComp
-          text={isSubmitting ? "Saving..." : "Save"}
+          text={"Save"}
           IsWhite={false}
           width="w-24"
           onClick={handleSubmit}
-          isDissable={isSubmitting}
         />
       </div>
     </div>

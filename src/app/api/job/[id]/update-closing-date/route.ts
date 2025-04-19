@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/Lib/prisma';
+import { NextResponse } from "next/server";
+import prisma from "@/Lib/prisma";
 
 export async function PATCH(
   request: Request,
@@ -8,12 +8,10 @@ export async function PATCH(
   try {
     const { id } = await params;
     const { closingDate } = await request.json();
-    console.log('iddd', id)
-    console.log('closingDateeeeeeeeeeeeee', closingDate);
 
     if (!id || !closingDate) {
       return NextResponse.json(
-        { error: 'Job ID and closing date are required' },
+        { error: "Job ID and closing date are required" },
         { status: 400 }
       );
     }
@@ -28,9 +26,9 @@ export async function PATCH(
 
     return NextResponse.json(updatedJob);
   } catch (error) {
-    console.error('Error updating closing date:', error);
+    console.error("Error updating closing date:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

@@ -12,8 +12,6 @@ export async function PATCH(
     }
     const body = await req.json();
 
-    console.log("bodyddddddddd", body);
-
     delete body.id;
     delete body.companyId;
     delete body.createdAt;
@@ -23,7 +21,7 @@ export async function PATCH(
     const jobApplications = await prisma.application.count({
       where: { jobId: id },
     });
-    console.log("jobApplications", jobApplications);
+
     if (jobApplications === 0) {
       const updatedJob = await prisma.job.update({
         where: { id },
