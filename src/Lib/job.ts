@@ -279,3 +279,26 @@ export async function getCompanyDashboardData(
     throw new Error("Failed to fetch dashboard data due to database issue.");
   }
 }
+
+
+/* export async function getJobApplicationsCount(jobId: string) {
+  try {
+    const count = await prisma.job.findUnique({
+      where: { id: jobId },
+      select: {
+        _count: {
+          select: { applications: true },
+        },
+      },
+    });
+
+    if (!count) {
+      return 0;
+    }
+
+    return count._count.applications;
+  } catch (error) {
+    console.error("Error getting application count:", error);
+    throw new Error("Failed to get application count due to database issue.");
+  }
+} */

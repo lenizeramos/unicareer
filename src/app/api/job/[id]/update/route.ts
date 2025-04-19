@@ -11,19 +11,31 @@ export async function PATCH(
       return new NextResponse("Job ID is required", { status: 400 });
     }
     const body = await req.json();
-    console.log("body1111111111111111", body);
+
+    console.log("bodyddddddddd", body);
+
     delete body.id;
     delete body.companyId;
     delete body.createdAt;
 
     body.updatedAt = new Date();
-    console.log("body22222222222222", body);
-    const updatedJob = await prisma.job.update({
-      where: { id },
-      data: body,
-    });
 
-    return NextResponse.json(updatedJob);
+    const jobApplications = await prisma.application.count({
+      where: { jobId: id },
+    });
+    console.log("jobApplications", jobApplications);
+    if (jobApplications === 0) {
+      const updatedJob = await prisma.job.update({
+        where: { id },
+        data: body,
+      });
+      return NextResponse.json(updatedJob);
+    } else {
+      return new NextResponse(
+        "You cannot update a job that has applications.",
+        { status: 403 }
+      );
+    }
   } catch (error) {
     console.error("Error recording job view:", error);
     return new NextResponse("Internal server error", { status: 500 });

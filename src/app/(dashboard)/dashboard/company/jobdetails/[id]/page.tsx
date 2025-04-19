@@ -1,12 +1,10 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 import { GoArrowLeft } from "react-icons/go";
 import { styles } from "@/app/styles";
-import { ConfirmDialog } from "primereact/confirmdialog";
-import { Toast } from "primereact/toast";
 import { IJob } from "@/app/Types/index";
 import {
   FaUser,
@@ -20,13 +18,14 @@ import { FiLayers } from "react-icons/fi";
 import { Chip } from "primereact/chip";
 import Badge from "@/app/components/Badge";
 import EditJobButton from "@/app/components/EditJobButton";
+import { toast } from "sonner"; 
 
 const JobDetailsPage = () => {
-  const toast = useRef<Toast>(null);
   const params = useParams();
   const jobId = params?.id as string;
   const [job, setJob] = useState<IJob>();
   const [loading, setLoading] = useState(true);
+  const [updateClosingDate, setUpdateClosingDate] = useState(false);
 
   useEffect(() => {
     if (jobId) {
@@ -49,7 +48,9 @@ const JobDetailsPage = () => {
       };
       fetchJobById(jobId);
     }
-  }, [jobId]);
+
+    console.log(updateClosingDate, "ffffffffdg")
+  }, [jobId, updateClosingDate]);
 
   if (loading) {
     return (
@@ -76,11 +77,29 @@ const JobDetailsPage = () => {
     });
   };
 
+  const handleUpdateClosingDate = async (newClosingDate: Date) => {
+    try {
+      const response = await fetch(`/api/job/${jobId}/update-closing-date`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ closingDate: newClosingDate }),
+      });
+
+      if (!response.ok) throw new Error("Failed to update closing date");
+
+      // Update just the closing date in local state
+      setJob(prev => prev ? { ...prev, closingDate: newClosingDate.toISOString() } : prev);
+      console.log(job.closingDate, "jpbbbbbbbbbbbbbbbbbb")
+      toast.success("Closing date updated successfully!");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Update failed");
+    }
+  };
+
   return (
     <>
-      <Toast ref={toast} />
-      <ConfirmDialog />
-
       <CompanyHeaderPaymentButton />
       <div className={styles.borderBottomLight} />
       <Link
@@ -210,10 +229,15 @@ const JobDetailsPage = () => {
                       <span>Closes: {formatDate(job.closingDate)}</span>
                     </div>
                   </section>
+                 
                   <section className="mt-8 pt-4 border-t border-gray-200">
                     <h3 className="font-medium text-gray-800 mb-3">Actions</h3>
                     <div className="flex flex-row justify-between items-center">
-                      <EditJobButton jobApplications={job.totalApplications} jobData={job}/>
+                      <EditJobButton
+                        jobApplications={job.totalApplications}
+                        jobData={job}
+                        onUpdateClosingDate={handleUpdateClosingDate}
+                      />
                       <button className="text-red-600 hover:underline">
                         Delete Job
                       </button>

@@ -64,7 +64,23 @@ export default function PostJobPage() {
         });
 
         if (!response.ok) {
-          throw new Error(`Registration error: ${response.statusText}`);
+          if (response.status === 403) {
+            toast.error("You cannot update a job that has applications.", {
+              duration: 2000,
+              position: "top-center",
+              style: {
+                background: "#ff6b6b4a",
+                fontFamily: "fantasy",
+                fontSize: "1rem",
+                borderRadius: "8px",
+                letterSpacing: "0.5px",
+              },
+            });
+            setTimeout(() => {
+              router.push(previousPage);
+            }, 2500);
+          }
+          throw new Error(`Error: ${response.statusText}`);
         }
         toast.success(message, {
           duration: 2000,
@@ -81,7 +97,7 @@ export default function PostJobPage() {
           router.push(previousPage);
         }, 2500);
       } catch (error) {
-        console.error("Error creating the job:", error);
+        console.error(`Error ${jobToEdit ? "update" : "create"} the job:`, error);
       }
     },
     [router, jobToEdit, previousPage]

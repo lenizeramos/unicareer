@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     }
 
     payload.companyId = user.company?.id;
-console.log("payloadddddddddddd", payload);
+
     await createJob(payload);
     return NextResponse.json("Job Post created successfully");
   } catch (error) {
