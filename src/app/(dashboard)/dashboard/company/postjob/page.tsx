@@ -16,6 +16,7 @@ export default function PostJobPage() {
     (state: RootState) => state.jobToEdit.jobToEdit
   );
   const pageTitle = jobToEdit ? "Edit Job" : "Post a Job";
+  const previousPage = jobToEdit ? `/dashboard/company/jobdetails/${jobToEdit.id}` : "/dashboard/company/joblisting";
 
   const handlePostJobSubmit = useCallback(
     async (job: {
@@ -74,7 +75,7 @@ export default function PostJobPage() {
       <CompanyHeader image="/img/company_logo.png" name="Nomad" />
       <div className={styles.borderBottomLight}></div>
 
-      <Link href="/dashboard/company/joblisting">
+      <Link href={previousPage}>
         <div className="flex items-center text-2xl space-x-2">
           <GoArrowLeft className="text-xl" />
           <p>{pageTitle}</p>
