@@ -177,10 +177,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 id="salaryRange"
                 min={10}
                 max={100}
-                step={10}
+                step={1}
                 initialValues={salary}
-                onChange={(newValues: [number, number]) =>
-                  setSalary(newValues)
+                onChange={(newValues: number[]) =>
+                  setSalary(newValues as [number, number])
                 }
                 classNameDivContainer={classNameDivContainer}
                 classNameLabel={classNameLabel}
