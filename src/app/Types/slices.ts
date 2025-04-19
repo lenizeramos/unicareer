@@ -86,6 +86,10 @@ export interface ICandidate {
   education?: IEducation[];
   workExperience?: IWorkExperience[];
   language?: ILanguage[];
+  phone?: string;
+  instagram?: string;
+  twitter?: string;
+  address?: string;
 }
 
 export interface ICandidateState {
