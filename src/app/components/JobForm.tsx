@@ -19,9 +19,13 @@ import {
   jobsTypes,
   jobLevel,
 } from "@/app/constants/index";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/app/context/store";
+import { clearJobToEdit } from "@/app/context/slices/jobToEditSlices";
 
 const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
   const stepperRef = useRef(null);
+  const dispatch = useDispatch<AppDispatch>();
   const [closingDate, setClosingDate] = useState<Date | null>(
     initialData?.closingDate ? new Date(initialData.closingDate) : null
   );
@@ -43,8 +47,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
     initialData?.benefits || []
   );
   const [salary, setSalary] = useState<[number, number]>(
-    initialData?.salary || [10, 100]
-  );
+    initialData?.salary || 
+    (initialData?.salaryMin && initialData?.salaryMax 
+      ? [initialData.salaryMin, initialData.salaryMax] 
+      : [10, 100]));
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedDate = e.target.value;
@@ -81,6 +87,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
       niceToHave,
       benefits,
     });
+    dispatch(clearJobToEdit());
   };
 
   return (
@@ -172,7 +179,9 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 max={100}
                 step={10}
                 initialValues={salary}
-                onChange={(newValues: number[]) => setSalary(newValues as [number, number])}
+                onChange={(newValues: [number, number]) =>
+                  setSalary(newValues)
+                }
                 classNameDivContainer={classNameDivContainer}
                 classNameLabel={classNameLabel}
                 classNameDivLgWidth={classNameDivLgWidth}

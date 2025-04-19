@@ -173,7 +173,7 @@ export interface IJobFormProps {
     closingDate: Date | null;
     level: string;
     type: string;
-    salary: number[];
+    salary: [number, number];
     categories: string;
     skills: string[];
     description: string;

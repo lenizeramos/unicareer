@@ -7,9 +7,15 @@ import { useRouter } from "next/navigation";
 import { GoArrowLeft } from "react-icons/go";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/context/store";
 
 export default function PostJobPage() {
   const router = useRouter();
+  const jobToEdit = useSelector(
+    (state: RootState) => state.jobToEdit.jobToEdit
+  );
+  const pageTitle = jobToEdit ? "Edit Job" : "Post a Job";
 
   const handlePostJobSubmit = useCallback(
     async (job: {
@@ -71,11 +77,14 @@ export default function PostJobPage() {
       <Link href="/dashboard/company/joblisting">
         <div className="flex items-center text-2xl space-x-2">
           <GoArrowLeft className="text-xl" />
-          <p>Post a Job</p>
+          <p>{pageTitle}</p>
         </div>
       </Link>
 
-      <JobForm onClick={handlePostJobSubmit} />
+      <JobForm
+        onClick={handlePostJobSubmit}
+        initialData={jobToEdit || undefined}
+      />
     </>
   );
 }
