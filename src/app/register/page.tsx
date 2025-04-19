@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { waitForUserRole } from "@/Lib/client/roleService";
@@ -9,29 +9,6 @@ import CompanyForm from "@/app/components/CompanyForm";
 import ResumeUploadStep from '@/app/components/ResumeUploadStep';
 import { ResumeData } from '@/types/resume';
 import Loader from "@/app/components/Loader";
-
-/* const awaitNewClerkRoleToSyncWithApp = async () => {
-  let userRole = null;
-
-  const sleep = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-
-  let attempts = 0;
-  const maxAttempts = 20;
-
-  while (!userRole && attempts < maxAttempts) {
-    if (attempts > 0) {
-      //console.log("SLEEPING");
-      await sleep(5000);
-    }
-    const roleResponse = await fetch("/api/get-role");
-    if (!roleResponse.ok) {
-      throw new Error(`Failed to get role: ${roleResponse.statusText}`);
-    }
-    userRole = await roleResponse.json();
-    attempts++;
-  }
-}; */
 
 const awaitRoleUpdate = async (expectedRole: string, maxAttempts = 10): Promise<boolean> => {
   for (let i = 0; i < maxAttempts; i++) {
@@ -54,7 +31,7 @@ const awaitRoleUpdate = async (expectedRole: string, maxAttempts = 10): Promise<
   return false;
 };
 
-export default function RegisterPage() {
+function RegisterContent() {
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
   const [formType, setFormType] = useState<"candidate" | "company" | null>(null);
@@ -200,5 +177,13 @@ export default function RegisterPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen h-screen"><Loader /></div>}>
+      <RegisterContent />
+    </Suspense>
   );
 }

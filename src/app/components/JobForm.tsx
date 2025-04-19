@@ -21,7 +21,7 @@ import {
 } from "@/app/constants/index";
 
 const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
-  const stepperRef = useRef(null);
+  const stepperRef = useRef<any>(null);
   const [closingDate, setClosingDate] = useState<Date | null>(null);
   const [title, setTitle] = useState("");
   const [level, setLevel] = useState("");
@@ -70,6 +70,16 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
       niceToHave,
       benefits,
     });
+  };
+
+  const handleStepperNavigation = (direction: 'next' | 'prev') => {
+    if (stepperRef.current) {
+      if (direction === 'next') {
+        stepperRef.current.nextCallback();
+      } else {
+        stepperRef.current.prevCallback();
+      }
+    }
   };
 
   return (
@@ -209,7 +219,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               text="Next"
               IsWhite={false}
               width="w-[120px]"
-              onClick={() => stepperRef.current.nextCallback()}
+              onClick={() => handleStepperNavigation('next')}
             />
           </div>
         </StepperPanel>
@@ -295,13 +305,13 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               text="Back"
               IsWhite={false}
               width="w-[120px]"
-              onClick={() => stepperRef.current.prevCallback()}
+              onClick={() => handleStepperNavigation('prev')}
             />
             <ButtonComp
               text="Next"
               IsWhite={false}
               width="w-[120px]"
-              onClick={() => stepperRef.current.nextCallback()}
+              onClick={() => handleStepperNavigation('next')}
             />
           </div>
         </StepperPanel>
@@ -328,7 +338,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
               text="Back"
               IsWhite={false}
               width="w-[120px]"
-              onClick={() => stepperRef.current.prevCallback()}
+              onClick={() => handleStepperNavigation('prev')}
             />
             <ButtonComp
               text="Submit"
