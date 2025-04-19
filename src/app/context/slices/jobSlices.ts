@@ -11,7 +11,7 @@ const initialState: IJobsState = {
 export const fetchAllJobs = createAsyncThunk(
   "fetchAllJobs",
   async () => {
-    const response = await fetch("http://localhost:3000/api/get-jobs");
+    const response = await fetch("/api/get-jobs");
     if (!response.ok) {
       throw new Error("Failed to fetch jobs");
     }
