@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
@@ -19,8 +19,12 @@ import { Chip } from "primereact/chip";
 import Badge from "@/app/components/Badge";
 import EditJobButton from "@/app/components/EditJobButton";
 import { toast } from "sonner";
+import { ConfirmDialog } from "primereact/confirmdialog";
+import { Toast } from "primereact/toast";
+import DeleteJobButton from "@/app/components/DeleteJobButton";
 
 const JobDetailsPage = () => {
+  const toastReact = useRef<Toast>(null);
   const params = useParams();
   const jobId = params?.id as string;
   const [job, setJob] = useState<IJob>();
@@ -98,6 +102,9 @@ const JobDetailsPage = () => {
 
   return (
     <>
+      <Toast ref={toastReact} />
+      <ConfirmDialog />
+
       <CompanyHeaderPaymentButton />
       <div className={styles.borderBottomLight} />
       <Link
@@ -236,9 +243,7 @@ const JobDetailsPage = () => {
                         jobData={job}
                         onUpdateClosingDate={handleUpdateClosingDate}
                       />
-                      <button className="text-red-600 hover:underline">
-                        Delete Job
-                      </button>
+                      {job.id && <DeleteJobButton jobId={job.id} label={"DELETE"} />}
                     </div>
                   </section>
                 </div>
