@@ -137,6 +137,7 @@ export interface JobListProps extends IJobList {
   currentPage: number;
   onPageChange: (page: number) => void;
   totalItems: number;
+  onViewJobDetails: (id: string) => void;
 }
 
 export interface IPayment {
@@ -167,6 +168,7 @@ export interface IBadge {
 
 export interface IJobFormProps {
   onClick: (job: {
+    id: string;
     title: string;
     closingDate: Date | null;
     level: string;
@@ -181,6 +183,7 @@ export interface IJobFormProps {
     niceToHave: string;
     benefits: string[];
   }) => void;
+  initialData?: any;
 }
 
 export interface ICompanyFormProps {
@@ -392,4 +395,12 @@ export interface InfoSectionProps {
 export interface InfoItemProps {
   label: string;
   value: string | React.ReactNode;
+}
+
+export interface IStatusButtonProps {
+  applicationId: string;
+  currentStatus: string;
+  targetStatus: string;
+  label: string;
+  setStatus: (status: string) => void;
 }

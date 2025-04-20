@@ -1,3 +1,5 @@
+import { IJob } from ".";
+
 export interface Ijobs {
   id: string;
   title: string;
@@ -153,4 +155,8 @@ export interface ILanguage {
   level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
   createdAt: string;
   updatedAt: string;
+}
+
+export interface IJobToEditState {
+  jobToEdit: IJob | null;
 }

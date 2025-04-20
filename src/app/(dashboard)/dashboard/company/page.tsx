@@ -47,9 +47,8 @@ const CompanyPage = () => {
       queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
     }
     const fetchDashboard = async () => {
-      const res = await fetch(`/api/company/get-dashboard${queryParams}`);
+      const res = await fetch(`/api/company/dashboard${queryParams}`);
       const data = await res.json();
-      console.log(data, "dataaaaaaa");
 
       const transformedData: IDashboardData = {
         totalApplications: data.totalApplications || 0,
@@ -91,7 +90,7 @@ const CompanyPage = () => {
       return <p>Not Found</p>;
     }
     const createDate = date;
-    console.log(createDate.toUTCString(), "createDateeeee");
+
     const month = monthNames[createDate.getMonth()];
     return `${month} ${createDate.getDate()}`;
   };

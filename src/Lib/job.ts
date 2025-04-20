@@ -1,6 +1,6 @@
 import prisma from "./prisma";
 import { Job } from "../types/index";
-import { getTotalApplicationsCountByCompanyId } from "./application";
+import { getCompanyByClerkId } from "@/Lib/company";
 
 export async function createJob(data: Job) {
   try {
@@ -29,11 +29,16 @@ export async function createJob(data: Job) {
   }
 }
 
-export async function getJobByCompanyId(companyId: string, startDate?: Date, endDate?: Date) {
+export async function getJobByCompanyId(
+  companyId: string,
+  startDate?: Date,
+  endDate?: Date
+) {
   try {
     const jobs = await prisma.job.findMany({
       where: {
         companyId: companyId,
+        deleted: false,
         createdAt: {
           ...(startDate && { gte: startDate }),
           ...(endDate && { lte: endDate }),
@@ -50,27 +55,32 @@ export async function getJobByCompanyId(companyId: string, startDate?: Date, end
     return jobsWithStatus;
   } catch (error) {
     console.error("Error fetching jobs:", error);
-    throw new Error("Failed to fetch jobs due to database issue.");
+    throw new Error("Failed to retrieve jobs due to database issue.");
   }
 }
 
-export async function getLastJobsByCompanyId(companyId: string, limit?: number, startDate?: Date, endDate?: Date) {
+export async function getLastJobsByCompanyId(
+  companyId: string,
+  limit?: number,
+  startDate?: Date,
+  endDate?: Date
+) {
   try {
-
     const referenceDate = startDate || new Date();
     const jobs = await prisma.job.findMany({
       where: {
         companyId: companyId,
+        deleted: false,
         OR: [
           { closingDate: null },
-          { 
-            closingDate: { 
-              gte: referenceDate
-            } 
-          }
+          {
+            closingDate: {
+              gte: referenceDate,
+            },
+          },
         ],
         ...(startDate && { createdAt: { gte: startDate } }),
-        ...(endDate && { createdAt: { lte: endDate } })
+        ...(endDate && { createdAt: { lte: endDate } }),
       },
       orderBy: { createdAt: "desc" },
       take: limit,
@@ -105,7 +115,7 @@ export async function createJobView(jobId: string, candidateId: string) {
     });
   } catch (error) {
     console.error("Error creating job view:", error);
-    throw new Error("Job view creation failed due to database issue.");
+    throw new Error("Failed to record job view due to database issue.");
   }
 }
 
@@ -119,6 +129,7 @@ export async function getJobViewsCount(
       where: {
         job: {
           companyId: companyId,
+          deleted: false,
         },
         viewedAt: {
           gte: startDate,
@@ -128,18 +139,36 @@ export async function getJobViewsCount(
     });
   } catch (error) {
     console.error("Error fetching job views count:", error);
-    throw new Error("Failed to fetch job views count due to database issue.");
+    throw new Error(
+      "Failed to retrieve job views count due to database issue."
+    );
   }
 }
 
 export async function getJobById(jobId: string) {
   try {
-    return await prisma.job.findUnique({
-      where: { id: jobId },
+    const job = await prisma.job.findUnique({
+      where: { id: jobId, deleted: false },
+      include: {
+        _count: {
+          select: { applications: true },
+        },
+      },
     });
+    if (!job) {
+      return null;
+    }
+    const jobWithExtras = {
+      ...job,
+      totalApplications: job._count.applications,
+      status:
+        job.closingDate && job.closingDate > new Date() ? "OPEN" : "CLOSED",
+    };
+
+    return jobWithExtras;
   } catch (error) {
-    console.error("Error checking job existence:", error);
-    throw new Error("Failed to check job existence due to database issue.");
+    console.error("Error fetching job:", error);
+    throw new Error("Failed to retrieve job details due to database issue.");
   }
 }
 
@@ -150,34 +179,40 @@ export async function getTotalOpenJobsByCompanyId(
 ) {
   try {
     const referenceDate = startDate || new Date();
-    
+
     return await prisma.job.count({
       where: {
         companyId: companyId,
+        deleted: false,
         OR: [
           { closingDate: null },
-          { 
-            closingDate: { 
-              gte: referenceDate
-            } 
-          }
+          {
+            closingDate: {
+              gte: referenceDate,
+            },
+          },
         ],
         ...(startDate && { createdAt: { gte: startDate } }),
-        ...(endDate && { createdAt: { lte: endDate } })
-      }
+        ...(endDate && { createdAt: { lte: endDate } }),
+      },
     });
   } catch (error) {
-    console.error("Error fetching total open jobs:", error);
-    throw new Error("Failed to fetch total open jobs due to database issue.");
+    console.error("Error counting open jobs:", error);
+    throw new Error("Failed to count open jobs due to database issue.");
   }
 }
 
-export async function getJobsByType(companyId: string, startDate?: Date, endDate?: Date) {
+export async function getJobsByType(
+  companyId: string,
+  startDate?: Date,
+  endDate?: Date
+) {
   try {
     const jobTypesFromDB = await prisma.job.groupBy({
       by: ["type"],
       where: {
         companyId: companyId,
+        deleted: false,
         applications: {
           some: {
             appliedAt: {
@@ -185,7 +220,7 @@ export async function getJobsByType(companyId: string, startDate?: Date, endDate
               lte: endDate,
             },
           },
-        }
+        },
       },
       _count: {
         type: true,
@@ -215,34 +250,75 @@ export async function getJobsByType(companyId: string, startDate?: Date, endDate
     return result;
   } catch (error) {
     console.error("Error fetching jobs by type:", error);
-    throw new Error("Failed to fetch jobs by type due to database issue.");
+    throw new Error("Failed to retrieve jobs by type due to database issue.");
   }
 }
 
-export async function getCompanyDashboardData(
-  companyId: string,
-  startDate?: Date,
-  endDate?: Date
-) {
+export async function softDeleteJobById(id: string) {
   try {
-    const [totalApplications, jobOpen, applicationsSummary, jobView, companyJobs] =
-      await Promise.all([
-        getTotalApplicationsCountByCompanyId(companyId, startDate, endDate),
-        getTotalOpenJobsByCompanyId(companyId, startDate, endDate),
-        getJobsByType(companyId, startDate, endDate),
-        getJobViewsCount(companyId, startDate, endDate),
-        getLastJobsByCompanyId(companyId, 6, startDate, endDate),
-      ]);
-
-    return {
-      totalApplications,
-      jobOpen,
-      applicationsSummary,
-      jobView,
-      companyJobs,
-    };
+    return await prisma.job.update({
+      where: { id },
+      data: {
+        deleted: true,
+        deletedAt: new Date(),
+      },
+    });
   } catch (error) {
-    console.error("Error fetching dashboard data:", error);
-    throw new Error("Failed to fetch dashboard data due to database issue.");
+    console.error("Error soft-deleting job", error);
+    throw new Error("Failed to delete job due to database issue.");
+  }
+}
+
+export async function updateJobById(id: string, data: Job) {
+  try {
+    return await prisma.job.update({
+      where: { id },
+      data: data,
+    });
+  } catch (error) {
+    console.error("Error updating job:", error);
+    throw new Error("Failed to update job due to database issue.");
+  }
+}
+
+export async function updateClosingDateJobById(id: string, closingDate: Date) {
+  try {
+    return await prisma.job.update({
+      where: { id },
+      data: {
+        closingDate: new Date(closingDate),
+        updatedAt: new Date(),
+      },
+    });
+  } catch (error) {
+    console.error("Error updating closing date:", error);
+    throw new Error("Failed to update job closing date due to database issue.");
+  }
+}
+
+export async function canManageJob(clerkId: string, targetId: string) {
+  console.log("clerkId, targetId 1111111", clerkId, targetId);
+
+  try {
+    const loggedInUser = await getCompanyByClerkId(clerkId);
+
+    if (!loggedInUser?.company?.id) {
+      return false;
+    }
+    const loggedCompanyId = loggedInUser.company.id;
+
+    const targetJob = await getJobById(targetId);
+
+    if (!targetJob) {
+      return false;
+    }
+    const targetCompanyId = targetJob.companyId;
+
+    return loggedCompanyId === targetCompanyId;
+  } catch (error) {
+    console.error("Error checking management permissions:", error);
+    throw new Error(
+      "Failed to verify job management permissions. Please try again later."
+    );
   }
 }

@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
         },
       },
       orderBy: {
-        createdAt: 'desc'
+        createdAt: "desc",
       },
       select: {
         id: true,
@@ -51,9 +51,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    console.log(payments, "paymentsssssssssssss");
     return NextResponse.json(payments);
-    
   } catch (error) {
     console.error("Error fetching company payments:", error);
     return NextResponse.json(

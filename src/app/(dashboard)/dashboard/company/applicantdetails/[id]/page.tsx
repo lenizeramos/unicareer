@@ -1,21 +1,26 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
-import ButtonComp from "@/app/components/ButtonComp";
 import {
   FaUser,
   FaEnvelope,
-  FaInstagram,
+  /* FaInstagram,
   FaTwitter,
   FaGlobe,
-  FaPhone,
+  FaPhone, */
 } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
 import { styles } from "@/app/styles";
 import { InfoSectionProps, InfoItemProps } from "@/app/Types";
 import ContactInfoItem from "@/app/components/ContactInfoItem";
+import { IApplication } from "@/app/Types/slices";
+
+import { ConfirmDialog } from "primereact/confirmdialog";
+import { Toast } from "primereact/toast";
+import ApplicationStatusButton from "@/app/components/ApplicationStatusButton";
+/* import RejectedButton from "@/app/components/RejectedButton"; */
 
 const InfoSection = ({ title, children, className = "" }: InfoSectionProps) => (
   <div className={`pb-4 border-b border-gray-400 ${className}`}>
@@ -35,24 +40,34 @@ const InfoItem = ({ label, value }: InfoItemProps) => (
   </div>
 );
 
+const applicationStatusOptions = [
+  { label: "Mark as Pending", status: "PENDING" },
+  { label: "Interview", status: "INTERVIEWED" },
+  { label: "Reject", status: "REJECTED" },
+  { label: "Hire", status: "HIRED" },
+];
+
 const ApplicantDetailsPage = () => {
+  const toast = useRef<Toast>(null);
   const params = useParams();
   const applicationId = params?.id as string;
-  const [application, setApplication] = useState<any>(null);
+  const [application, setApplication] = useState<IApplication>();
   const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     if (applicationId) {
       const fetchApplicationById = async (applicationId: string) => {
         try {
-           setLoading(true);
+          setLoading(true);
           const response = await fetch(
-            `http://localhost:3000/api/get-application-by-id?id=${applicationId}`
+            `http://localhost:3000/api/application/${applicationId}`
           );
           if (!response.ok) throw new Error("Failed to fetch application data");
           const application = await response.json();
-          console.log(application, "application");
+
           setApplication(application);
+          setStatus(application.status);
         } catch (error) {
           console.error("Error fetching application:", error);
           throw error;
@@ -68,7 +83,7 @@ const ApplicantDetailsPage = () => {
     return <div>Loading...</div>;
   }
 
-  const candidate = application.candidate;
+  const candidate = application?.candidate;
   const user = candidate?.user;
 
   const capitalize = (str: string | undefined) => {
@@ -82,7 +97,7 @@ const ApplicantDetailsPage = () => {
 
   const education = candidate?.education?.[0];
   const workExperience = candidate?.workExperience?.[0];
-  const job = application.job;
+  const job = application?.job;
   const fullName = `${capitalize(candidate?.firstName)} ${capitalize(
     candidate?.lastName
   )}`.trim();
@@ -92,6 +107,9 @@ const ApplicantDetailsPage = () => {
 
   return (
     <>
+      <Toast ref={toast} />
+      <ConfirmDialog />
+
       <CompanyHeaderPaymentButton />
       <div className={styles.borderBottomLight} />
 
@@ -117,7 +135,9 @@ const ApplicantDetailsPage = () => {
           <div className="bg-gray-200 p-4 rounded-lg shadow-sm">
             <h4 className="text-lg font-semibold text-gray-800">Application</h4>
             <p className="text-gray-600">
-              {new Date(application.appliedAt).toLocaleDateString()}
+              {application?.appliedAt
+                ? new Date(application.appliedAt).toLocaleDateString()
+                : "N/A"}
             </p>
             <div className="mt-2">
               <h5 className="font-medium text-gray-800">{`${capitalize(
@@ -133,9 +153,19 @@ const ApplicantDetailsPage = () => {
               </p>
             </div>
           </div>
-
           <div className="pb-4 border-b border-gray-400 flex items-center justify-center">
-            <ButtonComp text="Interview" IsWhite={true} width="w-full" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {applicationStatusOptions.map((option) => (
+                <ApplicationStatusButton
+                  key={option.status}
+                  applicationId={applicationId}
+                  currentStatus={status || ""}
+                  targetStatus={option.status}
+                  label={option.label}
+                  setStatus={setStatus}
+                />
+              ))}
+            </div>
           </div>
 
           <InfoSection title="Contact">
@@ -144,7 +174,7 @@ const ApplicantDetailsPage = () => {
                 icon={<FaEnvelope />}
                 value={user?.email || ""}
               />
-              <ContactInfoItem
+              {/* <ContactInfoItem
                 icon={<FaPhone />}
                 value={candidate?.phone || ""}
               />
@@ -159,7 +189,7 @@ const ApplicantDetailsPage = () => {
               <ContactInfoItem
                 icon={<FaGlobe />}
                 value={candidate?.website || ""}
-              />
+              /> */}
             </ul>
           </InfoSection>
         </div>
@@ -180,7 +210,7 @@ const ApplicantDetailsPage = () => {
                     : ""
                 }
               />
-              <InfoItem
+              {/* <InfoItem
                 label="Address"
                 value={
                   candidate?.address && (
@@ -189,7 +219,7 @@ const ApplicantDetailsPage = () => {
                     </span>
                   )
                 }
-              />
+              /> */}
             </div>
           </InfoSection>
 

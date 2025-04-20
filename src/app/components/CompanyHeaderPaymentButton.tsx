@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { fetchCompany } from "@/app/context/slices/companySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
+import { clearJobToEdit } from "@/app/context/slices/jobToEditSlices";
 
 export default function CompanyHeaderPaymentButton() {
   const router = useRouter();
@@ -19,7 +20,8 @@ export default function CompanyHeaderPaymentButton() {
     dispatch(fetchCompany());
   }, [dispatch]);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
+    await dispatch(clearJobToEdit());
     router.push("/dashboard/company/postjob");
   };
 
@@ -31,7 +33,7 @@ export default function CompanyHeaderPaymentButton() {
       return;
     }
     try {
-      const response = await fetch("/api/create-payment-intent", {
+      const response = await fetch("/api/company/create-payment-intent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

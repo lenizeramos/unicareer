@@ -84,6 +84,7 @@ model Job {
   whoYouAre        String?
   niceToHave       String?
   benefits         String[]
+  deleted Boolean  @default(false)
   company          Company       @relation(fields: [companyId], references: [id])
   applications     Application[]
   jobView JobView[]
@@ -94,6 +95,8 @@ model Job {
   closingDate      DateTime?
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
+  
+ deletedAt DateTime?
 
   @@map("job")
   
@@ -128,6 +131,8 @@ enum ApplicationStatus {
   PENDING
   INTERVIEWED
   REJECTED
+  HIRED
+  CANCELLED_JOB
 }
 
 enum Role {
