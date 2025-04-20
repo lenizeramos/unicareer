@@ -12,7 +12,7 @@ export const fetchApplicationById = createAsyncThunk(
   "fetchApplicationById",
   async (applicationId: string) => {
     const response = await fetch(
-      `http://localhost:3000/api/get-application-by-id?id=${applicationId}`
+      `/api/get-application-by-id?id=${applicationId}`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch application data");

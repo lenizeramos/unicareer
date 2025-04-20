@@ -80,7 +80,7 @@ export default function JobDescription() {
   const getDate = (date: string) => {
     const createDate = new Date(date);
     const month = monthNames[createDate.getMonth()];
-    return `${month} ${createDate.getDay()} , ${createDate.getFullYear()} `;
+    return `${month} ${createDate.getDate()} , ${createDate.getFullYear()} `;
   };
   const category =
     typeof job.categories === "string" ? job.categories.toLowerCase() : "";

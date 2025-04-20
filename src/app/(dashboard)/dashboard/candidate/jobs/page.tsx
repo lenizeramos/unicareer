@@ -33,7 +33,10 @@ export default function FindJobs() {
     salary: { min: 0, max: 0 },
   });
 
-  const filtersJobs = jobs.filter((job) => {
+  const jobsWithStatus = jobs.filter(
+    (job) => new Date(job.closingDate) > new Date()
+  );
+  const filtersJobs = jobsWithStatus.filter((job) => {
     const matchesSearchTerm = job.location
       .toLowerCase()
       .includes(filters.searchLocation.toLowerCase());

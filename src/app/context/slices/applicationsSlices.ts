@@ -11,7 +11,7 @@ const initialState: IApplicationsState = {
 export const fetchApplications = createAsyncThunk(
   "fetchApplications",
   async () => {
-    const response = await fetch("http://localhost:3000/api/get-applications");
+    const response = await fetch("/api/get-applications");
     if (!response.ok) {
       throw new Error("Failed to fetch applications");
     }
