@@ -4,6 +4,9 @@ import prisma from "@/Lib/prisma";
 export async function GET() {
   try {
     const jobs = await prisma.job.findMany({
+      where: {
+        deleted: false,
+      },
       include: {
         company: {
           include: {

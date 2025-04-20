@@ -33,7 +33,7 @@ const DeleteJobButton = ({
             },
           });
 
-          if (!res.ok) throw new Error("Error deteling job");
+          if (!res.ok) throw new Error("Error deleting job");
 
           router.push(`/dashboard/company/joblisting`);
           toast.success(`Job Deleted! ${jobId}`);

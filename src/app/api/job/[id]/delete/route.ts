@@ -1,9 +1,8 @@
-import { NextResponse, NextRequest } from "next/server";
-/* import prisma from "@/Lib/prisma"; */
+import { NextResponse } from "next/server";
+import prisma from "@/Lib/prisma";
 
-export default async function DELETE(
-  req: NextRequest,
-  res: NextResponse,
+export async function DELETE(
+  req: Request,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -15,16 +14,29 @@ export default async function DELETE(
         { status: 400 }
       );
     }
-    
-    /* const deleteJob = await prisma.job.update({
+
+    const deleteJob = await prisma.job.update({
       where: { id },
       data: {
         deleted: true,
         deletedAt: new Date(),
       },
-    }); */
+    });
 
-    return NextResponse.json(deleteJob);
+    if (deleteJob.deleted) {
+      await prisma.application.updateMany({
+        where: {
+          job: {
+            id: id,
+          },
+        },
+        data: {
+          status: "CANCELLED_JOB",
+        },
+      });
+    }
+
+    return NextResponse.json("Your job was successfully deleted.");
   } catch (error) {
     console.error("Error deleting job:", error);
     return NextResponse.json(

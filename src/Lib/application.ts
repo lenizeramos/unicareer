@@ -47,6 +47,7 @@ export async function getTotalApplicationsCountByCompanyId(
       where: {
         job: {
           companyId: companyId,
+          deleted: false,
         },
         appliedAt: {
           gte: startDate,
@@ -80,6 +81,7 @@ export async function getApplicationsByCompanyId(
       where: {
         job: {
           companyId,
+          deleted: false,
         },
         appliedAt: {
           ...(startDate && { gte: startDate }),
@@ -145,6 +147,7 @@ export async function updateApplicationStatus(
     throw new Error("Application update failed due to database issue." + error);
   }
 }
+
 export async function deleteApplication(id: string) {
   try {
     return await prisma.application.delete({

@@ -60,6 +60,8 @@ export interface Job {
   benefits?: string[];
   closingDate?: Date;
   companyId: string;
+  deleted: boolean;
+  deletedAt: Date;
 }
 
 export interface Company {

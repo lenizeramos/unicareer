@@ -38,6 +38,7 @@ export async function getJobByCompanyId(
     const jobs = await prisma.job.findMany({
       where: {
         companyId: companyId,
+        deleted: false,
         createdAt: {
           ...(startDate && { gte: startDate }),
           ...(endDate && { lte: endDate }),
@@ -69,6 +70,7 @@ export async function getLastJobsByCompanyId(
     const jobs = await prisma.job.findMany({
       where: {
         companyId: companyId,
+        deleted: false,
         OR: [
           { closingDate: null },
           {
@@ -127,6 +129,7 @@ export async function getJobViewsCount(
       where: {
         job: {
           companyId: companyId,
+          deleted: false,
         },
         viewedAt: {
           gte: startDate,
@@ -143,7 +146,7 @@ export async function getJobViewsCount(
 export async function getJobById(jobId: string) {
   try {
     const job = await prisma.job.findUnique({
-      where: { id: jobId },
+      where: { id: jobId, deleted: false },
       include: {
         _count: {
           select: { applications: true },
@@ -153,7 +156,7 @@ export async function getJobById(jobId: string) {
     if (!job) {
       return null;
     }
-    const jobWithExtras  = {
+    const jobWithExtras = {
       ...job,
       totalApplications: job._count.applications,
       status:
@@ -178,6 +181,7 @@ export async function getTotalOpenJobsByCompanyId(
     return await prisma.job.count({
       where: {
         companyId: companyId,
+        deleted: false,
         OR: [
           { closingDate: null },
           {
@@ -206,6 +210,7 @@ export async function getJobsByType(
       by: ["type"],
       where: {
         companyId: companyId,
+        deleted: false,
         applications: {
           some: {
             appliedAt: {
@@ -279,26 +284,3 @@ export async function getCompanyDashboardData(
     throw new Error("Failed to fetch dashboard data due to database issue.");
   }
 }
-
-
-/* export async function getJobApplicationsCount(jobId: string) {
-  try {
-    const count = await prisma.job.findUnique({
-      where: { id: jobId },
-      select: {
-        _count: {
-          select: { applications: true },
-        },
-      },
-    });
-
-    if (!count) {
-      return 0;
-    }
-
-    return count._count.applications;
-  } catch (error) {
-    console.error("Error getting application count:", error);
-    throw new Error("Failed to get application count due to database issue.");
-  }
-} */
