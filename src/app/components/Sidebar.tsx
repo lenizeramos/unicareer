@@ -44,7 +44,7 @@ export default function Sidebar({ userType, isOpen = true, onClose }: SidebarPro
   useEffect(() => {
     const getUserId = async () => {        
         try {
-            const response = await fetch('/api/get-user-by-clerk-id', {
+            const response = await fetch('/api/user/get-user-by-clerk-id', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

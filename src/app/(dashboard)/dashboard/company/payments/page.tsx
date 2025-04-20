@@ -22,14 +22,13 @@ export default function CompanyPage() {
   };
 
   useEffect(() => {
-
     const fetchCompanyPayments = async () => {
       let queryParams = "";
       if (startDate && endDate) {
         queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
       }
       try {
-        const response = await fetch(`/api/get-company-payments${queryParams}`);
+        const response = await fetch(`/api/company/payments${queryParams}`);
         if (response.ok) {
           const payments = await response.json();
           setPayments(payments);
@@ -53,7 +52,7 @@ export default function CompanyPage() {
       return <p>Not Found</p>;
     }
     const createDate = date;
-    console.log(createDate.toUTCString(), "createDateeeee");
+
     const month = monthNames[createDate.getMonth()];
     return `${month} ${createDate.getDate()}`;
   };

@@ -6,13 +6,19 @@ import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentBut
 import { IJob } from "@/app/Types";
 import DateRangePicker from "@/app/components/DateRangePicker";
 import { monthNames } from "@/app/constants";
+import { useRouter } from "next/navigation";
 
 export default function CompanyPage() {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [companyJobs, setCompanyJobs] = useState<IJob[]>([]);
   const [startDate, setStartDate] = useState<Date | null>();
   const [endDate, setEndDate] = useState<Date | null>();
+
+  const handleViewJobDetails = (id: string) => {
+    router.push(`/dashboard/company/jobdetails/${id}`);
+  };
 
   const columns = {
     title: "Title",
@@ -23,6 +29,7 @@ export default function CompanyPage() {
     categories: "Categories",
     closingDate: "Closing Date",
     createdAt: "Created At",
+    actionButton: "Actions",
   };
 
   useEffect(() => {
@@ -33,19 +40,18 @@ export default function CompanyPage() {
 
     const fetchCompanyJobs = async () => {
       try {
-        const response = await fetch(`/api/company/get-jobs${queryParams}`);
+        const response = await fetch(`/api/company/jobs${queryParams}`);
         if (!response.ok) throw new Error("Failed to fetch company jobs");
         const jobs = await response.json();
-        console.log(jobs, "jobs");
+
         setCompanyJobs(jobs);
       } catch (error) {
         console.error("Error fetching job:", error);
         throw error;
-      } 
+      }
     };
     fetchCompanyJobs();
   }, [startDate, endDate]);
-
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -63,7 +69,7 @@ export default function CompanyPage() {
       return <p>Not Found</p>;
     }
     const createDate = date;
-    console.log(createDate.toUTCString(), "createDateeeee");
+
     const month = monthNames[createDate.getMonth()];
     return `${month} ${createDate.getDate()}`;
   };
@@ -95,6 +101,7 @@ export default function CompanyPage() {
         currentPage={currentPage}
         onPageChange={setCurrentPage}
         totalItems={companyJobs.length}
+        onViewJobDetails={handleViewJobDetails}
       />
     </>
   );

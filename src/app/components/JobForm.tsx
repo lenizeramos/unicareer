@@ -19,22 +19,38 @@ import {
   jobsTypes,
   jobLevel,
 } from "@/app/constants/index";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/app/context/store";
+import { clearJobToEdit } from "@/app/context/slices/jobToEditSlices";
 
-const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
+const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
   const stepperRef = useRef(null);
-  const [closingDate, setClosingDate] = useState<Date | null>(null);
-  const [title, setTitle] = useState("");
-  const [level, setLevel] = useState("");
-  const [type, setType] = useState("");
-  const [categories, setCategories] = useState("");
-  const [skills, setSkills] = useState<string[]>([]);
-  const [description, setDescription] = useState("");
-  const [location, setLocation] = useState("");
-  const [responsibilities, setResponsibilities] = useState("");
-  const [whoYouAre, setWhoYouAre] = useState("");
-  const [niceToHave, setNiceToHave] = useState("");
-  const [benefits, setBenefits] = useState<string[]>([]);
-  const [salary, setSalary] = useState([10, 100]);
+  const dispatch = useDispatch<AppDispatch>();
+  const [closingDate, setClosingDate] = useState<Date | null>(
+    initialData?.closingDate ? new Date(initialData.closingDate) : null
+  );
+  const [title, setTitle] = useState(initialData?.title || "");
+  const [level, setLevel] = useState(initialData?.level || "");
+  const [type, setType] = useState(initialData?.type || "");
+  const [categories, setCategories] = useState(initialData?.categories || "");
+  const [skills, setSkills] = useState<string[]>(initialData?.skills || []);
+  const [description, setDescription] = useState(
+    initialData?.description || ""
+  );
+  const [location, setLocation] = useState(initialData?.location || "");
+  const [responsibilities, setResponsibilities] = useState(
+    initialData?.responsibilities || ""
+  );
+  const [whoYouAre, setWhoYouAre] = useState(initialData?.whoYouAre || "");
+  const [niceToHave, setNiceToHave] = useState(initialData?.niceToHave || "");
+  const [benefits, setBenefits] = useState<string[]>(
+    initialData?.benefits || []
+  );
+  const [salary, setSalary] = useState<[number, number]>(
+    initialData?.salary || 
+    (initialData?.salaryMin && initialData?.salaryMax 
+      ? [initialData.salaryMin, initialData.salaryMax] 
+      : [10, 100]));
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedDate = e.target.value;
@@ -56,6 +72,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
       return;
     }
     onClick({
+      id: initialData?.id,
       closingDate,
       title,
       level,
@@ -70,6 +87,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
       niceToHave,
       benefits,
     });
+    dispatch(clearJobToEdit());
   };
 
   return (
@@ -159,9 +177,11 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick }) => {
                 id="salaryRange"
                 min={10}
                 max={100}
-                step={10}
+                step={1}
                 initialValues={salary}
-                onChange={(newValues: number[]) => setSalary(newValues)}
+                onChange={(newValues: number[]) =>
+                  setSalary(newValues as [number, number])
+                }
                 classNameDivContainer={classNameDivContainer}
                 classNameLabel={classNameLabel}
                 classNameDivLgWidth={classNameDivLgWidth}

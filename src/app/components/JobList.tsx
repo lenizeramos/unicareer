@@ -1,6 +1,8 @@
-import { FaArrowLeft, FaArrowRight, FaFilter } from "react-icons/fa";
+"use client";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { JobListProps, IJob } from "../Types";
 import Badge from "./Badge";
+import ButtonComp from "./ButtonComp";
 
 export default function JobList({
   jobs,
@@ -10,18 +12,12 @@ export default function JobList({
   currentPage,
   onPageChange,
   totalItems,
+  onViewJobDetails,
 }: JobListProps) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   return (
     <div className="mt-8 border-light">
-      {/* <div className="flex justify-between items-center border-bottom-light p-8">
-        <h2 className="text-xl text-title-color font-bold">Job List</h2>
-        <button className="flex items-center gap-2 text-sm text-title-color border-light p-4">
-          <FaFilter />
-          <p>Filters</p>
-        </button>
-      </div> */}
       <div className="overflow-x-scroll max-w-[360px] md:max-w-full md:w-full text-center">
         <table className="w-full pe-8 ps-8">
           <thead className="p-8 bg-gray-100 text-gray-600 text-sm font-semibold border-t border-b">
@@ -57,10 +53,19 @@ export default function JobList({
                         key === "createdAt" ||
                         key === "updatedAt" ? (
                         <div className="text-lg font-[500]">
-                          {typeof value === "string" || typeof value === "number"
+                          {typeof value === "string" ||
+                          typeof value === "number"
                             ? new Date(value).toLocaleDateString()
                             : "-"}
                         </div>
+                      ) : key === "actionButton" ? (
+                        <ButtonComp
+                          text="View Job"
+                          IsWhite={true}
+                          onClick={() =>
+                            onViewJobDetails && onViewJobDetails(job.id ?? "")
+                          }
+                        />
                       ) : (
                         value
                       )}

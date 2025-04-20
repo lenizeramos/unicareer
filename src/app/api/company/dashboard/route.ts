@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
 import { getUserByClerkId } from "@/Lib/usersService";
-import { getCompanyDashboardData } from "@/Lib/job";
+import { getCompanyDashboardData } from "@/Lib/company";
 
 export async function GET(req: NextRequest) {
   try {
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
       startDate,
       endDate
     );
-    console.log(companyDashboardData, "companyDashboardData backend!!!!");
+
     return NextResponse.json(companyDashboardData);
   } catch (error) {
     console.error("Failed to fetch company dashboard data", error);
