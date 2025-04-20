@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { updateClosingDateJobById } from "@/Lib/job";
+import { updateClosingDateJobById, canManageJob } from "@/Lib/job";
+import { getClerkUserId } from "@/utils/user";
 
 export async function PATCH(
   request: Request,
@@ -16,6 +17,11 @@ export async function PATCH(
       );
     }
 
+    const clerkUserId = await getClerkUserId();
+
+    if (!(await canManageJob(clerkUserId, id))) {
+      return NextResponse.json({ error: "Permission denied" }, { status: 403 });
+    }
     const updatedJob = await updateClosingDateJobById(id, closingDate);
 
     return NextResponse.json(updatedJob);

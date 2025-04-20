@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { softDeleteJobById } from "@/Lib/job";
+import { softDeleteJobById, canManageJob } from "@/Lib/job";
 import { updateApplicationStatusToCancelledJob } from "@/Lib/application";
+import { getClerkUserId } from "@/utils/user";
 
 export async function DELETE(
   req: Request,
@@ -14,6 +15,12 @@ export async function DELETE(
         { error: "Job ID is required" },
         { status: 400 }
       );
+    }
+
+    const clerkUserId = await getClerkUserId();
+
+    if (!await canManageJob(clerkUserId, id)) {
+      return NextResponse.json({ error: "Permission denied" }, { status: 403 });
     }
 
     const deleteJob = await softDeleteJobById(id);

@@ -1,5 +1,6 @@
 import prisma from "./prisma";
 import { Job } from "../types/index";
+import { getCompanyByClerkId } from "@/Lib/company";
 
 export async function createJob(data: Job) {
   try {
@@ -138,7 +139,9 @@ export async function getJobViewsCount(
     });
   } catch (error) {
     console.error("Error fetching job views count:", error);
-    throw new Error("Failed to retrieve job views count due to database issue.");
+    throw new Error(
+      "Failed to retrieve job views count due to database issue."
+    );
   }
 }
 
@@ -290,5 +293,32 @@ export async function updateClosingDateJobById(id: string, closingDate: Date) {
   } catch (error) {
     console.error("Error updating closing date:", error);
     throw new Error("Failed to update job closing date due to database issue.");
+  }
+}
+
+export async function canManageJob(clerkId: string, targetId: string) {
+  console.log("clerkId, targetId 1111111", clerkId, targetId);
+
+  try {
+    const loggedInUser = await getCompanyByClerkId(clerkId);
+
+    if (!loggedInUser?.company?.id) {
+      return false;
+    }
+    const loggedCompanyId = loggedInUser.company.id;
+
+    const targetJob = await getJobById(targetId);
+
+    if (!targetJob) {
+      return false;
+    }
+    const targetCompanyId = targetJob.companyId;
+
+    return loggedCompanyId === targetCompanyId;
+  } catch (error) {
+    console.error("Error checking management permissions:", error);
+    throw new Error(
+      "Failed to verify job management permissions. Please try again later."
+    );
   }
 }

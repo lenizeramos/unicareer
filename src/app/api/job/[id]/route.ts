@@ -1,7 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
-import { getUserByClerkId } from "@/Lib/usersService";
-import { getJobById } from "@/Lib/job";
+import { getJobById, canManageJob } from "@/Lib/job";
 
 export async function GET(
   req: NextRequest,
@@ -17,10 +16,8 @@ export async function GET(
 
     if (!clerkUserId) return new NextResponse("Unauthorized", { status: 401 });
 
-    const user = await getUserByClerkId(clerkUserId);
-
-    if (!user) {
-      return new NextResponse("User not found", { status: 404 });
+    if (!(await canManageJob(clerkUserId, jobId))) {
+      return NextResponse.json({ error: "Permission denied" }, { status: 403 });
     }
 
     const job = await getJobById(jobId);

@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getApplicationsCountByJobId } from "@/Lib/application";
-import { updateJobById } from "@/Lib/job";
+import { updateJobById, canManageJob } from "@/Lib/job";
+import { getClerkUserId } from "@/utils/user";
 
 export async function PATCH(
   req: NextRequest,
@@ -18,6 +19,12 @@ export async function PATCH(
     delete body.createdAt;
 
     body.updatedAt = new Date();
+
+    const clerkUserId = await getClerkUserId();
+
+    if (!(await canManageJob(clerkUserId, id))) {
+      return NextResponse.json({ error: "Permission denied" }, { status: 403 });
+    }
 
     const jobApplications = await getApplicationsCountByJobId(id);
 
