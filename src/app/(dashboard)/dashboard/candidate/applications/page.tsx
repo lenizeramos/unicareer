@@ -21,9 +21,9 @@ export default function Application() {
     (state: RootState) => state.applications as IApplicationsState
   );
   const { candidate, isLoading } = useCandidateData();
-  const startDefault = new Date();
   const endDefault = new Date();
-  endDefault.setDate(startDefault.getDate() + 5);
+  const startDefault = new Date();
+  startDefault.setDate(endDefault.getDate() - 5);
 
   const [startDate, setStartDate] = useState<Date | null>(startDefault);
   const [endDate, setEndDate] = useState<Date | null>(endDefault);
@@ -78,28 +78,39 @@ export default function Application() {
       status: application.status ?? "Unknown",
     };
   });
-
+  const isSameDate =
+    endDate?.getDate() === startDate?.getDate() &&
+    endDate?.getMonth() === startDate?.getMonth() &&
+    endDate?.getFullYear() === startDate?.getFullYear();
   return (
     <>
       <DashboardNavbar
         title="My Applications"
         button={{ text: "Back to home page", IsWhite: true }}
       />
-        <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
-          <div>
-            <h3 className={`${styles.JobDescriptionTitle}`}>
-              Keep it up, {candidate.firstName}
-            </h3>
+      <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-25 py-8 w-full ">
+        <div>
+          <h3 className={`${styles.JobDescriptionTitle}`}>
+            Keep it up, {candidate.firstName}
+          </h3>
+          {!isSameDate ? (
             <p className={`${styles.JobDescriptionText}`}>
               Here is job applications status from {getDate(startDate)} -
               {getDate(endDate)}
             </p>
-          </div>
+          ) : (
+            <p className={`${styles.JobDescriptionText}`}>
+              Here is job applications status in {getDate(startDate)}
+            </p>
+          )}
+        </div>
+        <div className="">
           <DateRangePicker
             setStartDate={setStartDate}
             setEndDate={setEndDate}
           />
         </div>
+      </div>
       <div className="mt-3">
         <div className="font-shafarik flex md:gap-20 sm:gap-15 gap-5 sm:text-lg text-[14px] border-b-[1px] border-gray-200 px-3 pt-3">
           {statusTags.map((status, index) => {
