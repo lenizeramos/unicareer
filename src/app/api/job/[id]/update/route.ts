@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
-import prisma from "@/Lib/prisma";
+import { getApplicationsCountByJobId } from "@/Lib/application";
+import { updateJobById } from "@/Lib/job";
 
 export async function PATCH(
   req: NextRequest,
@@ -18,15 +19,11 @@ export async function PATCH(
 
     body.updatedAt = new Date();
 
-    const jobApplications = await prisma.application.count({
-      where: { jobId: id },
-    });
+    const jobApplications = await getApplicationsCountByJobId(id);
 
     if (jobApplications === 0) {
-      const updatedJob = await prisma.job.update({
-        where: { id },
-        data: body,
-      });
+      const updatedJob = await updateJobById(id, body);
+
       return NextResponse.json(updatedJob);
     } else {
       return new NextResponse(

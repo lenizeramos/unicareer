@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import prisma from "@/Lib/prisma";
+import { softDeleteJobById } from "@/Lib/job";
+import { updateApplicationStatusToCancelledJob } from "@/Lib/application";
 
 export async function DELETE(
   req: Request,
@@ -15,25 +16,10 @@ export async function DELETE(
       );
     }
 
-    const deleteJob = await prisma.job.update({
-      where: { id },
-      data: {
-        deleted: true,
-        deletedAt: new Date(),
-      },
-    });
+    const deleteJob = await softDeleteJobById(id);
 
     if (deleteJob.deleted) {
-      await prisma.application.updateMany({
-        where: {
-          job: {
-            id: id,
-          },
-        },
-        data: {
-          status: "CANCELLED_JOB",
-        },
-      });
+      await updateApplicationStatusToCancelledJob(id);
     }
 
     return NextResponse.json("Your job was successfully deleted.");

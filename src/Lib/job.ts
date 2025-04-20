@@ -1,6 +1,5 @@
 import prisma from "./prisma";
 import { Job } from "../types/index";
-import { getTotalApplicationsCountByCompanyId } from "./application";
 
 export async function createJob(data: Job) {
   try {
@@ -55,7 +54,7 @@ export async function getJobByCompanyId(
     return jobsWithStatus;
   } catch (error) {
     console.error("Error fetching jobs:", error);
-    throw new Error("Failed to fetch jobs due to database issue.");
+    throw new Error("Failed to retrieve jobs due to database issue.");
   }
 }
 
@@ -115,7 +114,7 @@ export async function createJobView(jobId: string, candidateId: string) {
     });
   } catch (error) {
     console.error("Error creating job view:", error);
-    throw new Error("Job view creation failed due to database issue.");
+    throw new Error("Failed to record job view due to database issue.");
   }
 }
 
@@ -139,7 +138,7 @@ export async function getJobViewsCount(
     });
   } catch (error) {
     console.error("Error fetching job views count:", error);
-    throw new Error("Failed to fetch job views count due to database issue.");
+    throw new Error("Failed to retrieve job views count due to database issue.");
   }
 }
 
@@ -165,8 +164,8 @@ export async function getJobById(jobId: string) {
 
     return jobWithExtras;
   } catch (error) {
-    console.error("Error checking job existence:", error);
-    throw new Error("Failed to check job existence due to database issue.");
+    console.error("Error fetching job:", error);
+    throw new Error("Failed to retrieve job details due to database issue.");
   }
 }
 
@@ -195,8 +194,8 @@ export async function getTotalOpenJobsByCompanyId(
       },
     });
   } catch (error) {
-    console.error("Error fetching total open jobs:", error);
-    throw new Error("Failed to fetch total open jobs due to database issue.");
+    console.error("Error counting open jobs:", error);
+    throw new Error("Failed to count open jobs due to database issue.");
   }
 }
 
@@ -248,39 +247,48 @@ export async function getJobsByType(
     return result;
   } catch (error) {
     console.error("Error fetching jobs by type:", error);
-    throw new Error("Failed to fetch jobs by type due to database issue.");
+    throw new Error("Failed to retrieve jobs by type due to database issue.");
   }
 }
 
-export async function getCompanyDashboardData(
-  companyId: string,
-  startDate?: Date,
-  endDate?: Date
-) {
+export async function softDeleteJobById(id: string) {
   try {
-    const [
-      totalApplications,
-      jobOpen,
-      applicationsSummary,
-      jobView,
-      companyJobs,
-    ] = await Promise.all([
-      getTotalApplicationsCountByCompanyId(companyId, startDate, endDate),
-      getTotalOpenJobsByCompanyId(companyId, startDate, endDate),
-      getJobsByType(companyId, startDate, endDate),
-      getJobViewsCount(companyId, startDate, endDate),
-      getLastJobsByCompanyId(companyId, 6, startDate, endDate),
-    ]);
-
-    return {
-      totalApplications,
-      jobOpen,
-      applicationsSummary,
-      jobView,
-      companyJobs,
-    };
+    return await prisma.job.update({
+      where: { id },
+      data: {
+        deleted: true,
+        deletedAt: new Date(),
+      },
+    });
   } catch (error) {
-    console.error("Error fetching dashboard data:", error);
-    throw new Error("Failed to fetch dashboard data due to database issue.");
+    console.error("Error soft-deleting job", error);
+    throw new Error("Failed to delete job due to database issue.");
+  }
+}
+
+export async function updateJobById(id: string, data: Job) {
+  try {
+    return await prisma.job.update({
+      where: { id },
+      data: data,
+    });
+  } catch (error) {
+    console.error("Error updating job:", error);
+    throw new Error("Failed to update job due to database issue.");
+  }
+}
+
+export async function updateClosingDateJobById(id: string, closingDate: Date) {
+  try {
+    return await prisma.job.update({
+      where: { id },
+      data: {
+        closingDate: new Date(closingDate),
+        updatedAt: new Date(),
+      },
+    });
+  } catch (error) {
+    console.error("Error updating closing date:", error);
+    throw new Error("Failed to update job closing date due to database issue.");
   }
 }

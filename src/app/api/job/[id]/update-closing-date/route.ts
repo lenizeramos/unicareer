@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import prisma from "@/Lib/prisma";
+import { updateClosingDateJobById } from "@/Lib/job";
 
 export async function PATCH(
   request: Request,
@@ -16,13 +16,7 @@ export async function PATCH(
       );
     }
 
-    const updatedJob = await prisma.job.update({
-      where: { id },
-      data: {
-        closingDate: new Date(closingDate),
-        updatedAt: new Date(),
-      },
-    });
+    const updatedJob = await updateClosingDateJobById(id, closingDate);
 
     return NextResponse.json(updatedJob);
   } catch (error) {

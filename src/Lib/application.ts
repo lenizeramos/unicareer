@@ -1,6 +1,5 @@
 import prisma from "./prisma";
-import { Application } from "@prisma/client";
-import { ApplicationStatus } from "@prisma/client";
+import { Application, ApplicationStatus } from "@prisma/client";
 
 export async function createApplication(data: Application) {
   try {
@@ -11,7 +10,8 @@ export async function createApplication(data: Application) {
       },
     });
   } catch (error) {
-    throw new Error("Application failed due to database issue." + error);
+    console.error(`Error creating application:`, error);
+    throw new Error("Failed to submit application.");
   }
 }
 
@@ -33,7 +33,8 @@ export async function getApplicationById(id: string) {
       },
     });
   } catch (error) {
-    throw new Error("Application not found." + error);
+    console.error(`Error fetching application:`, error);
+    throw new Error("Failed to retrieve application details.");
   }
 }
 
@@ -56,9 +57,9 @@ export async function getTotalApplicationsCountByCompanyId(
       },
     });
   } catch (error) {
-    console.error("Error fetching total applications:", error);
+    console.error("Error counting applications:", error);
     throw new Error(
-      "Failed to fetch total applications due to database issue."
+      "Failed to retrieve total applications due to database issue."
     );
   }
 }
@@ -130,7 +131,7 @@ export async function getApplicationsByCompanyId(
     return applications;
   } catch (error) {
     console.error("Error fetching applications:", error);
-    throw new Error("Failed to fetch applications due to database issue.");
+    throw new Error("Failed to retrieve applications due to database issue.");
   }
 }
 
@@ -144,7 +145,8 @@ export async function updateApplicationStatus(
       data: { status },
     });
   } catch (error) {
-    throw new Error("Application update failed due to database issue." + error);
+    console.error(`Error updating status:`, error);
+    throw new Error("Failed to update application status.");
   }
 }
 
@@ -154,8 +156,36 @@ export async function deleteApplication(id: string) {
       where: { id },
     });
   } catch (error) {
-    throw new Error(
-      "Application deletion failed due to database issue." + error
-    );
+    console.error(`Error deleting application:`, error);
+    throw new Error("Failed to delete application.");
+  }
+}
+
+export async function updateApplicationStatusToCancelledJob(id: string) {
+  try {
+    return await prisma.application.updateMany({
+      where: {
+        job: {
+          id: id,
+        },
+      },
+      data: {
+        status: "CANCELLED_JOB",
+      },
+    });
+  } catch (error) {
+    console.error(`Error updating applications to CANCELLED_JOB:`, error);
+    throw new Error("Failed to update applications status.");
+  }
+}
+
+export async function getApplicationsCountByJobId(id: string) {
+  try {
+    return await prisma.application.count({
+      where: { jobId: id },
+    });
+  } catch (error) {
+    console.error(`Error counting applications:`, error);
+    throw new Error("Failed to retrieve applications count.");
   }
 }
