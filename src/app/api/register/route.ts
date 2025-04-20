@@ -1,90 +1,26 @@
-import { NextResponse, NextRequest } from "next/server";
-import {
-  createUserAndCandidate,
-  createUserAndCompany,
-  updateCandidate,
-} from "@/Lib/usersService";
+import { NextResponse } from "next/server";
+import { updateCandidate } from "@/Lib/server/usersService";
 import { getClerkUserId } from "@/utils/user";
-import prisma from "@/Lib/prisma";
 
-export async function POST(req: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const payload = await req.json();
-
+    const userData = await request.json();
     const userId = await getClerkUserId();
-    if (!userId) return NextResponse.redirect(new URL("/sign-in", req.url));
-
-    const user = await fetch(`https://api.clerk.com/v1/users/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
-      },
-    }).then((res) => res.json());
-
-    payload.id = userId;
-    payload.email = user.email_addresses[0]?.email_address || "Email not found";
-    payload.image_url = user.image_url;
-
-    if (payload.role === "CANDIDATE") {
-      try {
-        const dbUser = await prisma.user.findUnique({
-          where: { clerkId: userId }
-        });
-
-        if (!dbUser) {
-          const result = await createUserAndCandidate(payload);
-          return NextResponse.json({ 
-            message: "Candidate created successfully",
-            data: result 
-          });
-        }
-
-        const existingCandidate = await prisma.candidate.findUnique({
-          where: { userId: dbUser.id },
-          include: {
-            education: true,
-            workExperience: true,
-            languages: true,
-          }
-        });
-
-        payload.userId = dbUser.id;
-
-        const result = existingCandidate 
-          ? await updateCandidate(payload)
-          : await createUserAndCandidate(payload);
-
-        return NextResponse.json({ 
-          message: `Candidate ${existingCandidate ? 'updated' : 'created'} successfully`,
-          data: result 
-        });
-      } catch (error) {
-        console.error("Error creating candidate:", error);
-        return NextResponse.json({ 
-          error: error instanceof Error ? error.message : "Failed to create Candidate" 
-        }, { status: 500 });
-      }
+    
+    if (!userId) {
+      return NextResponse.json(
+        { error: "Unauthorized" }, 
+        { status: 401 }
+      );
     }
 
-    if (payload.role === "COMPANY") {
-      try {
-        const result = await createUserAndCompany(payload);
-        return NextResponse.json({ 
-          message: "Company created successfully",
-          data: result 
-        });
-      } catch (error) {
-        console.error("Error creating company:", error);
-        return NextResponse.json({ 
-          error: error instanceof Error ? error.message : "Failed to create Company" 
-        }, { status: 500 });
-      }
-    }
-
-    return NextResponse.json({ 
-      error: "Invalid role specified" 
-    }, { status: 400 });
+    const updatedUser = await updateCandidate({ ...userData, userId });
+    return NextResponse.json(updatedUser);
   } catch (error) {
-    console.error("Error", error);
-    return new NextResponse("Error", { status: 500 });
+    console.error("Error updating candidate:", error);
+    return NextResponse.json(
+      { error: "Failed to update candidate profile" }, 
+      { status: 500 }
+    );
   }
 }

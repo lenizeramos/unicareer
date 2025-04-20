@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
 import { createApplication } from "@/Lib/application";
-import { getUserByClerkId } from "@/Lib/usersService";
+import { getUserByClerkId } from "@/Lib/server/usersService";
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     const clerkUserId = await getClerkUserId();
 
     if (!clerkUserId) {
-      return NextResponse.redirect(new URL("/sign-in", req.url));
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const user = await getUserByClerkId(clerkUserId);

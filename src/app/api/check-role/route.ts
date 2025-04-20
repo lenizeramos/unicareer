@@ -1,22 +1,20 @@
 import { NextResponse } from "next/server";
-import prisma from "@/Lib/prisma";
+import { checkUserRole } from '@/Lib/server/usersService';
 import { getClerkUserId } from "@/utils/user";
 
-export async function GET(req: Request) {
+export async function POST(request: Request) {
   try {
-    const clerkId = await getClerkUserId();
-    if (!clerkId) {
-      return NextResponse.json({ role: null });
+    const { role } = await request.json();
+    const userId = await getClerkUserId();
+    
+    if (!userId) {
+      return NextResponse.json({ hasRole: false }, { status: 401 });
     }
 
-    const user = await prisma.user.findUnique({
-      where: { clerkId },
-      select: { role: true }
-    });
-
-    return NextResponse.json({ role: user?.role || null });
+    const hasRole = await checkUserRole(userId, role);
+    return NextResponse.json({ hasRole });
   } catch (error) {
-    console.error("Error checking role:", error);
-    return NextResponse.json({ role: null }, { status: 500 });
+    console.error('Error checking role:', error);
+    return NextResponse.json({ hasRole: false }, { status: 500 });
   }
 } 

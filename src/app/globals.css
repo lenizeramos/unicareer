@@ -277,34 +277,6 @@ body {
   margin: 0 auto;
 }
 
-@media (max-width: 768px) {
-  .p-stepper {
-    width: 100%;
-    padding: 0.5rem;
-  }
-
-  .p-stepper-action {
-    flex-direction: column;
-  }
-
-  .p-stepper-title {
-    font-size: 0.8rem;
-    margin: 0;
-  }
-  .p-stepper-content {
-    width: 100%;
-    margin: auto;
-  }
-
-  .p-stepper-panels {
-    padding: 0;
-  }
-
-  .p-stepper-separator {
-    display: none;
-  }
-}
-
 /* CLerk */
 .cl-formButtonPrimary {
   font-size: 14px;
@@ -332,4 +304,45 @@ body {
 
 .p-chips .p-chips-multiple-container .p-chips-token {
   color: var(--color-menuItem);
+}
+
+.profile-image-style {
+  width: 90px !important;
+  height: 90px !important;
+  border-radius: 50% !important;
+}
+
+@media (max-width: 576px) {
+  .profile-image-style {
+    width: 60px !important;
+    height: 60px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .p-stepper {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .p-stepper-action {
+    flex-direction: column;
+  }
+
+  .p-stepper-title {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+  .p-stepper-content {
+    width: 100%;
+    margin: auto;
+  }
+
+  .p-stepper-panels {
+    padding: 0;
+  }
+
+  .p-stepper-separator {
+    display: none;
+  }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChipsField from "./ChipsField";
 import { ICandidateFormProps } from "../Types/index";
 import ButtonComp from "@/app/components/ButtonComp";
@@ -13,6 +13,7 @@ import {
 import EducationSection from './EducationSection';
 import WorkExperienceSection from './WorkExperienceSection';
 import LanguagesSection from './LanguagesSection';
+import FileUpload from "./FileUpload";
 
 const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData }) => {
   const [firstName, setFirstName] = useState(initialData?.firstName || "");
@@ -23,6 +24,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
   const [education, setEducation] = useState(initialData?.education || []);
   const [workExperience, setWorkExperience] = useState(initialData?.workExperience || []);
   const [languages, setLanguages] = useState(initialData?.languages || []);
+  const [userId, setUserId] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,6 +40,31 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
       languages,
     });
   };
+
+  useEffect(() => {
+    const getUserId = async () => {
+      try {
+        const response = await fetch("/api/get-user-by-clerk-id", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          console.log("Failed to fetch user ID:", data.error);
+        }
+        setUserId(data.id);
+      } catch (error) {
+        if(userId === ""){
+          console.log("Failed to fetch user ID:", error);
+        }
+      }
+    };
+
+    getUserId();
+  }, []);
 
   return (
     <>
@@ -77,18 +104,15 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
             classNameField={classNameField}
           />
 
-          <InputField
-            label="Photo"
-            id="photo"
-            type="file"
-            onChange={(e) =>
-              setPhoto(e.target.files ? e.target.files[0] : null)
-            }
-            classNameDivContainer="space-y-2"
-            classNameLabel={classNameLabel}
-            accept="image/*"
-            fileLabel={photo ? photo.name : "Upload photo"}
-            filePreview={<RxImage className="h-6 w-6" />}
+          <FileUpload
+            allowedFileTypes={["image/jpeg", "image/png"]}
+            apiRoute="/api/upload"
+            modelName="userProfileImage"
+            fieldName="fileKey"
+            userId={userId}
+            uploadText="Upload your profile image"
+            maxSizeMB={5}
+            onUploadComplete={() => {}}
           />
 
           <ChipsField

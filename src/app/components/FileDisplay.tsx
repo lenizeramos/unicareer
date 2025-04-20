@@ -58,7 +58,7 @@ export default function FileDisplay({
           alt={fileData.fileName}
           width={width}
           height={height}
-          className="object-cover"
+          className={className + " object-cover"}
           onError={(e) => console.error('Image failed to load:', e)}
         />
       ) : fallbackImage ? (

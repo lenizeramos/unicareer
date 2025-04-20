@@ -218,7 +218,7 @@ model Education {
   candidate   Candidate @relation(fields: [candidateId], references: [id])
   institution String
   degree      String
-  fieldOfStudy String
+  fieldOfStudy String?
   country     String
   startDate   DateTime
   endDate     DateTime?

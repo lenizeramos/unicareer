@@ -3,7 +3,7 @@ import { s3Client } from '@/Lib/aws-config';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { extractTextFromPDF } from '@/app/services/pdf';
 import { analyzeResume } from '@/app/services/openai';
-import { createUserAndCandidate } from '@/Lib/usersService';
+import { createUserAndCandidate } from '@/Lib/client/usersService';
 import prisma from '@/Lib/prisma';
 
 export async function POST(request: Request) {
@@ -76,20 +76,18 @@ export async function POST(request: Request) {
           },
         });
 
-        // Delete existing records
         await prisma.education.deleteMany({ where: { candidateId: user!.candidate!.id } });
         await prisma.workExperience.deleteMany({ where: { candidateId: user!.candidate!.id } });
         await prisma.language.deleteMany({ where: { candidateId: user!.candidate!.id } });
-
-        // Create new records
+console.log("extractedData.education", extractedData.education)
         if (extractedData.education?.length) {
           await prisma.education.createMany({
             data: extractedData.education.map(edu => ({
               institution: edu.institution,
               degree: edu.degree,
-              fieldOfStudy: edu.fieldOfStudy,
+              fieldOfStudy: edu.fieldOfStudy || "",
               country: edu.country,
-              description: edu.description,
+              description: edu.description || "",
               candidateId: user!.candidate!.id,
               startDate: new Date(edu.startDate),
               endDate: edu.endDate && edu.endDate !== 'Present' ? new Date(edu.endDate) : null,

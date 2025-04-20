@@ -84,10 +84,10 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
         <FileUpload
           allowedFileTypes={["image/jpeg", "image/png"]}
           apiRoute="/api/upload"
-          modelName="companyProfileImage"
+          modelName="userProfileImage"
           fieldName="fileKey"
           userId={userId}
-          uploadText="Upload your company profile image"
+          uploadText="Upload the logo of your company"
           maxSizeMB={5}
           onUploadComplete={() => {}}
         />
