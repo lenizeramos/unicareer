@@ -27,7 +27,7 @@ export default function Home() {
   useEffect(() => {
     const getUserId = async () => {
       try {
-        const response = await fetch("/api/get-user-by-clerk-id", {
+        const response = await fetch("/api/user/get-user-by-clerk-id", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

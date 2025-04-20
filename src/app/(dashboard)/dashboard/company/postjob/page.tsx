@@ -38,7 +38,7 @@ export default function PostJobPage() {
       benefits?: string[];
     }) => {
       try {
-        let url = "/api/create-job";
+        let url = "/api/job/create";
         let method = "POST";
         let message = "You've successfully posted a job!";
 

@@ -33,7 +33,7 @@ export default function CompanyHeaderPaymentButton() {
       return;
     }
     try {
-      const response = await fetch("/api/create-payment-intent", {
+      const response = await fetch("/api/company/create-payment-intent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

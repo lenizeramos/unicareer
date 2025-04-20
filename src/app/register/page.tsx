@@ -23,7 +23,7 @@ import Loader from "@/app/components/Loader";
     if (attempts > 0) {
       await sleep(5000);
     }
-    const roleResponse = await fetch("/api/get-role");
+    const roleResponse = await fetch("/api/user/get-role");
     if (!roleResponse.ok) {
       throw new Error(`Failed to get role: ${roleResponse.statusText}`);
     }
@@ -35,7 +35,7 @@ import Loader from "@/app/components/Loader";
 const awaitRoleUpdate = async (expectedRole: string, maxAttempts = 10): Promise<boolean> => {
   for (let i = 0; i < maxAttempts; i++) {
     try {
-      const response = await fetch("/api/check-role");
+      const response = await fetch("/api/user/check-role");
       if (!response.ok) {
         throw new Error(`Failed to check role: ${response.statusText}`);
       }
@@ -71,7 +71,7 @@ export default function RegisterPage() {
     }
     const setRole = async () => {
       try {
-        const response = await fetch("/api/set-role", {
+        const response = await fetch("/api/user/set-role", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -100,7 +100,7 @@ export default function RegisterPage() {
       setIsLoading(true);
       try {
         candidate.role = "CANDIDATE";
-        const response = await fetch("/api/register", {
+        const response = await fetch("/api/user/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -133,7 +133,7 @@ export default function RegisterPage() {
       setIsLoading(true);
       try {
         company.role = "COMPANY";
-        const response = await fetch("/api/update-company-register", {
+        const response = await fetch("/api/company/update-company-register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

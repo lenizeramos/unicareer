@@ -28,7 +28,7 @@ export default function CompanyPage() {
         queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
       }
       try {
-        const response = await fetch(`/api/get-company-payments${queryParams}`);
+        const response = await fetch(`/api/company/payments${queryParams}`);
         if (response.ok) {
           const payments = await response.json();
           setPayments(payments);

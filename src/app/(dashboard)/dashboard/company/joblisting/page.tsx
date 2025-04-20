@@ -40,7 +40,7 @@ export default function CompanyPage() {
 
     const fetchCompanyJobs = async () => {
       try {
-        const response = await fetch(`/api/company/get-jobs${queryParams}`);
+        const response = await fetch(`/api/company/jobs${queryParams}`);
         if (!response.ok) throw new Error("Failed to fetch company jobs");
         const jobs = await response.json();
 

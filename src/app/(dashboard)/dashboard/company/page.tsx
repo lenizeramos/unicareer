@@ -47,7 +47,7 @@ const CompanyPage = () => {
       queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
     }
     const fetchDashboard = async () => {
-      const res = await fetch(`/api/company/get-dashboard${queryParams}`);
+      const res = await fetch(`/api/company/dashboard${queryParams}`);
       const data = await res.json();
 
       const transformedData: IDashboardData = {
