@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import ButtonComp from "@/app/components/ButtonComp";
 import { FaRegEdit, FaPlus, FaInstagram, FaTwitter, FaGlobe } from "react-icons/fa";
 import { styles } from "@/app/styles";

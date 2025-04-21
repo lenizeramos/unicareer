@@ -12,8 +12,8 @@ export const fetchUsers = createAsyncThunk(
   "fetchUsers",
   async (role: string) => {
     const url = role
-      ? `/api/get-users?role=${role}`
-      : "/api/get-users";
+      ? `/api/user/get-users?role=${role}`
+      : "/api/user/get-users";
     const response = await fetch(`${url}`);
     if (!response.ok) {
       throw new Error(
