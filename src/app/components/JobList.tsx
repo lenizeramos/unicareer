@@ -34,6 +34,15 @@ export default function JobList({
               <tr key={index}>
                 {Object.keys(columns).map((key, index) => {
                   const value = job[key as keyof IJob];
+                  const renderValue = (val: unknown): React.ReactNode => {
+                    if (val === null || val === undefined) return "-";
+                    if (typeof val === "string" || typeof val === "number")
+                      return val;
+                    if (Array.isArray(val)) return val.join(", ");
+                    if (val instanceof Date) return val.toLocaleDateString();
+                    return "-";
+                  };
+
                   return (
                     <td
                       key={index}
@@ -67,7 +76,7 @@ export default function JobList({
                           }
                         />
                       ) : (
-                        value
+                        renderValue(value)
                       )}
                     </td>
                   );
@@ -91,9 +100,7 @@ export default function JobList({
             <option value={20}>20</option>
             <option value={50}>50</option>
           </select>
-          <span className="text-lg text-not-focus-color">
-            jobs per page
-          </span>
+          <span className="text-lg text-not-focus-color">jobs per page</span>
         </div>
 
         <div className="flex items-center gap-2">

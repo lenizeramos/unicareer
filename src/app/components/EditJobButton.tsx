@@ -34,7 +34,7 @@ const EditJobButton = ({ jobApplications, jobData, onUpdateClosingDate }: EditJo
   return (
     <>
       <ButtonComp
-        text="Edit Job"
+        text="Edit"
         IsWhite={false}
         width="w-full"
         onClick={handleEditClick}
@@ -49,7 +49,7 @@ const EditJobButton = ({ jobApplications, jobData, onUpdateClosingDate }: EditJo
           dismissableMask
         >
           <EditClosingDateForm
-            currentClosingDate={new Date(jobData.closingDate)}
+            currentClosingDate={jobData.closingDate ? new Date(jobData.closingDate) : new Date()}
             closeDialog={() => setShowDialog(false)}
             onSuccess={onUpdateClosingDate}
           />
