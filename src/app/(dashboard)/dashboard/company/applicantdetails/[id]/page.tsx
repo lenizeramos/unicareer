@@ -114,7 +114,7 @@ const ApplicantDetailsPage = () => {
       <div className={styles.borderBottomLight} />
 
       <Link
-        href="/dashboard/company/jobApplication"
+        href="/dashboard/company/jobapplication"
         className="hover:opacity-80 transition-opacity"
       >
         <div className="flex items-center text-2xl space-x-2 pt-4 pb-4">

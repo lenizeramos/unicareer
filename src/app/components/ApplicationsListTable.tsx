@@ -23,12 +23,14 @@ const ApplicationsListTable = ({
 
   const getStatusColor = (status: IApplication["status"]) => {
     const colors = {
-      PENDING: "bg-yellow-50 text-yellow-400",
-      INTERVIEWED: "bg-indigo-50 text-indigo-600",
-      REJECTED: "bg-rose-50 text-rose-600",
+      PENDING: "border-PENDING text-PENDING",
+      INTERVIEWED: "border-interviewed text-interviewed", 
+      REJECTED: "border-rejected text-rejected",
+      HIRED: "border-hired text-hiredColor",
+      CANCELLED_JOB: "border-cancelledJob text-cancelledJobColor"
     };
     return colors[status];
-  };
+};
 
   return (
     <div className="w-full mt-4 md:mt-8">
@@ -166,7 +168,7 @@ const ApplicationsListTable = ({
               </option>
             ))}
           </select>
-          <span className="text-gray-600">per page</span>
+          <span className="text-gray-600">applicantions per page</span>
         </div>
 
         <div className="flex items-center gap-2 text-sm">

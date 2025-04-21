@@ -138,6 +138,10 @@ body {
   --color-openColor: #56cdad;
   --color-closedColor: #ff6550;
   --color-pendingColor: #ffb836;
+  --color-cancelledJobColor: #bd1522;
+  --color-hiredColor: #027d73;
+  --color-interviewedColor: var(--color-primary);
+  --color-rejectedColor: var(--color-closedColor);
   --color-fulltimeColor: #ec4899;
   --color-parttimeColor: #22c55e;
   --color-freelanceColor: #a855f7;
@@ -220,6 +224,43 @@ body {
 .border-PENDING {
   border-color: var(--color-pendingColor);
   color: var(--color-pendingColor);
+}
+
+.border-cancelledJob {
+  border-color: var(--color-cancelledJobColor);
+}
+.border-hired {
+  border-color: var(--color-hiredColor);
+}
+.border-PENDING {
+  border-color: var(--color-pendingColor);
+}
+
+.border-rejected {
+  border-color: var(--color-rejectedColor);
+}
+
+.border-interviewed {
+  border-color: var(--color-interviewedColor);
+}
+
+.text-PENDING {
+  color: var(--color-pendingColor);
+}
+.text-interviewed {
+  color: var(--color-interviewedColor);
+}
+
+.text-rejected {
+  color: var(--color-rejectedColor);
+}
+
+.text-cancelledJobColor {
+  color: var(--color-cancelledJobColor);
+}
+
+.text-hiredColor {
+  color: var(--color-hiredColor);
 }
 
 .text-openColor {

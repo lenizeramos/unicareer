@@ -61,7 +61,7 @@ export interface IApplication {
   id: string;
   jobId: string;
   candidateId: string;
-  status: "PENDING" | "INTERVIEWED" | "REJECTED";
+  status: "PENDING" | "INTERVIEWED" | "REJECTED" | "HIRED" | "CANCELLED_JOB";
   updatedAt?: string;
   appliedAt: string;
   candidate?: ICandidate;
@@ -103,7 +103,7 @@ export interface ICandidateState {
 interface ICompany {
   id: string;
   userId: string;
-  name:string;
+  name: string;
   bio?: string;
   profileImages?: {
     id: string;
@@ -141,7 +141,7 @@ export interface IWorkExperience {
   position: string;
   country: string;
   startDate: string;
-  endDate?: string; 
+  endDate?: string;
   current?: boolean;
   description?: string;
   createdAt: string;

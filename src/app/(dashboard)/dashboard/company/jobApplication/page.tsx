@@ -81,7 +81,7 @@ export default function ApplicationsPage() {
       <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
         <div>
           <p className={`${styles.JobDescriptionText}`}>
-            Below is a list of all applications you have received{" "}
+          Track and manage all candidate applications below{" "}
             {startDate && endDate && (
               <>
                 from {getDate(startDate)} - {getDate(endDate)}

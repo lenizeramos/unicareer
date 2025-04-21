@@ -26,7 +26,7 @@ export default function CompanyPage() {
     location: "Location",
     level: "Level",
     type: "Type",
-    categories: "Categories",
+    categories: "Category",
     closingDate: "Closing Date",
     createdAt: "Created At",
     actionButton: "Actions",
@@ -82,7 +82,7 @@ export default function CompanyPage() {
       <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
         <div>
           <p className={`${styles.JobDescriptionText}`}>
-            Below is a list of all the jobs you have posted{" "}
+          Manage and track your posted jobs{" "}
             {startDate && endDate && (
               <>
                 from {getDate(startDate)} - {getDate(endDate)}
