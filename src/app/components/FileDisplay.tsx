@@ -35,7 +35,7 @@ export default function FileDisplay({
         const data = await response.json();
         setFileData(data);
       } catch (error) {
-        
+        console.error("Error:", error);
       } finally {
         setLoading(false);
       }
