@@ -168,7 +168,7 @@ const ApplicationsListTable = ({
               </option>
             ))}
           </select>
-          <span className="text-gray-600">applicantions per page</span>
+          <span className="text-gray-600">applications per page</span>
         </div>
 
         <div className="flex items-center gap-2 text-sm">
