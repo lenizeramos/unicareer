@@ -6,6 +6,7 @@ import { fetchCompany } from "@/app/context/slices/companySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { clearJobToEdit } from "@/app/context/slices/jobToEditSlices";
+import Loader from "./Loader";
 
 export default function CompanyHeaderPaymentButton() {
   const router = useRouter();
@@ -84,11 +85,18 @@ export default function CompanyHeaderPaymentButton() {
   const buttonClick = showPaymentButton
     ? handleButtonClick
     : handlePaymentClick;
+console.log("Company", company);
+  if (!company?.userId) {
+    return <div className="flex min-h-screen h-screen">
+            <Loader />
+          </div>
+  }
 
   return (
     <CompanyHeader
       image="/img/company_logo.png"
       name={company?.name || ""}
+      userId={company.userId}
       button={{
         text: buttonText,
         IsWhite: false,

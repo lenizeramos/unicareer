@@ -24,65 +24,89 @@ function RegisterContent() {
   const [formType, setFormType] = useState<"candidate" | "company" | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const [showResumeUpload, setShowResumeUpload] = useState(true);
   const [candidateData, setCandidateData] = useState<ResumeData | null>(null);
+  const [candidateId, setCandidateId] = useState<string>("");
+  const [isUserCreated, setIsUserCreated] = useState(false);
+  const [companyId, setCompanyId] = useState<string>("");
+
+  const setRole = useCallback(async () => {
+    if (!user || !user.id || !role) {
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      
+      let existingUser = await getUserByClerkId(user.id);
+
+      if (existingUser?.role?.toLowerCase() === role.toLowerCase()) {
+        if (existingUser.candidate?.id) {
+          setCandidateId(existingUser.candidate.id);
+          setIsUserCreated(true);
+        } else if (existingUser.company?.id) {
+          setCompanyId(existingUser.company.id);
+          setIsUserCreated(true);
+        }
+        return;
+      }
+
+      if (role === "company") {          
+        if (!existingUser) {
+          const response = await createUserAndCompany({
+            id: user.id,
+            email: user.emailAddresses[0]?.emailAddress || "",
+            role: "COMPANY",
+            image_url: user.imageUrl,
+            name: "",
+            bio: "",
+            logo: undefined
+          });
+          setCompanyId(response.company.id);
+          setIsUserCreated(true);
+        } else if (existingUser.company?.id) {
+          setCompanyId(existingUser.company.id);
+          setIsUserCreated(true);
+        }
+      } else if (role === "candidate") {
+        if (!existingUser) {
+          const response = await createUserAndCandidate({
+            id: user.id,
+            email: user.emailAddresses[0]?.emailAddress || "",
+            role: "CANDIDATE",
+            image_url: user.imageUrl,
+            firstName: "",
+            lastName: "",
+            resume: null
+          });
+          setCandidateId(response.candidate.id);
+          setIsUserCreated(true);
+        } else if (existingUser.candidate?.id) {
+          setCandidateId(existingUser.candidate.id);
+          setIsUserCreated(true);
+        }
+      }
+
+      await setUserRole(role);
+    } catch (error) {
+      console.error("Error in setRole:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [user, role]);
 
   useEffect(() => {
-    console.log("Register API called");
     if (role === "candidate" || role === "company") {
       setFormType(role);
     } else {
       setFormType(null);
     }
-    const setRole = async () => {
-      try {
-        if (!user) return;
-        
-        setIsLoading(true);
-        
-        // Check if user exists
-        const existingUser = await getUserByClerkId(user.id);
 
-        if (role === "company" && user) {          
-          if (!existingUser) {
-            await createUserAndCompany({
-              id: user.id,
-              email: user.emailAddresses[0]?.emailAddress || "",
-              role: "COMPANY",
-              image_url: user.imageUrl,
-              name: "",
-              bio: "",
-              logo: undefined
-            });
-          }
-        } else if (role === "candidate" && user) {
-          if (!existingUser) {
-            await createUserAndCandidate({
-              id: user.id,
-              email: user.emailAddresses[0]?.emailAddress || "",
-              role: "CANDIDATE",
-              image_url: user.imageUrl,
-              firstName: "",
-              lastName: "",
-              resume: null
-            });
-          }
-        }
-
-        if (!role) return;
-        await setUserRole(role);
-      } catch (error) {
-        console.error("Error setting role:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (user) {
+    if (user && ((role === "candidate" && !candidateId) || (role === "company" && !companyId))) {
       setRole();
     }
-  }, [role, user]);
+  }, [user, role, setRole, candidateId, companyId]);
 
   const handleCandidateFormSubmit = useCallback(
     async (candidate: {
@@ -133,6 +157,10 @@ function RegisterContent() {
     setShowResumeUpload(false);
   };
 
+  if (!isLoaded) {
+    return <Loader />;
+  }
+  
   if (isLoading) {
     return (
       <div className="flex min-h-screen h-screen">
@@ -140,20 +168,25 @@ function RegisterContent() {
       </div>
     );
   }
-
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-2xl p-4 flex flex-col items-center justify-center">
-        {formType === "candidate" && showResumeUpload ? (
+        {formType === "candidate" && showResumeUpload && user?.emailAddresses[0]?.emailAddress && candidateId ? (
           <ResumeUploadStep 
             onUpload={handleResumeData}
             onSkip={handleSkipResume}
-            userId={user?.id || ''}
+            userId={candidateId}
+            userEmail={user.emailAddresses[0].emailAddress}
           />
         ) : formType === "candidate" ? (
           <CandidateForm 
             onSubmit={handleCandidateFormSubmit}
-            initialData={candidateData}
+            initialData={{
+              ...candidateData,
+              id: candidateId,
+              email: user?.emailAddresses[0]?.emailAddress
+            }}
           />
         ) : formType === "company" ? (
           <CompanyForm onSubmit={handleCompanyFormSubmit} />

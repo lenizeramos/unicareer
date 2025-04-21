@@ -11,60 +11,54 @@ export async function POST(request: Request) {
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const userId = formData.get('userId') as string;
+    const userEmail = formData.get('userEmail') as string;
 
-    if (!file || !userId) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    if (!file || !userId || !userEmail) {
+      return NextResponse.json({ 
+        error: 'Missing required fields',
+        debug: { hasFile: !!file, userId, userEmail }
+      }, { status: 400 });
+    }
+
+    let user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { clerkId: userId },
+          { email: userEmail }
+        ]
+      },
+      include: { candidate: true }
+    });
+
+    // Create user and candidate if they don't exist
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          clerkId: userId,
+          email: userEmail,
+          role: 'CANDIDATE',
+          candidate: {
+            create: {
+              firstName: '',
+              lastName: '',
+              skills: []
+            }
+          }
+        },
+        include: { candidate: true }
+      });
+    }
+
+    if (!user || !user.candidate) {
+      return NextResponse.json({ error: 'Failed to create or find candidate' }, { status: 500 });
     }
 
     const fileBuffer = Buffer.from(await file.arrayBuffer());
     const extractedText = await extractTextFromPDF(fileBuffer);
     const extractedData = await analyzeResume(extractedText);
 
-    // First try to find the user and candidate
-    let user = await prisma.user.findUnique({
-      where: { clerkId: userId },
-      include: { candidate: true }
-    });
-
-    // If no candidate exists, create both user and candidate
-    if (!user?.candidate) {
-      const clerkUser = await fetch(`https://api.clerk.com/v1/users/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
-        },
-      }).then((res) => res.json());
-
-      const result = await createUserAndCandidate({
-        id: userId,
-        userId: userId,
-        role: 'CANDIDATE',
-        email: clerkUser.email_addresses[0]?.email_address || '',
-        firstName: extractedData.firstName,
-        lastName: extractedData.lastName,
-        skills: extractedData.skills,
-        bio: extractedData.bio,
-        website: extractedData.website,
-        image_url: clerkUser.image_url || '',
-        education: extractedData.education,
-        workExperience: extractedData.workExperience,
-        languages: extractedData.languages,
-      });
-      user = await prisma.user.findUnique({
-        where: { clerkId: userId },
-        include: { 
-          candidate: {
-            include: {
-              education: true,
-              workExperience: true,
-              languages: true
-            }
-          } 
-        }
-      });
-    } else {
-      // Update existing candidate with new information
+    if (user?.candidate) {
       await prisma.$transaction(async (prisma) => {
-        // Update main candidate info
         await prisma.candidate.update({
           where: { id: user!.candidate!.id },
           data: {
@@ -79,7 +73,6 @@ export async function POST(request: Request) {
         await prisma.education.deleteMany({ where: { candidateId: user!.candidate!.id } });
         await prisma.workExperience.deleteMany({ where: { candidateId: user!.candidate!.id } });
         await prisma.language.deleteMany({ where: { candidateId: user!.candidate!.id } });
-console.log("extractedData.education", extractedData.education)
         if (extractedData.education?.length) {
           await prisma.education.createMany({
             data: extractedData.education.map(edu => ({
@@ -122,10 +115,6 @@ console.log("extractedData.education", extractedData.education)
       });
     }
 
-    if (!user || !user.candidate) {
-      return NextResponse.json({ error: 'Failed to create or find candidate' }, { status: 500 });
-    }
-
     const fileKey = `candidateDocument/${userId}/${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
 
     const uploadCommand = new PutObjectCommand({
@@ -137,7 +126,6 @@ console.log("extractedData.education", extractedData.education)
 
     await s3Client.send(uploadCommand);
 
-    // Save document with the candidate ID
     await prisma.candidateDocument.create({
       data: {
         candidateId: user.candidate.id,

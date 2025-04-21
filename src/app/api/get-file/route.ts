@@ -23,14 +23,25 @@ export async function GET(request: Request) {
         });
         break;
       case 'userProfileImage':
-        file = await prisma.userProfileImage.findFirst({
-          where: { userId: userId },
+        const user = await prisma.user.findUnique({
+          where: { id: userId },
+          include: { candidate: true }
+        });
+        
+        if (!user?.candidate?.id) {
+          return NextResponse.json({ error: 'File not found' }, { status: 404 });
+        }
+
+        const userProfileImage = await prisma.userProfileImage.findFirst({
+          where: { userId: user.candidate.id },
           orderBy: { createdAt: 'desc' }
         });
+        
+        file = userProfileImage;
         break;
       case 'companyProfileImage':
-        file = await prisma.companyProfileImage.findFirst({
-          where: { companyId: userId },
+        file = await prisma.userProfileImage.findFirst({
+          where: { userId: userId },
           orderBy: { createdAt: 'desc' }
         });
         break;

@@ -130,7 +130,7 @@ export default function Sidebar({ userType, isOpen = true, onClose }: SidebarPro
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
                                 <FileDisplay
-                                    modelName="userProfileImage"
+                                    modelName={userType === 'candidate' ? 'userProfileImage' : 'companyProfileImage'}
                                     userId={userId}
                                     width={60}
                                     height={60}

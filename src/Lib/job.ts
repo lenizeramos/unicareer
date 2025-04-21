@@ -297,7 +297,6 @@ export async function updateClosingDateJobById(id: string, closingDate: Date) {
 }
 
 export async function canManageJob(clerkId: string, targetId: string) {
-  console.log("clerkId, targetId 1111111", clerkId, targetId);
 
   try {
     const loggedInUser = await getCompanyByClerkId(clerkId);

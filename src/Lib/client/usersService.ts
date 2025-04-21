@@ -35,7 +35,7 @@ export async function getUserByClerkId(clerkId: string | undefined) {
   
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/get-user-by-clerk-id?clerkId=${clerkId}`);
+    const response = await fetch(`${baseUrl}/api/user/get-user-by-clerk-id?clerkId=${clerkId}`);
     if (!response.ok) return null;
     return response.json();
   } catch (error) {
@@ -45,7 +45,7 @@ export async function getUserByClerkId(clerkId: string | undefined) {
 }
 
 export async function setUserRole(role: string) {
-  const response = await fetch("/api/set-role", {
+  const response = await fetch("/api/user/set-role", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -65,7 +65,7 @@ export async function registerCandidate(candidate: {
   photo: File | null;
   role?: string;
 }) {
-  const response = await fetch("/api/register", {
+  const response = await fetch("/api/user/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export async function registerCompany(company: {
   bio: string; 
   role?: string;
 }) {
-  const response = await fetch("/api/update-company-register", {
+  const response = await fetch("/api/user/update-company-register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -105,7 +105,7 @@ export async function registerCompany(company: {
 
 export async function checkUserRole(role: string): Promise<boolean> {
   try {
-    const response = await fetch('/api/check-role', {
+    const response = await fetch('/api/user/check-role', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

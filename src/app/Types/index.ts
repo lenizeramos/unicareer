@@ -111,6 +111,7 @@ export interface IDashboardWelcome {
 export interface ICompanyHeader {
   image: string;
   name: string;
+  userId?: string;
   button?: IButtton;
 }
 

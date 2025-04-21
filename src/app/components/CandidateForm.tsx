@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ChipsField from "./ChipsField";
 import { ICandidateFormProps } from "../Types/index";
 import ButtonComp from "@/app/components/ButtonComp";
@@ -24,7 +24,6 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
   const [education, setEducation] = useState(initialData?.education || []);
   const [workExperience, setWorkExperience] = useState(initialData?.workExperience || []);
   const [languages, setLanguages] = useState(initialData?.languages || []);
-  const [userId, setUserId] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,31 +39,6 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
       languages,
     });
   };
-
-  useEffect(() => {
-    const getUserId = async () => {
-      try {
-        const response = await fetch("/api/get-user-by-clerk-id", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const data = await response.json();
-        if (!response.ok) {
-          console.log("Failed to fetch user ID:", data.error);
-        }
-        setUserId(data.id);
-      } catch (error) {
-        if(userId === ""){
-          console.log("Failed to fetch user ID:", error);
-        }
-      }
-    };
-
-    getUserId();
-  }, []);
 
   return (
     <>
@@ -109,7 +83,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
             apiRoute="/api/upload"
             modelName="userProfileImage"
             fieldName="fileKey"
-            userId={userId}
+            userId={initialData?.id}
             uploadText="Upload your profile image"
             maxSizeMB={5}
             onUploadComplete={() => {}}

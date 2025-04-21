@@ -17,6 +17,7 @@ export async function getCompanyByClerkId(clerkId: string) {
         company: {
           select: {
             id: true,
+            userId: true,
             name: true,
             profileImages: true,
           },

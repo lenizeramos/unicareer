@@ -16,6 +16,7 @@ export interface FileUploadProps {
   maxSizeMB?: number;
   userId: string;
   onUploadComplete: (fileKey: string, file: File) => void | Promise<void>;
+  userEmail?: string;
 }
 
 export interface Payment {
