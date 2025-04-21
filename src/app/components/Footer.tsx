@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaFacebook, FaInstagram, FaLinkedin, FaXTwitter } from 'react-icons/fa6';
 import ButtonComp from './ButtonComp';
+import Image from 'next/image';
 
 const Footer = () => {
     return (
@@ -8,10 +9,12 @@ const Footer = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div className="flex flex-col items-start wide-column">
                     <div className="flex items-center gap-2 logo-container-inner">
-                        <img 
+                        <Image 
                             src="/img/logo.svg"
                             alt="JobHuntly Logo"
-                            className="w-12 mb-4"
+                            width={48}
+                            height={48}
+                            className="mb-4"
                         />
                         <span className="font-bold text-xl app-name">UniCareer</span>
                     </div>

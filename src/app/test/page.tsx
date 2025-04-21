@@ -54,7 +54,7 @@ export default function Home() {
     //   dispatch(fetchCandidate());
     // }
     // console.log('====>',candidate.length)
-  }, [users.length, applications.length]);
+  }, [dispatch, users.length, applications.length]);
   // console.log(
   //   "applications=>",
   //   applications,

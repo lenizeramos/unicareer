@@ -3,7 +3,7 @@ import { s3Client } from '@/Lib/aws-config';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { extractTextFromPDF } from '@/app/services/pdf';
 import { analyzeResume } from '@/app/services/openai';
-import { createUserAndCandidate } from '@/Lib/client/usersService';
+/* import { createUserAndCandidate } from '@/Lib/client/usersService'; */
 import prisma from '@/Lib/prisma';
 
 export async function POST(request: Request) {

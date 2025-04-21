@@ -1,7 +1,7 @@
 "use client";
 
 import Sidebar from "@/app/components/Sidebar";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { RiMenu3Fill } from "react-icons/ri";
 import { styles } from "@/app/styles";
 import { DashboardType } from "@/app/Types/navigation";
