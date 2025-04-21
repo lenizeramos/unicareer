@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { DashboardType, SidebarProps } from '../Types/navigation';
 import { styles } from '../styles';
-import Icon from './Icon';
+/* import Icon from './Icon'; */
 import { dashboardMenus } from '../config/navigation';
 import React, { useEffect } from 'react';
 import { MdOutlineSpaceDashboard } from "react-icons/md";
@@ -15,7 +15,7 @@ import { FaRegBuilding } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import { CiViewList } from "react-icons/ci";
 import { CiDollar } from "react-icons/ci";
-import Image from 'next/image';
+/* import Image from 'next/image'; */
 import { useUser, useClerk } from "@clerk/nextjs";
 import { CiLogout } from "react-icons/ci";
 import Logo from "./Logo";

@@ -1,4 +1,4 @@
-import { FaArrowLeft, FaArrowRight, FaFilter } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { IPayment, PaymentsListProps } from "../Types";
 import Badge from "./Badge";
 import ButtonComp from "./ButtonComp";
@@ -15,18 +15,12 @@ export default function PaymentsList({
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   return (
     <div className="mt-8 border-light">
-      {/* <div className="flex justify-between items-center border-bottom-light p-8">
-        <button className="flex items-center gap-2 text-sm text-title-color border-light p-4">
-          <FaFilter />
-          <p>Filters</p>
-        </button>
-      </div> */}
       <div className="overflow-x-scroll max-w-[360px] md:max-w-full md:w-full text-center">
         <table className="w-full pe-8 ps-8 ">
           <thead className="p-8 bg-gray-100 text-gray-600 text-sm font-semibold border-t border-b">
             <tr>
               {Object.values(columns).map((column, index) => (
-                <th key={index} className="text-not-focus-color p-8">
+                <th key={index} className="text-not-focus-color p-4">
                   {column}
                 </th>
               ))}
@@ -90,7 +84,7 @@ export default function PaymentsList({
             <option value={50}>50</option>
           </select>
           <span className="text-lg text-not-focus-color">
-            Payments per page
+            payments per page
           </span>
         </div>
 

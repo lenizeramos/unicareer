@@ -5,10 +5,10 @@ import { createJobView, getJobById } from "@/Lib/job";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: any }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const jobId = params.id;
+    const { id: jobId } = await params;
 
     if (!jobId) {
       return new NextResponse("Job ID is required", { status: 400 });

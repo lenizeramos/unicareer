@@ -69,14 +69,15 @@ const JobDetailsPage = () => {
     );
   }
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
+  const formatDate = (dateInput?: string | Date | null) => {
+      if (!dateInput) return "N/A";
+      const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    };
 
   const handleUpdateClosingDate = async (newClosingDate: Date) => {
     try {
@@ -91,7 +92,7 @@ const JobDetailsPage = () => {
       if (!response.ok) throw new Error("Failed to update closing date");
 
       setJob((prev) =>
-        prev ? { ...prev, closingDate: newClosingDate.toISOString() } : prev
+        prev ? { ...prev, closingDate: newClosingDate } : prev
       );
 
       toast.success("Closing date updated successfully!");
@@ -128,9 +129,10 @@ const JobDetailsPage = () => {
                 </span>
                 <span className="text-sm text-gray-500">Applications</span>
               </div>
+              {job.status &&
               <div className="flex items-center gap-4">
-                <Badge status={job.status} color={job.status.toLowerCase()} />
-              </div>
+                 <Badge status={job.status} color={job.status.toLowerCase()} />
+              </div>}
             </div>
           </div>
 
@@ -202,7 +204,7 @@ const JobDetailsPage = () => {
                       Required Skills
                     </h3>
                     <div className="flex flex-wrap gap-2">
-                      {job.skills.map((skill, index) => (
+                      {job.skills?.map((skill, index) => (
                         <Chip
                           key={index}
                           label={skill}
@@ -215,7 +217,7 @@ const JobDetailsPage = () => {
                   <section className="mb-6">
                     <h3 className="font-medium text-gray-800 mb-3">Benefits</h3>
                     <ul className="space-y-2">
-                      {job.benefits.map((benefit, index) => (
+                      {job.benefits?.map((benefit, index) => (
                         <li key={index} className="flex items-center">
                           <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                           <span className="text-gray-700">{benefit}</span>
@@ -239,11 +241,13 @@ const JobDetailsPage = () => {
                     <h3 className="font-medium text-gray-800 mb-3">Actions</h3>
                     <div className="flex flex-row justify-between items-center">
                       <EditJobButton
-                        jobApplications={job.totalApplications}
+                        jobApplications={job.totalApplications ?? 0}
                         jobData={job}
                         onUpdateClosingDate={handleUpdateClosingDate}
                       />
-                      {job.id && <DeleteJobButton jobId={job.id} label={"DELETE"} />}
+                      {job.id && (
+                        <DeleteJobButton jobId={job.id} label={"Delete"} />
+                      )}
                     </div>
                   </section>
                 </div>

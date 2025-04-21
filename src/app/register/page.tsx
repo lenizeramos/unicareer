@@ -39,7 +39,7 @@ function RegisterContent() {
     try {
       setIsLoading(true);
       
-      let existingUser = await getUserByClerkId(user.id);
+      const existingUser = await getUserByClerkId(user.id);
 
       if (existingUser?.role?.toLowerCase() === role.toLowerCase()) {
         if (existingUser.candidate?.id) {

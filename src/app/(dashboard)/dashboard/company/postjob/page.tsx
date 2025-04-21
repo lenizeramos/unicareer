@@ -9,6 +9,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/context/store";
+import { IJob } from "@/app/Types";
 
 export default function PostJobPage() {
   const router = useRouter();
@@ -21,22 +22,7 @@ export default function PostJobPage() {
     : "/dashboard/company/joblisting";
 
   const handleJobSubmit = useCallback(
-    async (job: {
-      id: string | undefined;
-      title: string;
-      closingDate: Date | null;
-      level: string;
-      type?: string;
-      salary?: number[];
-      categories: string;
-      skills: string[];
-      description: string;
-      location?: string;
-      responsibilities?: string;
-      whoYouAre?: string;
-      niceToHave?: string;
-      benefits?: string[];
-    }) => {
+    async (job: IJob) => {
       try {
         let url = "/api/job/create";
         let method = "POST";

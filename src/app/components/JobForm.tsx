@@ -4,7 +4,7 @@ import { Stepper } from "primereact/stepper";
 import { StepperPanel } from "primereact/stepperpanel";
 import ChipsField from "./ChipsField";
 import ButtonComp from "./ButtonComp";
-import { IJobFormProps } from "../Types";
+import { IJob, IJobFormProps } from "../Types";
 import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
 import SelectField from "./SelectField";
@@ -24,7 +24,7 @@ import { AppDispatch } from "@/app/context/store";
 import { clearJobToEdit } from "@/app/context/slices/jobToEditSlices";
 
 const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
-  const stepperRef = useRef<any>(null);
+  const stepperRef = useRef<Stepper | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const [closingDate, setClosingDate] = useState<Date | null>(
     initialData?.closingDate ? new Date(initialData.closingDate) : null
@@ -86,18 +86,8 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
       whoYouAre,
       niceToHave,
       benefits,
-    });
+    } as IJob);
     dispatch(clearJobToEdit());
-  };
-
-  const handleStepperNavigation = (direction: 'next' | 'prev') => {
-    if (stepperRef.current) {
-      if (direction === 'next') {
-        stepperRef.current.nextCallback();
-      } else {
-        stepperRef.current.prevCallback();
-      }
-    }
   };
 
   return (
@@ -239,7 +229,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               text="Next"
               IsWhite={false}
               width="w-[120px]"
-              onClick={() => handleStepperNavigation('next')}
+              onClick={() => stepperRef.current?.nextCallback?.()}
             />
           </div>
         </StepperPanel>
@@ -325,13 +315,13 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               text="Back"
               IsWhite={false}
               width="w-[120px]"
-              onClick={() => handleStepperNavigation('prev')}
+              onClick={() => stepperRef.current?.prevCallback()}
             />
             <ButtonComp
               text="Next"
               IsWhite={false}
               width="w-[120px]"
-              onClick={() => handleStepperNavigation('next')}
+              onClick={() => stepperRef.current?.nextCallback?.()}
             />
           </div>
         </StepperPanel>
@@ -358,7 +348,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               text="Back"
               IsWhite={false}
               width="w-[120px]"
-              onClick={() => handleStepperNavigation('prev')}
+              onClick={() => stepperRef.current?.prevCallback()}
             />
             <ButtonComp
               text="Submit"

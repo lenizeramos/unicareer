@@ -32,7 +32,7 @@ export async function GET() {
     }
 
     const membership = user.company.companyMembership[0];
-    const latestPayment = user.company.payments[0];
+    /* const latestPayment = user.company.payments[0]; */
 
     if (!membership) {
       return NextResponse.json({ isActive: false });
