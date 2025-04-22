@@ -66,13 +66,17 @@ export default function CompanyPage() {
 
   const getDate = (date: Date | undefined | null) => {
     if (!date) {
-      return <p>Not Found</p>;
+      return;
     }
     const createDate = date;
 
     const month = monthNames[createDate.getMonth()];
     return `${month} ${createDate.getDate()}`;
   };
+  const isSameDate =
+    endDate?.getDate() === startDate?.getDate() &&
+    endDate?.getMonth() === startDate?.getMonth() &&
+    endDate?.getFullYear() === startDate?.getFullYear();
 
   return (
     <>
@@ -81,14 +85,21 @@ export default function CompanyPage() {
 
       <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
         <div>
-          <p className={`${styles.JobDescriptionText}`}>
-            Manage and track your posted jobs{" "}
-            {startDate && endDate && (
-              <>
-                from {getDate(startDate)} - {getDate(endDate)}
-              </>
-            )}
-          </p>
+          {!isSameDate ? (
+            <p className={`${styles.JobDescriptionText}`}>
+              Manage and track your posted jobs{" "}
+              {startDate && endDate && (
+                <>
+                  from {getDate(startDate)} - {getDate(endDate)}
+                </>
+              )}
+            </p>
+          ) : (
+            <p className={`${styles.JobDescriptionText}`}>
+              Manage and track your posted jobs{" "}
+              {startDate && <>in {getDate(startDate)}</>}
+            </p>
+          )}
         </div>
         <DateRangePicker setStartDate={setStartDate} setEndDate={setEndDate} />
       </div>
