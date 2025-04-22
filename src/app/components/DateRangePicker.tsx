@@ -90,7 +90,7 @@ const DateRangePicker = ({
         customInput={<div className="hidden" />}
       />
       <span
-        className="font-[1rem] cursor-pointer py-[0.5rem] sm:px-[1rem] px-[0.5rem] border-[1px] border-gray-200 inline-flex items-center gap-[0.5rem] sm:text-[14px] text-[10px]"
+        className="font-[1rem] cursor-pointer py-[0.5rem] sm:px-[1rem] px-[0.5rem] border-[1px] border-gray-200 inline-flex items-center gap-[0.5rem] text-[13px]"
         onClick={() => pickerRef.current?.setOpen(true)}
       >
         {displayText}

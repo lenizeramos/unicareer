@@ -14,6 +14,7 @@ import { AppDispatch, RootState } from "@/app/context/store";
 import { useDispatch, useSelector } from "react-redux";
 import { IApplicationsState } from "@/app/Types/slices";
 import { fetchApplications } from "@/app/context/slices/applicationsSlices";
+import SearchNotFound from "@/app/components/SearchNotFound";
 
 export default function Application() {
   const dispatch: AppDispatch = useDispatch();
@@ -59,6 +60,11 @@ export default function Application() {
   };
 
   const filters = candidate.applications.filter((item) => {
+    const jobsByDate = endDate
+      ? new Date(item.appliedAt) < endDate
+        ? item
+        : ""
+      : "";
     const companyName = item.job?.company?.name?.toLowerCase() ?? "";
     const jobTitle = item.job?.title?.toLowerCase() ?? "";
     const search = searchTerm.toLowerCase();
@@ -66,7 +72,7 @@ export default function Application() {
     const matchesJob = jobTitle.includes(search);
     const matchesStatus =
       active === "all" ? true : (item.status ?? "").toLowerCase() === active;
-    return (matchesName || matchesJob) && matchesStatus;
+    return (matchesName || matchesJob) && matchesStatus && jobsByDate;
   });
 
   const data = filters.map((application) => {
@@ -88,15 +94,21 @@ export default function Application() {
         title="My Applications"
         button={{ text: "Back to home page", IsWhite: true }}
       />
-      <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full relative">
+      <div className="flex xs:flex-row flex-col gap-y-5 sm:justify-between justify-around xs:items-center border border-gray-200 px-5 py-8 w-full relative">
         <div>
-          <h3 className={`${styles.JobDescriptionTitle}`}>
+          <h3
+            className={`${styles.JobDescriptionTitle} sm:text-justify text-center`}
+          >
             Keep it up, {candidate.firstName}
           </h3>
           {!isSameDate ? (
-            <p className={`${styles.JobDescriptionText}`}>
-              Here is job applications status from {getDate(startDate)} -
-              {getDate(endDate)}
+            <p
+              className={`${styles.JobDescriptionText} flex flex-col sm:flex-row text-center`}
+            >
+              Here is job applications status from{" "}
+              <span className="sm:mx-1">
+                {getDate(startDate)} -{getDate(endDate)}
+              </span>
             </p>
           ) : (
             <p className={`${styles.JobDescriptionText}`}>
@@ -112,7 +124,7 @@ export default function Application() {
         </div>
       </div>
       {data.length === 0 ? (
-        <p>No Aplications</p>
+        <SearchNotFound text="No applicantions found" />
       ) : (
         <div className="mt-3">
           <div className="font-shafarik flex md:gap-20 sm:gap-15 gap-5 sm:text-lg text-[14px] border-b-[1px] border-gray-200 px-3 pt-3">

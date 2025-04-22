@@ -3,7 +3,6 @@ import { styles } from "@/app/styles";
 import { ICards } from "@/app/Types";
 import Image from "next/image";
 import ButtonComp from "../ButtonComp";
-import ProgressBar from "../ProgressBar";
 import TagComp from "../TagComp";
 import { jobsCategories } from "@/app/constants";
 /* import Link from "next/link"; */
@@ -138,7 +137,6 @@ const JobResumeCards = ({
               width="w-full"
               onClick={handleSeeDetails}
             />
-            <ProgressBar totalLength={10} value={5} />
           </div>
         ) : (
           <div />

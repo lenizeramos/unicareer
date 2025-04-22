@@ -7,7 +7,6 @@ import ButtonComp from "@/app/components/ButtonComp";
 import { styles } from "@/app/styles";
 import { jobsCategories, monthNames, stylesTags } from "@/app/constants";
 import { CiCircleCheck } from "react-icons/ci";
-import ProgressBar from "@/app/components/ProgressBar";
 import TagComp from "@/app/components/TagComp";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -152,8 +151,6 @@ export default function JobDescription() {
                     {company?.name}
                     <span className="bg-gray-600 rounded-full w-1 h-1" />
                     {job.location}
-                    <span className="bg-gray-600 rounded-full w-1 h-1" />
-                    {job.type}
                   </p>
                 </div>
               </div>
@@ -243,9 +240,6 @@ export default function JobDescription() {
               <h2 className={`${styles.JobDescriptionTitle}`}>
                 About this role
               </h2>
-              <div className="bg-gray-100  w-[80%] p-5 lg:mx-auto xs:mx-0 mx-auto">
-                <ProgressBar value={5} totalLength={10} />
-              </div>
               <div className="flex justify-between">
                 <p className={`${styles.JobDescriptionText}`}>Apply Before</p>
                 <p className={`${styles.JobDescriptionText} font-bold`}>

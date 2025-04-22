@@ -1,8 +1,6 @@
 import { ICompanyHeader } from "../Types";
-/* import { MdArrowBackIosNew } from "react-icons/md"; */
 import { styles } from "../styles";
 import ButtonComp from "./ButtonComp";
-import Image from "next/image";
 import FileDisplay from "./FileDisplay";
 
 export default function CompanyHeader({ image, name, userId, button }: ICompanyHeader) {
@@ -18,7 +16,6 @@ export default function CompanyHeader({ image, name, userId, button }: ICompanyH
                     fallbackImage={image || ''}
                 />  
                 <div className="flex flex-col">
-                    {/* <p className="text-sm text-gray-500">Company</p> */}
                     <h2 className={`text-md ${styles.subTitleSectionSize} font-[600] text-landingDark`}>{name}</h2>
                 </div>
             </div>

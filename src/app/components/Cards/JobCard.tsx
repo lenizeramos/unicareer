@@ -2,7 +2,6 @@ import { ICards } from "@/app/Types";
 import ButtonComp from "../ButtonComp";
 import { styles } from "@/app/styles";
 import Image from "next/image";
-import ProgressBar from "../ProgressBar";
 import TagComp from "../TagComp";
 import { jobsCategories } from "@/app/constants";
 
@@ -48,12 +47,10 @@ const JobCard = ({
           </h3>
         </div>
         <div className="flex flex-col gap-5">
-          {cardId === "featuredJob" ? (
+          {cardId === "featuredJob" && (
             <div className="max-h-12 ">
               <p className="text-blak truncate text-gray-500"> {text}</p>
             </div>
-          ) : (
-            <ProgressBar totalLength={10} value={5} />
           )}
           <div className="flex gap-2">
             {Array.isArray(categories) &&

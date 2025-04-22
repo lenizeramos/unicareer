@@ -27,7 +27,7 @@ const styles = {
   categoryCard: "bg-white p-5 text-primary border border-gray-200 group",
   borderBottomLight: "w-full border-b border-[var(--color-borders)]",
   JobDescriptionTitle: "font-semibold mb-4 font-monomakh md:text-3xl text-[20px]",
-  JobDescriptionText: "font-shafarik md:text-[20px] text-[14px] text-gray-600",
+  JobDescriptionText: "font-shafarik md:text-[20px] text-[16px] text-gray-600",
   lists: "flex gap-2 mb-1 items-center",
 };
 
