@@ -14,7 +14,7 @@ const PaymentSuccess = () => {
   return (
     <>
       <CompanyHeader
-        image="/img/company_logo.png"
+        image="/img/img.png"
         name="Nomad"
         button={{
           text: "Post a Job",

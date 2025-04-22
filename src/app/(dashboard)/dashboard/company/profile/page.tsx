@@ -48,7 +48,7 @@ const CompanyProfile = async () => {
     <div className="bg-white shadow-lg rounded-lg p-5">
       <div className="[&_img]:w-32 [&_img]:h-32">
         <CompanyHeader
-          image="/img/company_logo.png"
+          image="/img/img.png"
           name={companyData.name}
           userId={companyData.userId}
           button={{
