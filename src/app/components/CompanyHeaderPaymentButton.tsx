@@ -90,7 +90,7 @@ export default function CompanyHeaderPaymentButton() {
     return <div className="flex min-h-screen h-screen">
             <Loader />
           </div>
-  }
+    }
 
   return (
     <CompanyHeader

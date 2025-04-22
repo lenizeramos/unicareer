@@ -18,6 +18,7 @@ export async function GET(request: Request) {
     }
 
     let file;
+
     switch (modelName) {
       case "candidateDocument":
         file = await prisma.candidateDocument.findFirst({

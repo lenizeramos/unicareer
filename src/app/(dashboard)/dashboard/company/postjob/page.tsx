@@ -28,9 +28,6 @@ export default function PostJobPage() {
         let method = "POST";
         let message = "You've successfully posted a job!";
 
-        console.log("Attempting to create job at:", url);
-        console.log("With payload:", job);
-
         if (jobToEdit) {
           url = `/api/job/${jobToEdit.id}/update`;
           method = "PATCH";
@@ -52,9 +49,6 @@ export default function PostJobPage() {
           credentials: 'include',
           body: body,
         });
-
-        console.log("Response status:", response.status);
-        console.log("Response status text:", response.statusText);
 
         if (!response.ok) {
           if (response.status === 403) {
