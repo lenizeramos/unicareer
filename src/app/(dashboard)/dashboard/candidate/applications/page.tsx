@@ -22,12 +22,9 @@ export default function Application() {
     (state: RootState) => state.applications as IApplicationsState
   );
   const { candidate, isLoading } = useCandidateData();
-  const endDefault = new Date();
-  const startDefault = new Date();
-  startDefault.setDate(endDefault.getDate() - 5);
 
-  const [startDate, setStartDate] = useState<Date | null>(startDefault);
-  const [endDate, setEndDate] = useState<Date | null>(endDefault);
+  const [startDate, setStartDate] = useState<Date | null>();
+  const [endDate, setEndDate] = useState<Date | null>();
   const [active, setActive] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState<string>("");
 
@@ -52,7 +49,7 @@ export default function Application() {
   }
   const getDate = (date: Date | undefined | null) => {
     if (!date) {
-      return <p>Not Found</p>;
+      return;
     }
     const createDate = date;
     const month = monthNames[createDate.getMonth()];
@@ -64,7 +61,7 @@ export default function Application() {
       ? new Date(item.appliedAt) < endDate
         ? item
         : ""
-      : "";
+      : true;
     const companyName = item.job?.company?.name?.toLowerCase() ?? "";
     const jobTitle = item.job?.title?.toLowerCase() ?? "";
     const search = searchTerm.toLowerCase();
@@ -106,14 +103,21 @@ export default function Application() {
             <p
               className={`${styles.JobDescriptionText} flex flex-col sm:flex-row text-center`}
             >
-              Here is job applications status from{" "}
-              <span className="sm:mx-1">
-                {getDate(startDate)} -{getDate(endDate)}
-              </span>
+              Here is job applications status{" "}
+              {startDate && endDate && (
+                <>
+                  <span className="sm:mx-1">
+                    from {getDate(startDate)} -{getDate(endDate)}
+                  </span>
+                </>
+              )}
             </p>
           ) : (
             <p className={`${styles.JobDescriptionText}`}>
-              Here is job applications status in {getDate(startDate)}
+              Here is job applications status{" "}
+              {startDate && (
+                <span className="">in {getDate(startDate)} </span>
+              )}
             </p>
           )}
         </div>
