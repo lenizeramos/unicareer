@@ -26,6 +26,7 @@ import CardsContainer from "@/app/components/Cards/CardsContainer";
 import CompanyHeader from "@/app/components/CompanyHeader";
 import { FaPlus } from "react-icons/fa";
 import Image from "next/image";
+import { getUserByClerkId } from "@/Lib/server/usersService";
 
 const CompanyProfile = async () => {
   const session = await auth();
@@ -34,12 +35,22 @@ const CompanyProfile = async () => {
     redirect("/sign-in");
   }
 
+  const userData = await getUserByClerkId(session.userId);
+  
+  if (!userData?.company) {
+    redirect("/dashboard");
+  }
+
+  const companyData = userData.company;
+  console.log("Company userId:", companyData.userId);
+
   return (
     <div className="bg-white shadow-lg rounded-lg p-5">
       <div className="[&_img]:w-32 [&_img]:h-32">
         <CompanyHeader
           image="/img/company_logo.png"
-          name="Nomad"
+          name={companyData.name}
+          userId={companyData.userId}
           button={{
             text: "Edit Profile",
             IsWhite: false,

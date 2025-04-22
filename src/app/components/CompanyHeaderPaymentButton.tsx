@@ -85,12 +85,12 @@ export default function CompanyHeaderPaymentButton() {
   const buttonClick = showPaymentButton
     ? handleButtonClick
     : handlePaymentClick;
-console.log("Company", company);
-  if (!company?.userId) {
+
+    if (!company?.userId) {
     return <div className="flex min-h-screen h-screen">
             <Loader />
           </div>
-  }
+    }
 
   return (
     <CompanyHeader

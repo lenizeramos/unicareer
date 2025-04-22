@@ -46,6 +46,7 @@ export default function PostJobPage() {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: 'include',
           body: body,
         });
 
