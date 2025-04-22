@@ -5,17 +5,16 @@ import Image from "next/image";
 import ButtonComp from "../ButtonComp";
 import TagComp from "../TagComp";
 import { jobsCategories } from "@/app/constants";
-/* import Link from "next/link"; */
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { IUserState } from "@/app/Types/slices";
 import { useEffect } from "react";
 import { fetchUsers } from "@/app/context/slices/usersSlices";
 import { useRouter } from "next/navigation";
+import FileDisplay from "../FileDisplay";
 
 const JobResumeCards = ({
   id,
-  /* logo, */
   title,
   categories,
   companyId,
@@ -34,7 +33,6 @@ const JobResumeCards = ({
     }
   }, [dispatch, users.length]);
   const company = users.find((company) => company.id === companyId);
-
   const handleSeeDetails = async () => {
     try {
       const response = await fetch(`/api/job/${id}/view/create`, {
@@ -46,7 +44,6 @@ const JobResumeCards = ({
       if (!response.ok) {
         throw new Error("Failed to record view");
       }
-
       router.push(`/dashboard/candidate/jobs/description?id=${id}`);
     } catch (error) {
       console.error("Error recording view:", error);
@@ -61,12 +58,13 @@ const JobResumeCards = ({
       >
         <div className="flex md:flex-row flex-col gap-5 items-center">
           <div>
-            <Image
-              src={`/img/logo.svg`}
-              alt={`${company?.name}_logo`}
-              width={50}
-              height={50}
-            />
+          <FileDisplay
+                  modelName="companyProfileImage"
+                  userId={company?.userId || ""}
+                  width={100}
+                  height={100}
+                  fallbackImage={"/img/img.png" || ""}
+                />
           </div>
           <div className="flex flex-col gap-2">
             <div>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ISummaryTable } from "../Types";
 import { monthNames, statusTags } from "../constants";
+import FileDisplay from "./FileDisplay";
 
 const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
   const statusNames = new Set(data.map((item) => item.status.toLowerCase()));
@@ -38,12 +39,12 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
             >
               <p className="w-fit sm:block hidden">{index + 1}</p>
               <div className="flex gap-2 w-fit items-center relative">
-                <Image
-                  src={"/img/Avatar.png"}
-                  alt="logo"
-                  width={45}
-                  height={45}
-                  className="sm:w-[2rem] sm:h-[2rem] w-[5rem] h-[5rem]"
+                <FileDisplay
+                  modelName="companyProfileImage"
+                  userId={item.companyName.logo || ""}
+                  width={50}
+                  height={50}
+                  fallbackImage={"/img/img.png" || ""}
                 />
                 <p className="sm:block hidden font-shafarik">
                   {item.companyName.name}

@@ -19,6 +19,7 @@ import { useCandidateData } from "@/Lib/client/candidate";
 import { fetchApplications } from "@/app/context/slices/applicationsSlices";
 import { toast } from "sonner";
 import Loader from "@/app/components/Loader";
+import FileDisplay from "@/app/components/FileDisplay";
 
 export default function JobDescription() {
   const router = useRouter();
@@ -135,11 +136,12 @@ export default function JobDescription() {
           <div className="bg-[#f8f8fd] xs:p-10 p-5">
             <div className="flex md:flex-row flex-col md:justify-between justify-start md:items-center items-start bg-white p-5 border border-gray-200 gap-5 md:gap-0 ">
               <div className="flex md:flex-row flex-col gap-5 md:items-center items-start">
-                <Image
-                  src={`/img/logo.svg`}
-                  alt="logo"
-                  width={80}
-                  height={80}
+                <FileDisplay
+                  modelName="companyProfileImage"
+                  userId={company?.userId || ""}
+                  width={90}
+                  height={90}
+                  fallbackImage={"/img/img.png" || ""}
                 />
                 <div>
                   <h1 className={`${styles.sectionHeadText} pb-2`}>

@@ -94,7 +94,7 @@ export default function CompanyHeaderPaymentButton() {
 
   return (
     <CompanyHeader
-      image="/img/company_logo.png"
+      image="/img/img.png"
       name={company?.name || ""}
       userId={company.userId}
       button={{

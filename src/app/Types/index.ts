@@ -49,7 +49,6 @@ export interface ICards {
   responsibilities?: string;
   whoYouAre?: string;
   niceToHave?: string;
-  // benefits?: { icon: React.ElementType; title: string; text: string }[];
   benefits?: string[] | string;
   companyname?: string;
   companyId?: string;

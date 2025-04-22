@@ -74,8 +74,9 @@ const DashboardPage = () => {
         .map((job) => ({
           title: job.title,
           cardId: "jobUpdates",
-          logo: "logo",
+          logo: company?.userId || "img/img.png",
           subtitle: job.location || "No location",
+          companyname: company?.name,
           alt: "Job image",
           categories: Array.isArray(job.categories)
             ? job.categories.join(", ")

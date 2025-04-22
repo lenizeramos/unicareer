@@ -4,6 +4,7 @@ import { styles } from "@/app/styles";
 import Image from "next/image";
 import TagComp from "../TagComp";
 import { jobsCategories } from "@/app/constants";
+import FileDisplay from "../FileDisplay";
 
 const JobCard = ({
   logo,
@@ -14,7 +15,7 @@ const JobCard = ({
   categories,
   companyname,
   type,
-  cardId,
+  cardId
 }: ICards) => {
   return (
     <>
@@ -23,8 +24,14 @@ const JobCard = ({
       >
         <div className="flex items-center justify-between gap-5">
           <div className="">
-            <Image src={"img/logo.svg"} alt={`${alt}`} width={40} height={40} />
-            {logo}
+          <FileDisplay
+          modelName="companyProfileImage"
+          userId={logo || ""}
+          width={90}
+          height={90}
+          className="profile-image-style overflow-hidden"
+          fallbackImage={"img/img.png" || ""}
+        />
           </div>
           {cardId === "featuredJob" ? (
             <ButtonComp text={`Full Time ${type}`} IsWhite={true} />
@@ -37,7 +44,7 @@ const JobCard = ({
           )}
         </div>
         <div className="">
-          <h2 className={`${styles.sectionHeadText} text-black`}>{title}</h2>
+          <h2 className={`font-monomakh text-2xl text-black`}>{title}</h2>
           <h3
             className={`${styles.sectionSubText} text-gray-600 flex items-center gap-2`}
           >
