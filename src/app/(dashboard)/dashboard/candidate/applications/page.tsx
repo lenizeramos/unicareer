@@ -88,7 +88,7 @@ export default function Application() {
         title="My Applications"
         button={{ text: "Back to home page", IsWhite: true }}
       />
-      <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-25 py-8 w-full ">
+      <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full relative">
         <div>
           <h3 className={`${styles.JobDescriptionTitle}`}>
             Keep it up, {candidate.firstName}
@@ -111,43 +111,47 @@ export default function Application() {
           />
         </div>
       </div>
-      <div className="mt-3">
-        <div className="font-shafarik flex md:gap-20 sm:gap-15 gap-5 sm:text-lg text-[14px] border-b-[1px] border-gray-200 px-3 pt-3">
-          {statusTags.map((status, index) => {
-            return (
-              <p
-                id={status.id}
-                key={index}
-                onClick={() => setActive(status.id)}
-                className={`${
-                  active === status.id
-                    ? "text-black font-semibold border-b-2 border-[#5939c6] px-2"
-                    : "text-gray-500"
-                } cursor-pointer`}
-              >
-                {status.type}
-              </p>
-            );
-          })}
-        </div>
-        <div className="mt-10 px-3 flex justify-between">
-          <h2 className="font-semibold font-shafarik text-xl">
-            Applications History
-          </h2>
-          <div className="flex items-center border rounded-xl p-1 border-gray-400 w-fit h-fit">
-            <BsSearch color="#99a1af" />
-            <input
-              type="text"
-              placeholder="Search"
-              className="font-shafarik px-3 w-[5rem] sm:text-md text-sm border-none outline-none"
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+      {data.length === 0 ? (
+        <p>No Aplications</p>
+      ) : (
+        <div className="mt-3">
+          <div className="font-shafarik flex md:gap-20 sm:gap-15 gap-5 sm:text-lg text-[14px] border-b-[1px] border-gray-200 px-3 pt-3">
+            {statusTags.map((status, index) => {
+              return (
+                <p
+                  id={status.id}
+                  key={index}
+                  onClick={() => setActive(status.id)}
+                  className={`${
+                    active === status.id
+                      ? "text-black font-semibold border-b-2 border-[#5939c6] px-2"
+                      : "text-gray-500"
+                  } cursor-pointer`}
+                >
+                  {status.type}
+                </p>
+              );
+            })}
+          </div>
+          <div className="mt-10 px-3 flex justify-between">
+            <h2 className="font-semibold font-shafarik text-xl">
+              Applications History
+            </h2>
+            <div className="flex items-center border rounded-xl p-1 border-gray-400 w-fit h-fit">
+              <BsSearch color="#99a1af" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="font-shafarik px-3 w-[5rem] sm:text-md text-sm border-none outline-none"
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </div>
+          <div>
+            <SummaryTable columnNames={columnNames} data={data} />
           </div>
         </div>
-        <div>
-          <SummaryTable columnNames={columnNames} data={data} />
-        </div>
-      </div>
+      )}
     </>
   );
 }

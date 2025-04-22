@@ -31,7 +31,7 @@ const DateRangePicker = ({
   let displayText = "";
 
   switch (true) {
-    case startDate && startDate < new Date() && isSameDate :
+    case startDate && startDate < new Date() && isSameDate:
       displayText = `${format(startDate, "MMM d")}`;
       break;
 
@@ -46,8 +46,11 @@ const DateRangePicker = ({
       displayText = `${format(new Date(), "MMM d")}`;
       break;
 
-    case startDate && endDate  && startDate < new Date() && endDate < new Date():
-      displayText = `${format(startDate, "MMM d")} – ${format(endDate,"MMM d")}`;
+    case startDate && endDate && startDate < new Date() && endDate < new Date():
+      displayText = `${format(startDate, "MMM d")} – ${format(
+        endDate,
+        "MMM d"
+      )}`;
       break;
 
     default:
@@ -76,14 +79,7 @@ const DateRangePicker = ({
     }
   };
   return (
-    <div className={`flex items-center md:gap-[10px] gap-[5px]`}>
-      <span
-        className="font-[1rem] cursor-pointer py-[0.5rem] sm:px-[1rem] px-[0.5rem] border-[1px] border-gray-200 inline-flex items-center gap-[0.5rem] sm:text-[14px] text-[10px]"
-        onClick={() => pickerRef.current?.setOpen(true)}
-      >
-        {displayText}
-        <FcCalendar />
-      </span>
+    <div className={`flex items-center justify-center gap-[5px]`}>
       <DatePicker
         ref={pickerRef}
         selected={startDate}
@@ -92,8 +88,14 @@ const DateRangePicker = ({
         endDate={endDate ?? undefined}
         selectsRange
         customInput={<div className="hidden" />}
-        className="w-full px-4 py-2 text-sm sm:text-base border rounded-md"
       />
+      <span
+        className="font-[1rem] cursor-pointer py-[0.5rem] sm:px-[1rem] px-[0.5rem] border-[1px] border-gray-200 inline-flex items-center gap-[0.5rem] sm:text-[14px] text-[10px]"
+        onClick={() => pickerRef.current?.setOpen(true)}
+      >
+        {displayText}
+        <FcCalendar />
+      </span>
     </div>
   );
 };
