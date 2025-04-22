@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
 import { getApplicationsByCompanyId } from "@/Lib/application";
-import { getUserByClerkId } from "@/Lib/client/usersService";
+import { getUserByClerkId } from "@/Lib/server/usersService";
 
 export async function GET(req: NextRequest) {
   try {

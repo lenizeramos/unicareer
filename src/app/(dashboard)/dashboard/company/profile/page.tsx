@@ -26,7 +26,7 @@ import CardsContainer from "@/app/components/Cards/CardsContainer";
 import CompanyHeader from "@/app/components/CompanyHeader";
 import { FaPlus } from "react-icons/fa";
 import Image from "next/image";
-import { getUserByClerkId } from "@/Lib/server/usersService";
+import { getUserByClerkId } from "@/Lib/client/usersService";
 
 const CompanyProfile = async () => {
   const session = await auth();
