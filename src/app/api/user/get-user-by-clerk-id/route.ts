@@ -4,11 +4,20 @@ import { getClerkUserId } from "@/utils/user";
 
 export async function GET(req: NextRequest) {
   try {
-    const userId = await getClerkUserId();
+    const { searchParams } = new URL(req.url);
+    const clerkIdFromParams = searchParams.get('clerkId');
 
-    if (!userId) return NextResponse.redirect(new URL("/sign-in", req.url));
+    const clerkId = clerkIdFromParams || await getClerkUserId();
 
-    const user = await getUserByClerkId(userId);
+    if (!clerkId) {
+      return NextResponse.redirect(new URL("/sign-in", req.url));
+    }
+
+    const user = await getUserByClerkId(clerkId);
+    
+    if (!user) {
+      return new NextResponse("User not found", { status: 404 });
+    }
 
     return NextResponse.json(user);
   } catch (error) {

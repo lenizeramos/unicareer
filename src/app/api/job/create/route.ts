@@ -9,8 +9,9 @@ export async function POST(req: NextRequest) {
 
     const clerkUserId = await getClerkUserId();
 
-    if (!clerkUserId)
+    if (!clerkUserId) {
       return NextResponse.redirect(new URL("/sign-in", req.url));
+    }
 
     const user = await getUserByClerkId(clerkUserId);
 
@@ -23,7 +24,7 @@ export async function POST(req: NextRequest) {
     await createJob(payload);
     return NextResponse.json("Job Post created successfully");
   } catch (error) {
-    console.error("Error", error);
-    return new NextResponse("Error", { status: 500 });
+    console.error("Detailed error:", error);
+    return new NextResponse(error instanceof Error ? error.message : "Unknown error", { status: 500 });
   }
 }

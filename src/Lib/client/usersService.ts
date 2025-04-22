@@ -35,8 +35,22 @@ export async function getUserByClerkId(clerkId: string | undefined) {
   
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/user/get-user-by-clerk-id?clerkId=${clerkId}`);
-    if (!response.ok) return null;
+    const response = await fetch(
+      `${baseUrl}/api/user/get-user-by-clerk-id?clerkId=${clerkId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      }
+    );
+    
+    if (!response.ok) {
+      console.error('Error response:', await response.text());
+      return null;
+    }
+    
     return response.json();
   } catch (error) {
     console.error('Error fetching user:', error);
