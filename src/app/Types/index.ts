@@ -1,5 +1,6 @@
 /* import { ResumeData } from "@/types/resume"; */
 import React from "react";
+import { IApplication } from "./slices";
 
 export interface IButtton {
   text: string | React.ReactNode;
@@ -110,18 +111,30 @@ export interface IDashboardWelcome {
 export interface ICompanyHeader {
   image: string;
   name: string;
+  userId?: string;
   button?: IButtton;
 }
 
 export interface IJob {
+  id?: string;
   title: string;
-  status: string;
+  status?: string | null;
   location: string;
   level: string;
   categories: string;
-  createdAt: string;
-  closingDate: string;
+  createdAt?: string | Date | null;
+  closingDate: string | Date | null;
   type: string;
+  totalApplications?: number;
+  salary: [number, number];
+  salaryMin?: number;
+  salaryMax?: number;
+  description?: string;
+  responsibilities?: string;
+  whoYouAre?: string;
+  niceToHave?: string;
+  skills?: string[];
+  benefits?: string[];
 }
 
 export interface IJobList {
@@ -135,6 +148,7 @@ export interface JobListProps extends IJobList {
   currentPage: number;
   onPageChange: (page: number) => void;
   totalItems: number;
+  onViewJobDetails: (id: string) => void;
 }
 
 export interface IPayment {
@@ -164,25 +178,17 @@ export interface IBadge {
 }
 
 export interface IJobFormProps {
-  onClick: (job: {
-    title: string;
-    closingDate: Date | null;
-    level: string;
-    type: string;
-    salary: number[];
-    categories: string;
-    skills: string[];
-    description: string;
-    location: string;
-    responsibilities: string;
-    whoYouAre: string;
-    niceToHave: string;
-    benefits: string[];
-  }) => void;
+  onClick: (job: IJob) => void;
+  initialData?: IJob;
 }
 
 export interface ICompanyFormProps {
-  onSubmit: (company: { name: string; logo: string | null; bio: string }) => void;
+  onSubmit: (company: {
+    name: string;
+    logo: string | null;
+    bio: string;
+    userId: string;
+  }) => void;
 }
 
 export interface InputFieldProps {
@@ -322,7 +328,7 @@ export interface ICandidateFormProps {
     }>;
     languages: Array<{
       name: string;
-      level: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'NATIVE';
+      level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
     }>;
   }) => void;
   initialData?: any;
@@ -336,6 +342,7 @@ export interface IDashboardData {
     label: string;
     count: number;
   }[];
+  companyJobs: IJob[];
 }
 
 export interface ApplicationsListProps {
@@ -346,7 +353,20 @@ export interface ApplicationsListProps {
   currentPage: number;
   onPageChange: (page: number) => void;
   totalItems: number;
-  onViewProfile?: (id: string) => void; 
+  onViewProfile?: (id: string) => void;
+}
+
+export interface ApplicationsListTableProps {
+  applications: IApplication[];
+  columns: { [key: string]: string };
+  itemsPerPage: number;
+  onItemsPerPageChange: (value: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+  onViewProfile?: (id: string) => void;
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
 }
 
 export interface Application {
@@ -376,4 +396,12 @@ export interface InfoSectionProps {
 export interface InfoItemProps {
   label: string;
   value: string | React.ReactNode;
+}
+
+export interface IStatusButtonProps {
+  applicationId: string;
+  currentStatus: string;
+  targetStatus: string;
+  label: string;
+  setStatus: (status: string) => void;
 }

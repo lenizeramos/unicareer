@@ -1,7 +1,7 @@
 "use client";
 
 import DashboardNavbar from "@/app/components/DashboardNavbar";
-import DateRangePicker from "@/app/components/DateTimePicker";
+import DateRangePicker from "@/app/components/DateRangePicker";
 import Loader from "@/app/components/Loader";
 import { columnNames, monthNames } from "@/app/constants";
 import { styles } from "@/app/styles";

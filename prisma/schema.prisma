@@ -29,22 +29,23 @@ model User {
 }
 
 model Candidate {
-  id              String              @id @default(auto()) @map("_id") @db.ObjectId
-  userId          String              @unique @db.ObjectId
-  user            User                @relation(fields: [userId], references: [id])
-  firstName       String
-  lastName        String
-  skills          String[]
-  resume          String?
-  bio             String?
-  website         String?
-  education       Education[]
-  workExperience  WorkExperience[]
-  languages       Language[]
-  documents       CandidateDocument[]
-  applications    Application[]
-  createdAt       DateTime            @default(now())
-  updatedAt       DateTime            @updatedAt
+  id             String              @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String              @unique @db.ObjectId
+  user           User                @relation(fields: [userId], references: [id])
+  firstName      String
+  lastName       String
+  skills         String[]
+  resume         String?
+  bio            String?
+  website        String?
+  education      Education[]
+  workExperience WorkExperience[]
+  languages      Language[]
+  documents      CandidateDocument[]
+  applications   Application[]
+  jobView        JobView[]
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
   //compatibilityScores CompatibilityScore[]
 
   @@map("candidate")
@@ -61,7 +62,7 @@ model Company {
   jobs              Job[]                 @relation
   profileImages     CompanyProfileImage[]
   createdAt         DateTime              @default(now())
-  updatedAt         DateTime              @updatedAt @default(now())
+  updatedAt         DateTime              @default(now()) @updatedAt
 
   @@map("company")
 }
@@ -82,8 +83,10 @@ model Job {
   whoYouAre        String?
   niceToHave       String?
   benefits         String[]
+  deleted          Boolean       @default(false)
   company          Company       @relation(fields: [companyId], references: [id])
   applications     Application[]
+  jobView          JobView[]
   /**
    * jobRecommendations JobRecommendation[]
    * compatibilityScores CompatibilityScore[]
@@ -92,7 +95,21 @@ model Job {
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
 
+  deletedAt DateTime?
+
   @@map("job")
+}
+
+model JobView {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  jobId       String    @db.ObjectId
+  job         Job       @relation(fields: [jobId], references: [id])
+  candidateId String    @db.ObjectId
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  viewedAt    DateTime  @default(now())
+
+  @@unique([jobId, candidateId])
+  @@map("job_views")
 }
 
 model Application {
@@ -112,6 +129,8 @@ enum ApplicationStatus {
   PENDING
   INTERVIEWED
   REJECTED
+  HIRED
+  CANCELLED_JOB
 }
 
 enum Role {
@@ -197,19 +216,19 @@ model CompanyProfileImage {
 }
 
 model Education {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  candidateId String    @db.ObjectId
-  candidate   Candidate @relation(fields: [candidateId], references: [id])
-  institution String
-  degree      String
-  fieldOfStudy String
-  country     String
-  startDate   DateTime
-  endDate     DateTime?
-  current     Boolean   @default(false)
-  description String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  candidateId  String    @db.ObjectId
+  candidate    Candidate @relation(fields: [candidateId], references: [id])
+  institution  String
+  degree       String
+  fieldOfStudy String?
+  country      String
+  startDate    DateTime
+  endDate      DateTime?
+  current      Boolean   @default(false)
+  description  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   @@map("education")
 }
@@ -232,13 +251,13 @@ model WorkExperience {
 }
 
 model Language {
-  id          String         @id @default(auto()) @map("_id") @db.ObjectId
-  candidateId String         @db.ObjectId
-  candidate   Candidate      @relation(fields: [candidateId], references: [id])
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  candidateId String        @db.ObjectId
+  candidate   Candidate     @relation(fields: [candidateId], references: [id])
   name        String
   level       LanguageLevel
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   @@map("language")
 }

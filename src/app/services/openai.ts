@@ -29,7 +29,7 @@ export async function analyzeResume(text: string): Promise<ResumeData> {
     messages: [
       {
         role: "system",
-        content: "You are a professional resume parser. Extract only the requested information and format it as clean JSON."
+        content: "You are a professional resume parser. Extract only the requested information and format it as clean JSON with double-quoted property names."
       },
       {
         role: "user",
@@ -37,10 +37,9 @@ export async function analyzeResume(text: string): Promise<ResumeData> {
       }
     ],
     model: "gpt-3.5-turbo",
+    response_format: { type: "json_object" }
   });
 
   const content = completion.choices[0].message.content || '{}';
-  // Remove markdown formatting if present
-  const jsonContent = content.replace(/```json\n?|\n?```/g, '').trim();
-  return JSON.parse(jsonContent) as ResumeData;
+  return JSON.parse(content) as ResumeData;
 }

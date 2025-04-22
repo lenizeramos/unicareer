@@ -1,3 +1,5 @@
+import { IJob } from ".";
+
 export interface Ijobs {
   id: string;
   title: string;
@@ -24,12 +26,6 @@ export interface Ijobs {
 }
 
 export interface IJobsState {
-  jobs: Ijobs[];
-  loading: boolean;
-  error: string | null;
-}
-
-export interface ICompanyJobsState {
   jobs: Ijobs[];
   loading: boolean;
   error: string | null;
@@ -65,7 +61,7 @@ export interface IApplication {
   id: string;
   jobId: string;
   candidateId: string;
-  status?: "PENDING" | "INTERVIEWED" | "REJECTED";
+  status: "PENDING" | "INTERVIEWED" | "REJECTED" | "HIRED" | "CANCELLED_JOB";
   updatedAt?: string;
   appliedAt: string;
   candidate?: ICandidate;
@@ -92,6 +88,10 @@ export interface ICandidate {
   education?: IEducation[];
   workExperience?: IWorkExperience[];
   language?: ILanguage[];
+  phone?: string;
+  instagram?: string;
+  twitter?: string;
+  address?: string;
 }
 
 export interface ICandidateState {
@@ -103,7 +103,7 @@ export interface ICandidateState {
 interface ICompany {
   id: string;
   userId: string;
-  name:string;
+  name: string;
   bio?: string;
   profileImages?: {
     id: string;
@@ -113,8 +113,8 @@ interface ICompany {
   }[];
 }
 
-export interface IApplicationByIdState {
-  application?: IApplication;
+export interface ICompanyState {
+  company?: ICompany;
   loading: boolean;
   error: string | null;
 }
@@ -141,7 +141,7 @@ export interface IWorkExperience {
   position: string;
   country: string;
   startDate: string;
-  endDate?: string; 
+  endDate?: string;
   current?: boolean;
   description?: string;
   createdAt: string;
@@ -155,4 +155,8 @@ export interface ILanguage {
   level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
   createdAt: string;
   updatedAt: string;
+}
+
+export interface IJobToEditState {
+  jobToEdit: IJob | null;
 }

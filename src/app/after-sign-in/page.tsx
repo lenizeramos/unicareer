@@ -11,7 +11,7 @@ function AfterSignIn() {
 
   const verifyRegisteredUser = useCallback(async () => {
     try {
-      const userResponse = await fetch("/api/get-user-by-clerk-id");
+      const userResponse = await fetch("/api/user/get-user-by-clerk-id");
 
       if (!userResponse.ok) {
         throw new Error(`Failed to get userid: ${userResponse.statusText}`);
@@ -21,7 +21,7 @@ function AfterSignIn() {
       if (user) {
         router.push(getDashboardPath(user.role));
       } else {
-        const roleResponse = await fetch("/api/get-role");
+        const roleResponse = await fetch("/api/user/get-role");
         if (!roleResponse.ok) {
           throw new Error(`Failed to get role: ${roleResponse.statusText}`);
         }

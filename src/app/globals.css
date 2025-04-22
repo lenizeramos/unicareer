@@ -138,6 +138,10 @@ body {
   --color-openColor: #56cdad;
   --color-closedColor: #ff6550;
   --color-pendingColor: #ffb836;
+  --color-cancelledJobColor: #bd1522;
+  --color-hiredColor: #027d73;
+  --color-interviewedColor: var(--color-primary);
+  --color-rejectedColor: var(--color-closedColor);
   --color-fulltimeColor: #ec4899;
   --color-parttimeColor: #22c55e;
   --color-freelanceColor: #a855f7;
@@ -222,6 +226,43 @@ body {
   color: var(--color-pendingColor);
 }
 
+.border-cancelledJob {
+  border-color: var(--color-cancelledJobColor);
+}
+.border-hired {
+  border-color: var(--color-hiredColor);
+}
+.border-PENDING {
+  border-color: var(--color-pendingColor);
+}
+
+.border-rejected {
+  border-color: var(--color-rejectedColor);
+}
+
+.border-interviewed {
+  border-color: var(--color-interviewedColor);
+}
+
+.text-PENDING {
+  color: var(--color-pendingColor);
+}
+.text-interviewed {
+  color: var(--color-interviewedColor);
+}
+
+.text-rejected {
+  color: var(--color-rejectedColor);
+}
+
+.text-cancelledJobColor {
+  color: var(--color-cancelledJobColor);
+}
+
+.text-hiredColor {
+  color: var(--color-hiredColor);
+}
+
 .text-openColor {
   color: var(--color-openColor);
 }
@@ -277,34 +318,6 @@ body {
   margin: 0 auto;
 }
 
-@media (max-width: 768px) {
-  .p-stepper {
-    width: 100%;
-    padding: 0.5rem;
-  }
-
-  .p-stepper-action {
-    flex-direction: column;
-  }
-
-  .p-stepper-title {
-    font-size: 0.8rem;
-    margin: 0;
-  }
-  .p-stepper-content {
-    width: 100%;
-    margin: auto;
-  }
-
-  .p-stepper-panels {
-    padding: 0;
-  }
-
-  .p-stepper-separator {
-    display: none;
-  }
-}
-
 /* CLerk */
 .cl-formButtonPrimary {
   font-size: 14px;
@@ -332,4 +345,45 @@ body {
 
 .p-chips .p-chips-multiple-container .p-chips-token {
   color: var(--color-menuItem);
+}
+
+.profile-image-style {
+  width: 90px !important;
+  height: 90px !important;
+  border-radius: 50% !important;
+}
+
+@media (max-width: 576px) {
+  .profile-image-style {
+    width: 60px !important;
+    height: 60px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .p-stepper {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .p-stepper-action {
+    flex-direction: column;
+  }
+
+  .p-stepper-title {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+  .p-stepper-content {
+    width: 100%;
+    margin: auto;
+  }
+
+  .p-stepper-panels {
+    padding: 0;
+  }
+
+  .p-stepper-separator {
+    display: none;
+  }
 }

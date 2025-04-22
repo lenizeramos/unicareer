@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     const modelName = formData.get('modelName') as FileUploadModelName;
     const fieldName = formData.get('fieldName') as string;
     const userId = formData.get('userId') as string;
-    
+
     if (!file || !modelName || !fieldName || !userId) {
       return NextResponse.json({ 
         error: 'Missing required fields: file, modelName, fieldName, and userId are required' 

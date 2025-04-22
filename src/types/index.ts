@@ -16,6 +16,7 @@ export interface FileUploadProps {
   maxSizeMB?: number;
   userId: string;
   onUploadComplete: (fileKey: string, file: File) => void | Promise<void>;
+  userEmail?: string;
 }
 
 export interface Payment {
@@ -60,9 +61,12 @@ export interface Job {
   benefits?: string[];
   closingDate?: Date;
   companyId: string;
+  deleted: boolean;
+  deletedAt: Date;
 }
 
 export interface Company {
+  id?: string;
   name: string;
   bio?: string;
   jobs?: Job[];

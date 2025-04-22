@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FileUpload from './FileUpload';
 import Loader from './Loader';
 import { ResumeData } from '@/types/resume';
@@ -7,14 +7,20 @@ interface ResumeUploadStepProps {
   onUpload: (data: ResumeData) => void;
   onSkip: () => void;
   userId: string;
+  userEmail: string;
 }
 
-export default function ResumeUploadStep({ onUpload, onSkip, userId }: ResumeUploadStepProps) {
+export default function ResumeUploadStep({ onUpload, onSkip, userId, userEmail }: ResumeUploadStepProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleUploadComplete = async (fileKey: string, file: File) => {
+
     try {
+      if (!userId || !userEmail) {
+        throw new Error('Missing userId or userEmail');
+      }
+
       setIsProcessing(true);
       setError(null);
 
@@ -26,6 +32,7 @@ export default function ResumeUploadStep({ onUpload, onSkip, userId }: ResumeUpl
       const formData = new FormData();
       formData.append('file', file);
       formData.append('userId', userId);
+      formData.append('userEmail', userEmail);
 
       const response = await fetch('/api/process-resume', {
         method: 'POST',
@@ -61,9 +68,10 @@ export default function ResumeUploadStep({ onUpload, onSkip, userId }: ResumeUpl
           successText="Resume uploaded successfully!"
           apiRoute="/api/process-resume"
           modelName="candidateDocument"
-          fieldName="resume"
+          fieldName="file"
           maxSizeMB={5}
           userId={userId}
+          userEmail={userEmail}
           onUploadComplete={handleUploadComplete}
         />
       )}
@@ -76,7 +84,10 @@ export default function ResumeUploadStep({ onUpload, onSkip, userId }: ResumeUpl
 
       <div className="mt-6 text-center">
         <button
-          onClick={onSkip}
+          onClick={(e) => {
+            e.preventDefault();
+            onSkip();
+          }}
           className="text-gray-600 hover:text-gray-800 underline"
           disabled={isProcessing}
         >

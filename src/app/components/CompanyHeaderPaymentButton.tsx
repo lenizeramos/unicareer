@@ -2,24 +2,39 @@ import CompanyHeader from "./CompanyHeader";
 import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { useCompanyData } from "@/Lib/client/company";
+import { fetchCompany } from "@/app/context/slices/companySlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/context/store";
+import { clearJobToEdit } from "@/app/context/slices/jobToEditSlices";
+import Loader from "./Loader";
 
 export default function CompanyHeaderPaymentButton() {
   const router = useRouter();
   const [showPaymentButton, setShowPaymentButton] = useState(true);
-  const { companyId, isLoading } = useCompanyData();
+  const dispatch = useDispatch<AppDispatch>();
+  const company = useSelector((state: RootState) => state.companyState.company);
+  const isLoading = useSelector(
+    (state: RootState) => state.companyState.loading
+  );
 
-  const handleButtonClick = () => {
+  useEffect(() => {
+    dispatch(fetchCompany());
+  }, [dispatch]);
+
+  const handleButtonClick = async () => {
+    await dispatch(clearJobToEdit());
     router.push("/dashboard/company/postjob");
   };
 
   const handlePaymentClick = async () => {
+    const companyId = company?.id;
+
     if (!companyId) {
       console.error("No company ID available");
       return;
     }
     try {
-      const response = await fetch("/api/create-payment-intent", {
+      const response = await fetch("/api/company/create-payment-intent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,13 +77,26 @@ export default function CompanyHeaderPaymentButton() {
     checkMembershipStatus();
   }, []);
 
-  const buttonText = isLoading ? "Loading..." : showPaymentButton ? "Post a Job" : "Get a membership";
-  const buttonClick = showPaymentButton ? handleButtonClick : handlePaymentClick;
+  const buttonText = isLoading
+    ? "Loading..."
+    : showPaymentButton
+    ? "Post a Job"
+    : "Get a membership";
+  const buttonClick = showPaymentButton
+    ? handleButtonClick
+    : handlePaymentClick;
+
+    if (!company?.userId) {
+    return <div className="flex min-h-screen h-screen">
+            <Loader />
+          </div>
+    }
 
   return (
     <CompanyHeader
       image="/img/company_logo.png"
-      name="Nomad"
+      name={company?.name || ""}
+      userId={company.userId}
       button={{
         text: buttonText,
         IsWhite: false,

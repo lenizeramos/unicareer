@@ -16,7 +16,7 @@ export const useCandidateData = () => {
           return;
         }
 
-        const response = await fetch('/api/get-candidate', {
+        const response = await fetch('/api/candidate/get-candidate', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

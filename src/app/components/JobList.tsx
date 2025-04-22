@@ -1,6 +1,8 @@
-import { FaArrowLeft, FaArrowRight, FaFilter } from "react-icons/fa";
+"use client";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { JobListProps, IJob } from "../Types";
 import Badge from "./Badge";
+import ButtonComp from "./ButtonComp";
 
 export default function JobList({
   jobs,
@@ -10,24 +12,18 @@ export default function JobList({
   currentPage,
   onPageChange,
   totalItems,
+  onViewJobDetails,
 }: JobListProps) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   return (
     <div className="mt-8 border-light">
-      <div className="flex justify-between items-center border-bottom-light p-8">
-        <h2 className="text-xl text-title-color font-bold">Job List</h2>
-        <button className="flex items-center gap-2 text-sm text-title-color border-light p-4">
-          <FaFilter />
-          <p>Filters</p>
-        </button>
-      </div>
       <div className="overflow-x-scroll max-w-[360px] md:max-w-full md:w-full text-center">
         <table className="w-full pe-8 ps-8">
-          <thead className="border-bottom-light p-8">
+          <thead className="p-8 bg-gray-100 text-gray-600 text-sm font-semibold border-t border-b">
             <tr>
               {Object.values(columns).map((column, index) => (
-                <th key={index} className="text-not-focus-color p-8">
+                <th key={index} className="text-not-focus-color p-4">
                   {column}
                 </th>
               ))}
@@ -38,10 +34,19 @@ export default function JobList({
               <tr key={index}>
                 {Object.keys(columns).map((key, index) => {
                   const value = job[key as keyof IJob];
+                  const renderValue = (val: unknown): React.ReactNode => {
+                    if (val === null || val === undefined) return "-";
+                    if (typeof val === "string" || typeof val === "number")
+                      return val;
+                    if (Array.isArray(val)) return val.join(", ");
+                    if (val instanceof Date) return val.toLocaleDateString();
+                    return "-";
+                  };
+
                   return (
                     <td
                       key={index}
-                      className="p-8 border-bottom-light text-center text-title-color font-medium"
+                      className="p-8 border-b border-gray-200 text-center text-title-color font-medium"
                     >
                       {key === "status" || key === "type" ? (
                         typeof value === "string" ? (
@@ -50,19 +55,28 @@ export default function JobList({
                           "-"
                         )
                       ) : key === "title" ? (
-                        <div className="text-lg font-[600]">
+                        <div className="text-lg font-semibold text-gray-600">
                           {typeof value === "string" ? value : "-"}
                         </div>
                       ) : key === "closingDate" ||
                         key === "createdAt" ||
                         key === "updatedAt" ? (
                         <div className="text-lg font-[500]">
-                          {typeof value === "string" || typeof value === "number"
+                          {typeof value === "string" ||
+                          typeof value === "number"
                             ? new Date(value).toLocaleDateString()
                             : "-"}
                         </div>
+                      ) : key === "actionButton" ? (
+                        <ButtonComp
+                          text="View Job"
+                          IsWhite={true}
+                          onClick={() =>
+                            onViewJobDetails && onViewJobDetails(job.id ?? "")
+                          }
+                        />
                       ) : (
-                        value
+                        renderValue(value)
                       )}
                     </td>
                   );
@@ -86,9 +100,7 @@ export default function JobList({
             <option value={20}>20</option>
             <option value={50}>50</option>
           </select>
-          <span className="text-lg text-not-focus-color">
-            Applications per page
-          </span>
+          <span className="text-lg text-not-focus-color">jobs per page</span>
         </div>
 
         <div className="flex items-center gap-2">

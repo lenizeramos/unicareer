@@ -13,6 +13,7 @@ import {
 import EducationSection from './EducationSection';
 import WorkExperienceSection from './WorkExperienceSection';
 import LanguagesSection from './LanguagesSection';
+import FileUpload from "./FileUpload";
 
 const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData }) => {
   const [firstName, setFirstName] = useState(initialData?.firstName || "");
@@ -77,18 +78,15 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
             classNameField={classNameField}
           />
 
-          <InputField
-            label="Photo"
-            id="photo"
-            type="file"
-            onChange={(e) =>
-              setPhoto(e.target.files ? e.target.files[0] : null)
-            }
-            classNameDivContainer="space-y-2"
-            classNameLabel={classNameLabel}
-            accept="image/*"
-            fileLabel={photo ? photo.name : "Upload photo"}
-            filePreview={<RxImage className="h-6 w-6" />}
+          <FileUpload
+            allowedFileTypes={["image/jpeg", "image/png"]}
+            apiRoute="/api/upload"
+            modelName="userProfileImage"
+            fieldName="fileKey"
+            userId={initialData?.id}
+            uploadText="Upload your profile image"
+            maxSizeMB={5}
+            onUploadComplete={() => {}}
           />
 
           <ChipsField

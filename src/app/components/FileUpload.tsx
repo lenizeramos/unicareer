@@ -11,6 +11,7 @@ export default function FileUpload({
     fieldName,
     maxSizeMB = 5,
     userId,
+    userEmail,
     onUploadComplete
 }: FileUploadProps) {
 
@@ -59,6 +60,9 @@ export default function FileUpload({
             formData.append('modelName', modelName);
             formData.append('fieldName', fieldName);
             formData.append('userId', userId);
+            if (userEmail) {
+                formData.append('userEmail', userEmail);
+            }
 
             const response = await fetch(apiRoute, {
                 method: 'POST',

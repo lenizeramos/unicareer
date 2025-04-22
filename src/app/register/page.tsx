@@ -1,68 +1,100 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import { waitForUserRole } from "@/Lib/client/roleService";
 import CandidateForm from "@/app/components/CandidateForm";
 import CompanyForm from "@/app/components/CompanyForm";
 import ResumeUploadStep from '@/app/components/ResumeUploadStep';
 import { ResumeData } from '@/types/resume';
 import Loader from "@/app/components/Loader";
+import { 
+  getUserByClerkId,
+  createUserAndCandidate,
+  createUserAndCompany,
+  setUserRole,
+  registerCandidate,
+  registerCompany,
+  waitForUserRole
+} from "@/Lib/client/usersService";
 
-/* const awaitNewClerkRoleToSyncWithApp = async () => {
-  let userRole = null;
-
-  const sleep = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-
-  let attempts = 0;
-  const maxAttempts = 20;
-
-  while (!userRole && attempts < maxAttempts) {
-    if (attempts > 0) {
-      //console.log("SLEEPING");
-      await sleep(5000);
-    }
-    const roleResponse = await fetch("/api/get-role");
-    if (!roleResponse.ok) {
-      throw new Error(`Failed to get role: ${roleResponse.statusText}`);
-    }
-    userRole = await roleResponse.json();
-    attempts++;
-  }
-}; */
-
-const awaitRoleUpdate = async (expectedRole: string, maxAttempts = 10): Promise<boolean> => {
-  for (let i = 0; i < maxAttempts; i++) {
-    try {
-      const response = await fetch("/api/check-role");
-      if (!response.ok) {
-        throw new Error(`Failed to check role: ${response.statusText}`);
-      }
-      const data = await response.json();
-      
-      if (data.role === expectedRole) {
-        return true;
-      }
-
-      await new Promise(resolve => setTimeout(resolve, 200));
-    } catch (error) {
-      console.error("Error checking role:", error);
-    }
-  }
-  return false;
-};
-
-export default function RegisterPage() {
+function RegisterContent() {
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
   const [formType, setFormType] = useState<"candidate" | "company" | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const [showResumeUpload, setShowResumeUpload] = useState(true);
   const [candidateData, setCandidateData] = useState<ResumeData | null>(null);
+  const [candidateId, setCandidateId] = useState<string>("");
+  const [isUserCreated, setIsUserCreated] = useState(false);
+  const [companyId, setCompanyId] = useState<string>("");
+
+  const setRole = useCallback(async () => {
+    if (!user || !user.id || !role) {
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      
+      const existingUser = await getUserByClerkId(user.id);
+
+      if (existingUser?.role?.toLowerCase() === role.toLowerCase()) {
+        if (existingUser.candidate?.id) {
+          setCandidateId(existingUser.candidate.id);
+          setIsUserCreated(true);
+        } else if (existingUser.company?.id) {
+          setCompanyId(existingUser.company.id);
+          setIsUserCreated(true);
+        }
+        return;
+      }
+
+      if (role === "company") {          
+        if (!existingUser) {
+          const response = await createUserAndCompany({
+            id: user.id,
+            email: user.emailAddresses[0]?.emailAddress || "",
+            role: "COMPANY",
+            image_url: user.imageUrl,
+            name: "",
+            bio: "",
+            logo: undefined
+          });
+          setCompanyId(response.company.id);
+          setIsUserCreated(true);
+        } else if (existingUser.company?.id) {
+          setCompanyId(existingUser.company.id);
+          setIsUserCreated(true);
+        }
+      } else if (role === "candidate") {
+        if (!existingUser) {
+          const response = await createUserAndCandidate({
+            id: user.id,
+            email: user.emailAddresses[0]?.emailAddress || "",
+            role: "CANDIDATE",
+            image_url: user.imageUrl,
+            firstName: "",
+            lastName: "",
+            resume: null
+          });
+          setCandidateId(response.candidate.id);
+          setIsUserCreated(true);
+        } else if (existingUser.candidate?.id) {
+          setCandidateId(existingUser.candidate.id);
+          setIsUserCreated(true);
+        }
+      }
+
+      await setUserRole(role);
+    } catch (error) {
+      console.error("Error in setRole:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [user, role]);
 
   useEffect(() => {
     if (role === "candidate" || role === "company") {
@@ -70,56 +102,25 @@ export default function RegisterPage() {
     } else {
       setFormType(null);
     }
-    const setRole = async () => {
-      try {
-        const response = await fetch("/api/set-role", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ role }),
-        });
 
-        if (!response.ok) {
-          throw new Error(`Failed to set role: ${response.statusText}`);
-        }
-      } catch (error) {
-        console.error("Error setting role:", error);
-      }
-    };
-
-    setRole();
-  }, [role]);
+    if (user && ((role === "candidate" && !candidateId) || (role === "company" && !companyId))) {
+      setRole();
+    }
+  }, [user, role, setRole, candidateId, companyId]);
 
   const handleCandidateFormSubmit = useCallback(
     async (candidate: {
       firstName: string;
       lastName: string;
       photo: File | null;
-      role?: string;
     }) => {
       setIsLoading(true);
       try {
-        candidate.role = "CANDIDATE";
-        const response = await fetch("/api/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(candidate),
-        });
-
-        const data = await response.json();
-        
-        if (!response.ok) {
-          throw new Error(data.error || `Registration error: ${response.statusText}`);
-        }
-
+        await registerCandidate(candidate);
         const roleUpdated = await waitForUserRole("CANDIDATE");
         if (!roleUpdated) {
           throw new Error("Role update timeout");
         }
-
         router.push("/dashboard/candidate");
       } catch (error) {
         console.error("Error registering the user:", error);
@@ -130,29 +131,14 @@ export default function RegisterPage() {
   );
 
   const handleCompanyFormSubmit = useCallback(
-    async (company: { name: string; logo: File | null; role?: string }) => {
+    async (company: { name: string; logo: string | null; bio: string }) => {
       setIsLoading(true);
       try {
-        company.role = "COMPANY";
-        const response = await fetch("/api/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(company),
-        });
-
-        const data = await response.json();
-        
-        if (!response.ok) {
-          throw new Error(data.error || `Registration error: ${response.statusText}`);
-        }
-
+        await registerCompany(company);
         const roleUpdated = await waitForUserRole("COMPANY");
         if (!roleUpdated) {
           throw new Error("Role update timeout");
         }
-
         router.push("/dashboard/company");
       } catch (error) {
         console.error("Error registering the user:", error);
@@ -171,6 +157,10 @@ export default function RegisterPage() {
     setShowResumeUpload(false);
   };
 
+  if (!isLoaded) {
+    return <Loader />;
+  }
+  
   if (isLoading) {
     return (
       <div className="flex min-h-screen h-screen">
@@ -178,20 +168,25 @@ export default function RegisterPage() {
       </div>
     );
   }
-
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-2xl p-4 flex flex-col items-center justify-center">
-        {formType === "candidate" && showResumeUpload ? (
+        {formType === "candidate" && showResumeUpload && user?.emailAddresses[0]?.emailAddress && candidateId ? (
           <ResumeUploadStep 
             onUpload={handleResumeData}
             onSkip={handleSkipResume}
-            userId={user?.id || ''}
+            userId={candidateId}
+            userEmail={user.emailAddresses[0].emailAddress}
           />
         ) : formType === "candidate" ? (
           <CandidateForm 
             onSubmit={handleCandidateFormSubmit}
-            initialData={candidateData}
+            initialData={{
+              ...candidateData,
+              id: candidateId,
+              email: user?.emailAddresses[0]?.emailAddress
+            }}
           />
         ) : formType === "company" ? (
           <CompanyForm onSubmit={handleCompanyFormSubmit} />
@@ -200,5 +195,13 @@ export default function RegisterPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen h-screen"><Loader /></div>}>
+      <RegisterContent />
+    </Suspense>
   );
 }
