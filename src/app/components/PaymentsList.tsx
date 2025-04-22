@@ -43,12 +43,12 @@ export default function PaymentsList({
                       <div className="text-lg font-semibold text-gray-600">
                         {payment[key as keyof IPayment]} CAD
                       </div>
-                    ) : key === "createdAt" ||
-                      key === "updatedAt" ? (
+                    ) : key === "createdAt" || key === "updatedAt" ? (
                       <div className="text-lg font-[500] text-gray-500">
                         {payment[key as keyof IPayment]
-                          ? new Date(String(payment[key as keyof IPayment]))
-                            .toLocaleDateString()
+                          ? new Date(
+                              String(payment[key as keyof IPayment])
+                            ).toLocaleDateString()
                           : "-"}
                       </div>
                     ) : key === "invoice" && payment.invoice ? (
@@ -56,7 +56,7 @@ export default function PaymentsList({
                         <ButtonComp
                           text="Download Invoice"
                           IsWhite={false}
-                          onClick={() => window.open(payment.invoice, '_blank')}
+                          onClick={() => window.open(payment.invoice, "_blank")}
                         />
                       </div>
                     ) : (

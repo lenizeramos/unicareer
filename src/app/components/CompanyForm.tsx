@@ -34,7 +34,7 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
         }
         setUserId(data.id);
       } catch (error) {
-        if(userId === ""){
+        if (userId === "") {
           console.log("Failed to fetch user ID:", error);
         }
       }

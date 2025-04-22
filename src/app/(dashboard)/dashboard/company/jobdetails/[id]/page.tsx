@@ -70,14 +70,15 @@ const JobDetailsPage = () => {
   }
 
   const formatDate = (dateInput?: string | Date | null) => {
-      if (!dateInput) return "N/A";
-      const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
-      return date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    };
+    if (!dateInput) return "N/A";
+    const date =
+      typeof dateInput === "string" ? new Date(dateInput) : dateInput;
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   const handleUpdateClosingDate = async (newClosingDate: Date) => {
     try {
@@ -129,10 +130,11 @@ const JobDetailsPage = () => {
                 </span>
                 <span className="text-sm text-gray-500">Applications</span>
               </div>
-              {job.status &&
-              <div className="flex items-center gap-4">
-                 <Badge status={job.status} color={job.status.toLowerCase()} />
-              </div>}
+              {job.status && (
+                <div className="flex items-center gap-4">
+                  <Badge status={job.status} color={job.status.toLowerCase()} />
+                </div>
+              )}
             </div>
           </div>
 

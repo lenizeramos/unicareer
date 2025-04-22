@@ -119,7 +119,9 @@ const DashboardPage = () => {
       </div>
 
       <section className="space-y-6 border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900 font-shafarik">Job Statistics</h2>
+        <h2 className="text-xl font-semibold text-gray-900 font-shafarik">
+          Job Statistics
+        </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr] gap-6">
           <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">

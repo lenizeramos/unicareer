@@ -1,7 +1,7 @@
-import React from 'react';
-import InputField from './InputField';
-import { classNameLabel, classNameField } from '@/app/constants';
-import { IoMdAdd, IoMdTrash } from 'react-icons/io';
+import React from "react";
+import InputField from "./InputField";
+import { classNameLabel, classNameField } from "@/app/constants";
+import { IoMdAdd, IoMdTrash } from "react-icons/io";
 
 interface EducationProps {
   education: Array<{
@@ -17,17 +17,23 @@ interface EducationProps {
   onChange: (education: any[]) => void;
 }
 
-const EducationSection: React.FC<EducationProps> = ({ education, onChange }) => {
+const EducationSection: React.FC<EducationProps> = ({
+  education,
+  onChange,
+}) => {
   const handleAdd = () => {
-    onChange([...education, {
-      institution: '',
-      degree: '',
-      fieldOfStudy: '',
-      country: '',
-      startDate: new Date(),
-      current: false,
-      description: ''
-    }]);
+    onChange([
+      ...education,
+      {
+        institution: "",
+        degree: "",
+        fieldOfStudy: "",
+        country: "",
+        startDate: new Date(),
+        current: false,
+        description: "",
+      },
+    ]);
   };
 
   const handleRemove = (index: number) => {
@@ -41,12 +47,12 @@ const EducationSection: React.FC<EducationProps> = ({ education, onChange }) => 
   };
 
   const formatDateForInput = (date: Date | string | null | undefined) => {
-    if (!date) return '';
-    if (typeof date === 'string') {
-      if (date === 'Present') return '';
-      return date.split('T')[0];
+    if (!date) return "";
+    if (typeof date === "string") {
+      if (date === "Present") return "";
+      return date.split("T")[0];
     }
-    return date instanceof Date ? date.toISOString().split('T')[0] : '';
+    return date instanceof Date ? date.toISOString().split("T")[0] : "";
   };
 
   return (
@@ -61,9 +67,12 @@ const EducationSection: React.FC<EducationProps> = ({ education, onChange }) => 
           <IoMdAdd className="mr-1" /> Add Education
         </button>
       </div>
-      
+
       {education.map((edu, index) => (
-        <div key={index} className="p-4 border border-gray-300 rounded-lg space-y-4 relative">
+        <div
+          key={index}
+          className="p-4 border border-gray-300 rounded-lg space-y-4 relative"
+        >
           <button
             type="button"
             onClick={() => handleRemove(index)}
@@ -71,33 +80,35 @@ const EducationSection: React.FC<EducationProps> = ({ education, onChange }) => 
           >
             <IoMdTrash />
           </button>
-          
+
           <InputField
             label="Institution"
             id={`institution-${index}`}
             value={edu.institution}
-            onChange={(e) => handleChange(index, 'institution', e.target.value)}
+            onChange={(e) => handleChange(index, "institution", e.target.value)}
             required
             classNameLabel={classNameLabel}
             classNameField={classNameField}
           />
-          
+
           <div className="grid grid-cols-2 gap-4">
             <InputField
               label="Degree"
               id={`degree-${index}`}
               value={edu.degree}
-              onChange={(e) => handleChange(index, 'degree', e.target.value)}
+              onChange={(e) => handleChange(index, "degree", e.target.value)}
               required
               classNameLabel={classNameLabel}
               classNameField={classNameField}
             />
-            
+
             <InputField
               label="Field of Study"
               id={`fieldOfStudy-${index}`}
               value={edu.fieldOfStudy}
-              onChange={(e) => handleChange(index, 'fieldOfStudy', e.target.value)}
+              onChange={(e) =>
+                handleChange(index, "fieldOfStudy", e.target.value)
+              }
               required
               classNameLabel={classNameLabel}
               classNameField={classNameField}
@@ -108,31 +119,31 @@ const EducationSection: React.FC<EducationProps> = ({ education, onChange }) => 
             label="Country"
             id={`country-${index}`}
             value={edu.country}
-            onChange={(e) => handleChange(index, 'country', e.target.value)}
+            onChange={(e) => handleChange(index, "country", e.target.value)}
             required
             classNameLabel={classNameLabel}
             classNameField={classNameField}
           />
-          
+
           <div className="grid grid-cols-2 gap-4">
             <InputField
               label="Start Date"
               id={`startDate-${index}`}
               type="date"
               value={formatDateForInput(edu.startDate)}
-              onChange={(e) => handleChange(index, 'startDate', e.target.value)}
+              onChange={(e) => handleChange(index, "startDate", e.target.value)}
               required
               classNameLabel={classNameLabel}
               classNameField={classNameField}
             />
-            
+
             {!edu.current && (
               <InputField
                 label="End Date"
                 id={`endDate-${index}`}
                 type="date"
                 value={formatDateForInput(edu.endDate)}
-                onChange={(e) => handleChange(index, 'endDate', e.target.value)}
+                onChange={(e) => handleChange(index, "endDate", e.target.value)}
                 classNameLabel={classNameLabel}
                 classNameField={classNameField}
               />
@@ -145,9 +156,9 @@ const EducationSection: React.FC<EducationProps> = ({ education, onChange }) => 
               id={`current-${index}`}
               checked={edu.current}
               onChange={(e) => {
-                handleChange(index, 'current', e.target.checked);
+                handleChange(index, "current", e.target.checked);
                 if (e.target.checked) {
-                  handleChange(index, 'endDate', null);
+                  handleChange(index, "endDate", null);
                 }
               }}
             />

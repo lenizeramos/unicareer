@@ -1,5 +1,5 @@
-import React from 'react';
-import { IconType } from 'react-icons';
+import React from "react";
+import { IconType } from "react-icons";
 
 interface BenefitCardProps {
   icon: IconType;
@@ -7,7 +7,11 @@ interface BenefitCardProps {
   description: string;
 }
 
-const BenefitCard: React.FC<BenefitCardProps> = ({ icon: Icon, title, description }) => {
+const BenefitCard: React.FC<BenefitCardProps> = ({
+  icon: Icon,
+  title,
+  description,
+}) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-start gap-4">
@@ -23,4 +27,4 @@ const BenefitCard: React.FC<BenefitCardProps> = ({ icon: Icon, title, descriptio
   );
 };
 
-export default BenefitCard; 
+export default BenefitCard;

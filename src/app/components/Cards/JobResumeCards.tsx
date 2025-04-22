@@ -1,7 +1,6 @@
 "use client";
 import { styles } from "@/app/styles";
 import { ICards } from "@/app/Types";
-import Image from "next/image";
 import ButtonComp from "../ButtonComp";
 import TagComp from "../TagComp";
 import { jobsCategories } from "@/app/constants";
@@ -58,13 +57,13 @@ const JobResumeCards = ({
       >
         <div className="flex md:flex-row flex-col gap-5 items-center">
           <div>
-          <FileDisplay
-                  modelName="companyProfileImage"
-                  userId={company?.userId || ""}
-                  width={100}
-                  height={100}
-                  fallbackImage={"/img/img.png" || ""}
-                />
+            <FileDisplay
+              modelName="companyProfileImage"
+              userId={company?.userId || ""}
+              width={100}
+              height={100}
+              fallbackImage={"/img/img.png" || ""}
+            />
           </div>
           <div className="flex flex-col gap-2">
             <div>
@@ -129,7 +128,7 @@ const JobResumeCards = ({
         </div>
         {cardId === "allJobs" ? (
           <div className="flex flex-col gap-2">
-           <ButtonComp
+            <ButtonComp
               text="See Details"
               IsWhite={false}
               width="w-full"

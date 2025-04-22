@@ -16,7 +16,11 @@ interface EditJobButtonProps {
   onUpdateClosingDate: (newClosingDate: Date) => void;
 }
 
-const EditJobButton = ({ jobApplications, jobData, onUpdateClosingDate }: EditJobButtonProps) => {
+const EditJobButton = ({
+  jobApplications,
+  jobData,
+  onUpdateClosingDate,
+}: EditJobButtonProps) => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -49,7 +53,9 @@ const EditJobButton = ({ jobApplications, jobData, onUpdateClosingDate }: EditJo
           dismissableMask
         >
           <EditClosingDateForm
-            currentClosingDate={jobData.closingDate ? new Date(jobData.closingDate) : new Date()}
+            currentClosingDate={
+              jobData.closingDate ? new Date(jobData.closingDate) : new Date()
+            }
             closeDialog={() => setShowDialog(false)}
             onSuccess={onUpdateClosingDate}
           />

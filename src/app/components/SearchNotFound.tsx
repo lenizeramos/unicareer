@@ -1,4 +1,4 @@
-const SearchNotFound = ({text}:{text:string}) => {
+const SearchNotFound = ({ text }: { text: string }) => {
   return (
     <>
       <div className="flex flex-col items-center justify-center py-12 text-center text-gray-500 font-shafarik">

@@ -11,11 +11,10 @@ const JobCard = ({
   title,
   subtitle,
   text,
-  alt,
   categories,
   companyname,
   type,
-  cardId
+  cardId,
 }: ICards) => {
   return (
     <>
@@ -24,14 +23,14 @@ const JobCard = ({
       >
         <div className="flex items-center justify-between gap-5">
           <div className="">
-          <FileDisplay
-          modelName="companyProfileImage"
-          userId={logo || ""}
-          width={90}
-          height={90}
-          className="profile-image-style overflow-hidden"
-          fallbackImage={"img/img.png" || ""}
-        />
+            <FileDisplay
+              modelName="companyProfileImage"
+              userId={logo || ""}
+              width={90}
+              height={90}
+              className="profile-image-style overflow-hidden"
+              fallbackImage={"img/img.png" || ""}
+            />
           </div>
           {cardId === "featuredJob" ? (
             <ButtonComp text={`Full Time ${type}`} IsWhite={true} />

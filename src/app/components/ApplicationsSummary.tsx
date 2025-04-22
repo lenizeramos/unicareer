@@ -8,7 +8,7 @@ export default function ApplicationsSummary({
   return (
     <>
       <h3 className="text-lg font-semibold text-gray-800">
-      Applications Summary
+        Applications Summary
       </h3>
       <div className="mt-4">
         <span className="text-4xl font-bold text-gray-900">
@@ -21,14 +21,18 @@ export default function ApplicationsSummary({
           <div
             key={application.label}
             className={`background-${application.label.toLowerCase()} h-full`}
-            style={{ width: `${(application.count / totalApplications) * 100}%` }}
+            style={{
+              width: `${(application.count / totalApplications) * 100}%`,
+            }}
           />
         ))}
       </div>
       <div className="mt-4 grid grid-cols-2 gap-2">
         {applications.map((application) => (
           <div key={application.label} className="flex items-center space-x-2">
-            <span className={`w-4 h-4 background-${application.label.toLowerCase()} rounded`}></span>
+            <span
+              className={`w-4 h-4 background-${application.label.toLowerCase()} rounded`}
+            ></span>
             <span className="text-gray-700 text-sm">
               {application.label} : <strong>{application.count}</strong>
             </span>

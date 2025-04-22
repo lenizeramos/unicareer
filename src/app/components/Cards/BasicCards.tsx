@@ -18,8 +18,12 @@ const BasicCards = ({
           <h2 className="text-black font-semibold text-xl">{title}</h2>
           <p className="text-black text-[3rem]">{total}</p>
           <div className="text-3xl text-gray-400 relative w-full h-8">
-            {Icon && <Icon size={56} className={`absolute left-13 top-0 z-10`} />}
-            {Subicons && <Subicons size={56} className={`absolute left-20 top-2 `} />}
+            {Icon && (
+              <Icon size={56} className={`absolute left-13 top-0 z-10`} />
+            )}
+            {Subicons && (
+              <Subicons size={56} className={`absolute left-20 top-2 `} />
+            )}
           </div>
         </div>
       ) : (
@@ -35,7 +39,7 @@ const BasicCards = ({
             <h3
               className={`text-xl font-bold my-5 text-black group-hover:text-white `}
             >
-            {title}
+              {title}
             </h3>
             <div className="flex items-center gap-5 text-gray-400">
               <p className={`group-hover:text-white`}>{text} </p>

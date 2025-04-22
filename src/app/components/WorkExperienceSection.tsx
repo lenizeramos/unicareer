@@ -1,8 +1,8 @@
-import React from 'react';
-import InputField from './InputField';
-import TextAreaField from './TextAreaField';
-import { classNameLabel, classNameField } from '@/app/constants';
-import { IoMdAdd, IoMdTrash } from 'react-icons/io';
+import React from "react";
+import InputField from "./InputField";
+import TextAreaField from "./TextAreaField";
+import { classNameLabel, classNameField } from "@/app/constants";
+import { IoMdAdd, IoMdTrash } from "react-icons/io";
 
 interface WorkExperienceProps {
   experience: Array<{
@@ -17,16 +17,22 @@ interface WorkExperienceProps {
   onChange: (experience: any[]) => void;
 }
 
-const WorkExperienceSection: React.FC<WorkExperienceProps> = ({ experience, onChange }) => {
+const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
+  experience,
+  onChange,
+}) => {
   const handleAdd = () => {
-    onChange([...experience, {
-      company: '',
-      position: '',
-      country: '',
-      startDate: new Date(),
-      current: false,
-      description: ''
-    }]);
+    onChange([
+      ...experience,
+      {
+        company: "",
+        position: "",
+        country: "",
+        startDate: new Date(),
+        current: false,
+        description: "",
+      },
+    ]);
   };
 
   const handleRemove = (index: number) => {
@@ -40,12 +46,12 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({ experience, onCh
   };
 
   const formatDateForInput = (date: Date | string | null | undefined) => {
-    if (!date) return '';
-    if (typeof date === 'string') {
-      if (date === 'Present') return '';
-      return date.split('T')[0];
+    if (!date) return "";
+    if (typeof date === "string") {
+      if (date === "Present") return "";
+      return date.split("T")[0];
     }
-    return date instanceof Date ? date.toISOString().split('T')[0] : '';
+    return date instanceof Date ? date.toISOString().split("T")[0] : "";
   };
 
   return (
@@ -62,7 +68,10 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({ experience, onCh
       </div>
 
       {experience.map((exp, index) => (
-        <div key={index} className="p-4 border border-gray-300 rounded-lg space-y-4 relative">
+        <div
+          key={index}
+          className="p-4 border border-gray-300 rounded-lg space-y-4 relative"
+        >
           <button
             type="button"
             onClick={() => handleRemove(index)}
@@ -76,7 +85,7 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({ experience, onCh
               label="Company"
               id={`company-${index}`}
               value={exp.company}
-              onChange={(e) => handleChange(index, 'company', e.target.value)}
+              onChange={(e) => handleChange(index, "company", e.target.value)}
               required
               classNameLabel={classNameLabel}
               classNameField={classNameField}
@@ -86,7 +95,7 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({ experience, onCh
               label="Position"
               id={`position-${index}`}
               value={exp.position}
-              onChange={(e) => handleChange(index, 'position', e.target.value)}
+              onChange={(e) => handleChange(index, "position", e.target.value)}
               required
               classNameLabel={classNameLabel}
               classNameField={classNameField}
@@ -97,7 +106,7 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({ experience, onCh
             label="Country"
             id={`country-${index}`}
             value={exp.country}
-            onChange={(e) => handleChange(index, 'country', e.target.value)}
+            onChange={(e) => handleChange(index, "country", e.target.value)}
             required
             classNameLabel={classNameLabel}
             classNameField={classNameField}
@@ -109,7 +118,7 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({ experience, onCh
               id={`startDate-${index}`}
               type="date"
               value={formatDateForInput(exp.startDate)}
-              onChange={(e) => handleChange(index, 'startDate', e.target.value)}
+              onChange={(e) => handleChange(index, "startDate", e.target.value)}
               required
               classNameLabel={classNameLabel}
               classNameField={classNameField}
@@ -121,7 +130,7 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({ experience, onCh
                 id={`endDate-${index}`}
                 type="date"
                 value={formatDateForInput(exp.endDate)}
-                onChange={(e) => handleChange(index, 'endDate', e.target.value)}
+                onChange={(e) => handleChange(index, "endDate", e.target.value)}
                 classNameLabel={classNameLabel}
                 classNameField={classNameField}
               />
@@ -134,9 +143,9 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({ experience, onCh
               id={`current-${index}`}
               checked={exp.current}
               onChange={(e) => {
-                handleChange(index, 'current', e.target.checked);
+                handleChange(index, "current", e.target.checked);
                 if (e.target.checked) {
-                  handleChange(index, 'endDate', null);
+                  handleChange(index, "endDate", null);
                 }
               }}
             />
@@ -146,8 +155,8 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({ experience, onCh
           <TextAreaField
             label="Description"
             id={`description-${index}`}
-            value={exp.description || ''}
-            onChange={(e) => handleChange(index, 'description', e.target.value)}
+            value={exp.description || ""}
+            onChange={(e) => handleChange(index, "description", e.target.value)}
             rows={3}
             classNameLabel={classNameLabel}
             classNameField={classNameField}

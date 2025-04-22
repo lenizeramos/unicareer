@@ -70,9 +70,9 @@ export default function DashboardLayout({
         />
       </div>
       <Provider store={store}>
-      <main className="flex-1 lg:p-8 mt-16 lg:mt-0 sm:p-1 lg:ml-64">
-        {children}
-      </main>
+        <main className="flex-1 lg:p-8 mt-16 lg:mt-0 sm:p-1 lg:ml-64">
+          {children}
+        </main>
       </Provider>
     </div>
   );

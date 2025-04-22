@@ -1,19 +1,17 @@
 import { styles } from "@/app/styles";
 import TagComp from "../TagComp";
 import { ICards } from "@/app/Types";
-import Image from "next/image";
 import FileDisplay from "../FileDisplay";
 
 const RecentCard = ({
   logo,
   title,
   text,
-  alt,
   date,
   progress,
   companyname,
   cardId,
-  createdAt
+  createdAt,
 }: ICards) => {
   return (
     <>
@@ -21,14 +19,14 @@ const RecentCard = ({
         className={`flex sm:flex-row flex-col gap-5 sm:items-center sm:justify-between ${styles.categoryCard} px-10`}
       >
         <div>
-        <FileDisplay
-          modelName="companyProfileImage"
-          userId={logo || ""}
-          width={90}
-          height={90}
-          className="profile-image-style overflow-hidden"
-          fallbackImage={"img/img.png" || ""}
-        />
+          <FileDisplay
+            modelName="companyProfileImage"
+            userId={logo || ""}
+            width={90}
+            height={90}
+            className="profile-image-style overflow-hidden"
+            fallbackImage={"img/img.png" || ""}
+          />
         </div>
         <div className="flex flex-col gap-3">
           <div>

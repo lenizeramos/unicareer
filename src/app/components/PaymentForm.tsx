@@ -1,14 +1,21 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
+import { useState } from "react";
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '');
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""
+);
 
 // Add error handling for missing key
 if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
-  console.error('Stripe publishable key is not set');
+  console.error("Stripe publishable key is not set");
 }
 
 function CheckoutForm() {
@@ -32,7 +39,7 @@ function CheckoutForm() {
     });
 
     if (submitError) {
-      setError(submitError.message ?? 'An error occurred');
+      setError(submitError.message ?? "An error occurred");
     }
     setLoading(false);
   };
@@ -46,16 +53,20 @@ function CheckoutForm() {
         disabled={!stripe || loading}
         className="w-full bg-blue-500 text-white px-4 py-2 rounded-md mt-4 disabled:opacity-50"
       >
-        {loading ? 'Processing...' : 'Pay Now'}
+        {loading ? "Processing..." : "Pay Now"}
       </button>
     </form>
   );
 }
 
-export default function PaymentForm({ clientSecret }: { clientSecret: string }) {
+export default function PaymentForm({
+  clientSecret,
+}: {
+  clientSecret: string;
+}) {
   return (
     <Elements stripe={stripePromise} options={{ clientSecret }}>
       <CheckoutForm />
     </Elements>
   );
-} 
+}

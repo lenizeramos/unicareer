@@ -11,7 +11,6 @@ const FilterJobs = ({ array, title, type, onFilterChange }: IFilterJobs) => {
     setIsVisible(!isVisible);
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-
     if (onFilterChange) {
       const { checked, value, id, dataset } = event.target;
       if (checked) {

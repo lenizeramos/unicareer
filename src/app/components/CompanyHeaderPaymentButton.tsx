@@ -86,11 +86,13 @@ export default function CompanyHeaderPaymentButton() {
     ? handleButtonClick
     : handlePaymentClick;
 
-    if (!company?.userId) {
-    return <div className="flex min-h-screen h-screen">
-            <Loader />
-          </div>
-    }
+  if (!company?.userId) {
+    return (
+      <div className="flex min-h-screen h-screen">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <CompanyHeader

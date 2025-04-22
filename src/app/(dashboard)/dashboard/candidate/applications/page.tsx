@@ -77,7 +77,7 @@ export default function Application() {
 
   const data = filters.map((application) => {
     const companyName = application.job?.company?.name ?? "Unknown Company";
-    const logo = application.job?.company?.userId ?? "/img/img.png"
+    const logo = application.job?.company?.userId ?? "/img/img.png";
     return {
       companyName: { name: companyName, logo: logo },
       jobTitle: application.job?.title ?? "Unknown",

@@ -78,14 +78,14 @@ const ApplicationsList = ({
   currentPage,
   onPageChange,
   totalItems,
-  onViewProfile
+  onViewProfile,
 }: ApplicationsListProps) => {
   /* const router = useRouter(); */
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
-  const [statusFilter, setStatusFilter] = useState<Application["status"] | "all">(
-    "all"
-  );
+  const [statusFilter, setStatusFilter] = useState<
+    Application["status"] | "all"
+  >("all");
   const [positionFilter, setPositionFilter] = useState("all");
   const [emailFilter, setEmailFilter] = useState("");
 
@@ -337,7 +337,9 @@ const ApplicationsList = ({
                         <ButtonComp
                           text="View Profile"
                           IsWhite={true}
-                          onClick={() => onViewProfile && onViewProfile(application.id)}
+                          onClick={() =>
+                            onViewProfile && onViewProfile(application.id)
+                          }
                         />
                       </div>
                     </td>

@@ -24,13 +24,13 @@ const ApplicationsListTable = ({
   const getStatusColor = (status: IApplication["status"]) => {
     const colors = {
       PENDING: "border-PENDING text-PENDING",
-      INTERVIEWED: "border-interviewed text-interviewed", 
+      INTERVIEWED: "border-interviewed text-interviewed",
       REJECTED: "border-rejected text-rejected",
       HIRED: "border-hired text-hiredColor",
-      CANCELLED_JOB: "border-cancelledJob text-cancelledJobColor"
+      CANCELLED_JOB: "border-cancelledJob text-cancelledJobColor",
     };
     return colors[status];
-};
+  };
 
   return (
     <div className="w-full mt-4 md:mt-8">

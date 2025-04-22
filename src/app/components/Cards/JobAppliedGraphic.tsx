@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const JobAppliedGraphic: React.FC = () => {
   return (
@@ -21,12 +21,13 @@ const JobAppliedGraphic: React.FC = () => {
           <div className="flex items-center justify-center">
             <div className="relative w-24 h-24">
               <svg className="w-full h-full" viewBox="0 0 36 36">
-                <path className="text-indigo-600"
-                      fill="none"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeDasharray="60 40"
-                      d="M18 2 A16 16 0 1 1 18 34 A16 16 0 1 1 18 2"
+                <path
+                  className="text-indigo-600"
+                  fill="none"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeDasharray="60 40"
+                  d="M18 2 A16 16 0 1 1 18 34 A16 16 0 1 1 18 2"
                 />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
@@ -36,7 +37,9 @@ const JobAppliedGraphic: React.FC = () => {
           </div>
           <p className="text-sm text-gray-600">60% Unsuitable</p>
           <p className="text-sm text-gray-600">40% Interviewed</p>
-          <a href="#" className="text-indigo-600 underline">View All Applications</a>
+          <a href="#" className="text-indigo-600 underline">
+            View All Applications
+          </a>
         </div>
       </div>
 

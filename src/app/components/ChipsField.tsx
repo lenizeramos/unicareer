@@ -1,6 +1,6 @@
 import { Chips } from "primereact/chips";
 import React from "react";
-import {IChipsFieldProps} from "../Types/index";
+import { IChipsFieldProps } from "../Types/index";
 
 const ChipsField: React.FC<IChipsFieldProps> = ({
   label,

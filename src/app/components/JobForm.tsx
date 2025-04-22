@@ -47,10 +47,11 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
     initialData?.benefits || []
   );
   const [salary, setSalary] = useState<[number, number]>(
-    initialData?.salary || 
-    (initialData?.salaryMin && initialData?.salaryMax 
-      ? [initialData.salaryMin, initialData.salaryMax] 
-      : [10, 100]));
+    initialData?.salary ||
+      (initialData?.salaryMin && initialData?.salaryMax
+        ? [initialData.salaryMin, initialData.salaryMax]
+        : [10, 100])
+  );
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedDate = e.target.value;

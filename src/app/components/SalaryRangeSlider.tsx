@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Range } from "react-range";
-import {ISalaryRangeSliderProps} from "@/app/Types/index"
+import { ISalaryRangeSliderProps } from "@/app/Types/index";
 
 const SalaryRangeSlider: React.FC<ISalaryRangeSliderProps> = ({
   label,
@@ -14,7 +14,6 @@ const SalaryRangeSlider: React.FC<ISalaryRangeSliderProps> = ({
   required = false,
   classNameDivContainer = "",
   classNameLabel = "",
-  
 }) => {
   const [values, setValues] = useState<number[]>(initialValues);
 
@@ -37,22 +36,13 @@ const SalaryRangeSlider: React.FC<ISalaryRangeSliderProps> = ({
           values={values}
           onChange={handleChange}
           renderTrack={({ props, children }) => (
-            <div
-              {...props}
-              className="range-track"
-            >
+            <div {...props} className="range-track">
               {children}
             </div>
           )}
           renderThumb={({ props }) => {
-            const { key, ...restProps } = props; 
-            return (
-              <div
-                key={key} 
-                {...restProps} 
-                className="range-thumb"
-              />
-            );
+            const { key, ...restProps } = props;
+            return <div key={key} {...restProps} className="range-thumb" />;
           }}
         />
         <div className="flex justify-between mt-2">

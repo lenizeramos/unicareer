@@ -41,12 +41,10 @@ export default function ApplicationsPage() {
     }
     const fetchCompanyApplications = async () => {
       try {
-        const response = await fetch(
-          `/api/company/applications${queryParams}`
-        );
+        const response = await fetch(`/api/company/applications${queryParams}`);
         if (!response.ok) throw new Error("Failed to fetch company jobs");
         const applications = await response.json();
-        
+
         setApplications(applications);
       } catch (error) {
         console.error("Error fetching job:", error);
@@ -68,7 +66,7 @@ export default function ApplicationsPage() {
       return <p>Not Found</p>;
     }
     const createDate = date;
-    
+
     const month = monthNames[createDate.getMonth()];
     return `${month} ${createDate.getDate()}`;
   };
@@ -81,7 +79,7 @@ export default function ApplicationsPage() {
       <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
         <div>
           <p className={`${styles.JobDescriptionText}`}>
-          Track and manage all candidate applications below{" "}
+            Track and manage all candidate applications below{" "}
             {startDate && endDate && (
               <>
                 from {getDate(startDate)} - {getDate(endDate)}

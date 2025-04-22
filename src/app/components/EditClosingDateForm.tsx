@@ -11,15 +11,15 @@ interface EditClosingDateFormProps {
 const EditClosingDateForm = ({
   currentClosingDate,
   closeDialog,
-  onSuccess
+  onSuccess,
 }: EditClosingDateFormProps) => {
   const [closingDate, setClosingDate] = useState<Date>(
     new Date(currentClosingDate)
   );
 
   const handleSubmit = async () => {
-      closeDialog();
-      onSuccess(closingDate);
+    closeDialog();
+    onSuccess(closingDate);
   };
 
   return (

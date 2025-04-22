@@ -1,18 +1,21 @@
-import React from 'react';
-import { IoMdAdd, IoMdTrash } from 'react-icons/io';
-import { classNameLabel, classNameField } from '@/app/constants';
+import React from "react";
+import { IoMdAdd, IoMdTrash } from "react-icons/io";
+import { classNameLabel, classNameField } from "@/app/constants";
 
 interface LanguagesProps {
   languages: Array<{
     name: string;
-    level: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'NATIVE';
+    level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
   }>;
   onChange: (languages: any[]) => void;
 }
 
-const LanguagesSection: React.FC<LanguagesProps> = ({ languages, onChange }) => {
+const LanguagesSection: React.FC<LanguagesProps> = ({
+  languages,
+  onChange,
+}) => {
   const handleAdd = () => {
-    onChange([...languages, { name: '', level: 'BEGINNER' }]);
+    onChange([...languages, { name: "", level: "BEGINNER" }]);
   };
 
   const handleRemove = (index: number) => {
@@ -39,7 +42,10 @@ const LanguagesSection: React.FC<LanguagesProps> = ({ languages, onChange }) => 
       </div>
 
       {languages.map((lang, index) => (
-        <div key={index} className="p-4 border border-gray-300 rounded-lg space-y-4 relative">
+        <div
+          key={index}
+          className="p-4 border border-gray-300 rounded-lg space-y-4 relative"
+        >
           <button
             type="button"
             onClick={() => handleRemove(index)}
@@ -56,7 +62,7 @@ const LanguagesSection: React.FC<LanguagesProps> = ({ languages, onChange }) => 
               <input
                 id={`language-${index}`}
                 value={lang.name}
-                onChange={(e) => handleChange(index, 'name', e.target.value)}
+                onChange={(e) => handleChange(index, "name", e.target.value)}
                 className={classNameField}
                 required
               />
@@ -69,7 +75,7 @@ const LanguagesSection: React.FC<LanguagesProps> = ({ languages, onChange }) => 
               <select
                 id={`level-${index}`}
                 value={lang.level}
-                onChange={(e) => handleChange(index, 'level', e.target.value)}
+                onChange={(e) => handleChange(index, "level", e.target.value)}
                 className={classNameField}
                 required
               >

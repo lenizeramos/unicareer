@@ -6,15 +6,12 @@ import ButtonComp from "./ButtonComp";
 import { useRouter } from "next/navigation";
 
 interface IDeleteJobButtonProps {
-    jobId: string
-    label: string
+  jobId: string;
+  label: string;
 }
 
-const DeleteJobButton = ({
-    jobId,
-    label,
-}: IDeleteJobButtonProps) => {
-    const router = useRouter();
+const DeleteJobButton = ({ jobId, label }: IDeleteJobButtonProps) => {
+  const router = useRouter();
   const handleStatusChange = () => {
     confirmDialog({
       message: `Do you want to delete this job?`,

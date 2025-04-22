@@ -82,7 +82,7 @@ export default function CompanyPage() {
       <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
         <div>
           <p className={`${styles.JobDescriptionText}`}>
-          Manage and track your posted jobs{" "}
+            Manage and track your posted jobs{" "}
             {startDate && endDate && (
               <>
                 from {getDate(startDate)} - {getDate(endDate)}

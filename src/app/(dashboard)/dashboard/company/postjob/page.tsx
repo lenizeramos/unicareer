@@ -46,7 +46,7 @@ export default function PostJobPage() {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: 'include',
+          credentials: "include",
           body: body,
         });
 
@@ -84,7 +84,10 @@ export default function PostJobPage() {
           router.push(previousPage);
         }, 2500);
       } catch (error) {
-        console.error(`Error ${jobToEdit ? "update" : "create"} the job:`, error);
+        console.error(
+          `Error ${jobToEdit ? "update" : "create"} the job:`,
+          error
+        );
       }
     },
     [router, jobToEdit, previousPage]

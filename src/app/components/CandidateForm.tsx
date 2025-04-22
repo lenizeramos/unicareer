@@ -10,19 +10,24 @@ import {
   classNameField,
   classNameDivContainerTextArea,
 } from "@/app/constants/index";
-import EducationSection from './EducationSection';
-import WorkExperienceSection from './WorkExperienceSection';
-import LanguagesSection from './LanguagesSection';
+import EducationSection from "./EducationSection";
+import WorkExperienceSection from "./WorkExperienceSection";
+import LanguagesSection from "./LanguagesSection";
 import FileUpload from "./FileUpload";
 
-const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData }) => {
+const CandidateForm: React.FC<ICandidateFormProps> = ({
+  onSubmit,
+  initialData,
+}) => {
   const [firstName, setFirstName] = useState(initialData?.firstName || "");
   const [lastName, setLastName] = useState(initialData?.lastName || "");
   const [photo, setPhoto] = useState<File | null>(null);
   const [skills, setSkills] = useState<string[]>(initialData?.skills || []);
   const [bio, setBio] = useState(initialData?.bio || "");
   const [education, setEducation] = useState(initialData?.education || []);
-  const [workExperience, setWorkExperience] = useState(initialData?.workExperience || []);
+  const [workExperience, setWorkExperience] = useState(
+    initialData?.workExperience || []
+  );
   const [languages, setLanguages] = useState(initialData?.languages || []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -112,20 +117,14 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({ onSubmit, initialData })
             classNameField={classNameField}
           />
 
-          <EducationSection 
-            education={education}
-            onChange={setEducation}
-          />
+          <EducationSection education={education} onChange={setEducation} />
 
-          <WorkExperienceSection 
+          <WorkExperienceSection
             experience={workExperience}
             onChange={setWorkExperience}
           />
 
-          <LanguagesSection 
-            languages={languages}
-            onChange={setLanguages}
-          />
+          <LanguagesSection languages={languages} onChange={setLanguages} />
         </div>
 
         <div className="flex justify-end">

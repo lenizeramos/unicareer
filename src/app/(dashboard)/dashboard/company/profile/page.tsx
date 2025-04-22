@@ -36,7 +36,7 @@ const CompanyProfile = async () => {
   }
 
   const userData = await getUserByClerkId(session.userId);
-  
+
   if (!userData?.company) {
     redirect("/dashboard");
   }
