@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ISummaryTable } from "../Types";
 import { monthNames, statusTags } from "../constants";
 import FileDisplay from "./FileDisplay";
@@ -19,7 +18,7 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
   return (
     <>
       <div className="flex flex-col w-full mt-5">
-        <div className="sm:grid md:[grid-template-columns:80px_2fr_2fr_1fr_1fr] [grid-template-columns:50px_1fr_1.5fr_0.7fr_1fr] gap-4 p-3 border-b bg-gray-50 font-semibold text-sm hidden">
+        <div className="sm:grid md:[grid-template-columns:80px_2fr_2fr_1fr_1fr] [grid-template-columns:30px_1.5fr_1.5fr_0.7fr_1fr] gap-4 p-3 border-b bg-gray-50 font-semibold text-lg hidden items-center">
           {columnNames.map((column, index) => {
             return (
               <p key={index} className="font-shafarik">
@@ -34,7 +33,7 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
           );
           return (
             <div
-              className="sm:grid md:[grid-template-columns:80px_2fr_2fr_1fr_1fr] sm:[grid-template-columns:50px_1fr_1.5fr_0.7fr_1fr] xs:gap-4 gap-10 py-3 sm:border-b border border-gray-100 text-sm px-3 items-center flex justify-center"
+              className="sm:grid md:[grid-template-columns:80px_2fr_2fr_1fr_1fr] sm:[grid-template-columns:30px_1.5fr_1.5fr_0.7fr_1fr] xs:gap-4 gap-10 py-3 sm:border-b border border-gray-100 text-[17px] px-3 items-center flex justify-center font-shafarik"
               key={index}
             >
               <p className="w-fit sm:block hidden">{index + 1}</p>
@@ -46,7 +45,7 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
                   height={50}
                   fallbackImage={"/img/img.png" || ""}
                 />
-                <p className="sm:block hidden font-shafarik">
+                <p className="sm:block hidden">
                   {item.companyName.name}
                 </p>
               </div>
@@ -58,7 +57,7 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
                 {statusTag?.type || item.status}
               </p>
               <div className="sm:hidden">
-                <p className="sm:hidden font-shafarik font-semibold">
+                <p className="sm:hidden font-semibold">
                   {item.companyName.name}
                 </p>
                 <p className="font-shafarik">{item.jobTitle}</p>

@@ -208,7 +208,7 @@ const perksData = [
   },
 ];
 
-const columnNames = ["#", "Company Name", "Roles", "Date Applied", "Status"];
+const columnNames = ["#", "Company Name", "Job Position", "Date Applied", "Status"];
 const monthNames = [
   "January",
   "February",

@@ -38,7 +38,7 @@ const FilterJobs = ({ array, title, type, onFilterChange }: IFilterJobs) => {
   return (
     <>
       <div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 font-shafarik">
           <div className="flex justify-between items-center w-60">
             <h3 className="font-semibold">{title}</h3>
             {isVisible ? (
