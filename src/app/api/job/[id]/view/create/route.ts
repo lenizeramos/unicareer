@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getClerkUserId } from "@/utils/user";
-import { getUserByClerkId } from "@/Lib/client/usersService";
+import { getUserByClerkId } from "@/Lib/server/usersService";
 import { createJobView, getJobById } from "@/Lib/job";
 
 export async function POST(
