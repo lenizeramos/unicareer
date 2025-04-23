@@ -35,7 +35,7 @@ export default function Application() {
     if (applications.length === 0) {
       dispatch(fetchApplications());
     }
-  }, [applications.length]);
+  }, [applications.length, dispatch]);
 
   if (isLoading) {
     return <Loader />;

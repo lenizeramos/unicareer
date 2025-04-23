@@ -1,7 +1,6 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import Image from "next/image";
 import DashboardNavbar from "../../../../../components/DashboardNavbar";
 import ButtonComp from "@/app/components/ButtonComp";
 import { styles } from "@/app/styles";
@@ -141,7 +140,7 @@ export default function JobDescription() {
                   userId={company?.userId || ""}
                   width={90}
                   height={90}
-                  fallbackImage={"/img/img.png" || ""}
+                  fallbackImage={"/img/img.png"}
                 />
                 <div>
                   <h1 className={`${styles.sectionHeadText} pb-2`}>

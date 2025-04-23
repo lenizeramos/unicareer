@@ -7,7 +7,7 @@ import UserApplications from "@/app/components/UserApplications";
 import { useCandidateData } from "@/Lib/client/candidate";
 
 export default function CandidatePage() {
-  const { candidate, isLoading } = useCandidateData();
+  const { candidate } = useCandidateData();
   return (
     <>
       <DashboardNavbar

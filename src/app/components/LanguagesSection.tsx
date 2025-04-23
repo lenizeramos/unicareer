@@ -2,12 +2,16 @@ import React from "react";
 import { IoMdAdd, IoMdTrash } from "react-icons/io";
 import { classNameLabel, classNameField } from "@/app/constants";
 
+type LanguageLevel = "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
+
+interface Language {
+  name: string;
+  level: LanguageLevel;
+}
+
 interface LanguagesProps {
-  languages: Array<{
-    name: string;
-    level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
-  }>;
-  onChange: (languages: any[]) => void;
+  languages: Language[];
+  onChange: (languages: Language[]) => void;
 }
 
 const LanguagesSection: React.FC<LanguagesProps> = ({
@@ -22,7 +26,7 @@ const LanguagesSection: React.FC<LanguagesProps> = ({
     onChange(languages.filter((_, i) => i !== index));
   };
 
-  const handleChange = (index: number, field: string, value: any) => {
+  const handleChange = (index: number, field: keyof Language, value: string) => {
     const newLanguages = [...languages];
     newLanguages[index] = { ...newLanguages[index], [field]: value };
     onChange(newLanguages);

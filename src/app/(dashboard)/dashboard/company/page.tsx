@@ -83,7 +83,7 @@ const DashboardPage = () => {
             : job.categories || "Uncategorized",
           type: job.type || "N/A",
         })),
-    [dashboardData?.companyJobs]
+    [dashboardData?.companyJobs, company?.name, company?.userId]
   );
 
   const getDate = (date: Date | undefined | null) => {
