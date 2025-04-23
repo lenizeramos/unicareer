@@ -5,7 +5,7 @@ export async function GET(
   _req: NextRequest,
   context: { params: { id: string } }
 ) {
-  const id = context.params.id;
+  const id = (await context.params).id;
 
   if (!id) {
     return new NextResponse("Job ID is required", { status: 400 });
