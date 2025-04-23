@@ -303,7 +303,7 @@ export interface ICandidateFormProps {
     id?: string;
     firstName: string;
     lastName: string;
-    photo: File | null;
+    photo?: File | null;
     skills: string[];
     bio: string;
     education: Array<{

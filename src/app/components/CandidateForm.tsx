@@ -20,7 +20,6 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
 }) => {
   const [firstName, setFirstName] = useState(initialData?.firstName || "");
   const [lastName, setLastName] = useState(initialData?.lastName || "");
-  const [_photo, setPhoto] = useState<File | null>(null);
   const [skills, setSkills] = useState<string[]>(initialData?.skills || []);
   const [bio, setBio] = useState(initialData?.bio || "");
   const [education, setEducation] = useState(initialData?.education || []);
@@ -35,7 +34,6 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
       id: initialData?.id,
       firstName,
       lastName,
-      photo: _photo,
       skills,
       bio,
       education,
