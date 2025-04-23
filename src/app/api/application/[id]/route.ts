@@ -6,7 +6,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await params;
+    const id = params.id;
     if (!id) {
       return new NextResponse("Job ID is required", { status: 400 });
     }
