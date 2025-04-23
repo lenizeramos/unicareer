@@ -18,6 +18,14 @@ model User {
   clerkId      String             @unique
   email        String             @unique
   role         Role
+  streetAddress String?
+  city          String?
+  province      String?
+  country       String?           @default("Canada")
+  postalCode    String?
+  website        String?
+  linkedIn      String?
+  twitter       String?
   photo        String?
   profileImage UserProfileImage[]
   candidate    Candidate?         @relation
@@ -57,6 +65,11 @@ model Company {
   user              User                  @relation(fields: [userId], references: [id])
   name              String
   bio               String?
+  size              String?
+  industry          String?
+  foundedYear       String?
+  toolsAndTechnologies String[]
+  benefits          String[]
   payments          CompanyPayments[]
   companyMembership CompanyMembership[]
   jobs              Job[]                 @relation

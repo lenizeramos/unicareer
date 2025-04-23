@@ -1,6 +1,6 @@
 /* import { ResumeData } from "@/types/resume"; */
 import React from "react";
-import { IApplication } from "./slices";
+import { IApplication, ICompany } from "./slices";
 
 export interface IButtton {
   text: string | React.ReactNode;
@@ -186,12 +186,8 @@ export interface IJobFormProps {
 }
 
 export interface ICompanyFormProps {
-  onSubmit: (company: {
-    name: string;
-    logo: string | null;
-    bio: string;
-    userId: string;
-  }) => void;
+  onSubmit: (company: ICompany) => void;
+  initialData?: ICompany;
 }
 
 export interface InputFieldProps {

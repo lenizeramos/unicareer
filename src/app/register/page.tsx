@@ -17,6 +17,7 @@ import {
   registerCompany,
   waitForUserRole
 } from "@/Lib/client/usersService";
+import { ICompany } from "../Types/slices";
 
 function RegisterContent() {
   const searchParams = useSearchParams();
@@ -129,7 +130,7 @@ function RegisterContent() {
   );
 
   const handleCompanyFormSubmit = useCallback(
-    async (company: { name: string; logo: string | null; bio: string }) => {
+    async (company: ICompany) => {
       setIsLoading(true);
       try {
         await registerCompany(company);
