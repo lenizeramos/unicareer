@@ -4,7 +4,6 @@ import { ICandidateFormProps } from "../Types/index";
 import ButtonComp from "@/app/components/ButtonComp";
 import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
-import { RxImage } from "react-icons/rx";
 import {
   classNameLabel,
   classNameField,
@@ -21,7 +20,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
 }) => {
   const [firstName, setFirstName] = useState(initialData?.firstName || "");
   const [lastName, setLastName] = useState(initialData?.lastName || "");
-  const [photo, setPhoto] = useState<File | null>(null);
+  const [_photo, setPhoto] = useState<File | null>(null);
   const [skills, setSkills] = useState<string[]>(initialData?.skills || []);
   const [bio, setBio] = useState(initialData?.bio || "");
   const [education, setEducation] = useState(initialData?.education || []);
@@ -36,7 +35,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
       id: initialData?.id,
       firstName,
       lastName,
-      photo,
+      photo: _photo,
       skills,
       bio,
       education,

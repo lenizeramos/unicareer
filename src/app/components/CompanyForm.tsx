@@ -11,7 +11,6 @@ import FileUpload from "./FileUpload";
 
 const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
   const [name, setName] = useState("");
-  const [_logo, setLogo] = useState<File | null>(null);
   const [bio, setBio] = useState("");
   const [userId, setUserId] = useState<string>("");
 
@@ -42,17 +41,8 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Convert logo to base64 before sending
-    if (_logo) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        onSubmit({ name, logo: base64String, bio, userId });
-      };
-      reader.readAsDataURL(_logo);
-    } else {
-      onSubmit({ name, logo: null, bio, userId });
-    }
+
+    onSubmit({ name, logo: null, bio, userId });
   };
 
   return (

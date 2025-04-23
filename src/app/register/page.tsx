@@ -28,7 +28,7 @@ function RegisterContent() {
   const [showResumeUpload, setShowResumeUpload] = useState(true);
   const [candidateData, setCandidateData] = useState<ResumeData | null>(null);
   const [candidateId, setCandidateId] = useState<string>("");
-  const [isUserCreated, setIsUserCreated] = useState(false);
+  const [_isUserCreated, setIsUserCreated] = useState(false);
   const [companyId, setCompanyId] = useState<string>("");
 
   const setRole = useCallback(async () => {
@@ -78,7 +78,9 @@ function RegisterContent() {
             image_url: user.imageUrl,
             firstName: "",
             lastName: "",
-            resume: null
+            resume: undefined,
+            userId: user.id,
+            skills: []
           });
           setCandidateId(response.candidate.id);
           setIsUserCreated(true);

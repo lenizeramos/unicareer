@@ -42,19 +42,19 @@ export default function JobDescription() {
     if (jobs.length === 0) {
       dispatch(fetchAllJobs());
     }
-  }, [jobs.length]);
+  }, [jobs.length, dispatch]);
 
   useEffect(() => {
     if (users.length === 0) {
       dispatch(fetchUsers("company"));
     }
-  }, [users.length]);
+  }, [users.length, dispatch]);
 
   useEffect(() => {
     if (applications.length === 0) {
       dispatch(fetchApplications());
     }
-  }, [applications.length]);
+  }, [applications.length, dispatch]);
   const company = users.find((company) => company.id === job?.companyId);
   if (loading) {
     return <Loader />;
