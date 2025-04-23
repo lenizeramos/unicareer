@@ -25,7 +25,7 @@ export default function Home() {
     searchLocation: "",
   });
   const router = useRouter();
-  const { signOut, user } = useClerk();
+  const { user } = useClerk();
   const userRole = user?.publicMetadata?.role as string;
   useEffect(() => {
     if (jobs.length === 0) {

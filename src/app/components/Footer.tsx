@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import {
   FaFacebook,
   FaInstagram,
@@ -6,65 +6,95 @@ import {
   FaXTwitter,
 } from "react-icons/fa6";
 import ButtonComp from "./ButtonComp";
-import Image from "next/image";
+import Logo from "./Logo";
+import { toast } from "sonner";
+import { FaCheckCircle } from "react-icons/fa";
+import { useState } from "react";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const handleOnclick = () => {
+    setEmail("");
+    toast(
+      <div className="flex items-center gap-3">
+        <FaCheckCircle size={28} className="text-green-700" />
+        <p className="text-[18px] text-gray-300 font-shafarik">
+          You've successfully subscribed.
+        </p>
+      </div>,
+      {
+        style: {
+          background: "#202430",
+          borderRadius: "8px",
+          padding: "16px",
+        },
+        duration: 3000,
+        position: "top-center",
+      }
+    );
+  };
   return (
-    <footer className="bg-[#202430] text-[#d6ddeb] py-10 px-20 text-left">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div className="flex flex-col items-start wide-column">
-          <div className="flex items-center gap-2 logo-container-inner">
-            <Image
-              src="/img/logo.svg"
-              alt="JobHuntly Logo"
-              width={48}
-              height={48}
-              className="mb-4"
-            />
-            <span className="font-bold text-xl app-name">UniCareer</span>
-          </div>
-          <p className="description max-w-xs">
+    <footer className="bg-[#202430] text-gray-300 md:p-15 p-10 text-left font-shafarik">
+      <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="flex flex-col items-start wide-column gap-5">
+          <Logo isLanding={true} />
+          <p className="font-shafarik max-w-xs text-justify">
             Great platform for the job seeker that passionate about startups.
             Find your dream job easier.
           </p>
         </div>
-        <div className="narrow-column">
-          <h4 className="font-bold mb-4">About</h4>
+        <div className="narrow-column xs:mx-auto">
+          <h4 className="font-bold font-monomakh text-span">About</h4>
           <ul className="list-none flex flex-col gap-2">
             <li>Companies</li>
             <li>Pricing</li>
             <li>Terms</li>
-            <li>Advice</li>
             <li>Privacy Policy</li>
           </ul>
         </div>
-        <div className="narrow-column">
-          <h4 className="font-bold mb-4">Resources</h4>
-          <ul className="list-none flex flex-col gap-2">
-            <li>Help Docs</li>
-            <li>Guide</li>
-            <li>Updates</li>
-            <li>Contact Us</li>
-          </ul>
-        </div>
-        <div className="subscribe wide-column flex flex-col items-start gap-4">
-          <h4 className="font-bold mb-4">Get job notifications</h4>
+
+        <div className="subscribe wide-column lg:flex flex-col items-start gap-4 hidden">
+          <h4 className="font-bold mb-4 font-monomakh text-span">
+            Get job notifications
+          </h4>
           <p>The latest job news, articles, sent to your inbox weekly.</p>
           <div className="flex flex-col md:flex-row justify-center gap-2 subscribe-form w-full">
             <input
               className="p-2 border border-gray-300 w-full md:w-52 bg-white text-black"
               type="email"
               placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <ButtonComp
               text="Subscribe"
               IsWhite={false}
-              /* className="w-full md:w-auto"  */
+              onClick={handleOnclick}
             />
           </div>
         </div>
       </div>
-      <div className="flex justify-between items-center mt-10 pt-10 border-t border-gray-600 bottom-container">
+      <div className="subscribe wide-column flex flex-col items-start gap-4 lg:hidden mt-8">
+        <h4 className="font-bold font-monomakh text-span">
+          Get job notifications
+        </h4>
+        <p>The latest job news, articles, sent to your inbox weekly.</p>
+        <div className="flex flex-col xs:flex-row items-center xs:items-start gap-2 subscribe-form w-full">
+          <input
+            className="p-2 border border-gray-300 w-52 bg-white text-black"
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <ButtonComp
+            text="Subscribe"
+            IsWhite={false}
+            onClick={handleOnclick}
+          />
+        </div>
+      </div>
+      <div className="flex justify-between items-center mt-10 pt-10 border-t border-gray-600 bottom-container flex-col sm:flex-row gap-5">
         <div className="copyright">
           <p>2025 @ UniCareer. All rights reserved.</p>
         </div>
