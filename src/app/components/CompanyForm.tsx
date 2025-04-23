@@ -33,10 +33,11 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
   );
   const [city, setCity] = useState(initialData?.city || "");
   const [province, setProvince] = useState(initialData?.province || "");
-  const [country, setCountry] = useState<"CANADA" | undefined>(initialData?.country);
   const [postalCode, setPostalCode] = useState(initialData?.postalCode || "");
 
-  const [foundedYear, setFoundedYear] = useState(initialData?.foundedYear || "");
+  const [foundedYear, setFoundedYear] = useState(
+    initialData?.foundedYear || ""
+  );
   const [linkedIn, setLinkedIn] = useState(initialData?.linkedIn || "");
   const [twitter, setTwitter] = useState(initialData?.twitter || "");
   const [toolsAndTechnologies, setToolsAndTechnologies] = useState<string[]>(
@@ -83,7 +84,6 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
       streetAddress,
       city,
       province,
-      country,
       postalCode,
       foundedYear,
       linkedIn,
@@ -217,11 +217,12 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           id="country"
           name="country"
           type="text"
-          value="CANADA"
-          onChange={() => {}/* setCountry(e.target.value === "CANADA" ? "CANADA" : undefined) */}
+          value="Canada"
+          onChange={() => {}}
           classNameDivContainer="flex flex-col"
           classNameLabel="text-sm font-semibold text-gray-700"
           classNameField={classNameField}
+          disabled={true}
         />
 
         <InputField

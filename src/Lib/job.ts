@@ -299,12 +299,12 @@ export async function updateClosingDateJobById(id: string, closingDate: Date) {
 export async function canManageJob(clerkId: string, targetId: string) {
 
   try {
-    const loggedInUser = await getCompanyByClerkId(clerkId);
+    const loggedInCompany = await getCompanyByClerkId(clerkId);
 
-    if (!loggedInUser?.company?.id) {
+    if (!loggedInCompany?.id) {
       return false;
     }
-    const loggedCompanyId = loggedInUser.company.id;
+    const loggedCompanyId = loggedInCompany.id;
 
     const targetJob = await getJobById(targetId);
 

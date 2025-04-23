@@ -21,6 +21,7 @@ const InputField: React.FC<InputFieldProps> = ({
   accept,
   fileLabel,
   filePreview,
+  disabled,
 }) => {
   return (
     <div className={`${classNameDivContainer}`}>
@@ -59,6 +60,7 @@ const InputField: React.FC<InputFieldProps> = ({
             maxLength={maxLength}
             className={`${classNameField} ${className}`}
             required={required}
+            disabled={disabled}
           />
         )}
       </div>

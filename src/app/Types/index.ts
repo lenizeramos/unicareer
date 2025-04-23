@@ -113,7 +113,7 @@ export interface IDashboardWelcome {
 
 export interface ICompanyHeader {
   image: string;
-  name: string;
+  name?: string;
   userId?: string;
   button?: IButtton;
 }
@@ -210,6 +210,7 @@ export interface InputFieldProps {
   accept?: string;
   fileLabel?: string;
   filePreview?: React.ReactNode;
+  disabled?: boolean;
 }
 
 export interface ISalaryRangeSliderProps {
@@ -290,12 +291,10 @@ export interface ITotalApplicationProps {
 
 export interface IStatusCardProps {
   title: string;
-  value: number;
+  value?: number;
   icon?: React.ReactNode;
   color?: string;
   backgroundColor?: string;
-  trend?: "up" | "down";
-  percentage?: string;
 }
 
 export interface ICandidateFormProps {

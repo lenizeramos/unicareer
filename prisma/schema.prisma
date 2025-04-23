@@ -73,7 +73,6 @@ model Company {
   payments          CompanyPayments[]
   companyMembership CompanyMembership[]
   jobs              Job[]                 @relation
-  profileImages     CompanyProfileImage[]
   createdAt         DateTime              @default(now())
   updatedAt         DateTime              @default(now()) @updatedAt
 
@@ -213,19 +212,6 @@ model UserProfileImage {
   updatedAt DateTime @updatedAt
 
   @@map("user_profile_images")
-}
-
-model CompanyProfileImage {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  companyId String   @db.ObjectId
-  company   Company  @relation(fields: [companyId], references: [id])
-  fileKey   String
-  fileType  String
-  fileName  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("company_profile_images")
 }
 
 model Education {
