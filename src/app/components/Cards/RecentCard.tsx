@@ -2,17 +2,26 @@ import { styles } from "@/app/styles";
 import TagComp from "../TagComp";
 import { ICards } from "@/app/Types";
 import FileDisplay from "../FileDisplay";
+import { monthNames } from "@/app/constants";
 
 const RecentCard = ({
   logo,
   title,
-  text,
+  location,
+  type,
   date,
   progress,
   companyname,
   cardId,
-  createdAt,
 }: ICards) => {
+  const getDate = (date: string | undefined | null) => {
+    if (!date) {
+      return;
+    }
+    const createDate = new Date(date);
+    const month = monthNames[createDate.getMonth()];
+    return `${month} ${createDate.getDate()}, ${createDate.getFullYear()}`;
+  };
   return (
     <>
       <div
@@ -38,7 +47,7 @@ const RecentCard = ({
             >
               {companyname ?? "Company"}
               <div className="w-1 h-1 rounded-full bg-gray-400" />
-              {text ?? "text"}
+              {location ?? "text"}
             </h4>
           </div>
           <div className="sm:hidden flex justify-between gap-3">
@@ -51,7 +60,7 @@ const RecentCard = ({
                     Date Applied
                   </h4>
                   <p className={`${styles.sectionSubText} text-gray-400`}>
-                    {date ?? "24 July 2021"}
+                    {getDate(date) ?? "24 July 2021"}
                   </p>
                 </div>
                 <div>
@@ -70,7 +79,7 @@ const RecentCard = ({
                   Date Posted
                 </h4>
                 <p className={`${styles.sectionSubText} text-gray-400`}>
-                  {createdAt ?? "24 July 2021"}
+                  {getDate(date)}
                 </p>
               </div>
             )}
@@ -86,7 +95,7 @@ const RecentCard = ({
                 Date Applied
               </h4>
               <p className={`${styles.sectionSubText} text-gray-400`}>
-                {date ?? "24 July 2021"}
+                {getDate(date) ?? "24 July 2021"}
               </p>
             </div>
             <div className="hidden sm:block">
@@ -103,7 +112,7 @@ const RecentCard = ({
               Date Posted
             </h4>
             <p className={`${styles.sectionSubText} text-gray-400`}>
-              {createdAt ?? "24 July 2021"}
+              {getDate(date) ?? "24 July 2021"}
             </p>
           </div>
         )}

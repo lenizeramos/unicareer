@@ -5,12 +5,35 @@ import JobCard from "./JobCard";
 import JobResumeCards from "./JobResumeCards";
 import RecentCard from "./RecentCard";
 
-const CardsContainer = ({ cardId, params }: ICardId) => {
+const CardsContainer = ({
+  cardId,
+  params,
+  styles,
+  frequencies,
+  onClick,
+}: ICardId) => {
+  const jobsByCategory = jobsCategories.map((category) => {
+    const match = frequencies?.find(
+      (item) => item.category.toLowerCase() === category.title.toLowerCase()
+    );
+
+    return {
+      ...category,
+      text: match ? match.value : 0,
+    };
+  });
+
   const renderCard = () => {
     switch (cardId) {
       case "dashboardCard":
         return (
-          <div className="flex flex-row flex-wrap gap-5 justify-center">
+          <div
+            className={`${
+              styles
+                ? `${styles}`
+                : `flex flex-row flex-wrap gap-5 justify-center`
+            }`}
+          >
             {params?.map((param, index) => (
               <BasicCards
                 key={`dashboard-${index}`}
@@ -23,14 +46,16 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
 
       case "category":
         return (
-          <div className="flex flex-row gap-10 flex-wrap justify-center">
-            {jobsCategories.map((data, index) => (
-              <div key={`category-${index}`}>
-                <BasicCards
-                  {...data}
-                  cardId="category"
-                  text="2 jobs available"
-                />
+          <div
+            className={`${
+              styles
+                ? `${styles}`
+                : `flex flex-row sm:gap-10 gap-5 flex-wrap justify-center`
+            }`}
+          >
+            {jobsByCategory.map((data, index) => (
+              <div key={`category-${index}`} onClick={onClick}>
+                <BasicCards {...data} cardId="category" />
               </div>
             ))}
           </div>
@@ -38,7 +63,13 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
 
       case "perks":
         return (
-          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-10 pointer-events-none">
+          <div
+            className={`${
+              styles
+                ? `${styles}`
+                : `grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-10 pointer-events-none`
+            }`}
+          >
             {perksData.map((item, index) => (
               <BasicCards cardId="perks" {...item} key={`perks-${index}`} />
             ))}
@@ -47,7 +78,13 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
 
       case "featuredJob":
         return (
-          <div className="flex flex-row gap-10 flex-wrap justify-center">
+          <div
+            className={`${
+              styles
+                ? `${styles}`
+                : `flex flex-row gap-10 flex-wrap justify-center`
+            }`}
+          >
             {params?.map((param, index) => (
               <JobCard cardId={cardId} key={`featured-${index}`} {...param} />
             ))}
@@ -56,7 +93,13 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
 
       case "jobUpdates":
         return (
-          <div className="flex flex-row gap-10 flex-wrap justify-center">
+          <div
+            className={`${
+              styles
+                ? `${styles}`
+                : `flex flex-row gap-10 flex-wrap justify-center`
+            }`}
+          >
             {params?.map((param, index) => (
               <JobCard key={`job-${index}`} cardId={cardId} {...param} />
             ))}
@@ -65,7 +108,13 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
 
       case "latestJob":
         return (
-          <div className="flex flex-row gap-5 flex-wrap justify-center">
+          <div
+            className={`${
+              styles
+                ? `${styles}`
+                : `flex flex-row gap-5 flex-wrap justify-center`
+            }`}
+          >
             {params?.map((param, index) => (
               <JobResumeCards
                 cardId={cardId}
@@ -78,7 +127,11 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
 
       case "openPositions":
         return (
-          <div className="flex flex-col gap-3 w-fit mx-auto">
+          <div
+            className={`${
+              styles ? `${styles}` : `flex flex-col gap-3 w-fit mx-auto`
+            }`}
+          >
             {params?.map((param, index) => (
               <JobResumeCards
                 cardId={cardId}
@@ -91,7 +144,11 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
 
       case "allJobs":
         return (
-          <div className="flex flex-col gap-3 w-full mx-auto">
+          <div
+            className={`${
+              styles ? `${styles}` : `flex flex-col gap-3 w-full mx-auto`
+            }`}
+          >
             {params?.map((info, index) => (
               <JobResumeCards
                 cardId={cardId}
@@ -104,7 +161,9 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
 
       case "recentPosted":
         return (
-          <div className="flex flex-col gap-4 w-full">
+          <div
+            className={`${styles ? `${styles}` : `flex flex-col gap-4 w-full`}`}
+          >
             {params?.map((param, index) => (
               <RecentCard
                 key={`recent-post-${index}`}
@@ -117,7 +176,9 @@ const CardsContainer = ({ cardId, params }: ICardId) => {
 
       case "recentApply":
         return (
-          <div className="flex flex-col gap-4 w-full">
+          <div
+            className={`${styles ? `${styles}` : `flex flex-col gap-4 w-full`}`}
+          >
             {params?.map((param, index) => (
               <RecentCard
                 cardId={cardId}

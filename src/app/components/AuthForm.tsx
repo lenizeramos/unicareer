@@ -50,7 +50,7 @@ const AuthForm = ({ type, role, onRoleChange }: AuthFormProps) => {
       >
         <div className="flex w-full max-w-4xl flex-col overflow-hidden rounded-lg shadow-lg md:flex-row bg-white">
           <div className="p-10 flex flex-col justify-center w-1/2">
-            <Logo fontSize="text-5xl" logoSize={60} />
+            <Logo fontSize="text-5xl" logoSize={60} isLanding={false}/>
             <h1 className="mt-4 text-2xl font-bold mb-4">{content.title}</h1>
             <p className="text-gray-600 mb-6">{content.subtitle}</p>
 

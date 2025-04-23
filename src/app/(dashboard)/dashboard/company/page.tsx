@@ -88,13 +88,18 @@ const DashboardPage = () => {
 
   const getDate = (date: Date | undefined | null) => {
     if (!date) {
-      return <p>Not Found</p>;
+      return;
     }
     const createDate = date;
 
     const month = monthNames[createDate.getMonth()];
     return `${month} ${createDate.getDate()}`;
   };
+
+  const isSameDate =
+    endDate?.getDate() === startDate?.getDate() &&
+    endDate?.getMonth() === startDate?.getMonth() &&
+    endDate?.getFullYear() === startDate?.getFullYear();
 
   return (
     <div className="space-y-8 pb-8">
@@ -106,14 +111,21 @@ const DashboardPage = () => {
           <h3 className={`${styles.JobDescriptionTitle}`}>
             Hello, {company?.name}
           </h3>
-          <p className={`${styles.JobDescriptionText}`}>
-            Track how your job postings are performing{" "}
-            {startDate && endDate && (
-              <>
-                from {getDate(startDate)} - {getDate(endDate)}
-              </>
-            )}
-          </p>
+          {!isSameDate ? (
+            <p className={`${styles.JobDescriptionText}`}>
+              Track how your job postings are performing{" "}
+              {startDate && endDate && (
+                <>
+                  from {getDate(startDate)} - {getDate(endDate)}
+                </>
+              )}
+            </p>
+          ) : (
+            <p className={`${styles.JobDescriptionText}`}>
+              Track how your job postings are performing{" "}
+              {startDate && <>in {getDate(startDate)}</>}
+            </p>
+          )}
         </div>
         <DateRangePicker setStartDate={setStartDate} setEndDate={setEndDate} />
       </div>
