@@ -1,7 +1,6 @@
 import { ICards } from "@/app/Types";
 import ButtonComp from "../ButtonComp";
 import { styles } from "@/app/styles";
-import Image from "next/image";
 import TagComp from "../TagComp";
 import { jobsCategories } from "@/app/constants";
 import FileDisplay from "../FileDisplay";

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ISummaryTable } from "../Types";
 import { monthNames, statusTags } from "../constants";
 import FileDisplay from "./FileDisplay";

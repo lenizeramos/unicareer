@@ -99,15 +99,6 @@ export async function POST(request: Request) {
                     });
                 }
                 break;
-            default:
-                await (prisma[modelName] as any).create({
-                    data: {
-                        userId,
-                        [fieldName]: fileName,
-                        fileType: file.type,
-                    },
-                });
-                break;
         }
     } catch (dbError) {
       console.error('Database error:', dbError);
