@@ -22,9 +22,17 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
   const [lastName, setLastName] = useState(initialData?.lastName || "");
   const [skills, setSkills] = useState<string[]>(initialData?.skills || []);
   const [bio, setBio] = useState(initialData?.bio || "");
-  const [education, setEducation] = useState(initialData?.education || []);
+  const [education, setEducation] = useState(
+    (initialData?.education || []).map(edu => ({
+      ...edu,
+      current: edu.current ?? false
+    }))
+  );
   const [workExperience, setWorkExperience] = useState(
-    initialData?.workExperience || []
+    (initialData?.workExperience || []).map(exp => ({
+      ...exp,
+      current: exp.current ?? false
+    }))
   );
   const [languages, setLanguages] = useState(initialData?.languages || []);
 
@@ -85,7 +93,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
             apiRoute="/api/upload"
             modelName="userProfileImage"
             fieldName="fileKey"
-            userId={initialData?.id}
+            userId={initialData?.id ?? ""}
             uploadText="Upload your profile image"
             maxSizeMB={5}
             onUploadComplete={() => {}}

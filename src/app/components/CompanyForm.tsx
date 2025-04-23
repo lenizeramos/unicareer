@@ -37,7 +37,7 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
     };
 
     getUserId();
-  }, []);
+  }, [userId]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

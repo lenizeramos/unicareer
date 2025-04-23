@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState } from "react";
 import FileUpload from "./FileUpload";
 import Loader from "./Loader";
 import { ResumeData } from "@/types/resume";
