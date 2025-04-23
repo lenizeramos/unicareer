@@ -1,57 +1,68 @@
 "use client";
 
-import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import { IoLocationOutline } from "react-icons/io5";
 import ButtonComp from "./ButtonComp";
+import { styles } from "../styles";
+import { CiLocationOn } from "react-icons/ci";
+import { useState } from "react";
 
-interface JobSearchFormProps {
-  countries: string[];
-}
+const JobSearchForm = ({
+  onFilterChange,
+}: {
+  onFilterChange?: (key: string, value: string) => void;
+}) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchLocation, setSearchLocation] = useState("");
 
-const JobSearchForm: React.FC<JobSearchFormProps> = ({ countries }) => {
-  const [jobSearch, setJobSearch] = useState<string>("");
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
-
+  const handleChange = (
+    type: "searchTerm" | "searchLocation",
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (type === "searchTerm") {
+      setSearchTerm(event.target.value);
+    } else if (type === "searchLocation") {
+      setSearchLocation(event.target.value);
+    }
+  };
+  const handleSearchClick = () => {
+    if (onFilterChange) {
+      onFilterChange("searchTerm", searchTerm);
+      onFilterChange("searchLocation", searchLocation);
+    }
+    setSearchTerm("");
+    setSearchLocation("");
+  };
   return (
-    <div className="flex justify-start items-center py-4">
-      <div className="flex flex-col sm:flex-row sm:gap-4 p-4 border border-gray-300 w-full sm:w-3/4 lg:w-2/3 bg-white">
-        {/* Job Search Input */}
-        <div className="relative sm:w-1/3 w-full mb-4 sm:mb-0">
-          <input
-            className="p-2 pl-10 border border-gray-300 w-full bg-white text-black rounded"
-            type="text"
-            placeholder="Job title or keyword"
-            value={jobSearch}
-            onChange={(e) => setJobSearch(e.target.value)}
-          />
-          <span className="absolute left-3 top-2 text-gray-700">
-            <CiSearch />
-          </span>
-        </div>
-
-        {/* Country Selector */}
-        <div className="relative sm:w-1/3 w-full mb-4 sm:mb-0">
-          <select
-            className="p-2 pl-10 border border-gray-300 w-full bg-white text-gray-800"
-            value={selectedCountry}
-            onChange={(e) => setSelectedCountry(e.target.value)}
-          >
-            <option value="">Florence, Italy</option>
-            {countries.map((country) => (
-              <option key={country} value={country}>
-                {country}
-              </option>
-            ))}
-          </select>
-          <span className="absolute left-3 top-2 text-gray-800">
-            <IoLocationOutline />
-          </span>
-        </div>
-
-        {/* Search Button */}
-        <ButtonComp text="Search my job" IsWhite={false} />
+    <div className="flex flex-col sm:flex-row p-4 rounded-xl bg-gray-200 gap-y-5 justify-center items-center sm:max-w-[800px] max-w-[300px] sm:gap-3 sm:mx-0 mx-auto">
+      <div className="w-fit flex gap-2 border-b sm:border-x border-gray-300 rounded-xl items-center">
+        <CiSearch className="text-gray-400" size={25} />
+        <input
+          className={`${styles.sectionSubText} outline-none text-gray-500 sm:py-1`}
+          type="text"
+          name="searchInput"
+          placeholder="Job title or keyword"
+          value={searchTerm}
+          onChange={(e) => handleChange("searchTerm", e)}
+        />
       </div>
+
+      <div className="w-fit flex gap-2 border-b sm:border-x border-gray-300 rounded-xl items-center">
+        <CiLocationOn className="text-gray-400" size={25} />
+        <input
+          type="text"
+          name="locationInput"
+          value={searchLocation}
+          placeholder="Vancouver, Canada"
+          className={`${styles.sectionSubText} outline-none text-gray-500 sm:py-1`}
+          onChange={(e) => handleChange("searchLocation", e)}
+        />
+      </div>
+
+      <ButtonComp
+        text="Search job"
+        IsWhite={false}
+        onClick={handleSearchClick}
+      />
     </div>
   );
 };

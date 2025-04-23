@@ -9,13 +9,14 @@ import FileDisplay from "../FileDisplay";
 const JobCard = ({
   logo,
   title,
-  subtitle,
   text,
   categories,
   companyname,
   type,
   cardId,
+  location
 }: ICards) => {
+  console.log('categories=>>', categories)
   return (
     <>
       <div
@@ -33,7 +34,7 @@ const JobCard = ({
             />
           </div>
           {cardId === "featuredJob" ? (
-            <ButtonComp text={`Full Time ${type}`} IsWhite={true} />
+            <ButtonComp text={`${type}`} IsWhite={true} />
           ) : (
             <TagComp
               bgColor="bg-[#cbfbf1]"
@@ -42,20 +43,20 @@ const JobCard = ({
             />
           )}
         </div>
-        <div className="">
+        <div className="flex flex-col gap-2">
           <h2 className={`font-monomakh text-2xl text-black`}>{title}</h2>
           <h3
             className={`${styles.sectionSubText} text-gray-600 flex items-center gap-2`}
           >
             {companyname}
             <div className="w-1 h-1 rounded-full bg-gray-400" />
-            {subtitle}
+            {location}
           </h3>
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 justify-center">
           {cardId === "featuredJob" && (
             <div className="max-h-12 ">
-              <p className="text-blak truncate text-gray-500"> {text}</p>
+              <p className=" text-gray-500 line-clamp-3 text-xs text-justify"> {text}</p>
             </div>
           )}
           <div className="flex gap-2">

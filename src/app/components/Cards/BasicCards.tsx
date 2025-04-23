@@ -42,7 +42,7 @@ const BasicCards = ({
               {title}
             </h3>
             <div className="flex items-center gap-5 text-gray-400">
-              <p className={`group-hover:text-white`}>{text} </p>
+              <p className={`group-hover:text-white`}>{text} jobs available</p>
               {Subicons && (
                 <Subicons
                   className={`${styles.subIconsCards} group-hover:text-white`}

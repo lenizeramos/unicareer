@@ -35,7 +35,7 @@ export default function DashboardLayout({
       >
         <div className="">
           <Link href={"/dashboard/candidate"}>
-            <Logo />
+            <Logo isLanding={false}/>
           </Link>
         </div>
         <button

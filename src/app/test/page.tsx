@@ -67,7 +67,7 @@ export default function Home() {
   return (
     <>
       <div className="bg-landingDark p-5 flex flex-col gap-5">
-        <Logo fontSize="text-4xl" logoSize={50} />
+        <Logo fontSize="text-4xl" logoSize={50} isLanding={false}/>
         <ButtonComp text="My button" IsWhite={true} />
         <h1 className={`${styles.heroHeadText} ${styles.titleHeroSize}`}>
           Hey <span className={`${styles.heroHeadSpan}`}>There</span>

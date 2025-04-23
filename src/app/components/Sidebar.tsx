@@ -88,7 +88,7 @@ export default function Sidebar({
             `}
       >
         <div className="flex justify-center items-center mb-8">
-          <Logo />
+          <Logo isLanding={false}/>
         </div>
         <nav>
           <ul className="space-y-2">

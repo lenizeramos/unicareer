@@ -14,6 +14,7 @@ export interface IButtton {
 export interface ILogo {
   logoSize?: number;
   fontSize?: string;
+  isLanding: boolean;
 }
 
 export interface ICardId extends Omit<ICards, "cardId"> {
@@ -29,6 +30,9 @@ export interface ICardId extends Omit<ICards, "cardId"> {
     | "recentApply"
     | "recentPosted";
   params?: ICards[];
+  styles?: string;
+  frequencies?: { category: string; value: number }[];
+  onClick?: () => void;
 }
 
 export interface ICards {
@@ -56,7 +60,7 @@ export interface ICards {
   createdAt?: string;
   applicationsCount?: number;
   subtitle?: string;
-  text?: string;
+  text?: string | number;
   alt?: string;
   progress?: string;
   total?: number;

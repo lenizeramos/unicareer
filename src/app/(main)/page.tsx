@@ -1,125 +1,232 @@
+"use client";
 import { styles } from "@/app/styles";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import JobSearchForm from "@/app/components/JobSearchForm";
-import { SiVodafone } from "react-icons/si";
-import { SiIntel } from "react-icons/si";
 import ButtonComp from "@/app/components/ButtonComp";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { AppDispatch, RootState } from "../context/store";
+import { useDispatch, useSelector } from "react-redux";
+import { Ijobs, IJobsState } from "../Types/slices";
+import { fetchAllJobs } from "../context/slices/jobSlices";
+import SearchNotFound from "../components/SearchNotFound";
+import { useClerk } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 export default function Home() {
-  const countries = ["USA", "Canada", "UK", "Australia", "India"];
+  const dispatch: AppDispatch = useDispatch();
+  const { jobs, loading } = useSelector(
+    (state: RootState) => state.jobs as IJobsState
+  );
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    searchLocation: "",
+  });
+  const router = useRouter();
+  const { signOut, user } = useClerk();
+  const userRole = user?.publicMetadata?.role as string;
+  useEffect(() => {
+    if (jobs.length === 0) {
+      dispatch(fetchAllJobs());
+    }
+  }, [jobs.length]);
 
+  const jobsWithStatus = jobs.filter(
+    (job) => new Date(job.closingDate) > new Date()
+  );
+  const hasFilters = filters.searchTerm !== "" || filters.searchLocation !== "";
+
+  const filtersJobs = jobsWithStatus.filter((job) => {
+    const matchesTitle = job.location
+      .toLowerCase()
+      .includes(filters.searchLocation.toLowerCase());
+    const matchesLocation = job.title
+      .toLowerCase()
+      .includes(filters.searchTerm.toLowerCase());
+
+    return matchesTitle && matchesLocation;
+  });
+  const handleFilterChange = (
+    key: string,
+    value: string | { min: number; max: number }
+  ) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
+  };
+  const data = filtersJobs.map((job) => {
+    return {
+      logo: job.company?.userId ?? "/img/img.png",
+      companyname: job.company?.name ?? "Unknown Company",
+      date: job.createdAt,
+      location: job.location,
+      type: job.type,
+      title: job.title,
+      categories: job.categories,
+      text: job.description,
+    };
+  });
+
+  const getFrequencies = (arr: Ijobs[], key: keyof Ijobs) => {
+    const freq: Record<string, number> = {};
+
+    arr.forEach((item) => {
+      const value = item[key];
+      if (typeof value === "string") {
+        freq[value] = (freq[value] || 0) + 1;
+      }
+    });
+
+    return freq;
+  };
+  const freqArray = Object.entries(getFrequencies(jobs, "categories")).map(
+    ([category, value]) => ({
+      category,
+      value,
+    })
+  );
+  const handleOnClick = () => {
+    if (!user) {
+      router.push("/sign-in");
+    } else {
+      if (userRole === "company") {
+        router.push(`/dashboard/${userRole}`);
+      } else {
+        toast(
+          <div className="flex items-center gap-3">
+            <FaExclamationTriangle size={28} className="text-yellow-400" />
+            <p className="text-[18px] text-gray-300 font-shafarik">
+              To continue, please sign-in as a company.
+            </p>
+          </div>,
+          {
+            style: {
+              background: "#202430",
+              borderRadius: "8px",
+              padding: "16px",
+            },
+            duration: 3000,
+            position: "top-center",
+          }
+        );
+      }
+    }
+  };
+  const handleOnClickCard = () => {
+    if (!user) {
+      router.push("/sign-in");
+    } else {
+      if (userRole === "candidate") {
+        router.push(`/dashboard/${userRole}/jobs`);
+      } else {
+        toast(
+          <div className="flex items-center gap-3">
+            <FaExclamationTriangle size={28} className="text-yellow-400" />
+            <p className="text-[18px] text-gray-300 font-shafarik">
+              To continue, please sign-in as a candidate.
+            </p>
+          </div>,
+          {
+            style: {
+              background: "#202430",
+              borderRadius: "8px",
+              padding: "16px",
+            },
+            duration: 3000,
+            position: "top-center",
+          }
+        );
+      }
+    }
+  };
   return (
-    <div className="bg-landingDark  p-15 pl-10 flex flex-col gap-5">
-      <h1
-        className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
-      >
-        Discover <br /> more than <br />
-        <span className={`${styles.heroHeadSpan}`}>5000+ Jobs</span>
-      </h1>
+    <>
+      <div className="bg-landingDark flex flex-col gap-5">
+        <div className="md:p-15 p-10 flex flex-col gap-7">
+          <h1
+            className={`${styles.heroHeadTextDark} md:text-[6rem] sm:text-[5rem] xs:text-[4rem] text-[3rem] flex flex-col`}
+          >
+            Discover more than
+            <span className={`${styles.heroHeadSpan}`}>5000+ Jobs</span>
+          </h1>
+          <p
+            className={`${styles.heroSubText}  text-gray-400 md:text-2xl sm:text-xl xs:text-base text-sm text-justify`}
+          >
+            Great platform for the job seeker that searching for{" "}
+            <br className="sm:block hidden" /> new career heights and passionate
+            about startups.
+          </p>
+          <JobSearchForm onFilterChange={handleFilterChange} />
+          {hasFilters ? (
+            <CardsContainer
+              params={data}
+              cardId="recentPosted"
+              styles="grid grid-cols-1 sm:grid-cols-2 gap-5"
+            />
+          ) : filtersJobs.length === 0 ? (
+            <SearchNotFound text="No matching jobs found." />
+          ) : (
+            <div />
+          )}
+        </div>
 
-      <p
-        className={`${styles.heroSubText} description max-w-110 text-gray-400`}
-      >
-        Great platform for the job seeker that searching for new career heights
-        and passionate about startups.
-      </p>
-
-      <JobSearchForm countries={countries} />
-      <p
-        className={`${styles.heroSubText} description p-2  max-w-s text-gray-400`}
-      >
-        Popular : UI Designer, UX Researcher, Android, Admin
-      </p>
-
-      <p
-        className={`${styles.heroSubText} description max-w-full sm:max-w-2xl text-gray-400`}
-      >
-        Companies we helped grow
-      </p>
-      <div
-        className={`${styles.iconsCards} ${styles.heroSubText} text-gray-500 p-3 flex flex-wrap justify-start gap-6 sm:gap-10`}
-      >
-        <p className="flex items-center">
-          <SiVodafone className="mr-2" />
-          <span>vodafone</span>
-        </p>
-        <p className={`${styles.heroSubText} text-4xl`}>
-          <SiIntel />
-        </p>
-        <p className={`${styles.sectionHeadText} text-3xl`}>TESLA</p>
-        <p className={`${styles.sectionHeadText} text-3xl`}>AMDA</p>
-        <p className={`${styles.sectionHeadText} text-3xl`}>Talkit</p>
-      </div>
-
-      <div className=" flex flex-col gap-10 h-fit">
-        <h2
-          className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
-        >
-          Explore by
-          <span className={`${styles.heroHeadSpan}`}> category</span>
-        </h2>
-        <div className=" flex flex-col gap-10">
+        <div className="md:p-15 p-10 flex flex-col gap-10 bg-blue-950">
+          <h2
+            className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
+          >
+            Explore by
+            <span className={`text-[#26a4ff]`}> Category</span>
+          </h2>
           <div className="flex flex-row gap-10 flex-wrap justify-center">
-            <CardsContainer cardId="category" />
+            <CardsContainer
+              cardId="category"
+              frequencies={freqArray}
+              onClick={() => handleOnClickCard()}
+            />
           </div>
+        </div>
 
-          <div className="p-8 sm:p-8 md:p-10 w-full flex flex-col lg:flex-row  bg-primary">
-            <div className="w-full lg:w-1/2 flex flex-col p-6 ">
-              <h2
-                className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
-              >
-                Start posting jobs today
-              </h2>
-              <p
-                className={`${styles.sectionHeadText} p-2 text-white text-sm sm:text-base lg:text-lg`}
-              >
-                Start posting jobs for only $10.
-              </p>
-              <ButtonComp text="Sign Up For Free" IsWhite={true} />
-            </div>
-            <div className="w-full lg:w-1/2 h-64 sm:h-80">
-              <div className="relative w-full h-full">
-                <Image
-                  src="/img/CompanyDashboard.jpg"
-                  alt="CompanyDashboard"
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="left top"
-                />
-              </div>
-            </div>
-          </div>
+        <div className="md:p-15 p-10 flex flex-col gap-5">
+          <h2
+            className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
+          >
+            Featured
+            <span className={`${styles.heroHeadSpan}`}> jobs</span>
+          </h2>
+          <CardsContainer cardId="featuredJob" params={data} />
+        </div>
 
-          <div className="p-8">
+        <div className="md:p-15 p-10 w-full flex flex-col lg:flex-row bg-blue-950 justify-between">
+          <div className="flex flex-col p-6 gap-5">
             <h2
               className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
             >
-              Featured
-              <span className={`${styles.heroHeadSpan}`}> jobs</span>
+              Start <span className={`text-[#26a4ff]`}> posting</span> jobs
+              today
             </h2>
-            <div className="p-5 flex flex-col gap-10">
-              <div className="flex flex-row gap-10 flex-wrap justify-center">
-                <CardsContainer cardId="featuredJob" />
-              </div>
-            </div>
-          </div>
-
-          <div className="p-8">
-            <h2
-              className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
+            <p
+              className={`${styles.sectionHeadText} p-2 text-white text-sm sm:text-base lg:text-lg`}
             >
-              Latest
-              <span className={`${styles.heroHeadSpan}`}> jops open</span>
-            </h2>
-            <div className="p-5 flex flex-col gap-10">
-              <div className="flex flex-row gap-10 flex-wrap justify-center">
-                <CardsContainer cardId="latestJob" />
-              </div>
-            </div>
+              Start posting jobs for only{" "}
+              <span className={`text-[#26a4ff]`}> $10.</span>
+            </p>
+            <ButtonComp
+              text="Sign Up For Free"
+              IsWhite={true}
+              onClick={handleOnClick}
+            />
+          </div>
+          <div className="w-full h-65 sm:h-110 relative">
+            <Image
+              src="/img/CompanyDashboard.jpg"
+              alt="CompanyDashboard"
+              layout="fill"
+              objectFit="cover"
+              objectPosition="left top"
+            />
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
