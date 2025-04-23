@@ -21,7 +21,7 @@ const DateRangePicker = ({
   ]);
   const [startDate, endDate] = dateRange;
 
-  const pickerRef = useRef<any>(null);
+  const pickerRef = useRef<React.ComponentRef<typeof DatePicker>>(null);
 
   const isSameDate =
     endDate?.getDate() === startDate?.getDate() &&

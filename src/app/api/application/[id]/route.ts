@@ -2,15 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { getApplicationById } from "@/Lib/application";
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  _req: NextRequest,
+  context: { params: { id: string } }
 ) {
-  try {
-    const { id } = await params;
-    if (!id) {
-      return new NextResponse("Job ID is required", { status: 400 });
-    }
+  const id = (await context.params).id;
 
+  if (!id) {
+    return new NextResponse("Job ID is required", { status: 400 });
+  }
+
+  try {
     const application = await getApplicationById(id);
     return NextResponse.json(application);
   } catch (error) {

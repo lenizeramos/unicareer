@@ -2,19 +2,15 @@ import React, { useEffect, useState } from "react";
 import { ICompanyFormProps } from "@/app/Types/index";
 import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
-import { RxImage } from "react-icons/rx";
 import ButtonComp from "@/app/components/ButtonComp";
 import {
   classNameDivContainerTextArea,
   classNameField,
 } from "@/app/constants/index";
 import FileUpload from "./FileUpload";
-import { fetchUsers } from "../context/slices/usersSlices";
-import { fetchApplications } from "../context/slices/applicationsSlices";
 
 const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
   const [name, setName] = useState("");
-  const [logo, setLogo] = useState<File | null>(null);
   const [bio, setBio] = useState("");
   const [userId, setUserId] = useState<string>("");
 
@@ -41,21 +37,12 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({ onSubmit }) => {
     };
 
     getUserId();
-  }, []);
+  }, [userId]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Convert logo to base64 before sending
-    if (logo) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        onSubmit({ name, logo: base64String, bio, userId });
-      };
-      reader.readAsDataURL(logo);
-    } else {
-      onSubmit({ name, logo: null, bio, userId });
-    }
+
+    onSubmit({ name, logo: null, bio, userId });
   };
 
   return (

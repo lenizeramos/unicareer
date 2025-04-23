@@ -14,7 +14,7 @@ interface EducationProps {
     current: boolean;
     description?: string;
   }>;
-  onChange: (education: any[]) => void;
+  onChange: (education: EducationProps['education']) => void;
 }
 
 const EducationSection: React.FC<EducationProps> = ({
@@ -40,7 +40,11 @@ const EducationSection: React.FC<EducationProps> = ({
     onChange(education.filter((_, i) => i !== index));
   };
 
-  const handleChange = (index: number, field: string, value: any) => {
+  const handleChange = (
+    index: number,
+    field: keyof EducationProps['education'][number],
+    value: EducationProps['education'][number][keyof EducationProps['education'][number]]
+  ) => {
     const newEducation = [...education];
     newEducation[index] = { ...newEducation[index], [field]: value };
     onChange(newEducation);

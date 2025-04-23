@@ -1,7 +1,6 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import Image from "next/image";
 import DashboardNavbar from "../../../../../components/DashboardNavbar";
 import ButtonComp from "@/app/components/ButtonComp";
 import { styles } from "@/app/styles";
@@ -43,19 +42,19 @@ export default function JobDescription() {
     if (jobs.length === 0) {
       dispatch(fetchAllJobs());
     }
-  }, [jobs.length]);
+  }, [jobs.length, dispatch]);
 
   useEffect(() => {
     if (users.length === 0) {
       dispatch(fetchUsers("company"));
     }
-  }, [users.length]);
+  }, [users.length, dispatch]);
 
   useEffect(() => {
     if (applications.length === 0) {
       dispatch(fetchApplications());
     }
-  }, [applications.length]);
+  }, [applications.length, dispatch]);
   const company = users.find((company) => company.id === job?.companyId);
   if (loading) {
     return <Loader />;
@@ -141,7 +140,7 @@ export default function JobDescription() {
                   userId={company?.userId || ""}
                   width={90}
                   height={90}
-                  fallbackImage={"/img/img.png" || ""}
+                  fallbackImage={"/img/img.png"}
                 />
                 <div>
                   <h1 className={`${styles.sectionHeadText} pb-2`}>

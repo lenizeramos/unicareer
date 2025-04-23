@@ -4,17 +4,19 @@ import TextAreaField from "./TextAreaField";
 import { classNameLabel, classNameField } from "@/app/constants";
 import { IoMdAdd, IoMdTrash } from "react-icons/io";
 
+interface WorkExperience {
+  company: string;
+  position: string;
+  country: string;
+  startDate: Date;
+  endDate?: Date | null;
+  current: boolean;
+  description?: string;
+}
+
 interface WorkExperienceProps {
-  experience: Array<{
-    company: string;
-    position: string;
-    country: string;
-    startDate: Date;
-    endDate?: Date | null;
-    current: boolean;
-    description?: string;
-  }>;
-  onChange: (experience: any[]) => void;
+  experience: WorkExperience[];
+  onChange: (experience: WorkExperience[]) => void;
 }
 
 const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
@@ -39,7 +41,11 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
     onChange(experience.filter((_, i) => i !== index));
   };
 
-  const handleChange = (index: number, field: string, value: any) => {
+  const handleChange = (
+    index: number,
+    field: keyof WorkExperience,
+    value: WorkExperience[keyof WorkExperience]
+  ) => {
     const newExperience = [...experience];
     newExperience[index] = { ...newExperience[index], [field]: value };
     onChange(newExperience);
