@@ -307,9 +307,9 @@ export interface CandidateFormData {
   id?: string;
   firstName: string;
   lastName: string;
-  photo: File | null;
-  skills: string[];
-  bio: string;
+  photo?: File | null;
+  skills?: string[];
+  bio?: string;
   education: Array<{
     institution: string;
     degree: string;
