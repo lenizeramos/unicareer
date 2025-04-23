@@ -19,7 +19,7 @@ const Footer = () => {
       <div className="flex items-center gap-3">
         <FaCheckCircle size={28} className="text-green-700" />
         <p className="text-[18px] text-gray-300 font-shafarik">
-          You've successfully subscribed.
+          You have successfully subscribed.
         </p>
       </div>,
       {

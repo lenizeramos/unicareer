@@ -62,7 +62,7 @@ const JobResumeCards = ({
               userId={company?.userId || ""}
               width={100}
               height={100}
-              fallbackImage={"/img/img.png" || ""}
+              fallbackImage={"/img/img.png"}
             />
           </div>
           <div className="flex flex-col gap-2">
