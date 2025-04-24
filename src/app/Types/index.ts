@@ -13,6 +13,7 @@ export interface IButtton {
 
 export interface ILogo {
   logoSize?: number;
+  logoSmallScreen?: number;
   fontSize?: string;
   isLanding: boolean;
 }

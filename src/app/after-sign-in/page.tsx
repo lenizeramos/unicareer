@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { getDashboardPath } from "../../Lib/client/user";
+import Loader from "../components/Loader";
 
 function AfterSignIn() {
   const [error, setError] = useState("");
@@ -49,7 +50,7 @@ function AfterSignIn() {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return <div>Redirecting...</div>;

@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { ILogo } from "../Types";
 
-const Logo = ({ logoSize, fontSize, isLanding }: ILogo) => {
-  const size = logoSize ? logoSize : 40;
+const Logo = ({ logoSize, fontSize, isLanding, logoSmallScreen }: ILogo) => {
+  const size =
+    logoSmallScreen && logoSize ? logoSmallScreen : logoSize ? logoSize : 40;
   const fontsize = fontSize ? fontSize : "text-3xl";
   const gradient = isLanding ? "logo-gradient-landing" : "logo-gradient";
   return (
