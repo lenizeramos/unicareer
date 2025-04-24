@@ -74,9 +74,10 @@ export interface IProgressBarProps {
 
 export interface ITagComp {
   bgColor?: string;
-  textColor: string;
+  textColor?: string;
   text: string;
   borderColor?: string;
+  onClick?: () => void;
 }
 
 export interface IFilterJobs {
@@ -109,7 +110,6 @@ export interface IDashboardNavbar {
 export interface IDashboardWelcome {
   greeting: string;
   message: string;
-  date: string;
 }
 
 export interface ICompanyHeader {

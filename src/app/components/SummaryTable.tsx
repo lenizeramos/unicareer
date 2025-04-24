@@ -3,6 +3,7 @@ import { ISummaryTable } from "../Types";
 import { monthNames, statusTags } from "../constants";
 import FileDisplay from "./FileDisplay";
 import { useRouter } from "next/navigation";
+import TagComp from "./TagComp";
 
 const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
   const statusNames = new Set(data.map((item) => item.status.toLowerCase()));
@@ -77,12 +78,13 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
                     </span>
                     {getDate(item.dateApplied)}
                   </p>
-                  <button
-                    className={`${statusTag?.styles} cursor-pointer` || ""}
-                    onClick={() => handleOnClick(item.jobId)}
-                  >
-                    {statusTag?.type || item.status}
-                  </button>
+                  {statusTag && (
+                    <TagComp
+                      textColor={`${statusTag?.styles} cursor-pointer`}
+                      text={statusTag?.type || item.status}
+                      onClick={() => handleOnClick(item.jobId)}
+                    />
+                  )}
                 </div>
               </div>
             </div>

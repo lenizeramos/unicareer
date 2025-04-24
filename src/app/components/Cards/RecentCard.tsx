@@ -2,13 +2,12 @@ import { styles } from "@/app/styles";
 import TagComp from "../TagComp";
 import { ICards } from "@/app/Types";
 import FileDisplay from "../FileDisplay";
-import { monthNames } from "@/app/constants";
+import { monthNames, statusTags } from "@/app/constants";
 
 const RecentCard = ({
   logo,
   title,
   location,
-  type,
   date,
   progress,
   companyname,
@@ -25,7 +24,7 @@ const RecentCard = ({
   return (
     <>
       <div
-        className={`flex sm:flex-row flex-col gap-5 sm:items-center sm:justify-between ${styles.categoryCard} px-10`}
+        className={`flex sm:flex-row flex-col gap-5 sm:items-center sm:justify-evenly ${styles.categoryCard} px-10`}
       >
         <div>
           <FileDisplay
@@ -50,7 +49,7 @@ const RecentCard = ({
               {location ?? "text"}
             </h4>
           </div>
-          <div className="sm:hidden flex justify-between gap-3">
+          <div className="md:hidden flex justify-between gap-3">
             {cardId === "recentApply" ? (
               <>
                 <div>
@@ -64,11 +63,22 @@ const RecentCard = ({
                   </p>
                 </div>
                 <div>
-                  <TagComp
-                    text={`In Review  ${progress ?? "100%"}`}
-                    textColor="text-[#8a0194]"
-                    borderColor="border border-[#8a0194]"
-                  />
+                  {
+                    <TagComp
+                      text={`${
+                        statusTags.find(
+                          (tag) =>
+                            tag.id.toLowerCase() === progress?.toLowerCase()
+                        )?.type
+                      }`}
+                      textColor={`${
+                        statusTags.find(
+                          (tag) =>
+                            tag.id.toLowerCase() === progress?.toLowerCase()
+                        )?.styles
+                      }`}
+                    />
+                  }
                 </div>
               </>
             ) : (
@@ -88,7 +98,7 @@ const RecentCard = ({
 
         {cardId === "recentApply" ? (
           <>
-            <div className="sm:flex flex-col hidden">
+            <div className="md:flex flex-col hidden">
               <h4
                 className={`${styles.sectionSubText} text-black font-semibold`}
               >
@@ -98,16 +108,23 @@ const RecentCard = ({
                 {getDate(date) ?? "24 July 2021"}
               </p>
             </div>
-            <div className="hidden sm:block">
+            <div className="hidden md:block">
               <TagComp
-                text={`In Review  ${progress ?? "100%"}`}
-                textColor="text-[#8a0194]"
-                borderColor="border border-[#8a0194]"
+                text={`${
+                  statusTags.find(
+                    (tag) => tag.id.toLowerCase() === progress?.toLowerCase()
+                  )?.type
+                }`}
+                textColor={`${
+                  statusTags.find(
+                    (tag) => tag.id.toLowerCase() === progress?.toLowerCase()
+                  )?.styles
+                }`}
               />
             </div>
           </>
         ) : (
-          <div className="sm:flex flex-col hidden">
+          <div className="md:flex flex-col hidden">
             <h4 className={`${styles.sectionSubText} text-black font-semibold`}>
               Date Posted
             </h4>
