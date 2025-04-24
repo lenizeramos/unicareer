@@ -4,10 +4,10 @@ import { getClerkUserId } from "@/utils/user";
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params;
+    const { id } = await context.params;
     const { closingDate } = await request.json();
 
     if (!id || !closingDate) {

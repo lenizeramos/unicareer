@@ -309,7 +309,7 @@ export interface CandidateFormData {
   photo?: File | null;
   skills?: string[];
   bio?: string;
-  education: Array<{
+  education?: Array<{
     institution: string;
     degree: string;
     fieldOfStudy: string;
@@ -319,7 +319,7 @@ export interface CandidateFormData {
     current?: boolean;
     description?: string;
   }>;
-  workExperience: Array<{
+  workExperience?: Array<{
     company: string;
     position: string;
     country: string;
@@ -328,7 +328,7 @@ export interface CandidateFormData {
     current?: boolean;
     description?: string;
   }>;
-  languages: Array<{
+  languages?: Array<{
     name: string;
     level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
   }>;

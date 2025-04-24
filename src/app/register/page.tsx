@@ -18,6 +18,7 @@ import {
   waitForUserRole
 } from "@/Lib/client/usersService";
 import { ICompany } from "../Types/slices";
+import { CandidateFormData } from "@/app/Types/index"
 
 function RegisterContent() {
   const searchParams = useSearchParams();
@@ -184,8 +185,8 @@ function RegisterContent() {
             initialData={{
               ...candidateData,
               id: candidateId,
-              email: user?.emailAddresses[0]?.emailAddress
-            }}
+              //email: user?.emailAddresses[0]?.emailAddress
+            } as CandidateFormData}
           />
         ) : formType === "company" ? (
           <CompanyForm onSubmit={handleCompanyFormSubmit} />

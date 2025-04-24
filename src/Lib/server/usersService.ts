@@ -14,21 +14,6 @@ export async function createUser(data: User) {
       },
     });
 
-    if (data.role === "COMPANY" && data.logo) {
-      const matches = data.logo.match(/^data:image\/([a-zA-Z]+);base64,/);
-      const fileExtension = matches ? matches[1] : 'jpeg';
-      const fileName = `companyProfileImage/${user.id}/logo.${fileExtension}`;
-      
-      await prisma.companyProfileImage.create({
-        data: {
-          companyId: user.id,
-          fileKey: fileName,
-          fileType: `image/${fileExtension}`,
-          fileName: `logo.${fileExtension}`
-        },
-      });
-    }
-
     return user;
   } catch (error) {
     console.error("Error creating user:", error);
