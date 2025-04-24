@@ -114,12 +114,6 @@ export interface Application {
   appliedAt?: string;
 }
 
-export interface CompanyRegistrationData {
-  name: string;
-  logo: string | null;
-  bio: string;
-  role?: 'COMPANY';
-}
 
 export interface CandidateRegistrationData {
   firstName: string;
