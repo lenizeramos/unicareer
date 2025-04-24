@@ -1,4 +1,5 @@
-import { User, Candidate, Company, CandidateRegistrationData, CompanyRegistrationData } from "@/types/index";
+import { User, Candidate, Company, CandidateRegistrationData } from "@/types/index";
+import { ICompany } from "@/app/Types/slices";
 
 export async function createUserAndCandidate(data: User & Candidate) {
   const response = await fetch('/api/users/candidate', {
@@ -92,7 +93,7 @@ export async function registerCandidate(candidate: CandidateRegistrationData) {
   return response.json();
 }
 
-export async function registerCompany(company: CompanyRegistrationData) {
+export async function registerCompany(company: ICompany) {
   const response = await fetch("/api/user/update-company-register", {
     method: "POST",
     headers: {

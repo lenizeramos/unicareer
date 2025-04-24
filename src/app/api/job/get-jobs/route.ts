@@ -10,7 +10,6 @@ export async function GET() {
       include: {
         company: {
           include: {
-            profileImages: true,
             user: true,
           },
         },

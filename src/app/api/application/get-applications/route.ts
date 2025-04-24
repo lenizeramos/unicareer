@@ -6,7 +6,7 @@ export async function GET() {
     const applications = await prisma.application.findMany({
       include: {
         candidate: true,
-        job: { include: { company: { include: { profileImages: true } } } },
+        job: { include: { company: true } },
       },
     });
     return NextResponse.json(applications);

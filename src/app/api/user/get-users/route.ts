@@ -22,7 +22,6 @@ export async function GET(req: NextRequest) {
               payments: true,
               companyMembership: true,
               jobs: true,
-              profileImages: true,
             },
           });
           break;

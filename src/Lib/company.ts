@@ -9,19 +9,14 @@ import {
 
 export async function getCompanyByClerkId(clerkId: string) {
   try {
-    return await prisma.user.findUnique({
+    return await prisma.company.findFirst({
       where: {
-        clerkId: clerkId,
+        user: {
+          clerkId: clerkId,
+        },
       },
       include: {
-        company: {
-          select: {
-            id: true,
-            userId: true,
-            name: true,
-            profileImages: true,
-          },
-        },
+        user: true,
       },
     });
   } catch (error) {
@@ -29,7 +24,6 @@ export async function getCompanyByClerkId(clerkId: string) {
     throw new Error("Failed to retrieve company information.");
   }
 }
-
 export async function getCompanyDashboardData(
   companyId: string,
   startDate?: Date,
