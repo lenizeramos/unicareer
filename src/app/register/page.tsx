@@ -5,25 +5,27 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import CandidateForm from "@/app/components/CandidateForm";
 import CompanyForm from "@/app/components/CompanyForm";
-import ResumeUploadStep from '@/app/components/ResumeUploadStep';
-import { ResumeData } from '@/types/resume';
+import ResumeUploadStep from "@/app/components/ResumeUploadStep";
+import { ResumeData } from "@/types/resume";
 import Loader from "@/app/components/Loader";
-import { 
+import {
   getUserByClerkId,
   createUserAndCandidate,
   createUserAndCompany,
   setUserRole,
   registerCandidate,
   registerCompany,
-  waitForUserRole
+  waitForUserRole,
 } from "@/Lib/client/usersService";
-import { ICompany } from "../Types/slices";
-import { CandidateFormData } from "@/app/Types/index"
+import { ICandidate, ICompany } from "../Types/slices";
+/* import { CandidateFormData } from "@/app/Types/index" */
 
 function RegisterContent() {
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
-  const [formType, setFormType] = useState<"candidate" | "company" | null>(null);
+  const [formType, setFormType] = useState<"candidate" | "company" | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { user, isLoaded } = useUser();
@@ -39,7 +41,7 @@ function RegisterContent() {
 
     try {
       setIsLoading(true);
-      
+
       const existingUser = await getUserByClerkId(user.id);
 
       if (existingUser?.role?.toLowerCase() === role.toLowerCase()) {
@@ -51,7 +53,7 @@ function RegisterContent() {
         return;
       }
 
-      if (role === "company") {          
+      if (role === "company") {
         if (!existingUser) {
           const response = await createUserAndCompany({
             id: user.id,
@@ -60,7 +62,7 @@ function RegisterContent() {
             image_url: user.imageUrl,
             name: "",
             bio: "",
-            logo: undefined
+            logo: undefined,
           });
           setCompanyId(response.company.id);
         } else if (existingUser.company?.id) {
@@ -77,7 +79,7 @@ function RegisterContent() {
             lastName: "",
             resume: undefined,
             userId: user.id,
-            skills: []
+            skills: [],
           });
           setCandidateId(response.candidate.id);
         } else if (existingUser.candidate?.id) {
@@ -100,23 +102,20 @@ function RegisterContent() {
       setFormType(null);
     }
 
-    if (user && ((role === "candidate" && !candidateId) || (role === "company" && !companyId))) {
+    if (
+      user &&
+      ((role === "candidate" && !candidateId) ||
+        (role === "company" && !companyId))
+    ) {
       setRole();
     }
   }, [user, role, setRole, candidateId, companyId]);
 
   const handleCandidateFormSubmit = useCallback(
-    async (candidate: {
-      firstName: string;
-      lastName: string;
-      photo?: File | null;
-    }) => {
+    async (candidate: ICandidate) => {
       setIsLoading(true);
       try {
-        await registerCandidate({
-          ...candidate,
-          photo: candidate.photo || null
-        });
+        await registerCandidate(candidate);
         const roleUpdated = await waitForUserRole("CANDIDATE");
         if (!roleUpdated) {
           throw new Error("Role update timeout");
@@ -160,7 +159,7 @@ function RegisterContent() {
   if (!isLoaded) {
     return <Loader />;
   }
-  
+
   if (isLoading) {
     return (
       <div className="flex min-h-screen h-screen">
@@ -168,25 +167,30 @@ function RegisterContent() {
       </div>
     );
   }
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-2xl p-4 flex flex-col items-center justify-center">
-        {formType === "candidate" && showResumeUpload && user?.emailAddresses[0]?.emailAddress && candidateId ? (
-          <ResumeUploadStep 
+        {formType === "candidate" &&
+        showResumeUpload &&
+        user?.emailAddresses[0]?.emailAddress &&
+        candidateId ? (
+          <ResumeUploadStep
             onUpload={handleResumeData}
             onSkip={handleSkipResume}
             userId={candidateId}
             userEmail={user.emailAddresses[0].emailAddress}
           />
         ) : formType === "candidate" ? (
-          <CandidateForm 
+          <CandidateForm
             onSubmit={handleCandidateFormSubmit}
-            initialData={{
-              ...candidateData,
-              id: candidateId,
-              //email: user?.emailAddresses[0]?.emailAddress
-            } as CandidateFormData}
+            initialData={
+              {
+                ...candidateData,
+                id: candidateId,
+                //email: user?.emailAddresses[0]?.emailAddress
+              } as ICandidate
+            }
           />
         ) : formType === "company" ? (
           <CompanyForm onSubmit={handleCompanyFormSubmit} />
@@ -200,7 +204,13 @@ function RegisterContent() {
 
 export default function RegisterPage() {
   return (
-    <Suspense fallback={<div className="flex min-h-screen h-screen"><Loader /></div>}>
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen h-screen">
+          <Loader />
+        </div>
+      }
+    >
       <RegisterContent />
     </Suspense>
   );

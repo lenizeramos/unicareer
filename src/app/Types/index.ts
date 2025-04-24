@@ -1,6 +1,6 @@
 /* import { ResumeData } from "@/types/resume"; */
 import React from "react";
-import { IApplication, ICompany } from "./slices";
+import { IApplication, ICandidate, ICompany } from "./slices";
 
 export interface IButtton {
   text: string | React.ReactNode;
@@ -311,11 +311,11 @@ export interface IStatusCardProps {
 }
 
 export interface ICandidateFormProps {
-  onSubmit: (data: CandidateFormData) => void;
-  initialData?: CandidateFormData;
+  onSubmit: (data: ICandidate) => unknown;
+  initialData?: ICandidate;
 }
 
-export interface CandidateFormData {
+/* export interface CandidateFormData {
   id?: string;
   firstName: string;
   lastName: string;
@@ -345,7 +345,7 @@ export interface CandidateFormData {
     name: string;
     level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
   }>;
-}
+} */
 
 export interface IDashboardData {
   totalApplications: number;

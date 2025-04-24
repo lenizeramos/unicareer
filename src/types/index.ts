@@ -115,9 +115,9 @@ export interface Application {
 }
 
 
-export interface CandidateRegistrationData {
+/* export interface CandidateRegistrationData {
   firstName: string;
   lastName: string;
   photo: File | null;
   role?: 'CANDIDATE';
-}
+} */
