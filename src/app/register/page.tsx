@@ -17,6 +17,8 @@ import {
   registerCompany,
   waitForUserRole
 } from "@/Lib/client/usersService";
+import { ICompany } from "../Types/slices";
+import { CandidateFormData } from "@/app/Types/index"
 
 function RegisterContent() {
   const searchParams = useSearchParams();
@@ -28,7 +30,6 @@ function RegisterContent() {
   const [showResumeUpload, setShowResumeUpload] = useState(true);
   const [candidateData, setCandidateData] = useState<ResumeData | null>(null);
   const [candidateId, setCandidateId] = useState<string>("");
-  const [isUserCreated, setIsUserCreated] = useState(false);
   const [companyId, setCompanyId] = useState<string>("");
 
   const setRole = useCallback(async () => {
@@ -44,10 +45,8 @@ function RegisterContent() {
       if (existingUser?.role?.toLowerCase() === role.toLowerCase()) {
         if (existingUser.candidate?.id) {
           setCandidateId(existingUser.candidate.id);
-          setIsUserCreated(true);
         } else if (existingUser.company?.id) {
           setCompanyId(existingUser.company.id);
-          setIsUserCreated(true);
         }
         return;
       }
@@ -64,10 +63,8 @@ function RegisterContent() {
             logo: undefined
           });
           setCompanyId(response.company.id);
-          setIsUserCreated(true);
         } else if (existingUser.company?.id) {
           setCompanyId(existingUser.company.id);
-          setIsUserCreated(true);
         }
       } else if (role === "candidate") {
         if (!existingUser) {
@@ -78,13 +75,13 @@ function RegisterContent() {
             image_url: user.imageUrl,
             firstName: "",
             lastName: "",
-            resume: null
+            resume: undefined,
+            userId: user.id,
+            skills: []
           });
           setCandidateId(response.candidate.id);
-          setIsUserCreated(true);
         } else if (existingUser.candidate?.id) {
           setCandidateId(existingUser.candidate.id);
-          setIsUserCreated(true);
         }
       }
 
@@ -112,11 +109,14 @@ function RegisterContent() {
     async (candidate: {
       firstName: string;
       lastName: string;
-      photo: File | null;
+      photo?: File | null;
     }) => {
       setIsLoading(true);
       try {
-        await registerCandidate(candidate);
+        await registerCandidate({
+          ...candidate,
+          photo: candidate.photo || null
+        });
         const roleUpdated = await waitForUserRole("CANDIDATE");
         if (!roleUpdated) {
           throw new Error("Role update timeout");
@@ -131,7 +131,7 @@ function RegisterContent() {
   );
 
   const handleCompanyFormSubmit = useCallback(
-    async (company: { name: string; logo: string | null; bio: string }) => {
+    async (company: ICompany) => {
       setIsLoading(true);
       try {
         await registerCompany(company);
@@ -185,8 +185,8 @@ function RegisterContent() {
             initialData={{
               ...candidateData,
               id: candidateId,
-              email: user?.emailAddresses[0]?.emailAddress
-            }}
+              //email: user?.emailAddresses[0]?.emailAddress
+            } as CandidateFormData}
           />
         ) : formType === "company" ? (
           <CompanyForm onSubmit={handleCompanyFormSubmit} />

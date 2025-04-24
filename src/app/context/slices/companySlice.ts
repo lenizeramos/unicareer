@@ -12,9 +12,11 @@ export const fetchCompany = createAsyncThunk("company/fetch", async () => {
   try {
     const response = await fetch("/api/user/company");
     if (!response.ok) throw new Error("Failed to fetch company");
-    const company = await response.json();
+
+    const {user, ...company} = await response.json();
+    const iCompany = { ...user, ...company}
     
-    return company;
+    return iCompany;
   } catch (error) {
     console.error("Error fetching company:", error);
     throw error;

@@ -4,10 +4,10 @@ import { getJobById, canManageJob } from "@/Lib/job";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: jobId } = await params;
+    const { id: jobId } = await context.params;
     if (!jobId) {
       return new NextResponse("Job ID is required", { status: 400 });
     }

@@ -26,7 +26,7 @@ export default function FindJobs() {
     if (jobs.length === 0) {
       dispatch(fetchAllJobs());
     }
-  }, [jobs.length]);
+  }, [jobs.length, dispatch]);
 
   const [filters, setFilters] = useState({
     searchTerm: "",

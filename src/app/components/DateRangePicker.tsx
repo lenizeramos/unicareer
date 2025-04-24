@@ -20,7 +20,7 @@ const DateRangePicker = ({
   ]);
   const [startDate, endDate] = dateRange;
 
-  const pickerRef = useRef<any>(null);
+  const pickerRef = useRef<React.ComponentRef<typeof DatePicker>>(null);
 
   const isSameDate = (a: Date | null, b: Date | null): boolean => {
     if (!a || !b) return false;

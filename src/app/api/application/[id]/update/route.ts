@@ -3,10 +3,10 @@ import { updateApplicationStatus } from "@/Lib/application";
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: applicationId } = await params;
+    const { id: applicationId } = await context.params;
     if (!applicationId) {
       return new NextResponse("Application ID is required", { status: 400 });
     }
@@ -18,7 +18,10 @@ export async function PATCH(
       return new NextResponse("Status is required", { status: 400 });
     }
 
-    const updatedApplication = await updateApplicationStatus(applicationId, status);
+    const updatedApplication = await updateApplicationStatus(
+      applicationId,
+      status
+    );
 
     return NextResponse.json(updatedApplication);
   } catch (error) {

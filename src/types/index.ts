@@ -113,3 +113,11 @@ export interface Application {
   status?: string;
   appliedAt?: string;
 }
+
+
+export interface CandidateRegistrationData {
+  firstName: string;
+  lastName: string;
+  photo: File | null;
+  role?: 'CANDIDATE';
+}

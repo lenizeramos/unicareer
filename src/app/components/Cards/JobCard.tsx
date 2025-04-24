@@ -1,7 +1,6 @@
 import { ICards } from "@/app/Types";
 import ButtonComp from "../ButtonComp";
 import { styles } from "@/app/styles";
-import Image from "next/image";
 import TagComp from "../TagComp";
 import { jobsCategories } from "@/app/constants";
 import FileDisplay from "../FileDisplay";
@@ -30,7 +29,7 @@ const JobCard = ({
               width={90}
               height={90}
               className="profile-image-style overflow-hidden"
-              fallbackImage={"img/img.png" || ""}
+              fallbackImage={"img/img.png"}
             />
           </div>
           {cardId === "featuredJob" ? (

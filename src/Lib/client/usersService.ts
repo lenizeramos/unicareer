@@ -1,4 +1,7 @@
-export async function createUserAndCandidate(data: any) {
+import { User, Candidate, Company, CandidateRegistrationData } from "@/types/index";
+import { ICompany } from "@/app/Types/slices";
+
+export async function createUserAndCandidate(data: User & Candidate) {
   const response = await fetch('/api/users/candidate', {
     method: 'POST',
     headers: {
@@ -14,7 +17,7 @@ export async function createUserAndCandidate(data: any) {
   return response.json();
 }
 
-export async function createUserAndCompany(data: any) {
+export async function createUserAndCompany(data: User & Company) {
   const response = await fetch('/api/users/company', {
     method: 'POST',
     headers: {
@@ -73,12 +76,7 @@ export async function setUserRole(role: string) {
   return response.json();
 }
 
-export async function registerCandidate(candidate: {
-  firstName: string;
-  lastName: string;
-  photo: File | null;
-  role?: string;
-}) {
+export async function registerCandidate(candidate: CandidateRegistrationData) {
   const response = await fetch("/api/user/register", {
     method: "POST",
     headers: {
@@ -95,12 +93,7 @@ export async function registerCandidate(candidate: {
   return response.json();
 }
 
-export async function registerCompany(company: { 
-  name: string; 
-  logo: string | null; 
-  bio: string; 
-  role?: string;
-}) {
+export async function registerCompany(company: ICompany) {
   const response = await fetch("/api/user/update-company-register", {
     method: "POST",
     headers: {

@@ -10,17 +10,13 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const user = await getCompanyByClerkId(clerkId);
+    const company = await getCompanyByClerkId(clerkId);
 
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-
-    if (!user.company) {
+    if (!company) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
 
-    return NextResponse.json(user.company);
+    return NextResponse.json(company);
   } catch (error) {
     console.error("Error fetching company:", error);
     return NextResponse.json(

@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import prisma from "@/Lib/prisma";
+import { ICompany } from "@/app/Types/slices";
 
 export async function POST(request: Request) {
   try {
@@ -9,22 +10,58 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { name, logo, bio, role } = await request.json();
+    const body: ICompany = await request.json();
+
+    // Separate user data from company data
+    const {
+      // Company-specific fields
+      name,
+      bio,
+      size,
+      industry,
+      foundedYear,
+      toolsAndTechnologies,
+      benefits,
+
+      // User fields (shared or user-specific)
+
+      streetAddress,
+      city,
+      province,
+      postalCode,
+      website,
+      linkedIn,
+      twitter,
+    } = body;
+
+    const userData = {
+      streetAddress,
+      city,
+      province,
+      postalCode,
+      website,
+      linkedIn,
+      twitter,
+    };
+
+    const companyData = {
+      name,
+      bio,
+      size,
+      industry,
+      foundedYear,
+      toolsAndTechnologies,
+      benefits,
+    };
 
     const updatedUser = await prisma.user.update({
       where: { clerkId: userId },
       data: {
-        role,
+        ...userData,
         company: {
           upsert: {
-            create: {
-              name,
-              bio,
-            },
-            update: {
-              name,
-              bio,
-            },
+            create: companyData,
+            update: companyData,
           },
         },
       },

@@ -17,7 +17,7 @@ import { FaExclamationTriangle } from "react-icons/fa";
 
 export default function Home() {
   const dispatch: AppDispatch = useDispatch();
-  const { jobs, loading } = useSelector(
+  const { jobs } = useSelector(
     (state: RootState) => state.jobs as IJobsState
   );
   const [filters, setFilters] = useState({
@@ -31,7 +31,7 @@ export default function Home() {
     if (jobs.length === 0) {
       dispatch(fetchAllJobs());
     }
-  }, [jobs.length]);
+  }, [jobs.length, dispatch]);
 
   const jobsWithStatus = jobs.filter(
     (job) => new Date(job.closingDate) > new Date()

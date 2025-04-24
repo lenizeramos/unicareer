@@ -5,10 +5,10 @@ import { getClerkUserId } from "@/utils/user";
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params;
+    const { id } = await context.params;
     if (!id) {
       return new NextResponse("Job ID is required", { status: 400 });
     }

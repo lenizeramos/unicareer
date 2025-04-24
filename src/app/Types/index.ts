@@ -1,6 +1,6 @@
 /* import { ResumeData } from "@/types/resume"; */
 import React from "react";
-import { IApplication } from "./slices";
+import { IApplication, ICompany } from "./slices";
 
 export interface IButtton {
   text: string | React.ReactNode;
@@ -126,7 +126,7 @@ export interface IDateRangePicker {
 
 export interface ICompanyHeader {
   image: string;
-  name: string;
+  name?: string;
   userId?: string;
   button?: IButtton;
 }
@@ -199,12 +199,8 @@ export interface IJobFormProps {
 }
 
 export interface ICompanyFormProps {
-  onSubmit: (company: {
-    name: string;
-    logo: string | null;
-    bio: string;
-    userId: string;
-  }) => void;
+  onSubmit: (company: ICompany) => void;
+  initialData?: ICompany;
 }
 
 export interface InputFieldProps {
@@ -227,6 +223,7 @@ export interface InputFieldProps {
   accept?: string;
   fileLabel?: string;
   filePreview?: React.ReactNode;
+  disabled?: boolean;
 }
 
 export interface ISalaryRangeSliderProps {
@@ -307,47 +304,47 @@ export interface ITotalApplicationProps {
 
 export interface IStatusCardProps {
   title: string;
-  value: number;
+  value?: number;
   icon?: React.ReactNode;
   color?: string;
   backgroundColor?: string;
-  trend?: "up" | "down";
-  percentage?: string;
 }
 
 export interface ICandidateFormProps {
-  onSubmit: (data: {
-    id?: string;
-    firstName: string;
-    lastName: string;
-    photo: File | null;
-    skills: string[];
-    bio: string;
-    education: Array<{
-      institution: string;
-      degree: string;
-      fieldOfStudy: string;
-      country: string;
-      startDate: Date;
-      endDate?: Date | null;
-      current?: boolean;
-      description?: string;
-    }>;
-    workExperience: Array<{
-      company: string;
-      position: string;
-      country: string;
-      startDate: Date;
-      endDate?: Date | null;
-      current?: boolean;
-      description?: string;
-    }>;
-    languages: Array<{
-      name: string;
-      level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
-    }>;
-  }) => void;
-  initialData?: any;
+  onSubmit: (data: CandidateFormData) => void;
+  initialData?: CandidateFormData;
+}
+
+export interface CandidateFormData {
+  id?: string;
+  firstName: string;
+  lastName: string;
+  photo?: File | null;
+  skills?: string[];
+  bio?: string;
+  education?: Array<{
+    institution: string;
+    degree: string;
+    fieldOfStudy: string;
+    country: string;
+    startDate: Date;
+    endDate?: Date | null;
+    current?: boolean;
+    description?: string;
+  }>;
+  workExperience?: Array<{
+    company: string;
+    position: string;
+    country: string;
+    startDate: Date;
+    endDate?: Date | null;
+    current?: boolean;
+    description?: string;
+  }>;
+  languages?: Array<{
+    name: string;
+    level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
+  }>;
 }
 
 export interface IDashboardData {

@@ -50,7 +50,7 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
                   userId={item.companyName.logo || ""}
                   width={50}
                   height={50}
-                  fallbackImage={"/img/img.png" || ""}
+                  fallbackImage={"/img/img.png"}
                 />
                 <p className="sm:block hidden">{item.companyName.name}</p>
               </div>

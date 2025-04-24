@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { getApplicationById } from "@/Lib/application";
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  _req: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params;
+    const { id } = await context.params;
+
     if (!id) {
       return new NextResponse("Job ID is required", { status: 400 });
     }

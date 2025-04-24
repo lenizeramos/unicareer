@@ -4,7 +4,6 @@ import { ICandidateFormProps } from "../Types/index";
 import ButtonComp from "@/app/components/ButtonComp";
 import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
-import { RxImage } from "react-icons/rx";
 import {
   classNameLabel,
   classNameField,
@@ -21,12 +20,19 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
 }) => {
   const [firstName, setFirstName] = useState(initialData?.firstName || "");
   const [lastName, setLastName] = useState(initialData?.lastName || "");
-  const [photo, setPhoto] = useState<File | null>(null);
   const [skills, setSkills] = useState<string[]>(initialData?.skills || []);
   const [bio, setBio] = useState(initialData?.bio || "");
-  const [education, setEducation] = useState(initialData?.education || []);
+  const [education, setEducation] = useState(
+    (initialData?.education || []).map(edu => ({
+      ...edu,
+      current: edu.current ?? false
+    }))
+  );
   const [workExperience, setWorkExperience] = useState(
-    initialData?.workExperience || []
+    (initialData?.workExperience || []).map(exp => ({
+      ...exp,
+      current: exp.current ?? false
+    }))
   );
   const [languages, setLanguages] = useState(initialData?.languages || []);
 
@@ -36,7 +42,6 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
       id: initialData?.id,
       firstName,
       lastName,
-      photo,
       skills,
       bio,
       education,
@@ -88,7 +93,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
             apiRoute="/api/upload"
             modelName="userProfileImage"
             fieldName="fileKey"
-            userId={initialData?.id}
+            userId={initialData?.id ?? ""}
             uploadText="Upload your profile image"
             maxSizeMB={5}
             onUploadComplete={() => {}}

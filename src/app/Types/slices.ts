@@ -44,7 +44,14 @@ export interface IUsers {
   lastName?: string;
   skills?: string[];
   resume?: string;
+  streetAddress?: string;
+  city?: string;
+  province?: string;
+  country?: "CANADA";
+  postalCode?: string;
   website?: string;
+  linkedIn?: string;
+  twitter?: string;
   jobs?: Ijobs[];
   application?: IApplication[];
   createdAt?: string;
@@ -100,11 +107,16 @@ export interface ICandidateState {
   error: string | null;
 }
 
-interface ICompany {
+export interface ICompany extends IUsers{
   id: string;
   userId: string;
   name: string;
   bio?: string;
+  size?: string;
+  industry?: string;
+  foundedYear?: string;
+  toolsAndTechnologies?: string[];
+  benefits?: string[];
   profileImages?: {
     id: string;
     fileKey: string;
