@@ -95,7 +95,7 @@ export interface ISummaryTable {
   data: {
     companyName: { name: string; logo: string };
     jobTitle: string;
-    jobId:string;
+    jobId: string;
     dateApplied: string;
     status: string;
   }[];
@@ -110,6 +110,18 @@ export interface IDashboardNavbar {
 export interface IDashboardWelcome {
   greeting: string;
   message: string;
+  updateDate?: (date: DateRange) => void;
+}
+
+export type DateRange = {
+  firstDate: Date | null;
+  secondDate: Date | null;
+};
+
+export interface IDateRangePicker {
+  setStartDate: (date: Date) => void;
+  setEndDate: (date: Date) => void;
+  updateDate?: (date: DateRange) => void;
 }
 
 export interface ICompanyHeader {

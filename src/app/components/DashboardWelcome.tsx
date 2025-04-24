@@ -8,6 +8,7 @@ import { useState } from "react";
 export default function DashboardWelcome({
   greeting,
   message,
+  updateDate
 }: IDashboardWelcome) {
   const [startDate, setStartDate] = useState<Date | null>();
   const [endDate, setEndDate] = useState<Date | null>();
@@ -54,7 +55,7 @@ export default function DashboardWelcome({
         )}
       </div>
       <div className="">
-        <DateRangePicker setStartDate={setStartDate} setEndDate={setEndDate} />
+        <DateRangePicker setStartDate={setStartDate} setEndDate={setEndDate} updateDate={updateDate}/>
       </div>
     </div>
   );

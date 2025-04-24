@@ -8,9 +8,16 @@ import { IApplication } from "@/app/Types/slices";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { DateRange } from "@/app/Types";
 
 export default function CandidatePage() {
   const { candidate, isLoading } = useCandidateData();
+
+  const [dateRange, setDateRange] = useState<DateRange>({
+    firstDate: null,
+    secondDate: null,
+  });
   const router = useRouter();
   if (isLoading) {
     return <Loader />;
@@ -31,8 +38,15 @@ export default function CandidatePage() {
 
     return freq;
   };
+  const { firstDate, secondDate } = dateRange;
 
-  const freq = getFrequencies(candidate.applications, "status");
+  const filterDate = candidate.applications.filter(app =>
+    secondDate ? new Date(app.appliedAt) < secondDate : true
+  );
+
+  console.log(filterDate)
+
+  const freq = getFrequencies(filterDate, "status");
 
   const pendingCount = freq["PENDING"] || 0;
   const interviewedCount = freq["INTERVIEWED"] || 0;
@@ -64,6 +78,7 @@ export default function CandidatePage() {
       <DashboardWelcome
         greeting={`Good Morning, ${candidate.firstName}`}
         message="Here is what's happening with your job applications "
+        updateDate={setDateRange}
       />
       <JobAppliedGraphic
         pendingCount={pendingCount}
