@@ -77,6 +77,7 @@ const DashboardPage = () => {
           logo: company?.userId || "img/img.png",
           subtitle: job.location || "No location",
           companyname: company?.name,
+          location: job.location,
           alt: "Job image",
           categories: Array.isArray(job.categories)
             ? job.categories.join(", ")
