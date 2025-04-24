@@ -4,8 +4,13 @@ import { NextResponse } from "next/server";
 const isCandidateRoute = createRouteMatcher(["/dashboard/candidate(.*)"]);
 const isCompanyRoute = createRouteMatcher(["/dashboard/company(.*)"]);
 const isAdminUserRoute = createRouteMatcher(["/dashboard/adminuser(.*)"]);
+const isWebhookRoute = createRouteMatcher(["/api/webhooks/stripe(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
+
+  if (isWebhookRoute(req)) {
+    return NextResponse.next();
+  }
 
   if (req.nextUrl.pathname.startsWith('/dashboard')) {
     const { sessionClaims } = await auth();
