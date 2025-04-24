@@ -78,6 +78,7 @@ export default function Application() {
     return {
       companyName: { name: companyName, logo: logo },
       jobTitle: application.job?.title ?? "Unknown",
+      jobId: application.job?.id ?? "Unknown",
       dateApplied: application.appliedAt,
       status: application.status ?? "Unknown",
     };
@@ -115,9 +116,7 @@ export default function Application() {
           ) : (
             <p className={`${styles.JobDescriptionText}`}>
               Here is job applications status{" "}
-              {startDate && (
-                <span className="">in {getDate(startDate)} </span>
-              )}
+              {startDate && <span className="">in {getDate(startDate)} </span>}
             </p>
           )}
         </div>
@@ -162,7 +161,7 @@ export default function Application() {
           </div>
         </div>
         {data.length === 0 ? (
-          <SearchNotFound text="No applicantions found" />
+          <SearchNotFound text="No applicantions found"/>
         ) : (
           <div>
             <SummaryTable columnNames={columnNames} data={data} />

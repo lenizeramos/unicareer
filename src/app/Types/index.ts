@@ -94,6 +94,7 @@ export interface ISummaryTable {
   data: {
     companyName: { name: string; logo: string };
     jobTitle: string;
+    jobId:string;
     dateApplied: string;
     status: string;
   }[];

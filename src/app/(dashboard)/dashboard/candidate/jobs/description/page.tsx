@@ -1,7 +1,6 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import Image from "next/image";
 import DashboardNavbar from "../../../../../components/DashboardNavbar";
 import ButtonComp from "@/app/components/ButtonComp";
 import { styles } from "@/app/styles";
@@ -20,6 +19,7 @@ import { fetchApplications } from "@/app/context/slices/applicationsSlices";
 import { toast } from "sonner";
 import Loader from "@/app/components/Loader";
 import FileDisplay from "@/app/components/FileDisplay";
+import SearchNotFound from "@/app/components/SearchNotFound";
 
 export default function JobDescription() {
   const router = useRouter();
@@ -66,7 +66,16 @@ export default function JobDescription() {
   if (!job) {
     return (
       <>
-        <p>Not Found</p>
+        <DashboardNavbar
+          title="Job Description"
+          button={{ text: "Back to home page", IsWhite: true }}
+        />
+        <div className="w-full border-t border-gray-200 mt-5">
+          <SearchNotFound
+            text="This job is no longer available."
+            optionText={false}
+          />
+        </div>
       </>
     );
   }
