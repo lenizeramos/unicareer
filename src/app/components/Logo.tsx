@@ -9,7 +9,7 @@ const Logo = ({ logoSize, fontSize, isLanding, logoSmallScreen }: ILogo) => {
   return (
     <>
       <div className={`flex items-center gap-2`}>
-        <Image src={"/img/logo.svg"} alt="logo" width={size} height={size} />
+        <Image src={"/img/logo.svg"} alt="logo" width={size} height={size} className="logo"/>
         <h1
           className={`font-bigShoulderStencil ${fontsize} ${gradient} font-medium`}
         >

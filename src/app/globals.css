@@ -129,6 +129,10 @@ body {
   animation: animloader2 1s linear infinite;
 }
 
+.logo {
+  animation: 10s starRotate linear infinite;
+}
+
 @keyframes animloader2 {
   0% {
     box-shadow: 10px 0 rgba(255, 255, 255, 0), 20px 0 rgba(255, 255, 255, 0);
@@ -158,7 +162,6 @@ body {
     transform: translate(-10px, -10px);
   }
 }
-    
 
 @keyframes rotation {
   0% {
@@ -175,6 +178,12 @@ body {
   100% {
     transform: rotate(-360deg);
   }
+}
+
+@keyframes starRotate {
+  0%{    transform: rotate(0deg)}
+  50%{    transform: rotate(360deg)}
+  100%{    transform: rotate(720deg)}
 }
 
 @font-face {
