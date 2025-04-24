@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-/* import ButtonComp from "@/app/components/ButtonComp"; */
+import { useRouter } from "next/navigation";
 import {
   FaBuilding,
   FaUsers,
@@ -22,6 +22,7 @@ import { fetchCompany } from "@/app/context/slices/companySlice";
 import { ICards, IJob } from "@/app/Types";
 
 const CompanyProfile = () => {
+  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const company = useSelector((state: RootState) => state.companyState.company);
   const [cards, setCards] = useState<ICards[]>([]);
@@ -30,15 +31,13 @@ const CompanyProfile = () => {
     dispatch(fetchCompany());
   }, [dispatch]);
 
-
   useEffect(() => {
     const fetchJobs = async () => {
-      
       if (!company?.id || !company?.name) return;
-  
+
       const res = await fetch(`/api/company/jobs/open?limit=6`);
       const jobs = await res.json();
-  
+
       const cardsList: ICards[] = jobs.map((job: IJob) => ({
         cardId: "openPositions",
         title: job.title,
@@ -48,12 +47,13 @@ const CompanyProfile = () => {
         type: job.type,
         categories: job.categories,
       }));
-    
+
       setCards(cardsList);
     };
-  
+
     fetchJobs();
   }, [company]);
+
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-5">
@@ -67,6 +67,7 @@ const CompanyProfile = () => {
             IsWhite: false,
             width: "w-xs",
             icon: <FaPlus />,
+            onClick: ()=>{router.push("/dashboard/company/profile/edit");},
           }}
         />
       </div>
@@ -160,7 +161,11 @@ const CompanyProfile = () => {
               {company?.benefits &&
                 company?.benefits?.length > 0 &&
                 company.benefits.map((benefit, index) => (
-                  <BenefitCard key={index} title={benefit} backgroundColor={"bg-blue-200"}/>
+                  <BenefitCard
+                    key={index}
+                    title={benefit}
+                    backgroundColor={"bg-blue-200"}
+                  />
                 ))}
             </div>
           </div>
@@ -168,11 +173,9 @@ const CompanyProfile = () => {
           <div className="mt-8">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
               <h3 className="text-xl font-semibold">Open Positions</h3>
-
             </div>
-            
-              <CardsContainer cardId="openPositions" params={cards} />
-            
+
+            <CardsContainer cardId="openPositions" params={cards} />
           </div>
 
           <hr className="my-8 border-t border-gray-200 w-full" />

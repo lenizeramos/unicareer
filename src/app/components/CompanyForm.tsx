@@ -11,15 +11,11 @@ import {
 import FileUpload from "./FileUpload";
 import SelectField from "./SelectField";
 import ChipsField from "./ChipsField";
-/* import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/app/context/store"; */
-/* import { clearJobToEdit } from "@/app/context/slices/jobToEditSlices"; */
 
 const CompanyForm: React.FC<ICompanyFormProps> = ({
   onSubmit,
   initialData,
 }) => {
-  /* const dispatch = useDispatch<AppDispatch>(); */
   const [userId, setUserId] = useState<string>("");
   const [name, setName] = useState(initialData?.name || "");
   const [bio, setBio] = useState(initialData?.bio || "");
@@ -46,6 +42,27 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
   const [benefits, setBenefits] = useState<string[]>(
     initialData?.benefits || []
   );
+
+  console.log("initialData", initialData);
+
+  useEffect(() => {
+    if (initialData) {
+      setName(initialData.name || "");
+      setBio(initialData.bio || "");
+      setWebsite(initialData.website || "");
+      setSize(initialData.size || "");
+      setIndustry(initialData.industry || "");
+      setStreetAddress(initialData.streetAddress || "");
+      setCity(initialData.city || "");
+      setProvince(initialData.province || "");
+      setPostalCode(initialData.postalCode || "");
+      setFoundedYear(initialData.foundedYear || "");
+      setLinkedIn(initialData.linkedIn || "");
+      setTwitter(initialData.twitter || "");
+      setToolsAndTechnologies(initialData.toolsAndTechnologies || []);
+      setBenefits(initialData.benefits || []);
+    }
+  }, [initialData]);
 
   useEffect(() => {
     const getUserId = async () => {
@@ -92,7 +109,6 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
       benefits,
       userId,
     } as ICompany);
-    /* dispatch(clearJobToEdit()); */
   };
 
   const companySizes = [
