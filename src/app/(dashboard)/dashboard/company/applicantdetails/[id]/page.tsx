@@ -57,7 +57,9 @@ const ApplicantDetailsPage = () => {
       const fetchApplicationById = async (applicationId: string) => {
         try {
           setLoading(true);
-          const response = await fetch(`/api/application/${applicationId}`);
+          const response = await fetch(
+            `/api/application/${applicationId}`
+          );
           if (!response.ok) throw new Error("Failed to fetch application data");
           const application = await response.json();
 
