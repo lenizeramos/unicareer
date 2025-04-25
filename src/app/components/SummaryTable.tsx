@@ -63,51 +63,52 @@ const SummaryTable = ({ columnNames, data, isUserPhoto }: ISummaryTable) => {
               <p className="font-shafarik sm:block hidden">
                 {getDate(item.date)}
               </p>
-              {isUserPhoto ? (
-                <ButtonComp IsWhite={false} text="See Details" />
-              ) : statusTag ? (
-                <TagComp
-                  textColor={`${statusTag?.styles} cursor-pointer`}
-                  text={statusTag?.type || item.tags}
-                  onClick={() => handleOnClick(item.jobId)}
-                />
-              ) : (
-                <TagComp
-                  textColor={`${
-                    stylesTags[Math.floor(Math.random() * 10)]
-                  } cursor-pointer`}
-                  text={""}
-                  onClick={() => handleOnClick(item.jobId)}
-                />
-              )}
+              <div className="sm:block hidden">
+                {isUserPhoto ? (
+                  <ButtonComp IsWhite={false} text="See Details" />
+                ) : statusTag ? (
+                  <TagComp
+                    textColor={`${statusTag?.styles} cursor-pointer`}
+                    text={statusTag?.type || item.tags}
+                    onClick={() => handleOnClick(item.jobId)}
+                  />
+                ) : (
+                  <TagComp
+                    textColor={`${
+                      stylesTags[Math.floor(Math.random() * 10)]
+                    } cursor-pointer`}
+                    text={""}
+                    onClick={() => handleOnClick(item.jobId)}
+                  />
+                )}
+              </div>
               <div className="sm:hidden">
                 <p className="sm:hidden font-semibold">{item.userData.name}</p>
                 <p className="font-shafarik">{item.jobTitle}</p>
-                <div className="flex xs:flex-row flex-col gap-2">
+                <div className="flex xs:flex-row flex-col xs:gap-10 gap-2">
                   <p className="font-shafarik">
                     <span className="font-shafarik text-gray-400 text-[13px]">
-                      Date Applied&nbsp;
+                      {isUserPhoto ? "Date Joined" : "Date Applied"}&nbsp;
                     </span>
                     {getDate(item.date)}
                   </p>
                   {isUserPhoto ? (
-                    statusTag && (
-                      <TagComp
-                        textColor={`${statusTag?.styles} cursor-pointer`}
-                        text={statusTag?.type || item.tags}
-                        onClick={() => handleOnClick(item.jobId)}
-                      />
-                    )
-                  ) : (
                     <ButtonComp IsWhite={false} text="See Details" />
-                  )}
-                  {/* {statusTag && (
+                  ) : statusTag ? (
                     <TagComp
                       textColor={`${statusTag?.styles} cursor-pointer`}
-                      text={statusTag?.type || item.status}
+                      text={statusTag?.type || item.tags}
                       onClick={() => handleOnClick(item.jobId)}
                     />
-                  )} */}
+                  ) : (
+                    <TagComp
+                      textColor={`${
+                        stylesTags[Math.floor(Math.random() * 10)]
+                      } cursor-pointer`}
+                      text={""}
+                      onClick={() => handleOnClick(item.jobId)}
+                    />
+                  )}
                 </div>
               </div>
             </div>
