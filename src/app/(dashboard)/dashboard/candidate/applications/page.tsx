@@ -14,7 +14,7 @@ import DashboardWelcome from "@/app/components/DashboardWelcome";
 export default function Application() {
   const { candidate, isLoading } = useCandidateData();
 
-  const [endDate, setEndDate] = useState<Date | null>();
+  const [endDate] = useState<Date | null>();
   const [active, setActive] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState<string>("");
 

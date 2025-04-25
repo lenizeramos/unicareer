@@ -381,6 +381,7 @@ export interface ApplicationsListTableProps {
   onViewProfile?: (id: string) => void;
   searchTerm: string;
   onSearchChange: (value: string) => void;
+  isLoading: boolean;
 }
 
 export interface Application {
