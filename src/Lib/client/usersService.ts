@@ -82,7 +82,7 @@ export async function registerCandidate(candidate: ICandidate) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ ...candidate }),
+    body: JSON.stringify(candidate),
   });
 
   if (!response.ok) {

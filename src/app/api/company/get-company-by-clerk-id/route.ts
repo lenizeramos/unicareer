@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { getCompanyByClerkId } from "@/Lib/company";
 
+
 export async function GET() {
   try {
     const { userId: clerkId } = await auth();

@@ -9,7 +9,7 @@ interface EducationProps {
     degree: string;
     fieldOfStudy: string;
     country: string;
-    startDate: Date;
+    startDate?: Date;
     endDate?: Date | null;
     current: boolean;
     description?: string;
@@ -29,7 +29,6 @@ const EducationSection: React.FC<EducationProps> = ({
         degree: "",
         fieldOfStudy: "",
         country: "",
-        startDate: new Date(),
         current: false,
         description: "",
       },
@@ -45,6 +44,11 @@ const EducationSection: React.FC<EducationProps> = ({
     field: keyof EducationProps['education'][number],
     value: EducationProps['education'][number][keyof EducationProps['education'][number]]
   ) => {
+
+    if ((field === "startDate") || (field === "endDate")) {
+      value = value && new Date(value.toString()).toISOString()
+    }
+
     const newEducation = [...education];
     newEducation[index] = { ...newEducation[index], [field]: value };
     onChange(newEducation);

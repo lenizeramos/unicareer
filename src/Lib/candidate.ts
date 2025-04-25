@@ -10,10 +10,39 @@ export async function getCandidateByClerkId(clerkId: string) {
       },
       include: {
         user: true,
+        education: {
+          select: {
+            institution: true,
+            degree: true,
+            fieldOfStudy: true,
+            country: true,
+            startDate: true,
+            endDate: true,
+            current: true,
+            description: true,
+          },
+        },
+        workExperience: {
+          select: {
+            company: true,
+            position: true,
+            country: true,
+            startDate: true,
+            endDate: true,
+            current: true,
+            description: true,
+          },
+        },
+        languages: {
+          select: {
+            name: true,
+            level: true,
+          },
+        },
       },
     });
   } catch (error) {
-    console.error(`Error fetching company data:`, error);
-    throw new Error("Failed to retrieve company information.");
+    console.error(`Error fetching candidate data:`, error);
+    throw new Error("Failed to retrieve candidate information.");
   }
 }

@@ -120,7 +120,7 @@ function RegisterContent() {
         if (!roleUpdated) {
           throw new Error("Role update timeout");
         }
-        router.push("/dashboard/candidate");
+       router.push("/dashboard/candidate");
       } catch (error) {
         console.error("Error registering the user:", error);
         setIsLoading(false);

@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    const { user, ...candidate } = await request.json();
+    const { user, education, workExperience, languages,...candidate } = await request.json();
     delete candidate.id;
 
     /* const updatedUser = await updateCandidate({ ...userData, userId }); */
@@ -21,13 +21,31 @@ export async function POST(request: NextRequest) {
         ...user,
         candidate: {
           upsert: {
-            create: candidate,
-            update: candidate,
+            create: { ...candidate, education: { create: education }, workExperience: {create: workExperience}, languages: {create: languages} },
+            update: {
+              education: {
+                deleteMany: {},
+                create: education,
+              },
+              workExperience: {
+                deleteMany: {},
+                create: workExperience,
+              },
+              languages: {
+                deleteMany: {},
+                create: languages,
+              },
+              ...candidate,
+            },
           },
         },
       },
       include: {
-        candidate: true,
+        candidate: {
+          include: {
+            education: true,
+          },
+        },
       },
     });
     return NextResponse.json(updatedUser);

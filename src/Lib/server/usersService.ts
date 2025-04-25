@@ -93,7 +93,6 @@ export async function updateCandidate(data: Candidate) {
       include: { candidate: true }
     });
 
-    console.log("UPDATE CANDIDATE")
 
     if (!user?.candidate) {
       throw new Error("Candidate not found");

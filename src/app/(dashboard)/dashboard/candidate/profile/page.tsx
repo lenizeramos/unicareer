@@ -35,7 +35,6 @@ const ProfilePage = () => {
           <h2 className="text-3xl font-bold flex items-center gap-2 text-textTitle h-16 lg:h-auto">
             My Profile
           </h2>
-          <ButtonComp text="Back to HomePage" IsWhite={true} />
         </div>
 
         <div className="bg-white shadow-md rounded-2xl p-4 md:p-6 mb-4 md:mb-6 relative">
@@ -178,9 +177,7 @@ const ProfilePage = () => {
         </div>
 
         <div className="bg-white shadow-md rounded-2xl p-6">
-          <div className="bg-white shadow-md rounded-lg p-6">
             <PortfolioSlider />
-          </div>
         </div>
       </div>
 

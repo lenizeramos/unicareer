@@ -10,17 +10,11 @@ const initialState: ICandidateState = {
 
 export const fetchCandidate = createAsyncThunk("candidate/fetch", async () => {
   try {
-    const response = await fetch("/api/user/candidate");
+    const response = await fetch("/api/candidate/get-candidate-by-clerk-id");
     if (!response.ok) throw new Error("Failed to fetch candidate");
 
 
 const candidate = await response.json();
-console.log("candidateeeeeee", candidate)
-
-    /* const {user, ...candidate} = await response.json();
-    const iCompany = { ...user, ...candidate}
-    
-    return iCompany; */
     return candidate
   } catch (error) {
     console.error("Error fetching candidate:", error);

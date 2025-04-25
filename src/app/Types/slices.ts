@@ -138,7 +138,7 @@ export interface IEducation {
   degree: string;
   fieldOfStudy: string;
   country: string;
-  startDate: Date;
+  startDate?: Date;
   endDate?: Date | null;
   current?: boolean;
   description?: string;
@@ -150,7 +150,7 @@ export interface IWorkExperience {
   company: string;
   position: string;
   country: string;
-  startDate: Date;
+  startDate?: Date;
   endDate?: Date | null;
   current?: boolean;
   description?: string;

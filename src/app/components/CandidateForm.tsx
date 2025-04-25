@@ -57,9 +57,9 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
       lastName,
       skills,
       bio,
-      //education,
-      //workExperience,
-      //languages,
+      education,
+      workExperience,
+      languages,
       user: {
         streetAddress,
         city,
