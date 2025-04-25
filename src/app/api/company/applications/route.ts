@@ -23,7 +23,23 @@ export async function GET(req: NextRequest) {
       const endDateParam = req.nextUrl.searchParams.get("endDate");
       const searchTermParam = req.nextUrl.searchParams.get("search");
 
-      let whereClause: any = {};
+      type ApplicationWhereClause = {
+        appliedAt?: {
+          gte: Date;
+          lte: Date;
+        };
+        OR?: Array<{
+          candidate: {
+            firstName: { contains: string; mode: 'insensitive' };
+          };
+        } | {
+          candidate: {
+            lastName: { contains: string; mode: 'insensitive' };
+          };
+        }>;
+      };
+
+      const whereClause: ApplicationWhereClause = {};
       
       if (startDateParam && endDateParam) {
         whereClause.appliedAt = {
