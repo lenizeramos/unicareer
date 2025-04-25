@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ChipsField from "./ChipsField";
 import { ICandidateFormProps } from "../Types/index";
 import { ICandidate } from "@/app/Types/slices";
@@ -48,6 +48,35 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
   const [website, setWebsite] = useState(initialData?.user?.website || "");
   const [linkedIn, setLinkedIn] = useState(initialData?.user?.linkedIn || "");
   const [twitter, setTwitter] = useState(initialData?.user?.twitter || "");
+
+  useEffect(() => {
+    if (initialData) {
+      setFirstName(initialData.firstName || "");
+      setLastName(initialData.lastName || "");
+      setBio(initialData.bio || "");
+      setSkills(initialData.skills || []);
+      setEducation(
+        (initialData.education || []).map((edu) => ({
+          ...edu,
+          current: edu.current ?? false,
+        }))
+      );
+      setWorkExperience(
+        (initialData?.workExperience || []).map((exp) => ({
+          ...exp,
+          current: exp.current ?? false,
+        }))
+      );
+      setLanguages(initialData.languages || []);
+      setStreetAddress(initialData.user?.streetAddress || "");
+      setCity(initialData.user?.city || "");
+      setProvince(initialData.user?.province || "");
+      setPostalCode(initialData.user?.postalCode || "");
+      setWebsite(initialData.user?.website || "");
+      setLinkedIn(initialData.user?.linkedIn || "");
+      setTwitter(initialData.user?.twitter || "");
+    }
+  }, [initialData]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
