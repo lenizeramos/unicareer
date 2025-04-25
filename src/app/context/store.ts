@@ -4,6 +4,7 @@ import userReducer from "./slices/usersSlices";
 import applicationsReducer from "./slices/applicationsSlices";
 import companyReducer from "./slices/companySlice";
 import jobToEditReducer from "./slices/jobToEditSlices";
+import candidateReducer from "./slices/candidateSlice";
 
 
 const store = configureStore({
@@ -13,6 +14,7 @@ const store = configureStore({
     applications: applicationsReducer,
     companyState: companyReducer,
     jobToEdit: jobToEditReducer,
+    candidateState: candidateReducer,
   },
 });
 

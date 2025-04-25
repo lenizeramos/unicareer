@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { getCompanyByClerkId } from "@/Lib/company";
+import { getCandidateByClerkId } from "@/Lib/candidate";
 
 export async function GET() {
   try {
@@ -10,18 +10,19 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const company = await getCompanyByClerkId(clerkId);
+    const candidate = await getCandidateByClerkId(clerkId);
 
-    if (!company) {
-      return NextResponse.json({ error: "Company not found" }, { status: 404 });
+    if (!candidate) {
+      return NextResponse.json({ error: "Candidate not found" }, { status: 404 });
     }
 
-    return NextResponse.json(company);
+    return NextResponse.json(candidate);
   } catch (error) {
-    console.error("Error fetching company:", error);
+    console.error("Error fetching candidate:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
     );
   }
+  
 }

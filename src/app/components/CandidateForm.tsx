@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ChipsField from "./ChipsField";
 import { ICandidateFormProps } from "../Types/index";
+import { ICandidate } from "@/app/Types/slices";
 import ButtonComp from "@/app/components/ButtonComp";
 import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
+import SelectField from "./SelectField";
 import {
   classNameLabel,
   classNameField,
@@ -23,18 +25,58 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
   const [skills, setSkills] = useState<string[]>(initialData?.skills || []);
   const [bio, setBio] = useState(initialData?.bio || "");
   const [education, setEducation] = useState(
-    (initialData?.education || []).map(edu => ({
+    (initialData?.education || []).map((edu) => ({
       ...edu,
-      current: edu.current ?? false
+      current: edu.current ?? false,
     }))
   );
   const [workExperience, setWorkExperience] = useState(
-    (initialData?.workExperience || []).map(exp => ({
+    (initialData?.workExperience || []).map((exp) => ({
       ...exp,
-      current: exp.current ?? false
+      current: exp.current ?? false,
     }))
   );
   const [languages, setLanguages] = useState(initialData?.languages || []);
+  const [streetAddress, setStreetAddress] = useState(
+    initialData?.user?.streetAddress || ""
+  );
+  const [city, setCity] = useState(initialData?.user?.city || "");
+  const [province, setProvince] = useState(initialData?.user?.province || "");
+  const [postalCode, setPostalCode] = useState(
+    initialData?.user?.postalCode || ""
+  );
+  const [website, setWebsite] = useState(initialData?.user?.website || "");
+  const [linkedIn, setLinkedIn] = useState(initialData?.user?.linkedIn || "");
+  const [twitter, setTwitter] = useState(initialData?.user?.twitter || "");
+
+  useEffect(() => {
+    if (initialData) {
+      setFirstName(initialData.firstName || "");
+      setLastName(initialData.lastName || "");
+      setBio(initialData.bio || "");
+      setSkills(initialData.skills || []);
+      setEducation(
+        (initialData.education || []).map((edu) => ({
+          ...edu,
+          current: edu.current ?? false,
+        }))
+      );
+      setWorkExperience(
+        (initialData?.workExperience || []).map((exp) => ({
+          ...exp,
+          current: exp.current ?? false,
+        }))
+      );
+      setLanguages(initialData.languages || []);
+      setStreetAddress(initialData.user?.streetAddress || "");
+      setCity(initialData.user?.city || "");
+      setProvince(initialData.user?.province || "");
+      setPostalCode(initialData.user?.postalCode || "");
+      setWebsite(initialData.user?.website || "");
+      setLinkedIn(initialData.user?.linkedIn || "");
+      setTwitter(initialData.user?.twitter || "");
+    }
+  }, [initialData]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,8 +89,33 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
       education,
       workExperience,
       languages,
-    });
+      user: {
+        streetAddress,
+        city,
+        province,
+        postalCode,
+        website,
+        linkedIn,
+        twitter,
+      },
+    }) as ICandidate;
   };
+
+  const canadianProvinces = [
+    { value: "AB", label: "Alberta" },
+    { value: "BC", label: "British Columbia" },
+    { value: "MB", label: "Manitoba" },
+    { value: "NB", label: "New Brunswick" },
+    { value: "NL", label: "Newfoundland and Labrador" },
+    { value: "NT", label: "Northwest Territories" },
+    { value: "NS", label: "Nova Scotia" },
+    { value: "NU", label: "Nunavut" },
+    { value: "ON", label: "Ontario" },
+    { value: "PE", label: "Prince Edward Island" },
+    { value: "QC", label: "Quebec" },
+    { value: "SK", label: "Saskatchewan" },
+    { value: "YT", label: "Yukon" },
+  ];
 
   return (
     <>
@@ -99,6 +166,65 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
             onUploadComplete={() => {}}
           />
 
+          <InputField
+            label="Street Address"
+            id="streetAddress"
+            name="streetAddress"
+            type="text"
+            value={streetAddress}
+            onChange={(e) => setStreetAddress(e.target.value)}
+            classNameDivContainer="flex flex-col"
+            classNameLabel="text-sm font-semibold text-gray-700"
+            classNameField={classNameField}
+          />
+          <InputField
+            label="City"
+            id="city"
+            name="city"
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            classNameDivContainer="flex flex-col"
+            classNameLabel="text-sm font-semibold text-gray-700"
+            classNameField={classNameField}
+          />
+
+          <SelectField
+            label="Province"
+            id="province"
+            name="province"
+            value={province}
+            onChange={(e) => setProvince(e.target.value)}
+            options={canadianProvinces}
+            classNameDivContainer="flex flex-col"
+            classNameLabel="text-sm font-semibold text-gray-700"
+            classNameField={classNameField}
+          />
+
+          <InputField
+            label="Country"
+            id="country"
+            name="country"
+            type="text"
+            value="Canada"
+            onChange={() => {}}
+            classNameDivContainer="flex flex-col"
+            classNameLabel="text-sm font-semibold text-gray-700"
+            classNameField={classNameField}
+            disabled={true}
+          />
+
+          <InputField
+            label="Postal Code"
+            id="postalCode"
+            name="postalCode"
+            type="text"
+            value={postalCode}
+            onChange={(e) => setPostalCode(e.target.value)}
+            classNameDivContainer="flex flex-col"
+            classNameLabel="text-sm font-semibold text-gray-700"
+            classNameField={classNameField}
+          />
           <ChipsField
             label="Skills"
             value={skills}
@@ -108,7 +234,43 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
             labelClass={classNameLabel}
             itemTemplate={(skill) => <div>{skill}</div>}
           />
+          <InputField
+            label="Website"
+            id="website"
+            name="website"
+            type="url"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+            placeholder="https://example.com"
+            classNameDivContainer="flex flex-col"
+            classNameLabel="text-sm font-semibold text-gray-700"
+            classNameField={classNameField}
+          />
+          <InputField
+            label="LinkedIn"
+            id="linkedIn"
+            name="linkedIn"
+            type="url"
+            value={linkedIn}
+            onChange={(e) => setLinkedIn(e.target.value)}
+            placeholder="https://linkedin.com/company/example"
+            classNameDivContainer="flex flex-col"
+            classNameLabel="text-sm font-semibold text-gray-700"
+            classNameField={classNameField}
+          />
 
+          <InputField
+            label="Twitter"
+            id="twitter"
+            name="twitter"
+            type="url"
+            value={twitter}
+            onChange={(e) => setTwitter(e.target.value)}
+            placeholder="https://twitter.com/example"
+            classNameDivContainer="flex flex-col"
+            classNameLabel="text-sm font-semibold text-gray-700"
+            classNameField={classNameField}
+          />
           <TextAreaField
             label="Bio"
             id="bio"

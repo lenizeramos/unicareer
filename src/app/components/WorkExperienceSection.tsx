@@ -8,7 +8,7 @@ interface WorkExperience {
   company: string;
   position: string;
   country: string;
-  startDate: Date;
+  startDate?: Date;
   endDate?: Date | null;
   current: boolean;
   description?: string;
@@ -30,7 +30,6 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
         company: "",
         position: "",
         country: "",
-        startDate: new Date(),
         current: false,
         description: "",
       },
@@ -46,6 +45,11 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
     field: keyof WorkExperience,
     value: WorkExperience[keyof WorkExperience]
   ) => {
+
+    if ((field === "startDate") || (field === "endDate")) {
+      value = value && new Date(value.toString()).toISOString()
+    }
+
     const newExperience = [...experience];
     newExperience[index] = { ...newExperience[index], [field]: value };
     onChange(newExperience);
