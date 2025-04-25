@@ -6,10 +6,9 @@ import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentBut
 import {
   FaUser,
   FaEnvelope,
-  /* FaInstagram,
+  FaLinkedin,
   FaTwitter,
   FaGlobe,
-  FaPhone, */
 } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
 import { styles } from "@/app/styles";
@@ -59,9 +58,7 @@ const ApplicantDetailsPage = () => {
       const fetchApplicationById = async (applicationId: string) => {
         try {
           setLoading(true);
-          const response = await fetch(
-            `/api/application/${applicationId}`
-          );
+          const response = await fetch(`/api/application/${applicationId}`);
           if (!response.ok) throw new Error("Failed to fetch application data");
           const application = await response.json();
 
@@ -84,6 +81,9 @@ const ApplicantDetailsPage = () => {
 
   const candidate = application?.candidate;
   const user = candidate?.user;
+
+  console.log(candidate, "CANDIDAETTTTTTTTTTTTTTTTTTTT");
+  console.log(user, "userrrrrrrrrrrrrrrrrrrrrrrrrTT");
 
   const capitalize = (str: string | undefined) => {
     if (!str) return "";
@@ -169,26 +169,30 @@ const ApplicantDetailsPage = () => {
 
           <InfoSection title="Contact">
             <ul className="space-y-3 text-sm text-gray-700">
-              <ContactInfoItem
-                icon={<FaEnvelope />}
-                value={user?.email || ""}
-              />
-              {/* <ContactInfoItem
-                icon={<FaPhone />}
-                value={candidate?.phone || ""}
-              />
-              <ContactInfoItem
-                icon={<FaInstagram />}
-                value={candidate?.instagram || ""}
-              />
-              <ContactInfoItem
-                icon={<FaTwitter />}
-                value={candidate?.twitter || ""}
-              />
-              <ContactInfoItem
-                icon={<FaGlobe />}
-                value={candidate?.website || ""}
-              /> */}
+              {user?.email && (
+                <ContactInfoItem
+                  icon={<FaEnvelope />}
+                  value={user?.email || ""}
+                />
+              )}
+              {user?.linkedIn && (
+                <ContactInfoItem
+                  icon={<FaLinkedin />}
+                  value={user?.linkedIn || ""}
+                />
+              )}
+              {user?.twitter && (
+                <ContactInfoItem
+                  icon={<FaTwitter />}
+                  value={user?.twitter || ""}
+                />
+              )}
+              {user?.website && (
+                <ContactInfoItem
+                  icon={<FaGlobe />}
+                  value={user?.website || ""}
+                />
+              )}
             </ul>
           </InfoSection>
         </div>
@@ -197,28 +201,26 @@ const ApplicantDetailsPage = () => {
           <InfoSection title="Personal Info">
             <div className="space-y-4">
               <InfoItem label="Full Name" value={fullName} />
-              {/* <InfoItem
+              
+              {candidate?.languages?.length && <InfoItem
                 label="Language"
                 value={
-                  candidate?.language?.length
-                    ? candidate.language.map((lang, index) => (
+                  candidate.languages.map((lang, index) => (
                         <span key={index} className="mr-2">
-                          {lang.name || ""}
+                          {capitalize(lang.name) + " - " + capitalize(lang.level) || ""}<br/>
                         </span>
                       ))
-                    : ""
                 }
-              /> */}
-              {/* <InfoItem
-                label="Address"
-                value={
-                  candidate?.address && (
-                    <span className="whitespace-pre-line">
-                      {candidate.address}
-                    </span>
-                  )
-                }
-              /> */}
+              />}
+              
+              {user?.city && (
+                <InfoItem
+                  label="City"
+                  value={
+                    <span className="whitespace-pre-line">{user.city}</span>
+                  }
+                />
+              )}
             </div>
           </InfoSection>
 
