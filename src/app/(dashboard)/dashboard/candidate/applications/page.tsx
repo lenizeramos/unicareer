@@ -49,11 +49,11 @@ export default function Application() {
     const companyName = application.job?.company?.name ?? "Unknown Company";
     const logo = application.job?.company?.userId ?? "/img/img.png";
     return {
-      companyName: { name: companyName, logo: logo },
+      userData: { name: companyName, pic: logo },
       jobTitle: application.job?.title ?? "Unknown",
       jobId: application.job?.id ?? "Unknown",
-      dateApplied: application.appliedAt,
-      status: application.status ?? "Unknown",
+      date: application.appliedAt,
+      tags: application.status ?? "Unknown",
     };
   });
   return (

@@ -96,11 +96,12 @@ export interface ISummaryTable {
   columnNames: string[];
   isUserPhoto:boolean;
   data: {
-    companyName: { name: string; logo: string };
+    userData: { name: string; pic: string };
     jobTitle: string;
-    jobId: string;
-    dateApplied: string;
-    status: string;
+    jobId?: string;
+    userId?:string
+    date: string;
+    tags: string;
   }[];
 }
 
