@@ -25,8 +25,14 @@ const JobAppliedGraphic = ({
       title: "Total Jobs Applied",
       total: total,
       icon: FaClipboardList,
+      styleCard: "bg-gray-50 rounded-lg shadow-sm",
     },
-    { title: "Interviewed", total: interviewedCount, icon: LuMessagesSquare },
+    {
+      title: "Interviewed",
+      total: interviewedCount,
+      icon: LuMessagesSquare,
+      styleCard: "bg-gray-50 rounded-lg shadow-sm",
+    },
   ];
   return (
     <div className="flex md:flex-row flex-col justify-center md:gap-20 gap-10 p-6 items-center">
@@ -36,12 +42,12 @@ const JobAppliedGraphic = ({
         styles="flex md:flex-col gap-5 justify-center items-center"
       />
 
-      <div className="bg-gray-50 shadow-md rounded-lg p-4">
+      <div className="bg-gray-50 shadow-md rounded-lg p-4 border border-gray-100">
         <h2 className="text-lg font-semibold font-shafarik">
           Jobs Applied Status
         </h2>
         {total === 0 ? (
-          <SearchNotFound text="No applications submitted on this date" />
+          <SearchNotFound text="No applications submitted on these dates." />
         ) : (
           <CompanyChart
             inReview={pendingCount}

@@ -103,7 +103,7 @@ export default function Application() {
           <SearchNotFound text="No applicantions found" />
         ) : (
           <div>
-            <SummaryTable columnNames={columnNames} data={data} />
+            <SummaryTable columnNames={columnNames} data={data} isUserPhoto={false}/>
           </div>
         )}
       </div>

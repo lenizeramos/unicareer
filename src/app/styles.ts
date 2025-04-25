@@ -25,7 +25,7 @@ const styles = {
   subTitleSectionSize: "sm:text-[20px] text-[14px] ",
   iconsCards: "text-3xl",
   subIconsCards: "text-xl",
-  categoryCard: "bg-white sm:p-5 p-3 text-primary border border-gray-200 group",
+  categoryCard: "sm:p-5 p-3 text-primary border border-gray-200 group",
   borderBottomLight: "w-full border-b border-[var(--color-borders)]",
   JobDescriptionTitle:
     "font-semibold mb-4 font-monomakh md:text-3xl text-[20px]",

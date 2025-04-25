@@ -17,9 +17,7 @@ import { FaExclamationTriangle } from "react-icons/fa";
 
 export default function Home() {
   const dispatch: AppDispatch = useDispatch();
-  const { jobs } = useSelector(
-    (state: RootState) => state.jobs as IJobsState
-  );
+  const { jobs } = useSelector((state: RootState) => state.jobs as IJobsState);
   const [filters, setFilters] = useState({
     searchTerm: "",
     searchLocation: "",
@@ -158,13 +156,15 @@ export default function Home() {
           </p>
           <JobSearchForm onFilterChange={handleFilterChange} />
           {hasFilters ? (
-            <CardsContainer
-              params={data}
-              cardId="recentPosted"
-              styles="grid grid-cols-1 sm:grid-cols-2 gap-5"
-            />
-          ) : filtersJobs.length === 0 ? (
-            <SearchNotFound text="No matching jobs found." />
+            filtersJobs.length === 0 ? (
+              <SearchNotFound text="No matching jobs found." />
+            ) : (
+              <CardsContainer
+                params={data}
+                cardId="recentPosted"
+                styles="grid grid-cols-1 sm:grid-cols-2 gap-5"
+              />
+            )
           ) : (
             <div />
           )}

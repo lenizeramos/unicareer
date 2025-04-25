@@ -10,11 +10,11 @@ export default function ApplicationsSummary({
       <h3 className="text-lg font-semibold text-gray-800">
         Applications Summary
       </h3>
-      <div className="mt-4">
-        <span className="text-4xl font-bold text-gray-900">
+      <div className="mt-4 flex items-center">
+        <span className="text-xl font-bold text-gray-800 font-bigShoulderStencil">
           {totalApplications}
         </span>
-        <span className="text-lg text-gray-500"> Applications</span>
+        <span className="text-lg text-gray-700 ml-1"> Applications</span>
       </div>
       <div className="mt-4 flex w-full h-2 rounded bg-gray-200 overflow-hidden">
         {applications.map((application) => (
@@ -34,7 +34,7 @@ export default function ApplicationsSummary({
               className={`w-4 h-4 background-${application.label.toLowerCase()} rounded`}
             ></span>
             <span className="text-gray-700 text-sm">
-              {application.label} : <strong>{application.count}</strong>
+              {application.label} : <strong className="font-bigShoulderStencil">{application.count}</strong>
             </span>
           </div>
         ))}

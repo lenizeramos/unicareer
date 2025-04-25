@@ -44,8 +44,6 @@ export default function CandidatePage() {
     secondDate ? new Date(app.appliedAt) < secondDate : true
   );
 
-  console.log(filterDate)
-
   const freq = getFrequencies(filterDate, "status");
 
   const pendingCount = freq["PENDING"] || 0;

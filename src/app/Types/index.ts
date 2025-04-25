@@ -39,6 +39,7 @@ export interface ICardId extends Omit<ICards, "cardId"> {
 export interface ICards {
   icon?: React.ElementType;
   subicons?: React.ElementType;
+  styleCard?: string;
   cardId?: string;
   logo?: string;
   id?: string;
@@ -93,6 +94,7 @@ export interface IFilterJobs {
 
 export interface ISummaryTable {
   columnNames: string[];
+  isUserPhoto:boolean;
   data: {
     companyName: { name: string; logo: string };
     jobTitle: string;

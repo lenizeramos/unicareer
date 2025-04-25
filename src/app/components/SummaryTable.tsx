@@ -4,12 +4,14 @@ import { monthNames, statusTags } from "../constants";
 import FileDisplay from "./FileDisplay";
 import { useRouter } from "next/navigation";
 import TagComp from "./TagComp";
+import ButtonComp from "./ButtonComp";
 
-const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
+const SummaryTable = ({ columnNames, data, isUserPhoto }: ISummaryTable) => {
   const statusNames = new Set(data.map((item) => item.status.toLowerCase()));
   const statusStyles = statusTags.filter((tag) => statusNames.has(tag.id));
   const router = useRouter();
 
+  const modelName = isUserPhoto ? "userProfileImage" : "companyProfileImage"
   const getDate = (date: string) => {
     if (!date) {
       return <p>Not Found</p>;
@@ -45,6 +47,7 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
             >
               <p className="w-fit sm:block hidden">{index + 1}</p>
               <div className="flex gap-2 w-fit items-center relative">
+                {}
                 <FileDisplay
                   modelName="companyProfileImage"
                   userId={item.companyName.logo || ""}
@@ -58,14 +61,17 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
               <p className="font-shafarik sm:block hidden">
                 {getDate(item.dateApplied)}
               </p>
-              <button
-                className={
-                  `${statusTag?.styles} cursor-pointer sm:block hidden` || ""
-                }
-                onClick={() => handleOnClick(item.jobId)}
-              >
-                {statusTag?.type || item.status}
-              </button>
+              {isUserPhoto ? (
+                <ButtonComp IsWhite={false} text="See Details" />
+              ) : (
+                statusTag && (
+                  <TagComp
+                    textColor={`${statusTag?.styles} cursor-pointer`}
+                    text={statusTag?.type || item.status}
+                    onClick={() => handleOnClick(item.jobId)}
+                  />
+                )
+              )}
               <div className="sm:hidden">
                 <p className="sm:hidden font-semibold">
                   {item.companyName.name}
@@ -78,13 +84,24 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
                     </span>
                     {getDate(item.dateApplied)}
                   </p>
-                  {statusTag && (
+                  {isUserPhoto ? (
+                    statusTag && (
+                      <TagComp
+                        textColor={`${statusTag?.styles} cursor-pointer`}
+                        text={statusTag?.type || item.status}
+                        onClick={() => handleOnClick(item.jobId)}
+                      />
+                    )
+                  ) : (
+                    <ButtonComp IsWhite={false} text="See Details" />
+                  )}
+                  {/* {statusTag && (
                     <TagComp
                       textColor={`${statusTag?.styles} cursor-pointer`}
                       text={statusTag?.type || item.status}
                       onClick={() => handleOnClick(item.jobId)}
                     />
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

@@ -95,7 +95,7 @@ body {
   display: block;
   margin: 20px auto;
   position: relative;
-  border: 3px solid #FFF;
+  border: 3px solid #e5e7eb;
   border-radius: 50%;
   box-sizing: border-box;
   animation: animloader 2s linear infinite;
@@ -105,14 +105,14 @@ body {
   box-sizing: border-box;
   width: 6px;
   height: 24px;
-  background: #FFF;
+  background: #e5e7eb;
   transform: rotate(-45deg);
   position: absolute;
   bottom: -20px;
   left: 46px;
 }
 .loader3 {
-  color: #FFF;
+  color: #e5e7eb;
   display: inline-block;
   position: relative;
   box-sizing: border-box;
@@ -130,7 +130,7 @@ body {
 }
 
 .logo {
-  animation: 10s starRotate linear infinite;
+  animation: 15s starRotate linear infinite;
 }
 
 @keyframes animloader2 {
@@ -138,10 +138,10 @@ body {
     box-shadow: 10px 0 rgba(255, 255, 255, 0), 20px 0 rgba(255, 255, 255, 0);
   }
   50% {
-    box-shadow: 10px 0 white, 20px 0 rgba(255, 255, 255, 0);
+    box-shadow: 10px 0 #e5e7eb, 20px 0 rgba(255, 255, 255, 0);
   }
   100% {
-    box-shadow: 10px 0 white, 20px 0 white;
+    box-shadow: 10px 0 #e5e7eb, 20px 0 #e5e7eb;
   }
 }
 

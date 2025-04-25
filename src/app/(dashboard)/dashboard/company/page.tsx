@@ -2,21 +2,22 @@
 import { styles } from "@/app/styles";
 import { SlArrowRight } from "react-icons/sl";
 import { FaUserCheck, FaEye } from "react-icons/fa";
+import { GoArrowRight } from "react-icons/go";
+import { IoMdArrowDropright } from "react-icons/io";
 import StatusCard from "@/app/components/StatusCard";
 import ApplicationsSummary from "@/app/components/ApplicationsSummary";
 import CompanyChart from "@/app/components/CompanyChart";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import Link from "next/link";
-import { GoArrowRight } from "react-icons/go";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
 import { useEffect, useMemo, useState } from "react";
 import { fetchCompany } from "@/app/context/slices/companySlice";
-import { IDashboardData } from "@/app/Types";
-import DateRangePicker from "@/app/components/DateRangePicker";
-import { monthNames } from "@/app/constants";
+import { DateRange, IDashboardData } from "@/app/Types";
 import { jobsTypes } from "@/app/constants/index";
+import DashboardWelcome from "@/app/components/DashboardWelcome";
+import SearchNotFound from "@/app/components/SearchNotFound";
 
 const defaultDashboardData: IDashboardData = {
   totalApplications: 0,
@@ -34,17 +35,21 @@ const DashboardPage = () => {
   const company = useSelector((state: RootState) => state.companyState.company);
   const [dashboardData, setDashboardData] =
     useState<IDashboardData>(defaultDashboardData);
-  const [startDate, setStartDate] = useState<Date | null>();
-  const [endDate, setEndDate] = useState<Date | null>();
+  const [dateRange, setDateRange] = useState<DateRange>({
+    firstDate: null,
+    secondDate: null,
+  });
 
   useEffect(() => {
     dispatch(fetchCompany());
   }, [dispatch]);
 
+  const { firstDate, secondDate } = dateRange;
+
   useEffect(() => {
     let queryParams = "";
-    if (startDate && endDate) {
-      queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
+    if (firstDate && secondDate) {
+      queryParams += `?startDate=${firstDate.toISOString()}&endDate=${secondDate.toISOString()}`;
     }
     const fetchDashboard = async () => {
       const res = await fetch(`/api/company/dashboard${queryParams}`);
@@ -65,7 +70,7 @@ const DashboardPage = () => {
     };
 
     fetchDashboard();
-  }, [startDate, endDate]);
+  }, [firstDate, secondDate]);
 
   const jobUpdatesCards = useMemo(
     () =>
@@ -87,49 +92,39 @@ const DashboardPage = () => {
     [dashboardData?.companyJobs, company?.name, company?.userId]
   );
 
-  const getDate = (date: Date | undefined | null) => {
-    if (!date) {
-      return;
-    }
-    const createDate = date;
+  const data = [
+    {
+      title: "Total Applications",
+      total: dashboardData.totalApplications,
+      icon: FaUserCheck,
+      styleCard: "bg-gray-50 rounded-lg shadow-sm",
+    },
+    {
+      title: "Job View",
+      total: dashboardData.jobView,
+      icon: FaEye,
+      styleCard: "bg-gray-50 rounded-lg shadow-sm",
+    },
+  ];
 
-    const month = monthNames[createDate.getMonth()];
-    return `${month} ${createDate.getDate()}`;
-  };
-
-  const isSameDate =
-    endDate?.getDate() === startDate?.getDate() &&
-    endDate?.getMonth() === startDate?.getMonth() &&
-    endDate?.getFullYear() === startDate?.getFullYear();
+  const extradata = [
+    {
+      title: "Jobs Open",
+      total: dashboardData.jobOpen,
+      icon: IoMdArrowDropright,
+      styleCard: "bg-gray-50 rounded-lg shadow-sm",
+    },
+  ];
 
   return (
     <div className="space-y-8 pb-8">
       <CompanyHeaderPaymentButton />
       <div className={styles.borderBottomLight} />
-
-      <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
-        <div>
-          <h3 className={`${styles.JobDescriptionTitle}`}>
-            Hello, {company?.name}
-          </h3>
-          {!isSameDate ? (
-            <p className={`${styles.JobDescriptionText}`}>
-              Track how your job postings are performing{" "}
-              {startDate && endDate && (
-                <>
-                  from {getDate(startDate)} - {getDate(endDate)}
-                </>
-              )}
-            </p>
-          ) : (
-            <p className={`${styles.JobDescriptionText}`}>
-              Track how your job postings are performing{" "}
-              {startDate && <>in {getDate(startDate)}</>}
-            </p>
-          )}
-        </div>
-        <DateRangePicker setStartDate={setStartDate} setEndDate={setEndDate} />
-      </div>
+      <DashboardWelcome
+        greeting={`Hello, ${company?.name}`}
+        message="Track how your job postings are performing"
+        updateDate={setDateRange}
+      />
 
       <section className="space-y-6 border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
         <h2 className="text-xl font-semibold text-gray-900 font-shafarik">
@@ -137,34 +132,32 @@ const DashboardPage = () => {
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr] gap-6">
-          <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-            <CompanyChart
-              totalApplications={dashboardData.totalApplications}
-              totalJobView={dashboardData.jobView}
-            />
+          <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 shadow-sm">
+            {dashboardData.totalApplications === 0 &&
+            dashboardData.jobView === 0 ? (
+              <SearchNotFound text="No views or applications have been recorded on these dates." />
+            ) : (
+              <CompanyChart
+                totalApplications={dashboardData.totalApplications}
+                totalJobView={dashboardData.jobView}
+              />
+            )}
           </div>
 
-          <div className="space-y-4">
-            <StatusCard
-              title="Total Applications"
-              value={dashboardData.totalApplications}
-              icon={<FaUserCheck />}
-            />
-            <StatusCard
-              title="Job View"
-              value={dashboardData.jobView}
-              icon={<FaEye />}
-            />
-          </div>
+          <CardsContainer
+            cardId="dashboardCard"
+            params={data}
+            styles="flex lg:flex-col xs:flex-row flex-col gap-5 justify-center items-center"
+          />
 
           <div className="flex flex-col gap-4">
-            <StatusCard
-              title="Job Open"
-              value={dashboardData.jobOpen}
-              icon={<SlArrowRight />}
+            <CardsContainer
+              cardId="dashboardCard"
+              params={extradata}
+              styles="flex md:flex-col gap-5 justify-center items-center"
             />
 
-            <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+            <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 shadow-sm font-shafarik">
               <ApplicationsSummary
                 applications={dashboardData.applicationsSummary}
                 totalApplications={dashboardData.totalApplications}

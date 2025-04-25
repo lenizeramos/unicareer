@@ -53,7 +53,7 @@ const JobResumeCards = ({
   return (
     <>
       <div
-        className={`${styles.categoryCard} flex md:flex-row flex-col justify-between md:items-center md:gap-10 gap-5`}
+        className={`${styles.categoryCard} bg-white flex md:flex-row flex-col justify-between md:items-center md:gap-10 gap-5`}
       >
         <div className="flex md:flex-row flex-col gap-5 items-center">
           <div>
