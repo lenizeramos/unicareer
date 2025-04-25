@@ -36,7 +36,7 @@ const JobDetailsPage = () => {
         try {
           setLoading(true);
           const response = await fetch(
-            `http://localhost:3000/api/job/${jobId}`
+            `/api/job/${jobId}`
           );
           if (!response.ok) throw new Error("Failed to fetch application data");
           const job = await response.json();

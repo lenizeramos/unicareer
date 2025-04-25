@@ -19,18 +19,20 @@ const styles = {
   heroSubText: "font-monomakh",
   subtitleHeroSize:
     "lg:text-[30px] sm:text-[26px] xs:text-[20px] text-[16px] lg:leading-[40px]",
-  sectionHeadText: "font-monomakh text-3xl",
+  sectionHeadText: "font-monomakh sm:text-3xl text-2xl",
   titleSectionSize: "md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]",
   sectionSubText: "font-shafarik",
   subTitleSectionSize: "sm:text-[20px] text-[14px] ",
   iconsCards: "text-3xl",
   subIconsCards: "text-xl",
-  categoryCard: "bg-white sm:p-5 p-3 text-primary border border-gray-200 group",
+  categoryCard: "sm:p-5 p-3 text-primary border border-gray-200 group",
   borderBottomLight: "w-full border-b border-[var(--color-borders)]",
   JobDescriptionTitle:
     "font-semibold mb-4 font-monomakh md:text-3xl text-[20px]",
   JobDescriptionText: "font-shafarik md:text-[20px] text-[16px] text-gray-600",
   lists: "flex gap-2 mb-1 items-center",
+  titlePages:
+    "md:text-4xl xs:text-3xl text-2xl companyName-gradient font-monomakh",
 };
 
 export { styles };

@@ -24,7 +24,7 @@ const RecentCard = ({
   return (
     <>
       <div
-        className={`flex sm:flex-row flex-col gap-5 sm:items-center sm:justify-evenly ${styles.categoryCard} px-10`}
+        className={`flex sm:flex-row flex-col gap-5 sm:items-center sm:justify-evenly ${styles.categoryCard} px-10 bg-white`}
       >
         <div>
           <FileDisplay
@@ -33,7 +33,7 @@ const RecentCard = ({
             width={90}
             height={90}
             className="profile-image-style overflow-hidden"
-            fallbackImage={"img/img.png"}
+            fallbackImage={"/img/img.png"}
           />
         </div>
         <div className="flex flex-col gap-3">

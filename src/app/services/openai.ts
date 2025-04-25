@@ -19,12 +19,15 @@ export async function analyzeResume(text: string): Promise<ResumeData> {
   Format the response as a JSON object with these fields: 
   firstName, lastName, skills, bio, website, education, workExperience, languages.
   
-  For dates, use ISO format (YYYY-MM-DD).
+  For dates, use ISO-8601 DateTime. For example, 2020-07-10 15:00:00.000
+  For language name, use only spoken laguage like English, Spanish, Portuguese, etc. 
   For language levels, use only: BEGINNER, INTERMEDIATE, ADVANCED, or NATIVE.
+
+  Missing fields that are not date should be replaced to empty string ""
+  Missing date fields should be replaced to null
   
   Resume text:
   ${text}`;
-
   const completion = await openai.chat.completions.create({
     messages: [
       {
@@ -39,7 +42,20 @@ export async function analyzeResume(text: string): Promise<ResumeData> {
     model: "gpt-3.5-turbo",
     response_format: { type: "json_object" }
   });
-
   const content = completion.choices[0].message.content || '{}';
-  return JSON.parse(content) as ResumeData;
+
+  const parsed = JSON.parse(content, (key, value) => {
+    if (isIsoDateString(value)) {
+      return new Date(value);
+    }
+    return value;
+  });
+
+  return parsed as ResumeData;
 }
+
+
+function isIsoDateString(value: string): boolean {
+  return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(value);
+}
+

@@ -19,7 +19,7 @@ export default function DashboardNavbar({
         ) : (
           <div></div>
         )}
-        <h1 className={`${styles.dashboardTitle}`}>{title}</h1>
+        <h1 className={`${styles.titlePages}`}>{title}</h1>
       </div>
       {button ? (
         <ButtonComp text={button.text} IsWhite={button.IsWhite} />

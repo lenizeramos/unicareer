@@ -13,6 +13,7 @@ import { IApplicationsState, IUserState } from "../Types/slices";
 import { AppDispatch, RootState } from "../context/store";
 import { fetchApplications } from "../context/slices/applicationsSlices";
 import { fetchUsers } from "../context/slices/usersSlices";
+import Loader from "../components/Loader";
 
 export default function Home() {
   const dispatch: AppDispatch = useDispatch();
@@ -67,7 +68,7 @@ export default function Home() {
   return (
     <>
       <div className="bg-landingDark p-5 flex flex-col gap-5">
-        <Logo fontSize="text-4xl" logoSize={50} isLanding={false}/>
+        <Logo fontSize="text-4xl" logoSize={50} isLanding={false} />
         <ButtonComp text="My button" IsWhite={true} />
         <h1 className={`${styles.heroHeadText} ${styles.titleHeroSize}`}>
           Hey <span className={`${styles.heroHeadSpan}`}>There</span>
@@ -165,6 +166,7 @@ export default function Home() {
             </div>
           </div>
         )}
+        <Loader redirecting={true} />
       </div>
     </>
   );

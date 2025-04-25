@@ -10,7 +10,7 @@ const initialState: ICompanyState = {
 
 export const fetchCompany = createAsyncThunk("company/fetch", async () => {
   try {
-    const response = await fetch("/api/user/company");
+    const response = await fetch("/api/company/get-company-by-clerk-id");
     if (!response.ok) throw new Error("Failed to fetch company");
 
     const {user, ...company} = await response.json();

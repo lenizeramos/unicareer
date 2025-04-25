@@ -24,6 +24,7 @@ export async function getCompanyByClerkId(clerkId: string) {
     throw new Error("Failed to retrieve company information.");
   }
 }
+
 export async function getCompanyDashboardData(
   companyId: string,
   startDate?: Date,

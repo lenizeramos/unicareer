@@ -8,25 +8,34 @@ const BasicCards = ({
   text,
   total,
   cardId,
+  styleCard,
 }: ICards) => {
   return (
     <>
       {cardId === "dashboardCard" ? (
         <div
-          className={` ${styles.sectionSubText} ${styles.categoryCard} w-fit min-h-[160px] min-w-[200px] overflow-hidden relative`}
+          className={`${styles.sectionSubText} ${styles.categoryCard} ${styleCard} w-fit min-h-[160px] min-w-[200px] overflow-hidden relative`}
         >
           <h2 className="text-black font-semibold text-xl">{title}</h2>
-          <p className="text-black text-[5rem] font-bigShoulderStencil w-fit ml-7">{total}</p>
-            {Icon && (
-              <Icon size={80} className={`absolute left-25 top-18 z-10 text-gray-400`} />
-            )}
-            {Subicons && (
-              <Subicons size={90} className={`absolute left-30 top-30 text-gray-400`} />
-            )}
+          <p className="text-black text-[5rem] font-bigShoulderStencil w-fit ml-7">
+            {total}
+          </p>
+          {Icon && (
+            <Icon
+              size={80}
+              className={`absolute left-25 top-18 z-10 text-gray-400`}
+            />
+          )}
+          {Subicons && (
+            <Subicons
+              size={90}
+              className={`absolute left-30 top-30 text-gray-400`}
+            />
+          )}
         </div>
       ) : (
         <div
-          className={` ${styles.sectionSubText} ${styles.categoryCard} cursor-pointer  hover:bg-primary`}
+          className={` ${styles.sectionSubText} ${styles.categoryCard} bg-white cursor-pointer  hover:bg-primary`}
         >
           <div>
             {Icon && (
@@ -40,7 +49,10 @@ const BasicCards = ({
               {title}
             </h3>
             <div className="flex items-center gap-5 text-gray-400">
-              <p className={`group-hover:text-white`}>{text} jobs available</p>
+              <p className={`group-hover:text-white`}>
+                <span className="font-bigShoulderStencil">{text}</span>{" "}
+                {text !== 1 ? "jobs available" : "job available"}
+              </p>
               {Subicons && (
                 <Subicons
                   className={`${styles.subIconsCards} group-hover:text-white`}

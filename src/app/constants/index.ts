@@ -1,11 +1,11 @@
-import { GiPencilRuler } from "react-icons/gi";
+import { GiPencilRuler, GiMoneyStack } from "react-icons/gi";
 import { TbChartInfographic } from "react-icons/tb";
-import { HiOutlineSpeakerphone } from "react-icons/hi";
-import { GiMoneyStack } from "react-icons/gi";
-import { HiOutlineDesktopComputer } from "react-icons/hi";
-import { IoCodeSlash } from "react-icons/io5";
+import {
+  HiOutlineSpeakerphone,
+  HiOutlineDesktopComputer,
+} from "react-icons/hi";
+import { IoCodeSlash, IoPeopleOutline } from "react-icons/io5";
 import { LuBriefcaseBusiness } from "react-icons/lu";
-import { IoPeopleOutline } from "react-icons/io5";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FaCode } from "react-icons/fa";
 
@@ -101,7 +101,7 @@ const jobsCategories = [
     icon: FaCode,
     title: "Development",
     subicons: FaArrowRightLong,
-    bgColor: "bg-[#dacead]",
+    bgColor: "bg-[#ece0be]",
     textColor: "text-[#524d41]",
     border: "border border-[#524d41]",
   },
@@ -218,7 +218,14 @@ const perksData = [
   },
 ];
 
-const columnNames = ["#", "Company Name", "Job Position", "Date Applied", "Status"];
+const columnNames = [
+  "#",
+  "Company Name",
+  "Job Position",
+  "Date Applied",
+  "Status",
+];
+
 const monthNames = [
   "January",
   "February",

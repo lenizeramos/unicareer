@@ -25,21 +25,13 @@ const portfolioItems = [
 
 const PortfolioSlider = () => {
   return (
-    <div className="px-4 py-8">
+    <div>
       <h2 className="text-2xl font-bold mb-4">Portfolios</h2>
       <Swiper
-        /* spaceBetween={30}
-                slidesPerView={3}
-                pagination={{ clickable: true }} */
         pagination={{ type: "fraction" }}
         navigation
         modules={[Pagination, Navigation]}
-        /*  breakpoints={{
-                    320: { slidesPerView: 1 },
-                    640: { slidesPerView: 2 },
-                    1024: { slidesPerView: 3 },
-                }} */
-        className="h-96 w-[20rem] md:w-[50rem] lg:w-[80rem] rounded-lg"
+        className="h-96 w-[18rem] md:w-[50rem] lg:w-[70rem] rounded-lg"
       >
         {portfolioItems.map((item, index) => (
           <SwiperSlide key={index}>

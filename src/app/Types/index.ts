@@ -1,6 +1,6 @@
 /* import { ResumeData } from "@/types/resume"; */
 import React from "react";
-import { IApplication, ICompany } from "./slices";
+import { IApplication, ICandidate, ICompany } from "./slices";
 
 export interface IButtton {
   text: string | React.ReactNode;
@@ -13,6 +13,7 @@ export interface IButtton {
 
 export interface ILogo {
   logoSize?: number;
+  logoSmallScreen?: number;
   fontSize?: string;
   isLanding: boolean;
 }
@@ -38,6 +39,7 @@ export interface ICardId extends Omit<ICards, "cardId"> {
 export interface ICards {
   icon?: React.ElementType;
   subicons?: React.ElementType;
+  styleCard?: string;
   cardId?: string;
   logo?: string;
   id?: string;
@@ -92,12 +94,14 @@ export interface IFilterJobs {
 
 export interface ISummaryTable {
   columnNames: string[];
+  isUserPhoto: boolean;
   data: {
-    companyName: { name: string; logo: string };
+    userData: { name: string; pic: string };
     jobTitle: string;
-    jobId: string;
-    dateApplied: string;
-    status: string;
+    jobId?: string;
+    userId?: string;
+    date: string;
+    tags: string;
   }[];
 }
 
@@ -129,6 +133,7 @@ export interface ICompanyHeader {
   name?: string;
   userId?: string;
   button?: IButtton;
+  isDashboard?: boolean;
 }
 
 export interface IJob {
@@ -311,11 +316,11 @@ export interface IStatusCardProps {
 }
 
 export interface ICandidateFormProps {
-  onSubmit: (data: CandidateFormData) => void;
-  initialData?: CandidateFormData;
+  onSubmit: (data: ICandidate) => unknown;
+  initialData?: ICandidate;
 }
 
-export interface CandidateFormData {
+/* export interface CandidateFormData {
   id?: string;
   firstName: string;
   lastName: string;
@@ -345,7 +350,7 @@ export interface CandidateFormData {
     name: string;
     level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
   }>;
-}
+} */
 
 export interface IDashboardData {
   totalApplications: number;
