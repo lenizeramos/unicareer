@@ -73,6 +73,11 @@ export interface IApplication {
   appliedAt: string;
   candidate?: ICandidate;
   job?: Ijobs;
+  compatibility?: {
+    score: number;
+    feedback: string;
+    recommendation: string;
+  };
 }
 
 export interface IApplicationsState {

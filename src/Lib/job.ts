@@ -147,8 +147,11 @@ export async function getJobViewsCount(
 
 export async function getJobById(jobId: string) {
   try {
-    const job = await prisma.job.findUnique({
-      where: { id: jobId, deleted: false },
+    const job = await prisma.job.findFirst({
+      where: { 
+        id: jobId,
+        deleted: false 
+      },
       include: {
         _count: {
           select: { applications: true },
