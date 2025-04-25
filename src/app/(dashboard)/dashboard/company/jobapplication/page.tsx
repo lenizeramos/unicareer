@@ -44,15 +44,6 @@ export default function ApplicationsPage() {
   };
 
   useEffect(() => {
-    let queryParams = "";
-    if (startDate && endDate) {
-      queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
-    }
-    if (searchTerm && searchTerm.length > 2) {
-      queryParams += queryParams
-        ? `&search=${encodeURIComponent(searchTerm)}`
-        : `?search=${encodeURIComponent(searchTerm)}`;
-    }
     const fetchCompanyApplications = async () => {
       try {
         let queryParams = "";

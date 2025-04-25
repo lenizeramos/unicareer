@@ -24,16 +24,18 @@ export default function CompanyChart({
 }: CompanyChartProps) {
   const [chartData, setChartData] = useState({});
   const [chartOptions, setChartOptions] = useState({});
-  const Data =
-    totalApplications && totalJobView
-      ? [totalApplications, totalJobView]
-      : [inReview, Interviewed, Unsuitable, Hired, Cancelled];
-  const labels =
-    totalApplications && totalJobView
-      ? ["Total Applications", "Job View"]
-      : ["In Review", "Interviewed", "Unsuitable", "Hired", "Job Unavailable"];
+
   useEffect(() => {
-    const documentStyle = getComputedStyle(document.documentElement);
+    const Data =
+      totalApplications && totalJobView
+        ? [totalApplications, totalJobView]
+        : [inReview, Interviewed, Unsuitable, Hired, Cancelled];
+    
+    const labels =
+      totalApplications && totalJobView
+        ? ["Total Applications", "Job View"]
+        : ["In Review", "Interviewed", "Unsuitable", "Hired", "Job Unavailable"];
+
     const data = {
       labels: labels,
       datasets: [
@@ -80,6 +82,7 @@ export default function CompanyChart({
     Interviewed,
     Unsuitable,
     Hired,
+    Cancelled
   ]);
 
   return (

@@ -38,7 +38,7 @@ export default function CandidatePage() {
 
     return freq;
   };
-  const { firstDate, secondDate } = dateRange;
+  const { secondDate } = dateRange;
 
   const filterDate = candidate.applications.filter(app =>
     secondDate ? new Date(app.appliedAt) < secondDate : true

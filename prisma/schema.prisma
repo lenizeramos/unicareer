@@ -55,7 +55,6 @@ model Candidate {
   compatibilityScores CompatibilityScore[]
   createdAt      DateTime            @default(now())
   updatedAt      DateTime            @updatedAt
-  //compatibilityScores CompatibilityScore[]
 
   @@map("candidate")
 }
