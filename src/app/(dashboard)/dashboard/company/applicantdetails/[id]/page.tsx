@@ -20,7 +20,6 @@ import { IApplication } from "@/app/Types/slices";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import ApplicationStatusButton from "@/app/components/ApplicationStatusButton";
-/* import RejectedButton from "@/app/components/RejectedButton"; */
 
 const InfoSection = ({ title, children, className = "" }: InfoSectionProps) => (
   <div className={`pb-4 border-b border-gray-400 ${className}`}>
@@ -61,7 +60,7 @@ const ApplicantDetailsPage = () => {
         try {
           setLoading(true);
           const response = await fetch(
-            `http://localhost:3000/api/application/${applicationId}`
+            `/api/application/${applicationId}`
           );
           if (!response.ok) throw new Error("Failed to fetch application data");
           const application = await response.json();
@@ -198,7 +197,7 @@ const ApplicantDetailsPage = () => {
           <InfoSection title="Personal Info">
             <div className="space-y-4">
               <InfoItem label="Full Name" value={fullName} />
-              <InfoItem
+              {/* <InfoItem
                 label="Language"
                 value={
                   candidate?.language?.length
@@ -209,7 +208,7 @@ const ApplicantDetailsPage = () => {
                       ))
                     : ""
                 }
-              />
+              /> */}
               {/* <InfoItem
                 label="Address"
                 value={
