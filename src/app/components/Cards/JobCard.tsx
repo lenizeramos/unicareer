@@ -15,11 +15,10 @@ const JobCard = ({
   cardId,
   location
 }: ICards) => {
-  console.log('categories=>>', categories)
   return (
     <>
       <div
-        className={`${styles.categoryCard} flex flex-col gap-5 max-w-2xs max-h-2xs border border-gray-400`}
+        className={`${styles.categoryCard} bg-white flex flex-col gap-5 max-w-2xs max-h-2xs border border-gray-400`}
       >
         <div className="flex items-center justify-between gap-5">
           <div className="">

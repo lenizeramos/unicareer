@@ -24,7 +24,7 @@ const RecentCard = ({
   return (
     <>
       <div
-        className={`flex sm:flex-row flex-col gap-5 sm:items-center sm:justify-evenly ${styles.categoryCard} px-10`}
+        className={`flex sm:flex-row flex-col gap-5 sm:items-center sm:justify-evenly ${styles.categoryCard} px-10 bg-white`}
       >
         <div>
           <FileDisplay

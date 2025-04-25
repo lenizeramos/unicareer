@@ -53,7 +53,11 @@ function AfterSignIn() {
     return <Loader />;
   }
 
-  return <div>Redirecting...</div>;
+  return (
+    <div className="w-full h-screen">
+      <Loader redirecting={true} />
+    </div>
+  );
 }
 
 export default AfterSignIn;

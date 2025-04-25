@@ -1,12 +1,13 @@
 "use client";
 import { ISummaryTable } from "../Types";
-import { monthNames, statusTags } from "../constants";
+import { monthNames, statusTags, stylesTags } from "../constants";
 import FileDisplay from "./FileDisplay";
 import { useRouter } from "next/navigation";
 import TagComp from "./TagComp";
+import ButtonComp from "./ButtonComp";
 
-const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
-  const statusNames = new Set(data.map((item) => item.status.toLowerCase()));
+const SummaryTable = ({ columnNames, data, isUserPhoto }: ISummaryTable) => {
+  const statusNames = new Set(data.map((item) => item.tags.toLowerCase()));
   const statusStyles = statusTags.filter((tag) => statusNames.has(tag.id));
   const router = useRouter();
 
@@ -19,8 +20,10 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
     const year = createDate.getFullYear();
     return `${createDate.getDate()} ${month} ${year}`;
   };
-  const handleOnClick = (id: string) => {
-    router.push(`/dashboard/candidate/jobs/description?id=${id}`);
+  const handleOnClick = (id: string | undefined) => {
+    if (id) {
+      router.push(`/dashboard/candidate/jobs/description?id=${id}`);
+    }
   };
   return (
     <>
@@ -36,7 +39,7 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
         </div>
         {data.map((item, index) => {
           const statusTag = statusStyles.find(
-            (tag) => tag.id === item.status.toLowerCase()
+            (tag) => tag.id === item.tags.toLowerCase()
           );
           return (
             <div
@@ -46,42 +49,63 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
               <p className="w-fit sm:block hidden">{index + 1}</p>
               <div className="flex gap-2 w-fit items-center relative">
                 <FileDisplay
-                  modelName="companyProfileImage"
-                  userId={item.companyName.logo || ""}
+                  modelName={
+                    isUserPhoto ? "userProfileImage" : "companyProfileImage"
+                  }
+                  userId={item.userData.pic || ""}
                   width={50}
                   height={50}
                   fallbackImage={"/img/img.png"}
                 />
-                <p className="sm:block hidden">{item.companyName.name}</p>
+                <p className="sm:block hidden">{item.userData.name}</p>
               </div>
               <p className="font-shafarik sm:block hidden">{item.jobTitle}</p>
               <p className="font-shafarik sm:block hidden">
-                {getDate(item.dateApplied)}
+                {getDate(item.date)}
               </p>
-              <button
-                className={
-                  `${statusTag?.styles} cursor-pointer sm:block hidden` || ""
-                }
-                onClick={() => handleOnClick(item.jobId)}
-              >
-                {statusTag?.type || item.status}
-              </button>
+              <div className="sm:block hidden">
+                {isUserPhoto ? (
+                  <ButtonComp IsWhite={false} text="See Details" />
+                ) : statusTag ? (
+                  <TagComp
+                    textColor={`${statusTag?.styles} cursor-pointer`}
+                    text={statusTag?.type || item.tags}
+                    onClick={() => handleOnClick(item.jobId)}
+                  />
+                ) : (
+                  <TagComp
+                    textColor={`${
+                      stylesTags[Math.floor(Math.random() * 10)]
+                    } cursor-pointer`}
+                    text={""}
+                    onClick={() => handleOnClick(item.jobId)}
+                  />
+                )}
+              </div>
               <div className="sm:hidden">
-                <p className="sm:hidden font-semibold">
-                  {item.companyName.name}
-                </p>
+                <p className="sm:hidden font-semibold">{item.userData.name}</p>
                 <p className="font-shafarik">{item.jobTitle}</p>
-                <div className="flex xs:flex-row flex-col gap-2">
+                <div className="flex xs:flex-row flex-col xs:gap-10 gap-2">
                   <p className="font-shafarik">
                     <span className="font-shafarik text-gray-400 text-[13px]">
-                      Date Applied&nbsp;
+                      {isUserPhoto ? "Date Joined" : "Date Applied"}&nbsp;
                     </span>
-                    {getDate(item.dateApplied)}
+                    {getDate(item.date)}
                   </p>
-                  {statusTag && (
+                  {isUserPhoto ? (
+                    <ButtonComp IsWhite={false} text="See Details" />
+                  ) : statusTag ? (
                     <TagComp
                       textColor={`${statusTag?.styles} cursor-pointer`}
-                      text={statusTag?.type || item.status}
+                      text={statusTag?.type || item.tags}
+                      onClick={() => handleOnClick(item.jobId)}
+                    />
+                  ) : (
+                    <TagComp
+                      textColor={`${
+                        stylesTags[Math.floor(Math.random() * 10)]
+                      } cursor-pointer`}
+                      text={""}
                       onClick={() => handleOnClick(item.jobId)}
                     />
                   )}
