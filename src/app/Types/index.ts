@@ -94,12 +94,12 @@ export interface IFilterJobs {
 
 export interface ISummaryTable {
   columnNames: string[];
-  isUserPhoto:boolean;
+  isUserPhoto: boolean;
   data: {
     userData: { name: string; pic: string };
     jobTitle: string;
     jobId?: string;
-    userId?:string
+    userId?: string;
     date: string;
     tags: string;
   }[];
@@ -133,6 +133,7 @@ export interface ICompanyHeader {
   name?: string;
   userId?: string;
   button?: IButtton;
+  isDashboard?: boolean;
 }
 
 export interface IJob {

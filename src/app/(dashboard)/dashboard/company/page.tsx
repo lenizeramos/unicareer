@@ -118,13 +118,14 @@ const DashboardPage = () => {
 
   return (
     <div className="space-y-8 pb-8">
-      <CompanyHeaderPaymentButton />
-      <div className={styles.borderBottomLight} />
-      <DashboardWelcome
-        greeting={`Hello, ${company?.name}`}
-        message="Track how your job postings are performing"
-        updateDate={setDateRange}
-      />
+      <div>
+        <CompanyHeaderPaymentButton />
+        <DashboardWelcome
+          greeting={`Hello, ${company?.name}`}
+          message="Track how your job postings are performing"
+          updateDate={setDateRange}
+        />
+      </div>
 
       <section className="space-y-6 border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
         <h2 className="text-xl font-semibold text-gray-900 font-shafarik">
@@ -169,10 +170,10 @@ const DashboardPage = () => {
 
       <section className="space-y-4 border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">Job Updates</h2>
+          <h2 className="text-xl font-semibold text-gray-900 font-shafarik">Job Updates</h2>
           <Link
             href="/dashboard/company/joblisting"
-            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors font-shafarik"
           >
             View All <GoArrowRight className="ml-1 text-lg" />
           </Link>

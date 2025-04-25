@@ -8,24 +8,23 @@ export default function CompanyHeader({
   name,
   userId,
   button,
+  isDashboard = true,
 }: ICompanyHeader) {
   return (
-    <div className="flex justify-between items-center p-2 lg:ps-8 pe-8">
-      <div className="flex items-center gap-2">
-        <FileDisplay
-          modelName="companyProfileImage"
-          userId={userId || ""}
-          width={90}
-          height={90}
-          className="profile-image-style overflow-hidden"
-          fallbackImage={image || ""}
-        />
-        <div className="flex flex-col">
-          <h2
-            className={`text-md ${styles.subTitleSectionSize} font-[600] text-landingDark`}
-          >
-            {name}
-          </h2>
+    <div className="flex justify-between items-center p-2 gap-2">
+      <div className="flex items-center xs:gap-2">
+        {isDashboard && (
+          <FileDisplay
+            modelName="companyProfileImage"
+            userId={userId || ""}
+            width={90}
+            height={90}
+            className="profile-image-style overflow-hidden"
+            fallbackImage={image || ""}
+          />
+        )}
+        <div className="flex flex-col text-center">
+          <h2 className={`${styles.titlePages}`}>{name}</h2>
         </div>
       </div>
       {button && (

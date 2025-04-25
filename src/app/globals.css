@@ -23,12 +23,12 @@ body {
 
 .btnAuth {
   box-shadow: 0px 10px 14px -7px #98a1ae;
-  text-shadow:0px 1px 0px #98a1ae;
+  text-shadow: 0px 1px 0px #98a1ae;
 }
 
 .btnAuth:active {
-	position:relative;
-	top:1px;
+  position: relative;
+  top: 1px;
 }
 
 .menu-item:hover {
@@ -101,7 +101,7 @@ body {
   animation: animloader 2s linear infinite;
 }
 .loader2::after {
-  content: '';  
+  content: "";
   box-sizing: border-box;
   width: 6px;
   height: 24px;
@@ -118,7 +118,7 @@ body {
   box-sizing: border-box;
 }
 .loader3::after {
-  content: '';  
+  content: "";
   width: 5px;
   height: 5px;
   background: currentColor;
@@ -181,9 +181,15 @@ body {
 }
 
 @keyframes starRotate {
-  0%{    transform: rotate(0deg)}
-  50%{    transform: rotate(360deg)}
-  100%{    transform: rotate(720deg)}
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
 }
 
 @font-face {
@@ -275,7 +281,22 @@ body {
   background-clip: text;
   color: transparent;
 }
-.btn:hover{
+.companyName-gradient {
+  background-image: linear-gradient(
+    to right,
+    #81358a,
+    #0f5a7b,
+    #79571c,
+    #87040c,
+    #013633,
+    #455810
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn:hover {
   background-image: linear-gradient(
     to right,
     #019ee2,
@@ -289,7 +310,6 @@ body {
   background-clip: text;
   color: transparent;
 }
-
 
 .border-live {
   border-color: var(--color-liveColor);

@@ -8,6 +8,7 @@ import { registerCompany } from "@/Lib/client/usersService";
 import { ICompany } from "@/app/Types/slices";
 import Loader from "@/app/components/Loader";
 import { useRouter } from "next/navigation";
+import CompanyHeader from "@/app/components/CompanyHeader";
 
 const EditCompanyProfile = () => {
   const router = useRouter();
@@ -43,8 +44,12 @@ const EditCompanyProfile = () => {
 
   return (
     <>
-      <div>Ola</div>
-      {<CompanyForm onSubmit={handleCompanyFormSubmit} initialData={company} />}
+      <CompanyHeader
+        image="/img/img.png"
+        name="Edit Profile"
+        isDashboard={false}
+      />
+      <CompanyForm onSubmit={handleCompanyFormSubmit} initialData={company} />
     </>
   );
 };

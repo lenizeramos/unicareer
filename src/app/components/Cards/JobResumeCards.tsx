@@ -20,6 +20,7 @@ const JobResumeCards = ({
   type,
   cardId,
   location,
+  styleCard,
 }: ICards) => {
   const dispatch: AppDispatch = useDispatch();
   const { users } = useSelector(
@@ -46,7 +47,6 @@ const JobResumeCards = ({
       router.push(`/dashboard/candidate/jobs/description?id=${id}`);
     } catch (error) {
       console.error("Error recording view:", error);
-      router.push(`/dashboard/candidate/jobs/description?id=${id}`);
     }
   };
 
@@ -55,7 +55,9 @@ const JobResumeCards = ({
       <div
         className={`${styles.categoryCard} bg-white flex md:flex-row flex-col justify-between md:items-center md:gap-10 gap-5`}
       >
-        <div className="flex md:flex-row flex-col gap-5 items-center">
+        <div
+          className={`flex md:flex-row flex-col gap-5 items-center ${styleCard}`}
+        >
           <div>
             <FileDisplay
               modelName="companyProfileImage"
@@ -126,7 +128,7 @@ const JobResumeCards = ({
             </div>
           </div>
         </div>
-        {cardId === "allJobs" ? (
+        {cardId === "allJobs" && (
           <div className="flex flex-col gap-2">
             <ButtonComp
               text="See Details"
@@ -135,8 +137,6 @@ const JobResumeCards = ({
               onClick={handleSeeDetails}
             />
           </div>
-        ) : (
-          <div />
         )}
       </div>
     </>
