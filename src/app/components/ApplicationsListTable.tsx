@@ -7,6 +7,12 @@ import Badge from "./Badge";
 import { ApplicationsListTableProps } from "../Types";
 import { IApplication } from "../Types/slices";
 
+interface Compatibility {
+  score: number;
+  feedback: string;
+  recommendation: string;
+}
+
 const ApplicationsListTable = ({
   applications,
   columns,
@@ -33,7 +39,7 @@ const ApplicationsListTable = ({
     return colors[status];
   };
 
-  const renderCompatibilityScore = (compatibility: any) => {
+  const renderCompatibilityScore = (compatibility: Compatibility | null) => {
     if (!compatibility) return "Pending Analysis";
     
     const scoreColor = 
@@ -110,7 +116,7 @@ const ApplicationsListTable = ({
               />
             </div>
             <div className="text-center py-2 md:py-0">
-              {renderCompatibilityScore(application.compatibility)}
+              {renderCompatibilityScore(application.compatibility || null)}
             </div>
             <div className="flex justify-center items-center py-2 md:py-0">
               <ButtonComp

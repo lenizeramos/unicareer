@@ -1,10 +1,7 @@
 "use client";
-import { styles } from "@/app/styles";
-import { SlArrowRight } from "react-icons/sl";
 import { FaUserCheck, FaEye } from "react-icons/fa";
 import { GoArrowRight } from "react-icons/go";
 import { IoMdArrowDropright } from "react-icons/io";
-import StatusCard from "@/app/components/StatusCard";
 import ApplicationsSummary from "@/app/components/ApplicationsSummary";
 import CompanyChart from "@/app/components/CompanyChart";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
