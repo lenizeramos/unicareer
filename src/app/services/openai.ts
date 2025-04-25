@@ -19,7 +19,7 @@ export async function analyzeResume(text: string): Promise<ResumeData> {
   Format the response as a JSON object with these fields: 
   firstName, lastName, skills, bio, website, education, workExperience, languages.
   
-  For dates, use ISO-8601 DateTime. For example, 2020-07-10 15:00:00.000
+  For dates, use ISO format (YYYY-MM-DD)
   For language name, use only spoken laguage like English, Spanish, Portuguese, etc. 
   For language levels, use only: BEGINNER, INTERMEDIATE, ADVANCED, or NATIVE.
 
@@ -45,7 +45,7 @@ export async function analyzeResume(text: string): Promise<ResumeData> {
   const content = completion.choices[0].message.content || '{}';
 
   const parsed = JSON.parse(content, (key, value) => {
-    if (isIsoDateString(value)) {
+    if (isDateString(value)) {
       return new Date(value);
     }
     return value;
@@ -54,8 +54,9 @@ export async function analyzeResume(text: string): Promise<ResumeData> {
   return parsed as ResumeData;
 }
 
-
-function isIsoDateString(value: string): boolean {
-  return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(value);
+function isDateString(value: string): boolean {
+  if (typeof value !== 'string') return false;
+  const parsed = Date.parse(value);
+  return !isNaN(parsed);
 }
 
