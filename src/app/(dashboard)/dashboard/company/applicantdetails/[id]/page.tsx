@@ -4,7 +4,6 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 import {
-  FaUser,
   FaEnvelope,
   FaLinkedin,
   FaTwitter,
@@ -81,9 +80,6 @@ const ApplicantDetailsPage = () => {
 
   const candidate = application?.candidate;
   const user = candidate?.user;
-
-  console.log(candidate, "CANDIDAETTTTTTTTTTTTTTTTTTTT");
-  console.log(user, "userrrrrrrrrrrrrrrrrrrrrrrrrTT");
 
   const capitalize = (str: string | undefined) => {
     if (!str) return "";
