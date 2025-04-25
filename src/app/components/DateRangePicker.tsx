@@ -3,14 +3,13 @@ import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 import { FcCalendar } from "react-icons/fc";
 import "react-datepicker/dist/react-datepicker.css";
+import { IDateRangePicker } from "../Types";
 
 const DateRangePicker = ({
   setStartDate,
   setEndDate,
-}: {
-  setStartDate: (date: Date) => void;
-  setEndDate: (date: Date) => void;
-}) => {
+  updateDate,
+}: IDateRangePicker) => {
   const firstDate = new Date();
   const secondDate = new Date();
   secondDate.setDate(firstDate.getDate() - 5);
@@ -23,61 +22,73 @@ const DateRangePicker = ({
 
   const pickerRef = useRef<React.ComponentRef<typeof DatePicker>>(null);
 
-  const isSameDate =
-    endDate?.getDate() === startDate?.getDate() &&
-    endDate?.getMonth() === startDate?.getMonth() &&
-    endDate?.getFullYear() === startDate?.getFullYear();
+  const isSameDate = (a: Date | null, b: Date | null): boolean => {
+    if (!a || !b) return false;
+    return (
+      a.getDate() === b.getDate() &&
+      a.getMonth() === b.getMonth() &&
+      a.getFullYear() === b.getFullYear()
+    );
+  };
 
   let displayText = "";
 
-  switch (true) {
-    case startDate && startDate < new Date() && isSameDate:
-      displayText = `${format(startDate, "MMM d")}`;
-      break;
+  const now = new Date();
 
-    case startDate && endDate && startDate < new Date() && endDate > new Date():
-      displayText = `${format(startDate, "MMM d")} – ${format(
-        new Date(),
-        "MMM d"
-      )}`;
-      break;
+  if (!startDate || !endDate) {
+    displayText = "Select a date range";
+  } else {
+    const now = new Date();
+    const sameDate = isSameDate(startDate, endDate);
+    const startInPast = startDate < now;
+    const endInPast = endDate < now;
+    const startInFuture = startDate > now;
+    const endInFuture = endDate > now;
 
-    case startDate && endDate && startDate > new Date() && endDate > new Date():
-      displayText = `${format(new Date(), "MMM d")}`;
-      break;
-
-    case startDate && endDate && startDate < new Date() && endDate < new Date():
+    if (startInPast && endInPast && !sameDate) {
       displayText = `${format(startDate, "MMM d")} – ${format(
         endDate,
         "MMM d"
       )}`;
-      break;
-
-    default:
+    } else if (startInPast && endInFuture) {
+      displayText = `${format(startDate, "MMM d")} – ${format(now, "MMM d")}`;
+    } else if (startInFuture && endInFuture) {
+      displayText = `${format(now, "MMM d")}`;
+    } else if (sameDate && startInPast) {
+      displayText = `${format(startDate, "MMM d")}`;
+    } else if (sameDate && startInFuture) {
+      displayText = `${format(now, "MMM d")}`;
+    } else {
       displayText = "Select a date range";
-      break;
+    }
   }
 
   const handleOnChange = (update: [Date | null, Date | null]) => {
-    setDateRange(update);
     const [start, end] = update;
-    switch (true) {
-      case start && end && end < new Date() && start < new Date():
-        setStartDate(start);
-        setEndDate(end);
-        break;
-      case start && end && end > new Date() && start < new Date():
-        setStartDate(start);
-        setEndDate(new Date());
-        break;
-      case start && end && start > new Date() && end > new Date():
-        setStartDate(new Date());
-        setEndDate(new Date());
-        break;
-      default:
-        break;
+    const now = new Date();
+    setDateRange(update);
+
+    if (!start || !end) return;
+
+    let firstDate = start;
+    let secondDate = end;
+
+    if (start < now && end < now) {
+    } else if (start < now && end > now) {
+      secondDate = now;
+    } else if (start > now && end > now) {
+      firstDate = now;
+      secondDate = now;
+    }
+
+    setStartDate(firstDate);
+    setEndDate(secondDate);
+
+    if (updateDate) {
+      updateDate({ firstDate, secondDate });
     }
   };
+
   return (
     <div className={`flex items-center justify-center gap-[5px]`}>
       <DatePicker

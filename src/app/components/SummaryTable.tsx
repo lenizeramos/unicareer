@@ -1,10 +1,14 @@
+"use client";
 import { ISummaryTable } from "../Types";
 import { monthNames, statusTags } from "../constants";
 import FileDisplay from "./FileDisplay";
+import { useRouter } from "next/navigation";
+import TagComp from "./TagComp";
 
 const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
   const statusNames = new Set(data.map((item) => item.status.toLowerCase()));
   const statusStyles = statusTags.filter((tag) => statusNames.has(tag.id));
+  const router = useRouter();
 
   const getDate = (date: string) => {
     if (!date) {
@@ -14,6 +18,9 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
     const month = monthNames[createDate.getMonth()];
     const year = createDate.getFullYear();
     return `${createDate.getDate()} ${month} ${year}`;
+  };
+  const handleOnClick = (id: string) => {
+    router.push(`/dashboard/candidate/jobs/description?id=${id}`);
   };
   return (
     <>
@@ -45,17 +52,20 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
                   height={50}
                   fallbackImage={"/img/img.png"}
                 />
-                <p className="sm:block hidden">
-                  {item.companyName.name}
-                </p>
+                <p className="sm:block hidden">{item.companyName.name}</p>
               </div>
               <p className="font-shafarik sm:block hidden">{item.jobTitle}</p>
               <p className="font-shafarik sm:block hidden">
                 {getDate(item.dateApplied)}
               </p>
-              <p className={`${statusTag?.styles || ""} sm:block hidden`}>
+              <button
+                className={
+                  `${statusTag?.styles} cursor-pointer sm:block hidden` || ""
+                }
+                onClick={() => handleOnClick(item.jobId)}
+              >
                 {statusTag?.type || item.status}
-              </p>
+              </button>
               <div className="sm:hidden">
                 <p className="sm:hidden font-semibold">
                   {item.companyName.name}
@@ -68,10 +78,13 @@ const SummaryTable = ({ columnNames, data }: ISummaryTable) => {
                     </span>
                     {getDate(item.dateApplied)}
                   </p>
-
-                  <p className={statusTag?.styles || ""}>
-                    {statusTag?.type || item.status}
-                  </p>
+                  {statusTag && (
+                    <TagComp
+                      textColor={`${statusTag?.styles} cursor-pointer`}
+                      text={statusTag?.type || item.status}
+                      onClick={() => handleOnClick(item.jobId)}
+                    />
+                  )}
                 </div>
               </div>
             </div>

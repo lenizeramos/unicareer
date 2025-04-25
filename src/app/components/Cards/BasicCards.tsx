@@ -13,18 +13,16 @@ const BasicCards = ({
     <>
       {cardId === "dashboardCard" ? (
         <div
-          className={` ${styles.sectionSubText} ${styles.categoryCard} w-fit min-h-[160px] min-w-[230px] overflow-hidden`}
+          className={` ${styles.sectionSubText} ${styles.categoryCard} w-fit min-h-[160px] min-w-[200px] overflow-hidden relative`}
         >
           <h2 className="text-black font-semibold text-xl">{title}</h2>
-          <p className="text-black text-[3rem]">{total}</p>
-          <div className="text-3xl text-gray-400 relative w-full h-8">
+          <p className="text-black text-[5rem] font-bigShoulderStencil w-fit ml-7">{total}</p>
             {Icon && (
-              <Icon size={56} className={`absolute left-13 top-0 z-10`} />
+              <Icon size={80} className={`absolute left-25 top-18 z-10 text-gray-400`} />
             )}
             {Subicons && (
-              <Subicons size={56} className={`absolute left-20 top-2 `} />
+              <Subicons size={90} className={`absolute left-30 top-30 text-gray-400`} />
             )}
-          </div>
         </div>
       ) : (
         <div

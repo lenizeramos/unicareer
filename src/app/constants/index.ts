@@ -168,6 +168,16 @@ const statusTags = [
     type: "Unsuitable",
     styles: `text-[#ff3c2c] border  border-[#ff3c2c] rounded-full w-fit px-2 py-1 font-monomakh sm:text-[14px] text-[10px]`,
   },
+  {
+    id: "hired",
+    type: "Hired",
+    styles: `text-[#39a934] border  border-[#39a934] rounded-full w-fit px-2 py-1 font-monomakh sm:text-[14px] text-[10px]`,
+  },
+  {
+    id: "cancelled_job",
+    type: "Job_Unavailable",
+    styles: `text-gray-600 border  border-gray-600] rounded-full w-fit px-2 py-1 font-monomakh sm:text-[14px] text-[10px]`,
+  },
 ];
 
 const perksData = [

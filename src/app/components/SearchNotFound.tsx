@@ -1,4 +1,10 @@
-const SearchNotFound = ({ text }: { text: string }) => {
+const SearchNotFound = ({
+  text,
+  optionText = true,
+}: {
+  text: string;
+  optionText?: boolean;
+}) => {
   return (
     <>
       <div className="flex flex-col items-center justify-center py-12 text-center text-gray-500 font-shafarik">
@@ -17,9 +23,11 @@ const SearchNotFound = ({ text }: { text: string }) => {
           />
         </svg>
         <p className="text-2xl font-medium">{text}</p>
-        <p className="text-sm text-gray-400 mt-1">
-          Try adjusting your filters.
-        </p>
+        {optionText && (
+          <p className="text-sm text-gray-400 mt-1">
+            Try adjusting your filters.
+          </p>
+        )}
       </div>
     </>
   );

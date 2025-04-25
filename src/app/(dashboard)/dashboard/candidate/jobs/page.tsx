@@ -148,7 +148,9 @@ export default function FindJobs() {
               {filtersJobs.length > 0 ? (
                 <CardsContainer cardId="allJobs" params={filtersJobs} />
               ) : (
-                <SearchNotFound text="No matching jobs found." />
+                <SearchNotFound
+                  text="No matching jobs found."
+                />
               )}
             </div>
           </div>

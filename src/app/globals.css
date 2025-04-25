@@ -21,6 +21,16 @@ body {
   background-color: var(--background);
 }
 
+.btnAuth {
+  box-shadow: 0px 10px 14px -7px #98a1ae;
+  text-shadow:0px 1px 0px #98a1ae;
+}
+
+.btnAuth:active {
+	position:relative;
+	top:1px;
+}
+
 .menu-item:hover {
   background-color: var(--item-focus);
   color: var(--text-focus);
@@ -78,6 +88,77 @@ body {
   border-color: #4640de #4640de transparent transparent;
   animation: rotation 1.5s linear infinite;
 }
+
+.loader2 {
+  width: 48px;
+  height: 48px;
+  display: block;
+  margin: 20px auto;
+  position: relative;
+  border: 3px solid #FFF;
+  border-radius: 50%;
+  box-sizing: border-box;
+  animation: animloader 2s linear infinite;
+}
+.loader2::after {
+  content: '';  
+  box-sizing: border-box;
+  width: 6px;
+  height: 24px;
+  background: #FFF;
+  transform: rotate(-45deg);
+  position: absolute;
+  bottom: -20px;
+  left: 46px;
+}
+.loader3 {
+  color: #FFF;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+}
+.loader3::after {
+  content: '';  
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+  position: absolute;
+  bottom: 10px;
+  right: -5px;
+  box-sizing: border-box;
+  animation: animloader2 1s linear infinite;
+}
+
+@keyframes animloader2 {
+  0% {
+    box-shadow: 10px 0 rgba(255, 255, 255, 0), 20px 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow: 10px 0 white, 20px 0 rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 10px 0 white, 20px 0 white;
+  }
+}
+
+@keyframes animloader {
+  0% {
+    transform: translate(-10px, -10px);
+  }
+  25% {
+    transform: translate(-10px, 10px);
+  }
+  50% {
+    transform: translate(10px, 10px);
+  }
+  75% {
+    transform: translate(10px, -10px);
+  }
+  100% {
+    transform: translate(-10px, -10px);
+  }
+}
+    
 
 @keyframes rotation {
   0% {

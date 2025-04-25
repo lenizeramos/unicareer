@@ -13,6 +13,7 @@ export interface IButtton {
 
 export interface ILogo {
   logoSize?: number;
+  logoSmallScreen?: number;
   fontSize?: string;
   isLanding: boolean;
 }
@@ -74,9 +75,10 @@ export interface IProgressBarProps {
 
 export interface ITagComp {
   bgColor?: string;
-  textColor: string;
+  textColor?: string;
   text: string;
   borderColor?: string;
+  onClick?: () => void;
 }
 
 export interface IFilterJobs {
@@ -94,6 +96,7 @@ export interface ISummaryTable {
   data: {
     companyName: { name: string; logo: string };
     jobTitle: string;
+    jobId: string;
     dateApplied: string;
     status: string;
   }[];
@@ -108,7 +111,18 @@ export interface IDashboardNavbar {
 export interface IDashboardWelcome {
   greeting: string;
   message: string;
-  date: string;
+  updateDate?: (date: DateRange) => void;
+}
+
+export type DateRange = {
+  firstDate: Date | null;
+  secondDate: Date | null;
+};
+
+export interface IDateRangePicker {
+  setStartDate: (date: Date) => void;
+  setEndDate: (date: Date) => void;
+  updateDate?: (date: DateRange) => void;
 }
 
 export interface ICompanyHeader {

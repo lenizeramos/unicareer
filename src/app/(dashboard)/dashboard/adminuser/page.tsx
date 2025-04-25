@@ -16,8 +16,7 @@ export default function AdminDashboardPage() {
       <div className={styles.borderBottomLight}></div>
       <DashboardWelcome
         greeting="Good Morning, Sam"
-        message="Here is what's happening with your job applications from July 19 - July 25."
-        date="Jul 19 - Jul 25"
+        message="Here is what's happening with your job applications"
       />
       <div className="w-full flex justify-center items-center flex-col gap-5">
         <div className="flex flex-row gap-5">
