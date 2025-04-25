@@ -182,24 +182,3 @@ export async function setUserRole(clerkId: string, role: string) {
     }
   }
 
-export async function getCandidateProfile(clerkId: string) {
-  try {
-    const user = await prisma.user.findUnique({
-      where: { clerkId },
-      include: {
-        candidate: {
-          include: {
-            education: true,
-            workExperience: true,
-            languages: true,
-            documents: true
-          }
-        }
-      }
-    });
-    return user;
-  } catch (error) {
-    console.error("Error fetching candidate profile:", error);
-    return null;
-  }
-}

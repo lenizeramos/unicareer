@@ -1,3 +1,5 @@
+"use client"
+import { useEffect, useState } from "react";
 import DashboardNavbar from "@/app/components/DashboardNavbar";
 import DashboardWelcome from "@/app/components/DashboardWelcome";
 import { styles } from "@/app/styles";
@@ -7,6 +9,26 @@ import { LuMessageCircleQuestion } from "react-icons/lu";
 import { BiMessageRoundedDetail } from "react-icons/bi";
 
 export default function AdminDashboardPage() {
+  const [dashboardData, setDashboardData] = useState();
+
+  const { firstDate, secondDate } = dateRange;
+
+  useEffect(() => {
+    let queryParams = "";
+    if (firstDate && secondDate) {
+      queryParams += `?startDate=${firstDate.toISOString()}&endDate=${secondDate.toISOString()}`;
+    }
+    const fetchDashboard = async () => {
+      const res = await fetch(`/api/admin/dashboard${queryParams}`);
+      const data = await res.json();
+
+      setDashboardData(data);
+    };
+
+    fetchDashboard();
+  }, [firstDate, secondDate]);
+
+
   return (
     <>
       <DashboardNavbar
