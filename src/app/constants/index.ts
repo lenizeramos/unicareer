@@ -144,11 +144,37 @@ const salaryRange = [
   { min: 70, max: 80 },
   { min: 90, max: 100 },
 ];
+const salaryRangeString = [
+  "10 - 20",
+  "20 - 30",
+  "30 - 40",
+  "40 - 50",
+  "50 - 60",
+  "60 - 70",
+  "70 - 80",
+  "80 - 90",
+  "90 - 100",
+];
 const filtersValues: IFilterJobs[] = [
-  { array: jobsTypes, title: "Type of Employment", type: "jobType" },
-  { array: categoriesArray, title: "Categories", type: "category" },
-  { array: jobLevel, title: "Job Level", type: "jobLevel" },
-  { array: salaryRange, title: "Salary Range", type: "salary" },
+  {
+    value: jobsTypes,
+    array: jobsTypes,
+    title: "Type of Employment",
+    type: "jobType",
+  },
+  {
+    value: categoriesArray,
+    array: categoriesArray,
+    title: "Categories",
+    type: "category",
+  },
+  { value: jobLevel, array: jobLevel, title: "Job Level", type: "jobLevel" },
+  {
+    value: salaryRangeString,
+    array: salaryRange,
+    title: "Salary Range",
+    type: "salary",
+  },
 ];
 
 const statusTags = [

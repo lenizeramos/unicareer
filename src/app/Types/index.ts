@@ -85,11 +85,18 @@ export interface ITagComp {
 export interface IFilterJobs {
   array: string[] | { min: number; max: number }[];
   title: string;
+  value?: string[];
   type: "jobType" | "category" | "jobLevel" | "salary";
   onFilterChange?: (
     key: string,
     value: string | { min: number; max: number }
   ) => void;
+}
+
+export interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
 }
 
 export interface ISummaryTable {
@@ -307,50 +314,10 @@ export interface ITotalApplicationProps {
   totalApplications: number;
 }
 
-export interface IStatusCardProps {
-  title: string;
-  value?: number;
-  icon?: React.ReactNode;
-  color?: string;
-  backgroundColor?: string;
-}
-
 export interface ICandidateFormProps {
   onSubmit: (data: ICandidate) => unknown;
   initialData?: ICandidate;
 }
-
-/* export interface CandidateFormData {
-  id?: string;
-  firstName: string;
-  lastName: string;
-  photo?: File | null;
-  skills?: string[];
-  bio?: string;
-  education?: Array<{
-    institution: string;
-    degree: string;
-    fieldOfStudy: string;
-    country: string;
-    startDate: Date;
-    endDate?: Date | null;
-    current?: boolean;
-    description?: string;
-  }>;
-  workExperience?: Array<{
-    company: string;
-    position: string;
-    country: string;
-    startDate: Date;
-    endDate?: Date | null;
-    current?: boolean;
-    description?: string;
-  }>;
-  languages?: Array<{
-    name: string;
-    level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
-  }>;
-} */
 
 export interface IDashboardData {
   totalApplications: number;
