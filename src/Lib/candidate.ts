@@ -60,3 +60,31 @@ export async function getCandidateCount(startDate?: Date, endDate?: Date) {
     throw new Error("Failed to count candidate due to database issue.");
   }
 }
+
+export async function getAllCandidates(
+  startDate?: Date,
+  endDate?: Date,
+  searchTerm?: string
+) {
+  try {
+    return await prisma.candidate.findMany({
+      where: {
+        ...(startDate && { createdAt: { gte: startDate } }),
+        ...(endDate && { createdAt: { lte: endDate } }),
+        ...(searchTerm && {
+          OR: [
+            {
+              firstName: { contains: searchTerm, mode: "insensitive" },
+            },
+            {
+              lastName: { contains: searchTerm, mode: "insensitive" },
+            },
+          ],
+        }),
+      },
+    });
+  } catch (error) {
+    console.error("Error getting candidates:", error);
+    throw new Error("Failed to get candidates due to database issue.");
+  }
+}

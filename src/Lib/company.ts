@@ -72,3 +72,28 @@ export async function getCompanyCount(startDate?: Date, endDate?: Date) {
   }
 }
 
+export async function getAllCompanies(
+  startDate?: Date,
+  endDate?: Date,
+  searchTerm?: string
+) {
+  try {
+    return await prisma.company.findMany({
+      where: {
+        ...(startDate && { createdAt: { gte: startDate } }),
+        ...(endDate && { createdAt: { lte: endDate } }),
+        ...(searchTerm && {
+          OR: [
+            {
+              name: { contains: searchTerm, mode: "insensitive" },
+            },
+          ],
+        }),
+      },
+    });
+  } catch (error) {
+    console.error("Error getting candidates:", error);
+    throw new Error("Failed to get candidates due to database issue.");
+  }
+}
+
