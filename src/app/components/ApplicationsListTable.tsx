@@ -1,17 +1,64 @@
 "use client";
 
-import { FaUser, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaUser, FaArrowLeft, FaArrowRight, FaInfoCircle } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import ButtonComp from "./ButtonComp";
 import Badge from "./Badge";
 import { ApplicationsListTableProps } from "../Types";
 import { IApplication } from "../Types/slices";
+import { useState } from "react";
 
 interface Compatibility {
   score: number;
   feedback: string;
   recommendation: string;
 }
+
+interface CompatibilityModalProps {
+  compatibility: Compatibility;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const CompatibilityModal = ({ compatibility, isOpen, onClose }: CompatibilityModalProps) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-white p-8 rounded-xl max-w-md w-full mx-4 shadow-xl">
+        <div className="flex flex-col">
+          <h3 className="text-xl font-semibold mb-6 text-gray-800">Compatibility Analysis</h3>
+          
+          <div className="space-y-6 mb-8">
+            <div>
+              <p className="text-sm text-gray-500 mb-1">Compatibility Score</p>
+              <p className="text-2xl font-bold text-gray-800">{compatibility.score.toFixed(1)}%</p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500 mb-1">Feedback</p>
+              <p className="text-gray-700">{compatibility.feedback}</p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500 mb-1">Recommendation</p>
+              <p className="text-gray-700 font-medium">
+                {compatibility.recommendation.replace(/_/g, " ")}
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={onClose}
+            className="w-full bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-lg transition-colors duration-200"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ApplicationsListTable = ({
   applications,
@@ -39,6 +86,11 @@ const ApplicationsListTable = ({
     return colors[status];
   };
 
+  const [modalData, setModalData] = useState<{ isOpen: boolean; compatibility: Compatibility | null }>({
+    isOpen: false,
+    compatibility: null
+  });
+
   const renderCompatibilityScore = (compatibility: Compatibility | null) => {
     if (!compatibility) return "Pending Analysis";
     
@@ -54,14 +106,27 @@ const ApplicationsListTable = ({
       "text-gray-600";
 
     return (
-      <div className="flex flex-col">
-        <span className={`font-semibold ${scoreColor}`}>
-          {compatibility.score.toFixed(1)}%
-        </span>
-        <span className={`text-sm ${recommendationColor}`}>
-          {compatibility.recommendation.replace(/_/g, " ")}
-        </span>
-      </div>
+      <>
+        <div className="flex flex-col items-center">
+          <div className="flex items-center gap-2">
+            <span className={`font-semibold ${scoreColor}`}>
+              {compatibility.score.toFixed(1)}%
+            </span>
+            <FaInfoCircle 
+              className="text-gray-400 hover:text-gray-600 cursor-pointer" 
+              onClick={() => setModalData({ isOpen: true, compatibility })}
+            />
+          </div>
+          <span className={`text-sm ${recommendationColor}`}>
+            {compatibility.recommendation.replace(/_/g, " ")}
+          </span>
+        </div>
+        <CompatibilityModal
+          compatibility={modalData.compatibility!}
+          isOpen={modalData.isOpen}
+          onClose={() => setModalData({ isOpen: false, compatibility: null })}
+        />
+      </>
     );
   };
 
