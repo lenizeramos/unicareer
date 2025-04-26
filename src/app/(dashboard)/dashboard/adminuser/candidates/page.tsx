@@ -7,13 +7,11 @@ import { fetchUsers } from "@/app/context/slices/usersSlices";
 import DashboardNavbar from "@/app/components/DashboardNavbar";
 import Loader from "@/app/components/Loader";
 import ApplicationsList from "@/app/components/ApplicationsList";
-import { Application } from "@/app/Types";
 
 export default function CandidatesPage() {
   const dispatch: AppDispatch = useDispatch();
   const { users, loading, error } = useSelector((state: RootState) => state.users);
   const [isClient, setIsClient] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 

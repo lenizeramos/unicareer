@@ -13,7 +13,6 @@ export default function CompaniesPage() {
   const dispatch: AppDispatch = useDispatch();
   const { users, loading, error } = useSelector((state: RootState) => state.users);
   const [isClient, setIsClient] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
