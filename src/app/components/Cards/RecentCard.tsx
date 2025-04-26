@@ -33,7 +33,7 @@ const RecentCard = ({
             width={90}
             height={90}
             className="profile-image-style overflow-hidden"
-            fallbackImage={"img/img.png"}
+            fallbackImage={"/img/img.png"}
           />
         </div>
         <div className="flex flex-col gap-3">

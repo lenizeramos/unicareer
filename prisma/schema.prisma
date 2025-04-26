@@ -218,7 +218,7 @@ model Education {
   institution  String
   degree       String
   fieldOfStudy String?
-  country      String
+  country      String?
   startDate    DateTime
   endDate      DateTime?
   current      Boolean   @default(false)
@@ -235,7 +235,7 @@ model WorkExperience {
   candidate   Candidate @relation(fields: [candidateId], references: [id])
   company     String
   position    String
-  country     String
+  country     String?
   startDate   DateTime
   endDate     DateTime?
   current     Boolean   @default(false)

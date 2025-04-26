@@ -87,27 +87,27 @@ export interface IApplicationsState {
 }
 
 export interface ICandidate {
-  id: string;
-  userId: string;
+  id?: string;
+  userId?: string;
   firstName: string;
   lastName: string;
-  skills: string[];
+  skills?: string[];
   resume?: string;
   bio?: string;
-  website?: string;
-  applications: IApplication[];
+  /* website?: string; */
+  applications?: IApplication[];
   user?: IUsers;
   education?: IEducation[];
   workExperience?: IWorkExperience[];
-  language?: ILanguage[];
-  phone?: string;
-  instagram?: string;
+  languages?: ILanguage[];
+  /* phone?: string; */
+  /* instagram?: string;
   twitter?: string;
-  address?: string;
+  address?: string; */
 }
 
 export interface ICandidateState {
-  candidate: ICandidate;
+  candidate?: ICandidate;
   loading: boolean;
   error: string | null;
 }
@@ -137,41 +137,35 @@ export interface ICompanyState {
 }
 
 export interface IEducation {
-  id: string;
-  candidateId: string;
+  id?: string;
+  candidateId?: string;
   institution: string;
   degree: string;
   fieldOfStudy: string;
   country: string;
-  startDate: string;
-  endDate?: string;
-  current: boolean;
+  startDate?: Date;
+  endDate?: Date | null;
+  current?: boolean;
   description?: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface IWorkExperience {
-  id: string;
-  candidateId: string;
+  id?: string;
+  candidateId?: string;
   company: string;
   position: string;
   country: string;
-  startDate: string;
-  endDate?: string;
+  startDate?: Date;
+  endDate?: Date | null;
   current?: boolean;
   description?: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface ILanguage {
-  id: string;
-  candidateId: string;
+  id?: string;
+  candidateId?: string;
   name: string;
   level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "NATIVE";
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface IJobToEditState {

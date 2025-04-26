@@ -43,7 +43,6 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
     initialData?.benefits || []
   );
 
-  console.log("initialData", initialData);
 
   useEffect(() => {
     if (initialData) {
@@ -76,12 +75,12 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
 
         const data = await response.json();
         if (!response.ok) {
-          console.log("Failed to fetch user ID:", data.error);
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         setUserId(data.id);
       } catch (error) {
         if (userId === "") {
-          console.log("Failed to fetch user ID:", error);
+          console.error("Failed to fetch user ID:", error);
         }
       }
     };

@@ -28,7 +28,7 @@ const JobCard = ({
               width={90}
               height={90}
               className="profile-image-style overflow-hidden"
-              fallbackImage={"img/img.png"}
+              fallbackImage={"/img/img.png"}
             />
           </div>
           {cardId === "featuredJob" ? (

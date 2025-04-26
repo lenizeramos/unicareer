@@ -4,23 +4,20 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 import {
-  FaUser,
   FaEnvelope,
-  /* FaInstagram,
+  FaLinkedin,
   FaTwitter,
   FaGlobe,
-  FaPhone, */
 } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
 import { styles } from "@/app/styles";
 import { InfoSectionProps, InfoItemProps } from "@/app/Types";
 import ContactInfoItem from "@/app/components/ContactInfoItem";
 import { IApplication } from "@/app/Types/slices";
-
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import ApplicationStatusButton from "@/app/components/ApplicationStatusButton";
-/* import RejectedButton from "@/app/components/RejectedButton"; */
+import FileDisplay from "@/app/components/FileDisplay";
 
 const InfoSection = ({ title, children, className = "" }: InfoSectionProps) => (
   <div className={`pb-4 border-b border-gray-400 ${className}`}>
@@ -127,7 +124,14 @@ const ApplicantDetailsPage = () => {
         <div className="md:basis-1/3 flex flex-col gap-6 bg-white p-6 rounded-lg shadow-sm">
           <div className="flex items-center gap-4 border-b border-gray-400 pb-4">
             <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-              <FaUser className="text-gray-500" />
+              <FileDisplay
+                modelName="userProfileImage"
+                userId={candidate?.user?.id || ""}
+                width={90}
+                height={90}
+                className="profile-image-style overflow-hidden"
+                fallbackImage={candidate?.user?.photo || ""}
+              />
             </div>
             <h3 className="text-3xl font-bold text-gray-900">{fullName}</h3>
           </div>
@@ -170,26 +174,30 @@ const ApplicantDetailsPage = () => {
 
           <InfoSection title="Contact">
             <ul className="space-y-3 text-sm text-gray-700">
-              <ContactInfoItem
-                icon={<FaEnvelope />}
-                value={user?.email || ""}
-              />
-              {/* <ContactInfoItem
-                icon={<FaPhone />}
-                value={candidate?.phone || ""}
-              />
-              <ContactInfoItem
-                icon={<FaInstagram />}
-                value={candidate?.instagram || ""}
-              />
-              <ContactInfoItem
-                icon={<FaTwitter />}
-                value={candidate?.twitter || ""}
-              />
-              <ContactInfoItem
-                icon={<FaGlobe />}
-                value={candidate?.website || ""}
-              /> */}
+              {user?.email && (
+                <ContactInfoItem
+                  icon={<FaEnvelope />}
+                  value={user?.email || ""}
+                />
+              )}
+              {user?.linkedIn && (
+                <ContactInfoItem
+                  icon={<FaLinkedin />}
+                  value={user?.linkedIn || ""}
+                />
+              )}
+              {user?.twitter && (
+                <ContactInfoItem
+                  icon={<FaTwitter />}
+                  value={user?.twitter || ""}
+                />
+              )}
+              {user?.website && (
+                <ContactInfoItem
+                  icon={<FaGlobe />}
+                  value={user?.website || ""}
+                />
+              )}
             </ul>
           </InfoSection>
         </div>
@@ -198,28 +206,28 @@ const ApplicantDetailsPage = () => {
           <InfoSection title="Personal Info">
             <div className="space-y-4">
               <InfoItem label="Full Name" value={fullName} />
-              <InfoItem
-                label="Language"
-                value={
-                  candidate?.language?.length
-                    ? candidate.language.map((lang, index) => (
-                        <span key={index} className="mr-2">
-                          {lang.name || ""}
-                        </span>
-                      ))
-                    : ""
-                }
-              />
-              {/* <InfoItem
-                label="Address"
-                value={
-                  candidate?.address && (
-                    <span className="whitespace-pre-line">
-                      {candidate.address}
+
+              {candidate?.languages?.length && (
+                <InfoItem
+                  label="Language"
+                  value={candidate.languages.map((lang, index) => (
+                    <span key={index} className="mr-2">
+                      {capitalize(lang.name) + " - " + capitalize(lang.level) ||
+                        ""}
+                      <br />
                     </span>
-                  )
-                }
-              /> */}
+                  ))}
+                />
+              )}
+
+              {user?.city && (
+                <InfoItem
+                  label="City"
+                  value={
+                    <span className="whitespace-pre-line">{user.city}</span>
+                  }
+                />
+              )}
             </div>
           </InfoSection>
 
