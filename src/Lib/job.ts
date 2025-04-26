@@ -98,6 +98,49 @@ export async function getLastJobsByCompanyId(
   }
 }
 
+export async function getRecentJobs(
+  limit?: number,
+  startDate?: Date,
+  endDate?: Date
+) {
+  try {
+    const referenceDate = startDate || new Date();
+    const jobs = await prisma.job.findMany({
+      where: {
+        deleted: false,
+        OR: [
+          { closingDate: null },
+          {
+            closingDate: {
+              gte: referenceDate,
+            },
+          },
+        ],
+        ...(startDate && { createdAt: { gte: startDate } }),
+        ...(endDate && { createdAt: { lte: endDate } }),
+      },
+      select: {
+        title: true,          
+        createdAt: true,  
+        type: true,     
+        company: {          
+          select: {
+            name: true,
+            userId: true,
+          }
+        }
+      },
+      orderBy: { createdAt: "desc" },
+      take: limit,
+    });
+
+    return jobs;
+  } catch (error) {
+    console.error("Error fetching jobs:", error);
+    throw new Error("Failed to fetch jobs due to database issue.");
+  }
+}
+
 export async function createJobView(jobId: string, candidateId: string) {
   try {
     return await prisma.jobView.upsert({
@@ -322,5 +365,57 @@ export async function canManageJob(clerkId: string, targetId: string) {
     throw new Error(
       "Failed to verify job management permissions. Please try again later."
     );
+  }
+}
+
+export async function getJobsCount(startDate?: Date, endDate?: Date) {
+  try {
+    return await prisma.job.count({
+      where: {
+        deleted: false,
+        ...(startDate && { createdAt: { gte: startDate } }),
+        ...(endDate && { createdAt: { lte: endDate } }),
+      },
+    });
+  } catch (error) {
+    console.error("Error counting jobs:", error);
+    throw new Error("Failed to count jobs due to database issue.");
+  }
+}
+
+/* export async function getDeletedJobsCount(startDate?: Date, endDate?: Date) {
+  try {
+    return await prisma.job.count({
+      where: {
+        deleted: true,
+        ...(startDate && { createdAt: { gte: startDate } }),
+        ...(endDate && { createdAt: { lte: endDate } }),
+      },
+    });
+  } catch (error) {
+    console.error("Error counting deleted jobs:", error);
+    throw new Error("Failed to count deleted jobs due to database issue.");
+  }
+} */
+
+export async function getJobsWithHiredApplicationsCount(
+  startDate?: Date,
+  endDate?: Date
+) {
+  try {
+    return await prisma.job.count({
+      where: {
+        applications: {
+          some: {
+            status: "HIRED",
+            ...(startDate && { appliedAt: { gte: startDate } }),
+            ...(endDate && { appliedAt: { lte: endDate } }),
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Error counting jobs with hired applications:", error);
+    throw new Error("Failed to count jobs with hired applications.");
   }
 }
