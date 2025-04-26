@@ -67,7 +67,7 @@ export async function getAllCandidates(
   searchTerm?: string
 ) {
   try {
-    return await prisma.candidate.findMany({
+    const candidates =  await prisma.candidate.findMany({
       where: {
         ...(startDate && { createdAt: { gte: startDate } }),
         ...(endDate && { createdAt: { lte: endDate } }),
@@ -79,10 +79,46 @@ export async function getAllCandidates(
             {
               lastName: { contains: searchTerm, mode: "insensitive" },
             },
+            { user: { email: { contains: searchTerm, mode: "insensitive" } } },
           ],
         }),
       },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        skills: true,
+        createdAt: true,
+        applications: {
+          select: {
+            id: true,
+            status: true,
+          },
+        },
+        user: {
+          select: {
+            email: true,
+            city: true,
+            province: true,
+            country: true,
+          },
+        },
+        _count: {
+          select: {
+            applications: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
+
+    return candidates.map(candidate => ({
+      ...candidate,
+      totalApplications: candidate._count.applications,
+      _count: undefined,
+    }));
   } catch (error) {
     console.error("Error getting candidates:", error);
     throw new Error("Failed to get candidates due to database issue.");

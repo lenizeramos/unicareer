@@ -94,16 +94,13 @@ export interface ICandidate {
   skills?: string[];
   resume?: string;
   bio?: string;
-  /* website?: string; */
   applications?: IApplication[];
   user?: IUsers;
   education?: IEducation[];
   workExperience?: IWorkExperience[];
   languages?: ILanguage[];
-  /* phone?: string; */
-  /* instagram?: string;
-  twitter?: string;
-  address?: string; */
+  createdAt?: string;
+  totalApplications?: number;
 }
 
 export interface ICandidateState {
@@ -122,6 +119,7 @@ export interface ICompany extends IUsers{
   foundedYear?: string;
   toolsAndTechnologies?: string[];
   benefits?: string[];
+  totalJobsPosted?: number;
   profileImages?: {
     id: string;
     fileKey: string;

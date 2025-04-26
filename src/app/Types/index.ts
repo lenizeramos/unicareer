@@ -363,7 +363,7 @@ export interface IDashboardData {
   companyJobs: IJob[];
 }
 
-export interface ApplicationsListProps {
+/* export interface ApplicationsListProps {
   applications: Application[];
   columns: { [key: string]: string };
   itemsPerPage: number;
@@ -372,7 +372,7 @@ export interface ApplicationsListProps {
   onPageChange: (page: number) => void;
   totalItems: number;
   onViewProfile?: (id: string) => void;
-}
+} */
 
 export interface ApplicationsListTableProps {
   applications: IApplication[];
@@ -423,4 +423,32 @@ export interface IStatusButtonProps {
   targetStatus: string;
   label: string;
   setStatus: (status: string) => void;
+}
+
+export interface CandidateListTableProps {
+  candidates: ICandidate[];
+  columns: { [key: string]: string };
+  itemsPerPage: number;
+  onItemsPerPageChange: (value: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+  onViewProfile?: (id: string) => void;
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  isLoading: boolean;
+}
+
+export interface CompanyListTableProps {
+  companies: ICompany[];
+  columns: { [key: string]: string };
+  itemsPerPage: number;
+  onItemsPerPageChange: (value: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+  onViewProfile?: (id: string) => void;
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  isLoading: boolean;
 }

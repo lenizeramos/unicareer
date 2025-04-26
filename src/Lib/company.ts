@@ -78,7 +78,7 @@ export async function getAllCompanies(
   searchTerm?: string
 ) {
   try {
-    return await prisma.company.findMany({
+    const companies =  await prisma.company.findMany({
       where: {
         ...(startDate && { createdAt: { gte: startDate } }),
         ...(endDate && { createdAt: { lte: endDate } }),
@@ -87,13 +87,44 @@ export async function getAllCompanies(
             {
               name: { contains: searchTerm, mode: "insensitive" },
             },
+            { user: { email: { contains: searchTerm, mode: "insensitive" } } },
           ],
         }),
       },
+      select: {
+        id: true,
+        name: true,
+        industry: true,
+        createdAt: true,
+        user: {
+          select: {
+            email: true,
+            city: true,
+            province: true,
+            country: true,
+          },
+        },
+        _count: {
+          select: {
+            jobs: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
+
+    return companies.map(company => ({
+      ...company,
+      ...company.user,
+      totalJobsPosted: company._count.jobs,
+      _count: undefined,
+      user: undefined,
+    }));
   } catch (error) {
-    console.error("Error getting candidates:", error);
-    throw new Error("Failed to get candidates due to database issue.");
+    console.error("Error getting companies:", error);
+    throw new Error("Failed to get companies due to database issue.");
   }
 }
 

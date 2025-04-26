@@ -48,8 +48,6 @@ export default function AdminDashboardPage() {
       const res = await fetch(`/api/admin/dashboard${queryParams}`);
       const data = await res.json();
 
-      console.log("dataaaaa", data);
-
       const transformedData = {
         jobsCount: data.jobsCount || 0,
         jobsWithHiredApplicationsCount:
@@ -84,16 +82,15 @@ export default function AdminDashboardPage() {
     <>
       <DashboardNavbar
         title="Dashboard"
-        button={{ text: "Back to home page", IsWhite: true }}
       />
       <div className={styles.borderBottomLight}></div>
       <DashboardWelcome
-        greeting="Hello"
-        message="Here is what's happening with the system"
+        greeting="Hello Admin"
+        message="Administrative Panel - Overview of system metrics and activities "
         updateDate={setDateRange}
       />
       <div className="w-full flex justify-center items-center flex-col gap-5 p-4">
-        <div className="flex flex-row gap-5 w-full justify-center items-center max-w-6xl">
+        <div className="flex flex-col md:flex-row gap-5 w-full justify-center items-center max-w-6xl">
           <CardsContainer
             cardId={"dashboardCard"}
             params={[
@@ -129,7 +126,7 @@ export default function AdminDashboardPage() {
           />
         </div>
 
-        <div className="flex flex-row gap-5 w-full justify-center items-center max-w-6xl">
+        <div className="flex flex-col md:flex-row gap-5 w-full justify-center items-center max-w-6xl">
           <CardsContainer
             cardId={"dashboardCard"}
             params={[
@@ -165,7 +162,7 @@ export default function AdminDashboardPage() {
           />
         </div>
 
-        <div className="flex flex-row gap-5 w-full justify-center items-center max-w-6xl">
+        <div className="flex flex-col md:flex-row gap-5 w-full justify-center items-center max-w-6xl">
           <CardsContainer
             cardId={"dashboardCard"}
             params={[
@@ -213,11 +210,11 @@ export default function AdminDashboardPage() {
               Recent Jobs Posted
             </h2>
           </div>
-          
-         <CardsContainer
-              cardId={"recentPosted"}
-              params={dashboardData.jobsCards}
-            />
+
+          <CardsContainer
+            cardId={"recentPosted"}
+            params={dashboardData.jobsCards}
+          />
         </div>
       </div>
     </>
