@@ -29,7 +29,7 @@ export default function Application() {
     );
   }
 
-  const filters = candidate.applications.filter((item) => {
+  const filters = (candidate.applications || []).filter((item) => {
     const jobsByDate = endDate
       ? new Date(item.appliedAt) < endDate
         ? item
