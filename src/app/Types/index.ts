@@ -1,5 +1,5 @@
 /* import { ResumeData } from "@/types/resume"; */
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { IApplication, ICandidate, ICompany } from "./slices";
 
 export interface IButtton {
@@ -404,6 +404,7 @@ export interface Application {
 export interface IContactInfoItemProps {
   icon: React.ReactNode;
   value: string;
+  className?: string;
 }
 
 export interface InfoSectionProps {
@@ -422,5 +423,6 @@ export interface IStatusButtonProps {
   currentStatus: string;
   targetStatus: string;
   label: string;
-  setStatus: (status: string) => void;
+  setStatus: Dispatch<SetStateAction<string>>;
+  className?: string;
 }
