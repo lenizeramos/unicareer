@@ -38,7 +38,7 @@ const FilterJobs = ({ array, title, type, onFilterChange }: IFilterJobs) => {
   return (
     <>
         <div className="flex flex-col gap-3 font-shafarik">
-          <div className="flex justify-between items-center w-60">
+          <div className="flex justify-between items-center lg:gap-0 gap-2 lg:w-50 w-40">
             <h3 className="font-semibold">{title}</h3>
             {isVisible ? (
               <IoIosArrowUp className="cursor-pointer" onClick={handleClick} />

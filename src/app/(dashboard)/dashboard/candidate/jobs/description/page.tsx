@@ -94,7 +94,7 @@ export default function JobDescription() {
   const category =
     typeof job.categories === "string" ? job.categories.toLowerCase() : "";
 
-  const application = candidate.applications.some(
+  const application = candidate.applications && candidate.applications.some(
     (item) => item.jobId === job.id
   );
   const handleApplicationSubmit = async () => {

@@ -41,6 +41,13 @@ export default function FindJobs() {
     salary: { min: 0, max: 0 },
   });
 
+  const getValue = (value: string | number) => {
+    if (typeof value === "string") {
+      return parseFloat(value);
+    } else {
+      return value;
+    }
+  };
   const jobsWithStatus = jobs.filter(
     (job) => new Date(job.closingDate) > new Date()
   );
@@ -57,9 +64,9 @@ export default function FindJobs() {
     const matchesCategory = filters.category
       ? job.categories === filters.category.toLowerCase()
       : true;
-    const matchesSalary = filters.salary.max
-      ? job.salaryMax >= filters.salary.min &&
-        job.salaryMax <= filters.salary.max
+    const matchesSalary = getValue(filters.salary.max)
+      ? job.salaryMax >= getValue(filters.salary.min) &&
+        job.salaryMax <= getValue(filters.salary.max)
       : true;
     const matchesJobLevel = filters.jobLevel
       ? job.level.toLowerCase() === filters.jobLevel.toLowerCase()
@@ -81,10 +88,27 @@ export default function FindJobs() {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
   };
 
+  const handleFilterChangeSelect = (
+    key: string,
+    value: string | { min: number; max: number }
+  ) => {
+    if (key === "salary" && typeof value === "number") {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        salary: { min: value - 10, max: value },
+      }));
+    } else {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [key]: value,
+      }));
+    }
+  };
+
   const handleOnClickModal = () => {
     setModalOpen(false);
   };
-
+  console.log(filters);
   return (
     <>
       <DashboardNavbar
@@ -94,36 +118,36 @@ export default function FindJobs() {
       {loading ? (
         <Loader />
       ) : (
-        <div className="p-5">
+        <div className="p-5 w-full">
           <div
-            className={`${styles.sectionSubText} border-y-[1px] border-gray-300 py-10 flex justify-center mb-5`}
+            className={`${styles.sectionSubText} border-y-[1px] border-gray-300 py-10 flex justify-center mb-5 w-full`}
           >
-            <div className="flex justify-center gap-10 items-center border border-gray-200 px-5 py-8 w-fit">
-              <div className="flex flex-col">
-                <div className="flex gap-2">
+            <div className="flex md:flex-row flex-col justify-center gap-10 items-center border border-gray-200 px-5 py-8 w-full">
+              <div className="flex flex-col w-full">
+                <div className="flex gap-2 w-full">
                   <CiSearch className="text-gray-400" size={30} />
                   <input
                     type="text"
                     value={filters.searchTerm}
                     name="searchInput"
                     placeholder="Job title or keyword"
-                    className={`${styles.sectionSubText} px-2 md:w-90 w-40 outline-none border-b border-gray-200`}
+                    className={`${styles.sectionSubText} px-2 w-full outline-none border-b border-gray-200`}
                     onChange={(e) =>
                       handleFilterChange("searchTerm", e.target.value)
                     }
                   />
                 </div>
               </div>
-              <div className="w-[0.2px] h-10 bg-gray-300" />
-              <div className="flex flex-col">
-                <div className="flex gap-2">
+              <div className="w-[0.2px] h-10 bg-gray-300 hidden lg:block" />
+              <div className="flex flex-col w-full">
+                <div className="flex gap-2 w-full">
                   <MdOutlinePlace className="text-gray-300" size={30} />
                   <input
                     type="text"
                     name="locationInput"
                     value={filters.searchLocation}
                     placeholder="Vancouver, Canada"
-                    className={`${styles.sectionSubText} px-2 md:w-90 w-40 outline-none border-b border-gray-200`}
+                    className={`${styles.sectionSubText} px-2  w-full outline-none border-b border-gray-200`}
                     onChange={(e) =>
                       handleFilterChange("searchLocation", e.target.value)
                     }
@@ -134,7 +158,7 @@ export default function FindJobs() {
             </div>
           </div>
 
-          <div className="flex md:flex-row flex-col md:gap-20 gap-5 md:items-start items-center">
+          <div className="flex md:flex-row flex-col lg:gap-20 gap-5 md:items-start items-center">
             <div className="gap-10 md:hidden flex border-b border-gray-300 w-full items-center justify-center pb-4">
               <button
                 className="cursor-pointer font-shafarik flex gap-4"
@@ -170,7 +194,7 @@ export default function FindJobs() {
               <div className="grid grid-cols-2 gap-5 justify-center">
                 {filtersValues.map((filter, index) => {
                   return (
-                    <div className="font-shafarik p-2">
+                    <div className="font-shafarik p-2" key={index}>
                       <label
                         htmlFor={filter.type}
                         className="font-semibold ml-2"
@@ -182,17 +206,28 @@ export default function FindJobs() {
                           name={filter.type}
                           id={filter.type}
                           onChange={(e) =>
-                            handleFilterChange(`${filter.type}`, e.target.value)
+                            handleFilterChangeSelect(
+                              `${filter.type}`,
+                              e.target.value
+                            )
                           }
                           className="border border-gray-200 rounded-xl p-1"
                         >
                           <option value=" ">Select an option</option>
-                          {filter.value &&
-                            filter.value.map((option, index) => (
-                              <option key={index} value={option}>
-                                {option}
-                              </option>
-                            ))}
+                          {filter.type === "salary"
+                            ? (
+                                filter.array as { min: number; max: number }[]
+                              ).map((option, index) => (
+                                <option key={index} value={option.max}>
+                                  {option.min} - {option.max}
+                                </option>
+                              ))
+                            : filter.array &&
+                              filter.array.map((option, index) => (
+                                <option key={index} value={option.toString()}>
+                                  {option.toString()}
+                                </option>
+                              ))}
                         </select>
                       </div>
                     </div>

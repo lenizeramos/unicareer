@@ -38,13 +38,13 @@ export default function CandidatePage() {
 
     return freq;
   };
-  const { firstDate, secondDate } = dateRange;
+  const { secondDate } = dateRange;
 
-  const filterDate = candidate.applications.filter(app =>
+  const filterDate = candidate.applications && candidate.applications.filter(app =>
     secondDate ? new Date(app.appliedAt) < secondDate : true
   );
 
-  const freq = getFrequencies(filterDate, "status");
+  const freq = getFrequencies(filterDate!, "status");
 
   const pendingCount = freq["PENDING"] || 0;
   const interviewedCount = freq["INTERVIEWED"] || 0;
@@ -53,7 +53,7 @@ export default function CandidatePage() {
   const cancelledCount = freq["CANCELLED_JOB"] || 0;
   const total = Object.values(freq).reduce((sum, count) => sum + count, 0);
 
-  const data = candidate.applications
+  const data = candidate.applications && candidate.applications
     .map((application) => ({
       companyname: application.job?.company?.name ?? "Unknown Company",
       logo: application.job?.company?.userId ?? "/img/img.png",
