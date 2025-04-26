@@ -46,3 +46,17 @@ export async function getCandidateByClerkId(clerkId: string) {
     throw new Error("Failed to retrieve candidate information.");
   }
 }
+
+export async function getCandidateCount(startDate?: Date, endDate?: Date) {
+  try {
+    return await prisma.candidate.count({
+      where: {
+        ...(startDate && { createdAt: { gte: startDate } }),
+        ...(endDate && { createdAt: { lte: endDate } }),
+      },
+    });
+  } catch (error) {
+    console.error("Error counting candidate:", error);
+    throw new Error("Failed to count candidate due to database issue.");
+  }
+}

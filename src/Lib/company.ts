@@ -57,3 +57,18 @@ export async function getCompanyDashboardData(
     throw new Error("Failed to load dashboard data due to database issue.");
   }
 }
+
+export async function getCompanyCount(startDate?: Date, endDate?: Date) {
+  try {
+    return await prisma.company.count({
+      where: {
+        ...(startDate && { createdAt: { gte: startDate } }),
+        ...(endDate && { createdAt: { lte: endDate } }),
+      },
+    });
+  } catch (error) {
+    console.error("Error counting company:", error);
+    throw new Error("Failed to count company due to database issue.");
+  }
+}
+

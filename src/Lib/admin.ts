@@ -1,60 +1,53 @@
-import prisma from "./prisma";
+import { getJobsCount, getJobsWithHiredApplicationsCount, getRecentJobs } from "./job";
+import { getApplicationsCount } from "./application";
+import { getCompanyCount } from "./company";
+import { getCandidateCount } from "./candidate";
+import {
+  getCompletedCompanyPaymentsCount,
+  getPendingCompanyPaymentsCount,
+} from "./companyPayments";
+import {
+  getActiveCompanyMembershipCount,
+  getInactiveCompanyMembershipCount,
+} from "./companyMembership";
 
-export async function getTotalOpenJobsByCompanyId(
-  companyId: string,
-  startDate?: Date,
-  endDate?: Date
-) {
-  try {
-    const referenceDate = startDate || new Date();
-
-    return await prisma.job.count({
-      where: {
-        companyId: companyId,
-        deleted: false,
-        OR: [
-          { closingDate: null },
-          {
-            closingDate: {
-              gte: referenceDate,
-            },
-          },
-        ],
-        ...(startDate && { createdAt: { gte: startDate } }),
-        ...(endDate && { createdAt: { lte: endDate } }),
-      },
-    });
-  } catch (error) {
-    console.error("Error counting open jobs:", error);
-    throw new Error("Failed to count open jobs due to database issue.");
-  }
-}
-
-export async function getAdminDashboardData(
-  startDate?: Date,
-  endDate?: Date
-) {
+export async function getAdminDashboardData(startDate?: Date, endDate?: Date) {
   try {
     const [
-      totalApplications,
-      jobOpen,
-      applicationsSummary,
-      jobView,
-      companyJobs,
+      jobsCount,
+      jobsWithHiredApplicationsCount,
+      applicationsCount,
+      companiesCount,
+      candidatesCount,
+      completedPaymentsCount,
+      pendingPaymentsCount,
+      activeMembershipCount,
+      inactiveMembershipCount,
+      recentJobs
     ] = await Promise.all([
-      getTotalApplicationsCountByCompanyId(companyId, startDate, endDate),
-      getTotalOpenJobsByCompanyId(companyId, startDate, endDate),
-      getJobsByType(companyId, startDate, endDate),
-      getJobViewsCount(companyId, startDate, endDate),
-      getLastJobsByCompanyId(companyId, 6, startDate, endDate),
+      getJobsCount(startDate, endDate),
+      getJobsWithHiredApplicationsCount(startDate, endDate),
+      getApplicationsCount(startDate, endDate),
+      getCompanyCount(startDate, endDate),
+      getCandidateCount(startDate, endDate),
+      getCompletedCompanyPaymentsCount(startDate, endDate),
+      getPendingCompanyPaymentsCount(startDate, endDate),
+      getActiveCompanyMembershipCount(startDate, endDate),
+      getInactiveCompanyMembershipCount(startDate, endDate),
+      getRecentJobs(6, startDate, endDate)
     ]);
 
     return {
-      totalApplications,
-      jobOpen,
-      applicationsSummary,
-      jobView,
-      companyJobs,
+      jobsCount,
+      jobsWithHiredApplicationsCount,
+      applicationsCount,
+      companiesCount,
+      candidatesCount,
+      completedPaymentsCount,
+      pendingPaymentsCount,
+      activeMembershipCount,
+      inactiveMembershipCount,
+      recentJobs
     };
   } catch (error) {
     console.error("Error fetching dashboard data:", error);
