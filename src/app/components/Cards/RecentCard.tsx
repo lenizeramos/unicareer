@@ -39,14 +39,14 @@ const RecentCard = ({
         <div className="flex flex-col gap-3">
           <div>
             <h3 className={`${styles.sectionHeadText} text-black`}>
-              {title ?? "Title"}
+              {title ?? ""}
             </h3>
             <h4
               className={`${styles.sectionSubText} text-gray-600 flex items-center gap-2`}
             >
               {companyname ?? "Company"}
               <div className="w-1 h-1 rounded-full bg-gray-400" />
-              {location ?? "text"}
+              {location ?? ""}
             </h4>
           </div>
           <div className="md:hidden flex justify-between gap-3">
