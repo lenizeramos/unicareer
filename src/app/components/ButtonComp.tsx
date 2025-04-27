@@ -17,7 +17,7 @@ const ButtonComp = ({
   return (
     <>
       <button
-        className={`${colorText} ${colorBtn} ${widthBtn} flex flex-row justify-center items-center gap-2 xs:text-base text-[12px] ${
+        className={`${colorText} ${colorBtn} ${widthBtn} flex flex-row justify-center items-center gap-2 xs:text-base text-[12px] font-shafarik ${
           isDissable ? styles.buttonDisable : styles.button
         }`}
         onClick={onClick}

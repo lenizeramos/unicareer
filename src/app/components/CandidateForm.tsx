@@ -118,14 +118,13 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
   ];
 
   return (
-    <>
-      <h1 className="text-2xl font-bold text-center mb-6">
-        Candidate Information
-      </h1>
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-6"
-      >
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-7xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-8"
+    >
+      {/* Personal Information Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Left Column */}
         <div className="space-y-6">
           <InputField
             label="First Name"
@@ -137,8 +136,8 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
             required
             maxLength={100}
             classNameDivContainer="flex flex-col"
-            classNameLabel={classNameLabel}
-            classNameField={classNameField}
+            classNameLabel={classNameLabel + " text-[20px] font-shafarik inline-flex items-center"}
+            classNameField={classNameField + " text-[20px] font-shafarik"}
           />
 
           <InputField
@@ -151,10 +150,26 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
             required
             maxLength={100}
             classNameDivContainer="flex flex-col"
-            classNameLabel={classNameLabel}
-            classNameField={classNameField}
+            classNameLabel={classNameLabel + " text-[20px] font-shafarik inline-flex items-center"}
+            classNameField={classNameField + " text-[20px] font-shafarik"}
           />
 
+          <TextAreaField
+            label="Bio"
+            id="bio"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            rows={4}
+            name="bio"
+            maxLength={500}
+            classNameDivContainer={classNameDivContainerTextArea}
+            classNameLabel={classNameLabel + " text-[20px] font-shafarik"}
+            classNameField={classNameField + " text-[20px] font-shafarik"}
+          />
+        </div>
+
+        {/* Right Column */}
+        <div className="flex items-center justify-center">
           <FileUpload
             allowedFileTypes={["image/jpeg", "image/png"]}
             apiRoute="/api/upload"
@@ -165,140 +180,142 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
             maxSizeMB={5}
             onUploadComplete={() => {}}
           />
-
-          <InputField
-            label="Street Address"
-            id="streetAddress"
-            name="streetAddress"
-            type="text"
-            value={streetAddress}
-            onChange={(e) => setStreetAddress(e.target.value)}
-            classNameDivContainer="flex flex-col"
-            classNameLabel="text-sm font-semibold text-gray-700"
-            classNameField={classNameField}
-          />
-          <InputField
-            label="City"
-            id="city"
-            name="city"
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            classNameDivContainer="flex flex-col"
-            classNameLabel="text-sm font-semibold text-gray-700"
-            classNameField={classNameField}
-          />
-
-          <SelectField
-            label="Province"
-            id="province"
-            name="province"
-            value={province}
-            onChange={(e) => setProvince(e.target.value)}
-            options={canadianProvinces}
-            classNameDivContainer="flex flex-col"
-            classNameLabel="text-sm font-semibold text-gray-700"
-            classNameField={classNameField}
-          />
-
-          <InputField
-            label="Country"
-            id="country"
-            name="country"
-            type="text"
-            value="Canada"
-            onChange={() => {}}
-            classNameDivContainer="flex flex-col"
-            classNameLabel="text-sm font-semibold text-gray-700"
-            classNameField={classNameField}
-            disabled={true}
-          />
-
-          <InputField
-            label="Postal Code"
-            id="postalCode"
-            name="postalCode"
-            type="text"
-            value={postalCode}
-            onChange={(e) => setPostalCode(e.target.value)}
-            classNameDivContainer="flex flex-col"
-            classNameLabel="text-sm font-semibold text-gray-700"
-            classNameField={classNameField}
-          />
-          <ChipsField
-            label="Skills"
-            value={skills}
-            onChange={setSkills}
-            className="w-full text-gray-700 rounded-lg"
-            containerClass="md:col-span-2 space-y-2"
-            labelClass={classNameLabel}
-            itemTemplate={(skill) => <div>{skill}</div>}
-          />
-          <InputField
-            label="Website"
-            id="website"
-            name="website"
-            type="url"
-            value={website}
-            onChange={(e) => setWebsite(e.target.value)}
-            placeholder="https://example.com"
-            classNameDivContainer="flex flex-col"
-            classNameLabel="text-sm font-semibold text-gray-700"
-            classNameField={classNameField}
-          />
-          <InputField
-            label="LinkedIn"
-            id="linkedIn"
-            name="linkedIn"
-            type="url"
-            value={linkedIn}
-            onChange={(e) => setLinkedIn(e.target.value)}
-            placeholder="https://linkedin.com/company/example"
-            classNameDivContainer="flex flex-col"
-            classNameLabel="text-sm font-semibold text-gray-700"
-            classNameField={classNameField}
-          />
-
-          <InputField
-            label="Twitter"
-            id="twitter"
-            name="twitter"
-            type="url"
-            value={twitter}
-            onChange={(e) => setTwitter(e.target.value)}
-            placeholder="https://twitter.com/example"
-            classNameDivContainer="flex flex-col"
-            classNameLabel="text-sm font-semibold text-gray-700"
-            classNameField={classNameField}
-          />
-          <TextAreaField
-            label="Bio"
-            id="bio"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            rows={4}
-            name="bio"
-            maxLength={500}
-            classNameDivContainer={classNameDivContainerTextArea}
-            classNameLabel={classNameLabel}
-            classNameField={classNameField}
-          />
-
-          <EducationSection education={education} onChange={setEducation} />
-
-          <WorkExperienceSection
-            experience={workExperience}
-            onChange={setWorkExperience}
-          />
-
-          <LanguagesSection languages={languages} onChange={setLanguages} />
         </div>
+      </div>
 
-        <div className="flex justify-end">
-          <ButtonComp text="Submit" IsWhite={false} width="w-full md:w-auto" />
-        </div>
-      </form>
-    </>
+      {/* Address Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <InputField
+          label="Street Address"
+          id="streetAddress"
+          name="streetAddress"
+          type="text"
+          value={streetAddress}
+          onChange={(e) => setStreetAddress(e.target.value)}
+          classNameDivContainer="flex flex-col"
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
+        />
+
+        <InputField
+          label="City"
+          id="city"
+          name="city"
+          type="text"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          classNameDivContainer="flex flex-col"
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
+        />
+
+        <SelectField
+          label="Province"
+          id="province"
+          name="province"
+          value={province}
+          onChange={(e) => setProvince(e.target.value)}
+          options={canadianProvinces}
+          classNameDivContainer="flex flex-col"
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
+        />
+
+        <InputField
+          label="Country"
+          id="country"
+          name="country"
+          type="text"
+          value="Canada"
+          onChange={() => {}}
+          classNameDivContainer="flex flex-col"
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
+          disabled={true}
+        />
+
+        <InputField
+          label="Postal Code"
+          id="postalCode"
+          name="postalCode"
+          type="text"
+          value={postalCode}
+          onChange={(e) => setPostalCode(e.target.value)}
+          classNameDivContainer="flex flex-col"
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
+        />
+      </div>
+
+      {/* Skills Section */}
+      <div className="space-y-6">
+        <ChipsField
+          label="Skills"
+          value={skills}
+          onChange={setSkills}
+          className="w-full text-gray-700 rounded-lg"
+          containerClass="space-y-2"
+          labelClass={classNameLabel + " text-[20px] font-shafarik"}
+          itemTemplate={(skill) => <div>{skill}</div>}
+        />
+      </div>
+
+      {/* Social Links Section */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <InputField
+          label="Website"
+          id="website"
+          name="website"
+          type="url"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+          placeholder="https://example.com"
+          classNameDivContainer="flex flex-col"
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
+        />
+
+        <InputField
+          label="LinkedIn"
+          id="linkedIn"
+          name="linkedIn"
+          type="url"
+          value={linkedIn}
+          onChange={(e) => setLinkedIn(e.target.value)}
+          placeholder="https://linkedin.com/in/example"
+          classNameDivContainer="flex flex-col"
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
+        />
+
+        <InputField
+          label="Twitter"
+          id="twitter"
+          name="twitter"
+          type="url"
+          value={twitter}
+          onChange={(e) => setTwitter(e.target.value)}
+          placeholder="https://twitter.com/example"
+          classNameDivContainer="flex flex-col"
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
+        />
+      </div>
+
+      {/* Education, Work Experience, and Languages Sections */}
+      <div className="space-y-8">
+        <EducationSection education={education} onChange={setEducation} />
+        <WorkExperienceSection
+          experience={workExperience}
+          onChange={setWorkExperience}
+        />
+        <LanguagesSection languages={languages} onChange={setLanguages} />
+      </div>
+
+      <div className="flex justify-end pt-6">
+        <ButtonComp text="Submit" IsWhite={false} width="w-full md:w-auto" />
+      </div>
+    </form>
   );
 };
 

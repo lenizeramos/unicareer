@@ -67,11 +67,11 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h3 className={classNameLabel}>Work Experience</h3>
+        <h3 className={classNameLabel + " text-[20px] font-shafarik"}>Work Experience</h3>
         <button
           type="button"
           onClick={handleAdd}
-          className="flex items-center text-blue-600 hover:text-blue-800"
+          className="flex items-center text-blue-600 hover:text-blue-800 font-shafarik"
         >
           <IoMdAdd className="mr-1" /> Add Experience
         </button>
@@ -97,8 +97,8 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
               value={exp.company}
               onChange={(e) => handleChange(index, "company", e.target.value)}
               required
-              classNameLabel={classNameLabel}
-              classNameField={classNameField}
+              classNameLabel={classNameLabel + " text-lg font-shafarik"}
+              classNameField={classNameField + " text-lg font-shafarik"}
             />
 
             <InputField
@@ -107,8 +107,8 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
               value={exp.position}
               onChange={(e) => handleChange(index, "position", e.target.value)}
               required
-              classNameLabel={classNameLabel}
-              classNameField={classNameField}
+              classNameLabel={classNameLabel + " text-lg font-shafarik"}
+              classNameField={classNameField + " text-lg font-shafarik"}
             />
           </div>
 
@@ -118,8 +118,8 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
             value={exp.country}
             onChange={(e) => handleChange(index, "country", e.target.value)}
             required
-            classNameLabel={classNameLabel}
-            classNameField={classNameField}
+            classNameLabel={classNameLabel + " text-lg font-shafarik"}
+            classNameField={classNameField + " text-lg font-shafarik"}
           />
 
           <div className="grid grid-cols-2 gap-4">
@@ -130,8 +130,8 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
               value={formatDateForInput(exp.startDate)}
               onChange={(e) => handleChange(index, "startDate", e.target.value)}
               required
-              classNameLabel={classNameLabel}
-              classNameField={classNameField}
+              classNameLabel={classNameLabel + " text-lg font-shafarik"}
+              classNameField={classNameField + " text-lg font-shafarik"}
             />
 
             {!exp.current && (
@@ -141,8 +141,8 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
                 type="date"
                 value={formatDateForInput(exp.endDate)}
                 onChange={(e) => handleChange(index, "endDate", e.target.value)}
-                classNameLabel={classNameLabel}
-                classNameField={classNameField}
+                classNameLabel={classNameLabel + " text-lg font-shafarik"}
+                classNameField={classNameField + " text-lg font-shafarik"}
               />
             )}
           </div>
@@ -159,7 +159,7 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
                 }
               }}
             />
-            <label htmlFor={`current-${index}`}>Current Position</label>
+            <label htmlFor={`current-${index}`} className="text-lg font-shafarik">Current Position</label>
           </div>
 
           <TextAreaField
@@ -168,8 +168,8 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
             value={exp.description || ""}
             onChange={(e) => handleChange(index, "description", e.target.value)}
             rows={3}
-            classNameLabel={classNameLabel}
-            classNameField={classNameField}
+            classNameLabel={classNameLabel + " text-lg font-shafarik"}
+            classNameField={classNameField + " text-lg font-shafarik"}
           />
         </div>
       ))}

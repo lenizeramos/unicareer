@@ -35,11 +35,11 @@ const LanguagesSection: React.FC<LanguagesProps> = ({
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h3 className={classNameLabel}>Languages</h3>
+        <h3 className={classNameLabel + " text-[20px] font-shafarik"}>Languages</h3>
         <button
           type="button"
           onClick={handleAdd}
-          className="flex items-center text-blue-600 hover:text-blue-800"
+          className="flex items-center text-blue-600 hover:text-blue-800 font-shafarik"
         >
           <IoMdAdd className="mr-1" /> Add Language
         </button>
@@ -60,33 +60,33 @@ const LanguagesSection: React.FC<LanguagesProps> = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className={classNameLabel} htmlFor={`language-${index}`}>
+              <label className={classNameLabel + " text-lg font-shafarik"} htmlFor={`language-${index}`}>
                 Language
               </label>
               <input
                 id={`language-${index}`}
                 value={lang.name}
                 onChange={(e) => handleChange(index, "name", e.target.value)}
-                className={classNameField}
+                className={classNameField + " text-lg font-shafarik"}
                 required
               />
             </div>
 
             <div>
-              <label className={classNameLabel} htmlFor={`level-${index}`}>
+              <label className={classNameLabel + " text-lg font-shafarik"} htmlFor={`level-${index}`}>
                 Proficiency Level
               </label>
               <select
                 id={`level-${index}`}
                 value={lang.level}
                 onChange={(e) => handleChange(index, "level", e.target.value)}
-                className={classNameField}
+                className={classNameField + " text-lg font-shafarik"}
                 required
               >
-                <option value="BEGINNER">Beginner</option>
-                <option value="INTERMEDIATE">Intermediate</option>
-                <option value="ADVANCED">Advanced</option>
-                <option value="NATIVE">Native</option>
+                <option value="BEGINNER" className="text-lg font-shafarik">Beginner</option>
+                <option value="INTERMEDIATE" className="text-lg font-shafarik">Intermediate</option>
+                <option value="ADVANCED" className="text-lg font-shafarik">Advanced</option>
+                <option value="NATIVE" className="text-lg font-shafarik">Native</option>
               </select>
             </div>
           </div>

@@ -116,9 +116,9 @@ const DashboardPage = () => {
   return (
     <div className="space-y-8 pb-8">
       <div>
-        <CompanyHeaderPaymentButton />
+        <CompanyHeaderPaymentButton isDashboard={true} pageName={company?.name || ""} />
         <DashboardWelcome
-          greeting={`Hello, ${company?.name}`}
+          greeting={`Welcome!`}
           message="Track how your job postings are performing"
           updateDate={setDateRange}
         />
