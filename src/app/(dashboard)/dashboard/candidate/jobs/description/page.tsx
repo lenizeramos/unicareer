@@ -94,9 +94,9 @@ export default function JobDescription() {
   const category =
     typeof job.categories === "string" ? job.categories.toLowerCase() : "";
 
-  const application = candidate.applications && candidate.applications.some(
-    (item) => item.jobId === job.id
-  );
+  const application =
+    candidate.applications &&
+    candidate.applications.some((item) => item.jobId === job.id);
   const handleApplicationSubmit = async () => {
     if (!candidate) {
       console.error("No candidate ID available");
@@ -185,9 +185,9 @@ export default function JobDescription() {
             </div>
           </div>
         </div>
-        <div className="flex gap-20 lg:flex-row flex-col">
-          <div className="flex flex-col gap-5 lg:w-[70%]">
-            <div className="">
+        <div className="flex lg:flex-row flex-col gap-10 ">
+          <div className="flex flex-col gap-5 lg:w-[55%]">
+            <div className="lg:pr-0 md:pr-30">
               <h2 className={`${styles.JobDescriptionTitle}`}>Description</h2>
               <p className={`${styles.JobDescriptionText} text-justify`}>
                 {job.description}
@@ -197,89 +197,59 @@ export default function JobDescription() {
               <h2 className={`${styles.JobDescriptionTitle}`}>
                 Responsibilities
               </h2>
-              <p className={`${styles.JobDescriptionText}`}>
+              <p className={`${styles.JobDescriptionText} whitespace-pre-line`}>
                 {job.responsibilities}
               </p>
-              {/* <ul>
-                {job.responsibilities.map((item, index) => {
-                  return (
-                    <li
-                      key={index}
-                      className={`${styles.JobDescriptionText} ${styles.lists}`}
-                    >
-                      <CiCircleCheck color="green" size={20} /> {item}
-                    </li>
-                  );
-                })}
-              </ul> */}
             </div>
             <div>
-              <h2 className={`${styles.JobDescriptionTitle}`}>Who You Are</h2>
-              {/* <ul>
-                {job.whoYouAre.map((item, index) => {
-                  return (
-                    <li
-                      key={index}
-                      className={`${styles.JobDescriptionText} ${styles.lists}`}
-                    >
-                      <CiCircleCheck color="green" size={20} /> {item}
-                    </li>
-                  );
-                })}
-              </ul> */}
-              <p className={`${styles.JobDescriptionText}`}>{job.whoYouAre}</p>
+              <h2 className={`${styles.JobDescriptionTitle} `}>Who You Are</h2>
+              <p className={`${styles.JobDescriptionText} whitespace-pre-line`}>
+                {job.whoYouAre}
+              </p>
             </div>
             <div>
-              <h2 className={`${styles.JobDescriptionTitle}`}>Nice To Have</h2>
-              {/* <ul>
-                {job.niceToHave.map((item, index) => {
-                  return (
-                    <li
-                      key={index}
-                      className={`${styles.JobDescriptionText} ${styles.lists}`}
-                    >
-                      <CiCircleCheck color="green" size={20} /> {item}
-                    </li>
-                  );
-                })}
-              </ul> */}
-              <p className={`${styles.JobDescriptionText}`}>{job.niceToHave}</p>
+              <h2 className={`${styles.JobDescriptionTitle} `}>Nice To Have</h2>
+              <p className={`${styles.JobDescriptionText} whitespace-pre-line`}>
+                {job.niceToHave}
+              </p>
             </div>
           </div>
-          <div className=" 2xl:w-[20%] xl:w-[30%] lg:w-[45%] flex lg:flex-col xs:flex-row flex-col justify-around">
+
+          <div className=" flex lg:flex-col xs:flex-row flex-col lg:justify-start md:justify-evenly justify-between md:gap-0 gap-5 border-t border-gray-100 pt-5 lg:pt-0 lg:border-0">
             <div className="flex flex-col gap-4 ">
               <h2 className={`${styles.JobDescriptionTitle}`}>
                 About this role
               </h2>
-              <div className="flex justify-between">
+              <div className="flex gap-4 ">
                 <p className={`${styles.JobDescriptionText}`}>Apply Before</p>
                 <p className={`${styles.JobDescriptionText} font-bold`}>
                   {getDate(job.closingDate)}
                 </p>
               </div>
-              <div className="flex justify-between">
-                <p className={`${styles.JobDescriptionText}`}>Job Posted On</p>
+              <div className="flex gap-4 ">
+                <p className={`${styles.JobDescriptionText}`}>Job Posted</p>
                 <p className={`${styles.JobDescriptionText} font-bold`}>
                   {getDate(job.createdAt)}
                 </p>
               </div>
-              <div className="flex justify-between">
+              <div className="flex gap-4 ">
                 <p className={`${styles.JobDescriptionText}`}>Job Type</p>
                 <p className={`${styles.JobDescriptionText} font-bold`}>
                   {job.type}
                 </p>
               </div>
-              <div className="flex justify-between">
+              <div className="flex gap-4">
                 <p className={`${styles.JobDescriptionText}`}>Salary</p>
                 <p className={`${styles.JobDescriptionText} font-bold`}>
                   {job.salaryMin} - {job.salaryMax} CAD/hour
                 </p>
               </div>
             </div>
-            <div className="lg:hidden w-0.5  bg-gray-200" />
-            <div className="lg:border-y-[1px] border-gray-200 py-15">
+            <div className="lg:hidden w-0.5  bg-gray-200 hidden md:flex" />
+
+            <div className="lg:border-y-[1px] border-gray-200 lg:py-10 sm:mt-0 mt-5">
               <h2 className={`${styles.JobDescriptionTitle}`}>Categories</h2>
-              <div className="flex gap-2">
+              <div className="flex gap-2 justify-center">
                 {Array.isArray(job.categories) ? (
                   job.categories.map((item, index) => {
                     const stylesTag = jobsCategories.find(
@@ -314,12 +284,37 @@ export default function JobDescription() {
                   />
                 )}
               </div>
+
+              <div className="md:hidden mt-10">
+                <h2 className={`${styles.JobDescriptionTitle}`}>
+                  Required Skills
+                </h2>
+                <div className="flex gap-5 flex-wrap justify-center">
+                  {Array.isArray(job.skills) ? (
+                    job.skills.map((item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className={`${styles.sectionSubText} p-2 w-fit rounded-full mb-2 ${stylesTags[index]}`}
+                        >
+                          {item}
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div />
+                  )}
+                </div>
+              </div>
             </div>
-            <div className="py-10">
+
+            <div className="lg:hidden w-0.5  bg-gray-200 md:flex hidden" />
+
+            <div className="lg:py-5 md:block hidden">
               <h2 className={`${styles.JobDescriptionTitle}`}>
                 Required Skills
               </h2>
-              <div className="flex gap-5 flex-wrap">
+              <div className="flex gap-5 flex-wrap justify-center">
                 {Array.isArray(job.skills) ? (
                   job.skills.map((item, index) => {
                     return (

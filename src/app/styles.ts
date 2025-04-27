@@ -28,8 +28,8 @@ const styles = {
   categoryCard: "sm:p-5 p-3 text-primary border border-gray-200 group",
   borderBottomLight: "w-full border-b border-[var(--color-borders)]",
   JobDescriptionTitle:
-    "font-semibold mb-4 font-monomakh md:text-3xl text-[20px]",
-  JobDescriptionText: "font-shafarik md:text-[20px] text-[16px] text-gray-600",
+    "font-semibold mb-4 font-monomakh sm:text-3xl text-xl",
+  JobDescriptionText: "font-shafarik sm:text-[20px] text-gray-600",
   lists: "flex gap-2 mb-1 items-center",
   titlePages:
     "md:text-4xl xs:text-3xl text-2xl companyName-gradient font-monomakh",

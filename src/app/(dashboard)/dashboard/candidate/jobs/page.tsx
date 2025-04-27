@@ -92,6 +92,7 @@ export default function FindJobs() {
     key: string,
     value: string | { min: number; max: number }
   ) => {
+    console.log(typeof value, key);
     if (key === "salary" && typeof value === "number") {
       setFilters((prevFilters) => ({
         ...prevFilters,
@@ -218,7 +219,10 @@ export default function FindJobs() {
                             ? (
                                 filter.array as { min: number; max: number }[]
                               ).map((option, index) => (
-                                <option key={index} value={option.max}>
+                                <option
+                                  key={index}
+                                  value={option.max}
+                                >
                                   {option.min} - {option.max}
                                 </option>
                               ))
