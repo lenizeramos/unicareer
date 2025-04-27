@@ -219,9 +219,9 @@ const ApplicantDetailsPage = () => {
                 )}
                 {user?.city && (
                   <InfoItem
-                    label="City"
+                    label="Address"
                     value={
-                      <span className="whitespace-pre-line font-shafarik">{user.city}</span>
+                      <span className="whitespace-pre-line font-shafarik">{user.city}, {user.province}</span>
                     }
                   />
                 )}
