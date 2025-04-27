@@ -3,6 +3,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { JobListProps, IJob } from "../Types";
 import Badge from "./Badge";
 import ButtonComp from "./ButtonComp";
+import { monthNames } from "../constants";
 
 export default function JobList({
   jobs,
@@ -14,6 +15,13 @@ export default function JobList({
   totalItems,
   onViewJobDetails,
 }: JobListProps) {
+
+  const getDate = (date: string) => {
+    const createDate = new Date(date);
+    const month = monthNames[createDate.getMonth()];
+    return `${month} ${createDate.getDate()} , ${createDate.getFullYear()} `;
+  };
+  
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const renderValue = (val: unknown): React.ReactNode => {
@@ -67,7 +75,7 @@ export default function JobList({
                         {key === "type" ? (
                           <Badge status={String(job[key as keyof IJob])} color={String(job[key as keyof IJob]).toLowerCase()} />
                         ) : key === "closingDate" || key === "createdAt" || key === "updatedAt" ? (
-                          new Date(String(renderValue(job[key as keyof IJob]))).toLocaleDateString()
+                          getDate(String(renderValue(job[key as keyof IJob])))
                         ) : (
                           renderValue(job[key as keyof IJob])
                         )}
@@ -103,7 +111,7 @@ export default function JobList({
                     </div>
                   ) : key === "closingDate" || key === "createdAt" || key === "updatedAt" ? (
                     <div className="text-lg font-[500]">
-                      {new Date(String(renderValue(job[key as keyof IJob]))).toLocaleDateString()}
+                      {getDate(String(renderValue(job[key as keyof IJob])))}
                     </div>
                   ) : key === "actionButton" ? (
                     <div className="flex justify-center">
