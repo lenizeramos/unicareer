@@ -83,8 +83,8 @@ export async function getTotalJobByCompanyId(
 
     return totalJobs;
   } catch (error) {
-    console.error("Error fetching jobs:", error);
-    throw new Error("Failed to retrieve jobs due to database issue.");
+    console.error("Error fetching jobs count:", error);
+    throw new Error("Failed to retrieve jobs count due to database issue.");
   }
 }
 
