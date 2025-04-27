@@ -1,6 +1,5 @@
 "use client";
-import CompanyHeader from "@/app/components/CompanyHeader";
-import { FaCheckCircle, FaPlus } from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
 import { styles } from "@/app/styles";
 import ButtonComp from "@/app/components/ButtonComp";
 import { useRouter } from "next/navigation";
