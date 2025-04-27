@@ -107,7 +107,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="E.g. Software Engineer"
                 required
-                maxLength={500}
+                maxLength={100}
                 classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
                 classNameLabel={classNameLabel + " font-shafarik"}
                 classNameDivLgWidth={classNameDivLgWidth}
@@ -128,6 +128,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
                 classNameLabel={classNameLabel + " text-lg font-shafarik"}
                 classNameField={classNameField + " text-lg font-shafarik"}
+                required={true}
               />
             </div>
 
@@ -148,6 +149,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 classNameLabel={classNameLabel + " text-lg font-shafarik"}
                 classNameDivLgWidth={classNameDivLgWidth}
                 classNameField={classNameField + " text-lg font-shafarik"}
+                required={true}
               />
             </div>
 
@@ -168,13 +170,14 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 classNameLabel={classNameLabel + " text-lg font-shafarik"}
                 classNameDivLgWidth={classNameDivLgWidth}
                 classNameField={classNameField + " text-lg font-shafarik"}
+                required={true}
               />
             </div>
 
             <div className={classNamePadding}>
               <SalaryRangeSlider
                 label="Salary - Per hour"
-                small="Select the range salary, choose the minimun and maximun salary per hour"
+                small="Select the range salary, change the minimun and maximun salary per hour to reflect the job"
                 id="salaryRange"
                 min={10}
                 max={100}
@@ -206,6 +209,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 classNameLabel={classNameLabel + " text-lg font-shafarik"}
                 classNameDivLgWidth={classNameDivLgWidth}
                 classNameField={classNameField + " text-lg font-shafarik"}
+                required={true}
               />
             </div>
 
@@ -216,7 +220,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               className="lg:w-4/5 text-gray-700 rounded-md font-shafarik"
               containerClass={`${classNameDivContainer} ${classNamePadding}`}
               labelClass={classNameLabel + " font-shafarik" }
-              helperText="Enter relevant skills for the position"
+              helperText="Enter relevant skills for the position - max 100 skills - comma ',' separated."
               itemTemplate={(skill) => (
                 <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2 font-shafarik">
                   {skill}
@@ -245,11 +249,12 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter job description here..."
-              maxLength={500}
+              maxLength={1000}
               classNameDivContainer={classNameDivContainer + " font-shafarik"}
               classNameLabel={classNameLabel + " font-shafarik"}
               classNameDivLgWidth={classNameDivLgWidth}
               classNameField={classNameField + " font-shafarik"}
+              required={true}
             />
             <InputField
               label="Location"
@@ -274,7 +279,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               value={responsibilities}
               onChange={(e) => setResponsibilities(e.target.value)}
               placeholder="Enter key responsibilities here..."
-              maxLength={500}
+              maxLength={1000}
               classNameDivContainer={classNameDivContainer + " font-shafarik"}
               classNameLabel={classNameLabel + " font-shafarik"}
               classNameDivLgWidth={classNameDivLgWidth}
@@ -288,7 +293,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               value={whoYouAre}
               onChange={(e) => setWhoYouAre(e.target.value)}
               placeholder="Describe who the ideal candidate is..."
-              maxLength={500}
+              maxLength={1000}
               classNameDivContainer={classNameDivContainer + " font-shafarik"}
               classNameLabel={classNameLabel + " font-shafarik"}
               classNameDivLgWidth={classNameDivLgWidth}
@@ -303,7 +308,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               value={niceToHave}
               onChange={(e) => setNiceToHave(e.target.value)}
               placeholder="Enter any nice-to-have qualifications here..."
-              maxLength={500}
+              maxLength={1000}
               classNameDivContainer={classNameDivContainer + " font-shafarik"}
               classNameLabel={classNameLabel + " font-shafarik"}
               classNameDivLgWidth={classNameDivLgWidth}
@@ -335,7 +340,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
             className="lg:w-4/5 text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-shafarik"
             containerClass={classNameDivContainer + " font-shafarik"}
             labelClass={classNameLabel + " font-shafarik"}
-            helperText="Encourage more people to apply by sharing the attractive rewards and benefits you offer your employees"
+            helperText="Encourage more people to apply by sharing the attractive rewards and benefits you offer your employees - max 100 benefits - comma ',' separated"
             itemTemplate={(benefit) => (
               <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2 font-shafarik">
                 {benefit}

@@ -2,6 +2,8 @@ import { Chips, ChipsChangeEvent } from "primereact/chips";
 import React from "react";
 import { IChipsFieldProps } from "../Types/index";
 
+const maxLength = 100;
+
 const ChipsField: React.FC<IChipsFieldProps> = ({
   label,
   value,
@@ -13,7 +15,6 @@ const ChipsField: React.FC<IChipsFieldProps> = ({
   containerClass,
   helperText,
 }) => {
-
   const handleChange = (e: ChipsChangeEvent) => {
     const newValue = e.value ? e.value : [];
     const lowercasedSet = new Set<string>();
@@ -26,27 +27,38 @@ const ChipsField: React.FC<IChipsFieldProps> = ({
         uniqueValues.push(item);
       }
     }
+    if (uniqueValues.length > maxLength) {
+      return;
+    }
 
     onChange(uniqueValues);
   };
 
   return (
-    <div className={containerClass}>
-      <label htmlFor={label.toLowerCase()} className={labelClass}>
-        {label}
-        {helperText && (
-          <small className="block text-xs text-gray-500">{helperText}</small>
-        )}
-      </label>
-      <Chips
-        className={className}
-        itemTemplate={itemTemplate}
-        value={value}
-        onChange={handleChange}
-        separator=","
-        placeholder={placeholder}
-      />
-    </div>
+    <>
+      <div className={containerClass}>
+        <label htmlFor={label.toLowerCase()} className={labelClass}>
+          {label}
+          {helperText && (
+            <small className="block text-xs text-gray-500">{helperText}</small>
+          )}
+        </label>
+        <Chips
+          className={className}
+          itemTemplate={itemTemplate}
+          value={value}
+          onChange={handleChange}
+          separator=","
+          placeholder={placeholder}
+        />
+        <div className="bg-blue-200"></div>
+      </div>
+      <div>
+        <p className="text-xs text-gray-500 mt-1 text-right">
+          {value.length}/{maxLength}
+        </p>
+      </div>
+    </>
   );
 };
 
