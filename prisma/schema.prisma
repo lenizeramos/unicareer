@@ -52,9 +52,9 @@ model Candidate {
   documents      CandidateDocument[]
   applications   Application[]
   jobView        JobView[]
+  compatibilityScores CompatibilityScore[]
   createdAt      DateTime            @default(now())
   updatedAt      DateTime            @updatedAt
-  //compatibilityScores CompatibilityScore[]
 
   @@map("candidate")
 }
@@ -99,10 +99,7 @@ model Job {
   company          Company       @relation(fields: [companyId], references: [id])
   applications     Application[]
   jobView          JobView[]
-  /**
-   * jobRecommendations JobRecommendation[]
-   * compatibilityScores CompatibilityScore[]
-   */
+  compatibilityScores CompatibilityScore[]
   closingDate      DateTime?
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
@@ -266,4 +263,20 @@ enum LanguageLevel {
   INTERMEDIATE
   ADVANCED
   NATIVE
+}
+
+model CompatibilityScore {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  jobId       String    @db.ObjectId
+  job         Job       @relation(fields: [jobId], references: [id])
+  candidateId String    @db.ObjectId
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  score       Float     
+  feedback    String    
+  recommendation String 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([jobId, candidateId])
+  @@map("compatibility_scores")
 }

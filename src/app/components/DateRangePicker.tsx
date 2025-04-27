@@ -33,8 +33,6 @@ const DateRangePicker = ({
 
   let displayText = "";
 
-  const now = new Date();
-
   if (!startDate || !endDate) {
     displayText = "Select a date range";
   } else {

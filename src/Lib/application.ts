@@ -189,3 +189,17 @@ export async function getApplicationsCountByJobId(id: string) {
     throw new Error("Failed to retrieve applications count.");
   }
 }
+
+export async function getApplicationsCount(startDate?: Date, endDate?: Date) {
+  try {
+    return await prisma.application.count({
+      where: {
+        ...(startDate && { appliedAt: { gte: startDate } }),
+        ...(endDate && { appliedAt: { lte: endDate } }),
+      },
+    });
+  } catch (error) {
+    console.error("Error counting application:", error);
+    throw new Error("Failed to count application due to database issue.");
+  }
+}

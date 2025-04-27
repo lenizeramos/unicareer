@@ -1,103 +1,98 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/app/context/store";
-import { fetchUsers } from "@/app/context/slices/usersSlices";
+import { useState, useEffect } from "react";
+import { styles } from "@/app/styles";
+import CompanyListTable from "@/app/components/CompanyListTable";
+import DateRangePicker from "@/app/components/DateRangePicker";
+import { monthNames } from "@/app/constants";
+import { ICompany } from "@/app/Types/slices";
 import DashboardNavbar from "@/app/components/DashboardNavbar";
-import Loader from "@/app/components/Loader";
-import ApplicationsList from "@/app/components/ApplicationsList";
-import { Application } from "@/app/Types";
 
 export default function CompaniesPage() {
-  const dispatch: AppDispatch = useDispatch();
-  const { users, loading, error } = useSelector((state: RootState) => state.users);
-  const [isClient, setIsClient] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-
-  useEffect(() => {
-    setIsClient(true);
-    dispatch(fetchUsers("COMPANY"));
-  }, [dispatch]);
-
-  if (!isClient || loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return (
-      <>
-        <DashboardNavbar
-          title="Companies"
-          button={{ text: "Back to home page", IsWhite: true }}
-        />
-        <div className="container mx-auto px-4 py-8">
-          <h1 className="text-2xl font-bold mb-6">All Companies</h1>
-          <p className="text-red-500">Error: {error}</p>
-        </div>
-      </>
-    );
-  }
-
-  if (!Array.isArray(users) || users.length === 0) {
-    return (
-      <>
-        <DashboardNavbar
-          title="Companies"
-          button={{ text: "Back to home page", IsWhite: true }}
-        />
-        <div className="container mx-auto px-4 py-8">
-          <h1 className="text-2xl font-bold mb-6">All Companies</h1>
-          <p>No companies found</p>
-        </div>
-      </>
-    );
-  }
+  const [companies, setCompanies] = useState<ICompany[]>([]);
+  const [startDate, setStartDate] = useState<Date | null>();
+  const [endDate, setEndDate] = useState<Date | null>();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const columns = {
-    name: "Company",
-    position: "Job Title",
-    appliedDate: "Posted Date",
-    status: "Status",
-    actions: "View"
+    name: "Name",
+    address: "Address",
+    industry: "Industry",
+    createdAt: "Date Joined",
+    jobs: "Number of Jobs Posted",
   };
 
-  const data: Application[] = users.flatMap(company => 
-    (company.jobs || []).map(job => ({
-      id: job.id || "",
-      name: company.name || "",
-      email: company.email || "",
-      position: job.title || "No title specified",
-      appliedDate: job.createdAt || "Not specified",
-      status: job.status === "OPEN" ? "PENDING" : "REJECTED"
-    }))
-  );
+  useEffect(() => {
+    let queryParams = "";
+    if (startDate && endDate) {
+      queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
+    }
+    if (searchTerm && searchTerm.length > 2) {
+      queryParams += queryParams
+        ? `&search=${encodeURIComponent(searchTerm)}`
+        : `?search=${encodeURIComponent(searchTerm)}`;
+    }
+    const fetchCompanies = async () => {
+      try {
+        const response = await fetch(`/api/admin/companies${queryParams}`);
+        if (!response.ok) throw new Error("Failed to fetch companies");
+        const companies = await response.json();
 
-  const handleViewProfile = (id: string) => {
-    console.log("View company profile:", id);
+        setCompanies(companies);
+      } catch (error) {
+        console.error("Error fetching companies:", error);
+        throw error;
+      }
+    };
+    fetchCompanies();
+  }, [startDate, endDate, searchTerm]);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentCompanies = companies.slice(indexOfFirstItem, indexOfLastItem);
+
+  const getDate = (date: Date | undefined | null) => {
+    if (!date) {
+      return <p>Not Found</p>;
+    }
+    const createDate = date;
+
+    const month = monthNames[createDate.getMonth()];
+    return `${month} ${createDate.getDate()}`;
   };
 
   return (
     <>
-      <DashboardNavbar
-        title="Companies"
-        button={{ text: "Back to home page", IsWhite: true }}
-      />
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-6">All Companies</h1>
-        <ApplicationsList
-          applications={data}
-          columns={columns}
-          itemsPerPage={itemsPerPage}
-          onItemsPerPageChange={setItemsPerPage}
-          currentPage={currentPage}
-          onPageChange={setCurrentPage}
-          totalItems={data.length}
-          onViewProfile={handleViewProfile}
-        />
+      <DashboardNavbar title="Companies" />
+      <div className={styles.borderBottomLight}></div>
+
+      <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
+        <div>
+          <p className={`${styles.JobDescriptionText}`}>
+            See all the companies below{" "}
+            {startDate && endDate && (
+              <>
+                from {getDate(startDate)} - {getDate(endDate)}
+              </>
+            )}
+          </p>
+        </div>
+        <DateRangePicker setStartDate={setStartDate} setEndDate={setEndDate} />
       </div>
+
+      <CompanyListTable
+        companies={currentCompanies}
+        columns={columns}
+        itemsPerPage={itemsPerPage}
+        onItemsPerPageChange={setItemsPerPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+        totalItems={companies.length}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        isLoading={true}
+      />
     </>
   );
 }

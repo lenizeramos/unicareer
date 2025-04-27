@@ -1,11 +1,64 @@
 "use client";
 
-import { FaUser, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaUser, FaArrowLeft, FaArrowRight, FaInfoCircle } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import ButtonComp from "./ButtonComp";
 import Badge from "./Badge";
 import { ApplicationsListTableProps } from "../Types";
 import { IApplication } from "../Types/slices";
+import { useState } from "react";
+
+interface Compatibility {
+  score: number;
+  feedback: string;
+  recommendation: string;
+}
+
+interface CompatibilityModalProps {
+  compatibility: Compatibility;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const CompatibilityModal = ({ compatibility, isOpen, onClose }: CompatibilityModalProps) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-white p-8 rounded-xl max-w-md w-full mx-4 shadow-xl">
+        <div className="flex flex-col">
+          <h3 className="text-xl font-semibold mb-6 text-gray-800">Compatibility Analysis</h3>
+          
+          <div className="space-y-6 mb-8">
+            <div>
+              <p className="text-sm text-gray-500 mb-1">Compatibility Score</p>
+              <p className="text-2xl font-bold text-gray-800">{compatibility.score.toFixed(1)}%</p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500 mb-1">Feedback</p>
+              <p className="text-gray-700">{compatibility.feedback}</p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500 mb-1">Recommendation</p>
+              <p className="text-gray-700 font-medium">
+                {compatibility.recommendation.replace(/_/g, " ")}
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={onClose}
+            className="w-full bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-lg transition-colors duration-200"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ApplicationsListTable = ({
   applications,
@@ -18,6 +71,7 @@ const ApplicationsListTable = ({
   onViewProfile,
   searchTerm,
   onSearchChange,
+  isLoading,
 }: ApplicationsListTableProps) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -32,9 +86,53 @@ const ApplicationsListTable = ({
     return colors[status];
   };
 
+  const [modalData, setModalData] = useState<{ isOpen: boolean; compatibility: Compatibility | null }>({
+    isOpen: false,
+    compatibility: null
+  });
+
+  const renderCompatibilityScore = (compatibility: Compatibility | null) => {
+    if (!compatibility) return "Pending Analysis";
+    
+    const scoreColor = 
+      compatibility.score >= 80 ? "text-green-600" :
+      compatibility.score >= 60 ? "text-yellow-600" :
+      "text-red-600";
+
+    const recommendationColor = 
+      compatibility.recommendation === "HIGHLY_RECOMMENDED" ? "text-green-600" :
+      compatibility.recommendation === "RECOMMENDED" ? "text-yellow-600" :
+      compatibility.recommendation === "NOT_RECOMMENDED" ? "text-red-600" :
+      "text-gray-600";
+
+    return (
+      <>
+        <div className="flex flex-col items-center">
+          <div className="flex items-center gap-2">
+            <span className={`font-semibold ${scoreColor}`}>
+              {compatibility.score.toFixed(1)}%
+            </span>
+            <FaInfoCircle 
+              className="text-gray-400 hover:text-gray-600 cursor-pointer" 
+              onClick={() => setModalData({ isOpen: true, compatibility })}
+            />
+          </div>
+          <span className={`text-sm ${recommendationColor}`}>
+            {compatibility.recommendation.replace(/_/g, " ")}
+          </span>
+        </div>
+        <CompatibilityModal
+          compatibility={modalData.compatibility!}
+          isOpen={modalData.isOpen}
+          onClose={() => setModalData({ isOpen: false, compatibility: null })}
+        />
+      </>
+    );
+  };
+
   return (
     <div className="w-full mt-4 md:mt-8">
-      <div className="flex justify-end px-4 py-3 mb-4">
+      <div className="flex justify-end px-2 sm:px-4 py-3 mb-4">
         <div className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-1 w-full max-w-xs">
           <BsSearch className="text-gray-400" />
           <input
@@ -47,7 +145,7 @@ const ApplicationsListTable = ({
         </div>
       </div>
 
-      <div className="hidden md:grid grid-cols-5 gap-4 px-6 py-3 bg-gray-100 text-gray-600 text-sm font-semibold border-t border-b">
+      <div className="hidden md:grid grid-cols-6 gap-2 sm:gap-4 px-3 sm:px-6 py-3 bg-gray-100 text-gray-600 text-sm font-semibold">
         {Object.values(columns).map((column, index) => (
           <div key={index} className="text-center">
             {column}
@@ -59,106 +157,58 @@ const ApplicationsListTable = ({
         {applications.map((application) => (
           <div
             key={application.id}
-            className="border border-gray-200 p-4 rounded-lg md:rounded-none md:border-0 md:border-b md:grid md:grid-cols-5 md:gap-4"
+            className="border border-gray-200 p-3 sm:p-4 rounded-lg md:rounded-none md:border-0 md:border-b md:grid md:grid-cols-6 md:gap-4"
           >
-            <div className="md:hidden flex justify-between items-start">
-              <div className="flex gap-3">
-                <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                  <FaUser className="text-gray-500 text-sm" />
-                </div>
-                <div>
-                  <div className="text-base font-semibold text-gray-800">
-                    {application.candidate?.firstName}{" "}
-                    {application.candidate?.lastName}
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    {application.candidate?.user?.email}
-                  </div>
-                  <div className="mt-1 text-sm text-gray-700">
-                    {application.job?.title}
-                  </div>
-                </div>
+            <div className="flex items-center gap-2 sm:gap-3 justify-center mb-3 md:mb-0">
+              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                <FaUser className="text-gray-500 text-xs sm:text-sm" />
               </div>
-
-              <div className="ml-2 shrink-0">
-                <Badge
-                  status={application.status}
-                  color={getStatusColor(application.status)}
-                />
+              <div>
+                <div className="text-xs sm:text-sm font-medium text-gray-800">
+                  {application.candidate?.firstName} {application.candidate?.lastName}
+                </div>
               </div>
             </div>
 
-            <div className="md:hidden mt-4">
+            <div className="text-center text-xs sm:text-sm py-2 md:py-0">{application.job?.title}</div>
+            <div className="text-center text-xs sm:text-sm py-2 md:py-0">
+              {new Date(application.appliedAt).toLocaleDateString()}
+            </div>
+            <div className="text-center py-2 md:py-0">
+              <Badge
+                status={application.status}
+                color={getStatusColor(application.status)}
+              />
+            </div>
+            <div className="text-center py-2 md:py-0">
+              {renderCompatibilityScore(application.compatibility || null)}
+            </div>
+            <div className="flex justify-center items-center py-2 md:py-0">
               <ButtonComp
                 text="View Profile"
                 IsWhite={true}
-                width={"w-full"}
                 onClick={() => onViewProfile && onViewProfile(application.id)}
               />
             </div>
-
-            {columns.name && (
-              <div className="hidden md:flex items-center gap-3 justify-center">
-                <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                  <FaUser className="text-gray-500 text-sm" />
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-gray-800">
-                    {application.candidate?.firstName}{" "}
-                    {application.candidate?.lastName}
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    {application.candidate?.user?.email}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {columns.position && (
-              <div className="hidden md:flex items-center justify-center text-sm text-gray-700 font-medium text-center">
-                {application.job?.title}
-              </div>
-            )}
-
-            {columns.appliedAt && (
-              <div className="hidden md:flex items-center justify-center text-sm text-gray-700">
-                {new Date(application.appliedAt).toLocaleDateString()}
-              </div>
-            )}
-
-            {columns.status && (
-              <div className="hidden md:flex items-center justify-center">
-                <Badge
-                  status={application.status}
-                  color={getStatusColor(application.status)}
-                />
-              </div>
-            )}
-
-            {columns.actions && (
-              <div className="hidden md:flex justify-center">
-                <ButtonComp
-                  text="View Profile"
-                  IsWhite={true}
-                  onClick={() => onViewProfile && onViewProfile(application.id)}
-                />
-              </div>
-            )}
           </div>
         ))}
       </div>
 
       {applications.length === 0 && (
         <div className="text-center text-gray-500 text-sm py-6">
-          No applications found matching your search
+          {isLoading ? (
+            "Loading applications..."
+          ) : (
+            "No applications found matching your search"
+          )}
         </div>
       )}
 
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 px-4 py-4 border-t mt-6 rounded-b-lg">
-        <div className="flex items-center gap-2 text-sm">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 px-2 sm:px-4 py-4 border-t mt-6 rounded-b-lg">
+        <div className="flex items-center gap-2 text-xs sm:text-sm">
           <span className="text-gray-600">View</span>
           <select
-            className="rounded px-2 py-1 text-sm"
+            className="rounded px-2 py-1 text-xs sm:text-sm"
             value={itemsPerPage}
             onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
           >
@@ -171,13 +221,13 @@ const ApplicationsListTable = ({
           <span className="text-gray-600">applications per page</span>
         </div>
 
-        <div className="flex items-center gap-2 text-sm">
+        <div className="flex items-center gap-2 text-xs sm:text-sm">
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="p-2 rounded disabled:opacity-50"
+            className="p-1.5 sm:p-2 rounded disabled:opacity-50"
           >
-            <FaArrowLeft />
+            <FaArrowLeft className="w-3 h-3 sm:w-4 sm:h-4" />
           </button>
           <span className="text-gray-700">
             Page {currentPage} of {totalPages}
@@ -185,9 +235,9 @@ const ApplicationsListTable = ({
           <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="p-2 rounded disabled:opacity-50"
+            className="p-1.5 sm:p-2 rounded disabled:opacity-50"
           >
-            <FaArrowRight />
+            <FaArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
           </button>
         </div>
       </div>

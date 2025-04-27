@@ -8,6 +8,19 @@ import DateRangePicker from "@/app/components/DateRangePicker";
 import { monthNames } from "@/app/constants";
 import { IApplication } from "@/app/Types/slices";
 
+interface Compatibility {
+  score: number;
+  feedback: string;
+  recommendation: string;
+}
+
+interface Application {
+  id: string;
+  candidateId: string;
+  compatibility?: Compatibility;
+  jobId: string;
+}
+
 export default function ApplicationsPage() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,29 +39,53 @@ export default function ApplicationsPage() {
     position: "Position",
     appliedAt: "Applied Date",
     status: "Status",
+    compatibility: "Match Score",
     actions: "Actions",
   };
 
   useEffect(() => {
-    let queryParams = "";
-    if (startDate && endDate) {
-      queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
-    }
-    if (searchTerm && searchTerm.length > 2) {
-      queryParams += queryParams
-        ? `&search=${encodeURIComponent(searchTerm)}`
-        : `?search=${encodeURIComponent(searchTerm)}`;
-    }
     const fetchCompanyApplications = async () => {
       try {
+        let queryParams = "";
+        if (startDate && endDate) {
+          queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
+        }
+        if (searchTerm && searchTerm.length > 2) {
+          queryParams += queryParams
+            ? `&search=${encodeURIComponent(searchTerm)}`
+            : `?search=${encodeURIComponent(searchTerm)}`;
+        }
+    
         const response = await fetch(`/api/company/applications${queryParams}`);
-        if (!response.ok) throw new Error("Failed to fetch company jobs");
+        if (!response.ok) throw new Error("Failed to fetch company applications");
         const applications = await response.json();
-
+        console.log('Fetched Applications:', applications);
+    
+        if (applications.length > 0) {
+          const candidatesWithoutScores = applications
+            .filter((app: Application) => !app.compatibility)
+            .map((app: Application) => app.candidateId);
+    
+          if (candidatesWithoutScores.length > 0) {
+            await fetch('/api/company/analyze-candidates', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                jobId: applications[0].jobId,
+                candidateIds: candidatesWithoutScores
+              })
+            });
+            
+            const finalResponse = await fetch(`/api/company/applications${queryParams}`);
+            const updatedApplications = await finalResponse.json();
+            setApplications(updatedApplications);
+            return;
+          }
+        }
+    
         setApplications(applications);
       } catch (error) {
-        console.error("Error fetching job:", error);
-        throw error;
+        console.error("Error fetching applications:", error);
       }
     };
     fetchCompanyApplications();
@@ -60,6 +97,15 @@ export default function ApplicationsPage() {
     indexOfFirstItem,
     indexOfLastItem
   );
+
+  console.log('Pagination Debug:', {
+    total: applications.length,
+    currentPage,
+    itemsPerPage,
+    indexOfFirstItem,
+    indexOfLastItem,
+    currentApplications
+  });
 
   const getDate = (date: Date | undefined | null) => {
     if (!date) {
@@ -101,6 +147,7 @@ export default function ApplicationsPage() {
         onViewProfile={handleViewProfile}
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
+        isLoading={true}
       />
     </>
   );

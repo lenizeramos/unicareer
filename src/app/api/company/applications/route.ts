@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
-import { getApplicationsByCompanyId } from "@/Lib/application";
 import { getUserByClerkId } from "@/Lib/server/usersService";
+import prisma from '@/Lib/prisma';
 
 export async function GET(req: NextRequest) {
   try {
@@ -23,17 +23,96 @@ export async function GET(req: NextRequest) {
       const endDateParam = req.nextUrl.searchParams.get("endDate");
       const searchTermParam = req.nextUrl.searchParams.get("search");
 
-      const startDate = startDateParam ? new Date(startDateParam) : undefined;
-      const endDate = endDateParam ? new Date(endDateParam) : undefined;
-      const searchTerm = searchTermParam ? searchTermParam : undefined;
+      type ApplicationWhereClause = {
+        appliedAt?: {
+          gte: Date;
+          lte: Date;
+        };
+        OR?: Array<{
+          candidate: {
+            firstName: { contains: string; mode: 'insensitive' };
+          };
+        } | {
+          candidate: {
+            lastName: { contains: string; mode: 'insensitive' };
+          };
+        }>;
+      };
 
-      const applications = await getApplicationsByCompanyId(
-        companyId,
-        startDate,
-        endDate,
-        searchTerm
-      );
-      return NextResponse.json(applications);
+      const whereClause: ApplicationWhereClause = {};
+      
+      if (startDateParam && endDateParam) {
+        whereClause.appliedAt = {
+          gte: new Date(startDateParam),
+          lte: new Date(endDateParam),
+        };
+      }
+
+      if (searchTermParam) {
+        whereClause.OR = [
+          {
+            candidate: {
+              firstName: { contains: searchTermParam, mode: 'insensitive' },
+            },
+          },
+          {
+            candidate: {
+              lastName: { contains: searchTermParam, mode: 'insensitive' },
+            },
+          },
+        ];
+      }
+
+      const applications = await prisma.application.findMany({
+        where: {
+          ...whereClause,
+          job: {
+            companyId: companyId
+          }
+        },
+        include: {
+          candidate: {
+            select: {
+              firstName: true,
+              lastName: true,
+              skills: true,
+            },
+          },
+          job: {
+            select: {
+              title: true,
+              id: true,
+              compatibilityScores: true,
+            },
+          },
+        },
+        orderBy: {
+          appliedAt: 'desc',
+        },
+      });
+
+      const transformedApplications = applications.map(app => ({
+        id: app.id,
+        jobId: app.job.id,
+        candidateId: app.candidateId,
+        status: app.status,
+        appliedAt: app.appliedAt,
+        candidate: {
+          firstName: app.candidate.firstName,
+          lastName: app.candidate.lastName,
+        },
+        job: {
+          title: app.job.title,
+        },
+        compatibility: app.job.compatibilityScores.find(
+          score => score.candidateId === app.candidateId
+        ),
+        startDate: startDateParam ? new Date(startDateParam) : undefined,
+        endDate: endDateParam ? new Date(endDateParam) : undefined,
+        searchTerm: searchTermParam || undefined,
+      }));
+
+      return NextResponse.json(transformedApplications);
     } else {
       return new NextResponse("Company ID not found", { status: 404 });
     }

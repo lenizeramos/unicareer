@@ -1,5 +1,5 @@
 /* import { ResumeData } from "@/types/resume"; */
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { IApplication, ICandidate, ICompany } from "./slices";
 
 export interface IButtton {
@@ -330,7 +330,7 @@ export interface IDashboardData {
   companyJobs: IJob[];
 }
 
-export interface ApplicationsListProps {
+/* export interface ApplicationsListProps {
   applications: Application[];
   columns: { [key: string]: string };
   itemsPerPage: number;
@@ -339,7 +339,7 @@ export interface ApplicationsListProps {
   onPageChange: (page: number) => void;
   totalItems: number;
   onViewProfile?: (id: string) => void;
-}
+} */
 
 export interface ApplicationsListTableProps {
   applications: IApplication[];
@@ -352,6 +352,7 @@ export interface ApplicationsListTableProps {
   onViewProfile?: (id: string) => void;
   searchTerm: string;
   onSearchChange: (value: string) => void;
+  isLoading: boolean;
 }
 
 export interface Application {
@@ -370,6 +371,7 @@ export interface Application {
 export interface IContactInfoItemProps {
   icon: React.ReactNode;
   value: string;
+  className?: string;
 }
 
 export interface InfoSectionProps {
@@ -388,5 +390,34 @@ export interface IStatusButtonProps {
   currentStatus: string;
   targetStatus: string;
   label: string;
-  setStatus: (status: string) => void;
+  setStatus: Dispatch<SetStateAction<string>>;
+  className?: string;
+}
+
+export interface CandidateListTableProps {
+  candidates: ICandidate[];
+  columns: { [key: string]: string };
+  itemsPerPage: number;
+  onItemsPerPageChange: (value: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+  onViewProfile?: (id: string) => void;
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  isLoading: boolean;
+}
+
+export interface CompanyListTableProps {
+  companies: ICompany[];
+  columns: { [key: string]: string };
+  itemsPerPage: number;
+  onItemsPerPageChange: (value: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+  onViewProfile?: (id: string) => void;
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  isLoading: boolean;
 }

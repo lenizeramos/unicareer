@@ -29,7 +29,6 @@ export async function POST(request: Request) {
       include: { candidate: true }
     });
 
-    // Create user and candidate if they don't exist
     if (!user) {
       user = await prisma.user.create({
         data: {
