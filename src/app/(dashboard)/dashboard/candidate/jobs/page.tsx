@@ -114,7 +114,7 @@ export default function FindJobs() {
     <>
       <DashboardNavbar
         title="Find Jobs"
-        button={{ text: "Back to home page", IsWhite: true }}
+        button={{ text: "Back to dashboard", IsWhite: true }}
       />
       {loading ? (
         <Loader />

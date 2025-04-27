@@ -10,8 +10,6 @@ import { BsSearch } from "react-icons/bs";
 import SummaryTable from "@/app/components/SummaryTable";
 import SearchNotFound from "@/app/components/SearchNotFound";
 import DashboardWelcome from "@/app/components/DashboardWelcome";
-import { AiOutlineAlignCenter } from "react-icons/ai";
-import { TbZoomReset } from "react-icons/tb";
 
 export default function Application() {
   const { candidate, isLoading } = useCandidateData();
@@ -19,8 +17,6 @@ export default function Application() {
   const [endDate] = useState<Date | null>();
   const [active, setActive] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState<string>("");
-
-  const [filter, setFilter] = useState("")
 
   if (isLoading) {
     return <Loader />;
@@ -60,15 +56,12 @@ export default function Application() {
       tags: application.status ?? "Unknown",
     };
   });
-  function setModalOpen(arg0: boolean): void {
-    throw new Error("Function not implemented.");
-  }
 
   return (
     <>
       <DashboardNavbar
         title="My Applications"
-        button={{ text: "Back to home page", IsWhite: true }}
+        button={{ text: "Back to dashboard", IsWhite: true }}
       />
       <DashboardWelcome
         greeting={`Keep it up, ${candidate.firstName}`}

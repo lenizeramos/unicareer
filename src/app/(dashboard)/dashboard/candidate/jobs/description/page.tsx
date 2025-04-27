@@ -97,6 +97,7 @@ export default function JobDescription() {
   const application =
     candidate.applications &&
     candidate.applications.some((item) => item.jobId === job.id);
+    
   const handleApplicationSubmit = async () => {
     if (!candidate) {
       console.error("No candidate ID available");
@@ -138,7 +139,7 @@ export default function JobDescription() {
     <>
       <DashboardNavbar
         title="Job Description"
-        button={{ text: "Back to home page", IsWhite: true }}
+        button={{ text: "Back to dashboard", IsWhite: true }}
       />
       <div className="flex flex-col gap-10 mx-5">
         <div className="border-t-[1px] border-gray-200 py-5">
