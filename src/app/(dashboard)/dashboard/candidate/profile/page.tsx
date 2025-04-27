@@ -2,9 +2,8 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import ButtonComp from "@/app/components/ButtonComp";
-import { FaRegEdit, FaPlus, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { FaPlus, FaLinkedinIn, FaTwitter, FaGlobe } from "react-icons/fa";
 import { styles } from "@/app/styles";
-import PortfolioSlider from "@/app/components/PortfolioSlider";
 import FileDisplay from "@/app/components/FileDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/context/store";
@@ -27,27 +26,18 @@ const ProfilePage = () => {
     <>
       <DashboardNavbar
         title="My Profile"
-        button={{ text: "Back to home page", IsWhite: true }}
+        button={{ text: "Back to dashboard", IsWhite: true }}
       />
-      <div className="flex flex-col sm:flex-col md:flex-row min-h-screen">
-        <div className="flex-1 p-4 md:p-6">
-
-          <div className="bg-white shadow-md rounded-2xl p-4 md:p-6 mb-4 md:mb-6 relative">
-            <div className="flex justify-between">
-              <div
-                className="absolute top-0 left-0 w-full h-24 bg-cover bg-center rounded-t-2xl"
-                style={{
-                  backgroundImage: "url('/img/background-candidate.png')",
-                }}
-              >
-                <button
-                  className={`${styles.iconsCards} absolute top-2 right-2 text-white size={30} hover:text-gray-600`}
-                >
-                  <FaRegEdit />
-                </button>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4 relative z-10 mt-12">
+      <div className="flex flex-col md:flex-row gap-4 font-shafarik">
+        <div className="flex flex-col gap-6 md:p-6">
+          <div className="p-4 md:p-6 relative shadow-xl rounded-2xl">
+            <div
+              className="absolute top-0 left-0 w-full md:h-24 h-18 bg-cover bg-center rounded-t-2xl"
+              style={{
+                backgroundImage: "url('/img/background-candidate.png')",
+              }}
+            />
+            <div className="flex items-center md:gap-4 gap-1 relative z-10 mt-8">
               <FileDisplay
                 modelName="userProfileImage"
                 userId={candidate?.user?.id || ""}
@@ -56,18 +46,20 @@ const ProfilePage = () => {
                 className="profile-image-style overflow-hidden"
                 fallbackImage={candidate?.user?.photo || ""}
               />
-              <div className="flex-1">
-                <h3 className="text-xl font-bold">{`${candidate?.firstName} ${candidate?.lastName}`}</h3>
-                <span className="mt-2 px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full">
-                  {`${candidate?.user?.city}, ${candidate?.user?.province} `}
-                </span>
+              <div className="flex flex-col flex-1">
+                <h3 className="md:text-3xl text-lg font-bold font-monomakh">{`${candidate?.firstName} ${candidate?.lastName}`}</h3>
+                {candidate?.user?.city && (
+                  <span className="px-2 py-1 bg-gray-100 text-[#49286b] md:text-md text-[10px] rounded-full font-shafarik w-fit">
+                    {candidate.user.city && `${candidate.user.city}`}{" "}
+                    {candidate.user.province && `, ${candidate.user.province}`}
+                  </span>
+                )}
               </div>
 
-              <div className="absolute top-2 right-2">
+              <div className="">
                 <ButtonComp
                   text="Edit Profile"
                   IsWhite={true}
-                  icon={<FaPlus />}
                   onClick={() => {
                     router.push("/dashboard/candidate/profile/edit");
                   }}
@@ -76,37 +68,31 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="bg-white shadow-md rounded-2xl p-6 mb-6">
-            <div className="flex justify-between">
-              <h4 className={styles.sectionHeadText}>About Me</h4>
-            </div>
-            <p className="text-gray-700">
+          <div className="p-6 w-fit border border-gray-200">
+            <h4 className={`${styles.sectionHeadText}`}>About Me</h4>
+            <p className="text-gray-700 ">
               {candidate?.bio || "No bio available"}
             </p>
           </div>
 
-          <div className="bg-white shadow-md rounded-2xl p-6 mb-6">
-            <div className="flex justify-between">
-              <h4 className="font-semibold">Experiences</h4>
-            </div>
+          <div className="p-6 w-fit border border-gray-200">
+            <h4 className={`${styles.sectionHeadText}`}>Experiences</h4>
             <div className="mt-4 space-y-4">
               {candidate?.workExperience?.map((exp) => (
-                <div key={exp.id} className="flex items-start gap-4">
-                  <div>
-                    <h5 className="font-bold">{exp.position}</h5>
-                    <p className="text-sm text-gray-500">
+                <div key={exp.id} className="">
+                  <div className="space-y-2">
+                    <h5 className="font-bold md:text-xl">{exp.position}</h5>
+                    <p className="text-sm text-gray-800">
                       {exp.company} - {exp.country}
                     </p>
                     <p className="text-sm text-gray-500">
-                      {exp.startDate
-                        ? new Date(exp.startDate).toLocaleDateString()
-                        : ""}{" "}
+                      {exp.startDate &&
+                        new Date(exp.startDate).toLocaleDateString()}{" "}
                       -{" "}
-                      {exp.current
+                      {!exp.current
                         ? "Present"
-                        : exp.endDate
-                        ? new Date(exp.endDate).toLocaleDateString()
-                        : ""}
+                        : exp.endDate &&
+                          new Date(exp.endDate).toLocaleDateString()}
                     </p>
                     <p className="text-gray-700">{exp.description}</p>
                   </div>
@@ -115,10 +101,8 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="bg-white shadow-md rounded-2xl p-6 mb-6">
-            <div className="flex justify-between">
-              <h4 className="font-semibold">Education</h4>
-            </div>
+          <div className="p-6 w-fit border border-gray-200">
+            <h4 className={`${styles.sectionHeadText}`}>Education</h4>
             <div className="mt-4 space-y-4">
               {candidate?.education?.map((edu) => (
                 <div key={edu.id} className="flex items-start gap-4">
@@ -143,8 +127,8 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="bg-white shadow-md rounded-2xl p-6 mb-6">
-            <h4 className="font-semibold">Skills</h4>
+          <div className="p-6 w-full border border-gray-200">
+            <h4 className={`${styles.sectionHeadText}`}>Skills</h4>
             <div className="mt-4 flex flex-wrap gap-2">
               {candidate?.skills?.map((skill) => (
                 <span
@@ -157,8 +141,8 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="bg-white shadow-md rounded-2xl p-6 mb-6">
-            <h4 className="font-semibold">Languages</h4>
+          <div className="p-6 w-full border border-gray-200">
+            <h4 className={`${styles.sectionHeadText}`}>Languages</h4>
             <div className="mt-4 flex flex-wrap gap-2">
               {candidate?.languages?.map((lang) => (
                 <span
@@ -170,49 +154,56 @@ const ProfilePage = () => {
               ))}
             </div>
           </div>
-
-          <div className="bg-white shadow-md rounded-2xl p-6">
-            <PortfolioSlider />
-          </div>
         </div>
 
-        <aside className="w-1/4 p-6">
-          <div className="bg-white shadow-md rounded-2xl p-6 mb-6">
-            <h4 className="font-semibold mb-4">Additional Details</h4>
+        <aside className=" md:w-1/3 w-fit bg-gray-50 space-y-5 md:mt-6 p-6">
+          <div className="overflow-hidden text-ellipsis">
+            <h4 className={`${styles.sectionHeadText} md:text-center mb-2`}>
+              Additional Details
+            </h4>
             <p className="text-sm">
-              <strong>Email:</strong> {candidate?.user?.email}
+              <strong className="text-gray-800">Email:</strong>{" "}
+              {candidate?.user?.email}
             </p>
-            <p className="text-sm">
-              <strong>Website:</strong>{" "}
-              {candidate?.user?.website || "Not provided"}
-            </p>
+            <div className="text-sm">
+              <div className="flex gap-2 items-center">
+                <FaGlobe className="text-gray-600"/>
+                <h1 className="text-gray-800 font-semibold">Website </h1>
+              </div>
+              <a
+                className=" text-blue-600 hover:underline cursor-pointer"
+                href={`${candidate?.user?.website}`}
+              >
+                {candidate?.user?.website || "Not provided"}
+              </a>
+            </div>
           </div>
 
-          <div className="bg-white shadow-md rounded-2xl p-6">
-            <h4 className="font-semibold mb-4">Social Links</h4>
-            <div className="text-sm flex flex-row gap-2">
-              <FaTwitter className="text-gray-600" />
-              <div>
-                <h1 className="text-gray-600">Twitter</h1>
-                <a
-                  href="https://instagram.com/jakegyll"
-                  className="text-blue-600 hover:underline"
-                >
-                  {candidate?.user?.twitter || "Not provided"}
-                </a>
+          <div className="truncate overflow-hidden text-ellipsis">
+            <h4 className={`${styles.sectionHeadText} mb-2`}>Social Links</h4>
+            <div className="text-sm gap-2">
+              <div className="flex gap-2 items-center">
+                <FaTwitter className="text-gray-600" />
+                <h1 className="text-gray-800 font-semibold">Twitter </h1>
               </div>
+              <a
+                href={`${candidate?.user?.twitter}`}
+                className="text-blue-600 hover:underline cursor-pointer"
+              >
+                {candidate?.user?.twitter || "Not provided"}
+              </a>
             </div>
-            <div className="text-sm flex flex-row gap-2">
-              <FaLinkedinIn className="text-gray-600" />
-              <div>
-                <h1 className="text-gray-600">Linkedin</h1>
-                <a
-                  href="https://twitter.com/jakegyll"
-                  className="text-blue-600 hover:underline"
-                >
-                  {candidate?.user?.linkedIn || "Not provided"}
-                </a>
+            <div className="text-sm">
+              <div className=" flex gap-2 items-center">
+                <FaLinkedinIn className="text-gray-600" />
+                <h1 className="text-gray-800 font-semibold">Linkedin</h1>
               </div>
+              <a
+                href={`${candidate?.user?.linkedIn}`}
+                className="text-blue-600 hover:underline cursor-pointer"
+              >
+                {candidate?.user?.linkedIn || "Not provided"}
+              </a>
             </div>
           </div>
         </aside>

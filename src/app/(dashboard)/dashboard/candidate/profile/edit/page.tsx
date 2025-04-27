@@ -8,6 +8,8 @@ import { registerCandidate } from "@/Lib/client/usersService";
 import { ICandidate } from "@/app/Types/slices";
 import Loader from "@/app/components/Loader";
 import { useRouter } from "next/navigation";
+import DashboardNavbar from "@/app/components/DashboardNavbar";
+import { styles } from "@/app/styles";
 
 const EditCandidateProfile = () => {
   const router = useRouter();
@@ -43,6 +45,13 @@ const EditCandidateProfile = () => {
 
   return (
     <>
+      <DashboardNavbar
+          title="Edit Profile"
+          button={{ text: "Back to dashboard", IsWhite: true }}
+      />
+      <div
+            className={`${styles.sectionSubText} border-b-[1px] border-gray-300 pb-5 flex justify-center mb-10 w-full`}
+      ></div>
       {<CandidateForm onSubmit={handleCandidateFormSubmit} initialData={candidate} />}
     </>
   );

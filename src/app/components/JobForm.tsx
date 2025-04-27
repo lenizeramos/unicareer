@@ -95,7 +95,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
     <div className="w-full flex justify-content-center">
       <Stepper ref={stepperRef}>
         <StepperPanel header="Step 1/3: Job Info">
-          <div className="flex flex-col space-y-4 h-12rem">
+          <div className="flex flex-col space-y-4 h-12rem font-shafarik">
             <div className={classNamePadding}>
               <InputField
                 label="Job Title"
@@ -108,10 +108,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 placeholder="E.g. Software Engineer"
                 required
                 maxLength={500}
-                classNameDivContainer={classNameDivContainer}
-                classNameLabel={classNameLabel}
+                classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
+                classNameLabel={classNameLabel + " text-lg font-shafarik"}
                 classNameDivLgWidth={classNameDivLgWidth}
-                classNameField={classNameField}
+                classNameField={classNameField + " text-lg font-shafarik"}
               />
             </div>
 
@@ -125,9 +125,9 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 minDate={toLocalISOString(new Date())}
                 value={closingDate ? toLocalISOString(closingDate) : ""}
                 onChange={handleDateChange}
-                classNameDivContainer={classNameDivContainer}
-                classNameLabel={classNameLabel}
-                classNameField={classNameField}
+                classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
+                classNameLabel={classNameLabel + " text-lg font-shafarik"}
+                classNameField={classNameField + " text-lg font-shafarik"}
               />
             </div>
 
@@ -144,10 +144,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                   label: option,
                   key: index,
                 }))}
-                classNameDivContainer={classNameDivContainer}
-                classNameLabel={classNameLabel}
+                classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
+                classNameLabel={classNameLabel + " text-lg font-shafarik"}
                 classNameDivLgWidth={classNameDivLgWidth}
-                classNameField={classNameField}
+                classNameField={classNameField + " text-lg font-shafarik"}
               />
             </div>
 
@@ -164,10 +164,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                   label: option,
                   key: index,
                 }))}
-                classNameDivContainer={classNameDivContainer}
-                classNameLabel={classNameLabel}
+                classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
+                classNameLabel={classNameLabel + " text-lg font-shafarik"}
                 classNameDivLgWidth={classNameDivLgWidth}
-                classNameField={classNameField}
+                classNameField={classNameField + " text-lg font-shafarik"}
               />
             </div>
 
@@ -183,8 +183,8 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 onChange={(newValues: number[]) =>
                   setSalary(newValues as [number, number])
                 }
-                classNameDivContainer={classNameDivContainer}
-                classNameLabel={classNameLabel}
+                classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
+                classNameLabel={classNameLabel + " text-lg font-shafarik"}
                 classNameDivLgWidth={classNameDivLgWidth}
               />
             </div>
@@ -202,10 +202,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                   label: option,
                   key: index,
                 }))}
-                classNameDivContainer={classNameDivContainer}
-                classNameLabel={classNameLabel}
+                classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
+                classNameLabel={classNameLabel + " text-lg font-shafarik"}
                 classNameDivLgWidth={classNameDivLgWidth}
-                classNameField={classNameField}
+                classNameField={classNameField + " text-lg font-shafarik"}
               />
             </div>
 
@@ -213,12 +213,12 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               label="Skills for this position"
               value={skills}
               onChange={setSkills}
-              className="lg:w-4/5 text-gray-700 rounded-md"
+              className="lg:w-4/5 text-gray-700 rounded-md font-shafarik"
               containerClass={`${classNameDivContainer} ${classNamePadding}`}
-              labelClass={classNameLabel}
+              labelClass={classNameLabel + " font-shafarik" }
               helperText="Enter relevant skills for the position"
               itemTemplate={(skill) => (
-                <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
+                <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2 font-shafarik">
                   {skill}
                 </div>
               )}
@@ -246,10 +246,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter job description here..."
               maxLength={500}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
+              classNameDivContainer={classNameDivContainer + " font-shafarik"}
+              classNameLabel={classNameLabel + " font-shafarik"}
               classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
+              classNameField={classNameField + " font-shafarik"}
             />
             <InputField
               label="Location"
@@ -261,10 +261,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               onChange={(e) => setLocation(e.target.value)}
               placeholder="Enter job location..."
               maxLength={100}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
+              classNameDivContainer={classNameDivContainer + " font-shafarik"}
+              classNameLabel={classNameLabel + " font-shafarik"}
               classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
+              classNameField={classNameField + " font-shafarik"}
             />
             <TextAreaField
               label="Responsibilities"
@@ -275,10 +275,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               onChange={(e) => setResponsibilities(e.target.value)}
               placeholder="Enter key responsibilities here..."
               maxLength={500}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
+              classNameDivContainer={classNameDivContainer + " font-shafarik"}
+              classNameLabel={classNameLabel + " font-shafarik"}
               classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
+              classNameField={classNameField + " font-shafarik"}
             />
             <TextAreaField
               label="Who You Are"
@@ -289,10 +289,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               onChange={(e) => setWhoYouAre(e.target.value)}
               placeholder="Describe who the ideal candidate is..."
               maxLength={500}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
+              classNameDivContainer={classNameDivContainer + " font-shafarik"}
+              classNameLabel={classNameLabel + " font-shafarik"}
               classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
+              classNameField={classNameField + " font-shafarik"}
             />
             <TextAreaField
               label="Nice To Have"
@@ -304,10 +304,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               onChange={(e) => setNiceToHave(e.target.value)}
               placeholder="Enter any nice-to-have qualifications here..."
               maxLength={500}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
+              classNameDivContainer={classNameDivContainer + " font-shafarik"}
+              classNameLabel={classNameLabel + " font-shafarik"}
               classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
+              classNameField={classNameField + " font-shafarik"}
             />
           </div>
 
@@ -332,12 +332,12 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
             label="Benefits"
             value={benefits}
             onChange={setBenefits}
-            className="lg:w-4/5 text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            containerClass={classNameDivContainer}
-            labelClass={classNameLabel}
+            className="lg:w-4/5 text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-shafarik"
+            containerClass={classNameDivContainer + " font-shafarik"}
+            labelClass={classNameLabel + " font-shafarik"}
             helperText="Encourage more people to apply by sharing the attractive rewards and benefits you offer your employees"
             itemTemplate={(benefit) => (
-              <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
+              <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2 font-shafarik">
                 {benefit}
               </div>
             )}

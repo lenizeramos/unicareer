@@ -66,13 +66,13 @@ const EducationSection: React.FC<EducationProps> = ({
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h3 className={classNameLabel}>Education</h3>
+        <h3 className={classNameLabel + " text-[20px] font-shafarik"}>Education</h3>
         <button
           type="button"
           onClick={handleAdd}
-          className="flex items-center text-blue-600 hover:text-blue-800"
+          className="flex items-center text-blue-600 hover:text-blue-800 font-shafarik"
         >
-          <IoMdAdd className="mr-1" /> Add Education
+          <IoMdAdd className="mr-1 font-shafarik" /> Add Education
         </button>
       </div>
 
@@ -95,8 +95,8 @@ const EducationSection: React.FC<EducationProps> = ({
             value={edu.institution}
             onChange={(e) => handleChange(index, "institution", e.target.value)}
             required
-            classNameLabel={classNameLabel}
-            classNameField={classNameField}
+            classNameLabel={classNameLabel + " text-lg font-shafarik"}
+            classNameField={classNameField + " text-lg font-shafarik"}
           />
 
           <div className="grid grid-cols-2 gap-4">
@@ -106,8 +106,8 @@ const EducationSection: React.FC<EducationProps> = ({
               value={edu.degree}
               onChange={(e) => handleChange(index, "degree", e.target.value)}
               required
-              classNameLabel={classNameLabel}
-              classNameField={classNameField}
+              classNameLabel={classNameLabel + " text-lg font-shafarik"}
+              classNameField={classNameField + " text-lg font-shafarik"}
             />
 
             <InputField
@@ -118,8 +118,8 @@ const EducationSection: React.FC<EducationProps> = ({
                 handleChange(index, "fieldOfStudy", e.target.value)
               }
               required
-              classNameLabel={classNameLabel}
-              classNameField={classNameField}
+              classNameLabel={classNameLabel + " text-lg font-shafarik"}
+              classNameField={classNameField + " text-lg font-shafarik"}
             />
           </div>
 
@@ -129,8 +129,8 @@ const EducationSection: React.FC<EducationProps> = ({
             value={edu.country}
             onChange={(e) => handleChange(index, "country", e.target.value)}
             required
-            classNameLabel={classNameLabel}
-            classNameField={classNameField}
+            classNameLabel={classNameLabel + " text-lg font-shafarik"}
+            classNameField={classNameField + " text-lg font-shafarik"}
           />
 
           <div className="grid grid-cols-2 gap-4">
@@ -141,8 +141,8 @@ const EducationSection: React.FC<EducationProps> = ({
               value={formatDateForInput(edu.startDate)}
               onChange={(e) => handleChange(index, "startDate", e.target.value)}
               required
-              classNameLabel={classNameLabel}
-              classNameField={classNameField}
+              classNameLabel={classNameLabel + " text-lg font-shafarik"}
+              classNameField={classNameField + " text-lg font-shafarik"}
             />
 
             {!edu.current && (
@@ -152,8 +152,8 @@ const EducationSection: React.FC<EducationProps> = ({
                 type="date"
                 value={formatDateForInput(edu.endDate)}
                 onChange={(e) => handleChange(index, "endDate", e.target.value)}
-                classNameLabel={classNameLabel}
-                classNameField={classNameField}
+                classNameLabel={classNameLabel + " text-lg font-shafarik"}
+                classNameField={classNameField + " text-lg font-shafarik"}
               />
             )}
           </div>
@@ -170,7 +170,7 @@ const EducationSection: React.FC<EducationProps> = ({
                 }
               }}
             />
-            <label htmlFor={`current-${index}`}>Current</label>
+            <label htmlFor={`current-${index}`} className="text-lg font-shafarik">Current</label>
           </div>
         </div>
       ))}
