@@ -28,7 +28,7 @@ const SalaryRangeSlider: React.FC<ISalaryRangeSliderProps> = ({
         {label} {required && <span className="text-red-500">*</span>}
         <small className="block text-xs text-gray-500">{small}</small>
       </label>
-      <div className={`lg:w-2/5 mt-10`}>
+      <div className={`lg:w-2/5 mt-5`}>
         <Range
           step={step}
           min={min}

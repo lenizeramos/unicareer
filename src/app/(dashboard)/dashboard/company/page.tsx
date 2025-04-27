@@ -114,9 +114,12 @@ const DashboardPage = () => {
   ];
 
   return (
-    <div className="space-y-8 pb-8">
+    <div className="space-y-8 pb-8 overflow-y-hidden">
       <div>
-        <CompanyHeaderPaymentButton isDashboard={true} pageName={company?.name || ""} />
+        <CompanyHeaderPaymentButton
+          isDashboard={true}
+          pageName={company?.name || ""}
+        />
         <DashboardWelcome
           greeting={`Welcome!`}
           message="Track how your job postings are performing"
@@ -164,20 +167,23 @@ const DashboardPage = () => {
           </div>
         </div>
       </section>
+      {dashboardData?.companyJobs.length > 0 && (
+        <section className="space-y-4 border border-gray-200 rounded-lg p-6 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold text-gray-900 font-shafarik">
+              Job Updates
+            </h2>
+            <Link
+              href="/dashboard/company/joblisting"
+              className="flex items-center text-blue-600 hover:text-blue-800 transition-colors font-shafarik"
+            >
+              View All <GoArrowRight className="ml-1 text-lg" />
+            </Link>
+          </div>
 
-      <section className="space-y-4 border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900 font-shafarik">Job Updates</h2>
-          <Link
-            href="/dashboard/company/joblisting"
-            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors font-shafarik"
-          >
-            View All <GoArrowRight className="ml-1 text-lg" />
-          </Link>
-        </div>
-
-        <CardsContainer cardId="jobUpdates" params={jobUpdatesCards} />
-      </section>
+          <CardsContainer cardId="jobUpdates" params={jobUpdatesCards} />
+        </section>
+      )}
     </div>
   );
 };

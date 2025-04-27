@@ -73,7 +73,7 @@ export default function JobDescription() {
         <div className="w-full border-t border-gray-200 mt-5">
           <SearchNotFound
             text="This job is no longer available."
-            optionText={false}
+            optionSubText={false}
           />
         </div>
       </>

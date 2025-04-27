@@ -1,12 +1,19 @@
 "use client";
 
-import { FaUser, FaArrowLeft, FaArrowRight, FaInfoCircle } from "react-icons/fa";
+import {
+  FaUser,
+  FaArrowLeft,
+  FaArrowRight,
+  FaInfoCircle,
+} from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import ButtonComp from "./ButtonComp";
 import Badge from "./Badge";
 import { ApplicationsListTableProps } from "../Types";
 import { IApplication } from "../Types/slices";
 import { useState } from "react";
+import SearchNotFound from "./SearchNotFound";
+import Loader from "./Loader";
 
 interface Compatibility {
   score: number;
@@ -20,19 +27,27 @@ interface CompatibilityModalProps {
   onClose: () => void;
 }
 
-const CompatibilityModal = ({ compatibility, isOpen, onClose }: CompatibilityModalProps) => {
+const CompatibilityModal = ({
+  compatibility,
+  isOpen,
+  onClose,
+}: CompatibilityModalProps) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-white p-8 rounded-xl max-w-md w-full mx-4 shadow-xl">
         <div className="flex flex-col">
-          <h3 className="text-xl font-semibold mb-6 text-gray-800">Compatibility Analysis</h3>
-          
-          <div className="space-y-6 mb-8">
+          <h3 className="text-xl font-semibold mb-6 text-gray-800 font-monomakh">
+            Compatibility Analysis
+          </h3>
+
+          <div className="space-y-6 mb-8 font-shafarik">
             <div>
               <p className="text-sm text-gray-500 mb-1">Compatibility Score</p>
-              <p className="text-2xl font-bold text-gray-800">{compatibility.score.toFixed(1)}%</p>
+              <p className="text-2xl font-bold text-gray-800">
+                {compatibility.score.toFixed(1)}%
+              </p>
             </div>
 
             <div>
@@ -50,7 +65,7 @@ const CompatibilityModal = ({ compatibility, isOpen, onClose }: CompatibilityMod
 
           <button
             onClick={onClose}
-            className="w-full bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-lg transition-colors duration-200"
+            className="w-full bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-lg transition-colors duration-200 font-shafarik"
           >
             Close
           </button>
@@ -86,24 +101,32 @@ const ApplicationsListTable = ({
     return colors[status];
   };
 
-  const [modalData, setModalData] = useState<{ isOpen: boolean; compatibility: Compatibility | null }>({
+  const [modalData, setModalData] = useState<{
+    isOpen: boolean;
+    compatibility: Compatibility | null;
+  }>({
     isOpen: false,
-    compatibility: null
+    compatibility: null,
   });
 
   const renderCompatibilityScore = (compatibility: Compatibility | null) => {
     if (!compatibility) return "Pending Analysis";
-    
-    const scoreColor = 
-      compatibility.score >= 80 ? "text-green-600" :
-      compatibility.score >= 60 ? "text-yellow-600" :
-      "text-red-600";
 
-    const recommendationColor = 
-      compatibility.recommendation === "HIGHLY_RECOMMENDED" ? "text-green-600" :
-      compatibility.recommendation === "RECOMMENDED" ? "text-yellow-600" :
-      compatibility.recommendation === "NOT_RECOMMENDED" ? "text-red-600" :
-      "text-gray-600";
+    const scoreColor =
+      compatibility.score >= 80
+        ? "text-green-600"
+        : compatibility.score >= 60
+        ? "text-yellow-600"
+        : "text-red-600";
+
+    const recommendationColor =
+      compatibility.recommendation === "HIGHLY_RECOMMENDED"
+        ? "text-green-600"
+        : compatibility.recommendation === "RECOMMENDED"
+        ? "text-yellow-600"
+        : compatibility.recommendation === "NOT_RECOMMENDED"
+        ? "text-red-600"
+        : "text-gray-600";
 
     return (
       <>
@@ -112,8 +135,8 @@ const ApplicationsListTable = ({
             <span className={`font-semibold ${scoreColor}`}>
               {compatibility.score.toFixed(1)}%
             </span>
-            <FaInfoCircle 
-              className="text-gray-400 hover:text-gray-600 cursor-pointer" 
+            <FaInfoCircle
+              className="text-gray-400 hover:text-gray-600 cursor-pointer"
               onClick={() => setModalData({ isOpen: true, compatibility })}
             />
           </div>
@@ -138,7 +161,7 @@ const ApplicationsListTable = ({
           <input
             type="text"
             placeholder="Search"
-            className="w-full text-sm bg-transparent focus:outline-none"
+            className="w-full text-sm bg-transparent focus:outline-none font-shafarik"
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
           />
@@ -165,12 +188,15 @@ const ApplicationsListTable = ({
               </div>
               <div>
                 <div className="text-xs sm:text-sm font-medium text-gray-800">
-                  {application.candidate?.firstName} {application.candidate?.lastName}
+                  {application.candidate?.firstName}{" "}
+                  {application.candidate?.lastName}
                 </div>
               </div>
             </div>
 
-            <div className="text-center text-xs sm:text-sm py-2 md:py-0">{application.job?.title}</div>
+            <div className="text-center text-xs sm:text-sm py-2 md:py-0">
+              {application.job?.title}
+            </div>
             <div className="text-center text-xs sm:text-sm py-2 md:py-0">
               {new Date(application.appliedAt).toLocaleDateString()}
             </div>
@@ -194,17 +220,19 @@ const ApplicationsListTable = ({
         ))}
       </div>
 
-      {applications.length === 0 && (
+      {applications.length === 0 ? (
+        <SearchNotFound text="No applications found." optionSubText={false} />
+      ) : (
         <div className="text-center text-gray-500 text-sm py-6">
           {isLoading ? (
-            "Loading applications..."
+            <Loader />
           ) : (
-            "No applications found matching your search"
+            <SearchNotFound text="No applications found matching your search" />
           )}
         </div>
       )}
 
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 px-2 sm:px-4 py-4 border-t mt-6 rounded-b-lg">
+      <div className="md:flex flex-col md:flex-row items-center justify-between gap-4 px-2 sm:px-4 py-4 border-t mt-6 rounded-b-lg font-shafarik hidden">
         <div className="flex items-center gap-2 text-xs sm:text-sm">
           <span className="text-gray-600">View</span>
           <select
@@ -221,7 +249,7 @@ const ApplicationsListTable = ({
           <span className="text-gray-600">applications per page</span>
         </div>
 
-        <div className="flex items-center gap-2 text-xs sm:text-sm">
+        <div className="flex items-center gap-2 text-xs sm:text-sm ">
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}

@@ -16,7 +16,7 @@ export default function CompanyHeader({
 
   return (
     <div className="flex justify-between items-center p-2 gap-2 mb-8">
-      <div className="flex items-center xs:gap-2">
+      <div className="flex items-center gap-2">
         {isDashboard && (
           <FileDisplay
             modelName="companyProfileImage"

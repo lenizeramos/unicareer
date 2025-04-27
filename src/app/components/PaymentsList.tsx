@@ -2,6 +2,8 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { IPayment, PaymentsListProps } from "../Types";
 import Badge from "./Badge";
 import ButtonComp from "./ButtonComp";
+import SearchNotFound from "./SearchNotFound";
+import Loader from "./Loader";
 
 export default function PaymentsList({
   payments,
@@ -68,9 +70,13 @@ export default function PaymentsList({
         ))}
       </div>
 
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 px-4 py-4 border-t mt-6 rounded-b-lg">
+      {payments.length === 0 && (
+        <SearchNotFound text="No Payments found." optionSubText={false} />
+      )}
+
+      <div className="md:flex flex-col md:flex-row items-center justify-between gap-4 px-4 py-4 border-t mt-6 rounded-b-lg font-shafarik hidden">
         <div className="flex items-center gap-2 text-xs sm:text-sm">
-          <span className="text-gray-600">View</span>
+          <span className="text-gray-600 ">View</span>
           <select
             className="rounded px-2 py-1 text-xs sm:text-sm border-light"
             value={itemsPerPage}

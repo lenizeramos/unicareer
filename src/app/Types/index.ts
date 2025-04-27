@@ -110,6 +110,11 @@ export interface ISummaryTable {
     date: string;
     tags: string;
   }[];
+  itemsPerPage: number;
+  onItemsPerPageChange: (value: number) => void;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
 }
 
 export interface IDashboardNavbar {

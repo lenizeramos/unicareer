@@ -66,6 +66,7 @@ export default function Sidebar({
   const handleSignOut = () => {
     signOut();
   };
+  console.log(user);
   return (
     <>
       {isOpen && (
@@ -85,7 +86,7 @@ export default function Sidebar({
             `}
       >
         <div className="flex justify-center items-center mb-8">
-          <Logo isLanding={false}/>
+          <Logo isLanding={false} />
         </div>
         <nav>
           <ul className="space-y-2">
@@ -159,12 +160,21 @@ export default function Sidebar({
                   fallbackImage={user?.imageUrl || ""}
                 />
               </div>
-              <div className="overflow-hidden">
-                <p className="text-md font-bold">
-                  {user?.firstName} {user?.lastName}
-                </p>
+              <div className="overflow-hidden font-shafarik">
+                {user?.firstName ? (
+                  <p className="text-md font-bold">
+                    {user?.firstName} {user?.lastName}
+                  </p>
+                ) : (
+                  <p className="text-md font-bold">{user?.username}</p>
+                )}
                 <p className="text-sm text-not-focus-color">
-                  {user?.emailAddresses[0].emailAddress}
+                  {user?.emailAddresses[0].emailAddress &&
+                  user?.emailAddresses[0].emailAddress.split("@")[0].length > 17
+                    ? "@" +
+                      user.emailAddresses[0].emailAddress.slice(0, 15) +
+                      "..."
+                    : "@" + user?.emailAddresses[0].emailAddress.split("@")[0]}
                 </p>
               </div>
             </div>

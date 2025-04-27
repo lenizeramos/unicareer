@@ -1,9 +1,13 @@
 const SearchNotFound = ({
   text,
-  optionText = true,
+  optionSubText = true,
+  subtext,
+  optiontext,
 }: {
   text: string;
-  optionText?: boolean;
+  optionSubText?: boolean;
+  subtext?: string;
+  optiontext?: string;
 }) => {
   return (
     <>
@@ -23,10 +27,13 @@ const SearchNotFound = ({
           />
         </svg>
         <p className="text-2xl font-medium">{text}</p>
-        {optionText && (
+        {optionSubText && (
           <p className="text-sm text-gray-400 mt-1">
-            Try adjusting your filters.
+            Try adjusting your filters {subtext}.
           </p>
+        )}
+        {optiontext && (
+          <p className="text-2xl text-gray-400 mt-1">{optiontext}</p>
         )}
       </div>
     </>

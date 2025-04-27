@@ -5,8 +5,18 @@ import FileDisplay from "./FileDisplay";
 import { useRouter } from "next/navigation";
 import TagComp from "./TagComp";
 import ButtonComp from "./ButtonComp";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
-const SummaryTable = ({ columnNames, data, isUserPhoto }: ISummaryTable) => {
+const SummaryTable = ({
+  columnNames,
+  data,
+  isUserPhoto,
+  itemsPerPage,
+  onItemsPerPageChange,
+  currentPage,
+  onPageChange,
+  totalItems,
+}: ISummaryTable) => {
   const statusNames = new Set(data.map((item) => item.tags.toLowerCase()));
   const statusStyles = statusTags.filter((tag) => statusNames.has(tag.id));
   const router = useRouter();
@@ -25,6 +35,7 @@ const SummaryTable = ({ columnNames, data, isUserPhoto }: ISummaryTable) => {
       router.push(`/dashboard/candidate/jobs/description?id=${id}`);
     }
   };
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
   return (
     <>
       <div className="flex flex-col w-full mt-5">
@@ -114,6 +125,43 @@ const SummaryTable = ({ columnNames, data, isUserPhoto }: ISummaryTable) => {
             </div>
           );
         })}
+      </div>
+      <div className="md:flex flex-col md:flex-row items-center justify-between gap-4 px-4 py-4 border-t mt-6 rounded-b-lg font-shafarik hidden">
+        <div className="flex items-center gap-2 text-xs sm:text-sm">
+          <span className="text-gray-600 ">View</span>
+          <select
+            className="rounded px-2 py-1 text-xs sm:text-sm border-light"
+            value={itemsPerPage}
+            onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
+          >
+            {[5, 10, 20, 50].map((val) => (
+              <option key={val} value={val}>
+                {val}
+              </option>
+            ))}
+          </select>
+          <span className="text-gray-600">payments per page</span>
+        </div>
+
+        <div className="flex items-center gap-2 text-xs sm:text-sm">
+          <button
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="p-1.5 sm:p-2 rounded disabled:opacity-50"
+          >
+            <FaArrowLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+          </button>
+          <span className="text-gray-700">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="p-1.5 sm:p-2 rounded disabled:opacity-50"
+          >
+            <FaArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+          </button>
+        </div>
       </div>
     </>
   );

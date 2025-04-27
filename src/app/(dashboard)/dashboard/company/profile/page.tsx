@@ -172,21 +172,19 @@ const CompanyProfile = () => {
               })}
             </div>
           </div>
-          {company?.benefits && (
+          {company?.benefits && company?.benefits?.length > 0 && (
             <div className="mt-8">
               <h3 className="xs:text-2xl text-xl font-semibold mb-6 font-monomakh">
                 Benefits & Perks
               </h3>
               <div className="flex flex-col md:flex-row gap-6">
-                {company?.benefits &&
-                  company?.benefits?.length > 0 &&
-                  company.benefits.map((benefit, index) => (
-                    <BenefitCard
-                      key={index}
-                      title={benefit}
-                      backgroundColor={"bg-blue-200"}
-                    />
-                  ))}
+                {company.benefits.map((benefit, index) => (
+                  <BenefitCard
+                    key={index}
+                    title={benefit}
+                    backgroundColor={"bg-blue-200"}
+                  />
+                ))}
               </div>
             </div>
           )}
@@ -200,7 +198,6 @@ const CompanyProfile = () => {
 
             <CardsContainer cardId="openPositions" params={cards} />
           </div>
-
         </div>
 
         <div className="sm:w-1/3">

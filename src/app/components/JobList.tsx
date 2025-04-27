@@ -4,6 +4,7 @@ import { JobListProps, IJob } from "../Types";
 import Badge from "./Badge";
 import ButtonComp from "./ButtonComp";
 import { monthNames } from "../constants";
+import SearchNotFound from "./SearchNotFound";
 
 export default function JobList({
   jobs,
@@ -15,19 +16,17 @@ export default function JobList({
   totalItems,
   onViewJobDetails,
 }: JobListProps) {
-
   const getDate = (date: string) => {
     const createDate = new Date(date);
     const month = monthNames[createDate.getMonth()];
     return `${month} ${createDate.getDate()} , ${createDate.getFullYear()} `;
   };
-  
+
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const renderValue = (val: unknown): React.ReactNode => {
     if (val === null || val === undefined) return "-";
-    if (typeof val === "string" || typeof val === "number")
-      return val;
+    if (typeof val === "string" || typeof val === "number") return val;
     if (Array.isArray(val)) return val.join(", ");
     if (val instanceof Date) return val.toLocaleDateString();
     return "-";
@@ -56,25 +55,40 @@ export default function JobList({
               {/* Header Section */}
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-semibold text-gray-800">
-                  {String(job.title || '-')}
+                  {String(job.title || "-")}
                 </h3>
                 <div className="flex-shrink-0">
-                  <Badge status={String(job.status)} color={String(job.status).toLowerCase()} />
+                  <Badge
+                    status={String(job.status)}
+                    color={String(job.status).toLowerCase()}
+                  />
                 </div>
               </div>
 
               {/* Info Grid */}
               <div className="grid grid-cols-2 gap-4">
                 {Object.keys(columns).map((key) => {
-                  if (key === 'title' || key === 'status' || key === 'actionButton') return null;
-                  
+                  if (
+                    key === "title" ||
+                    key === "status" ||
+                    key === "actionButton"
+                  )
+                    return null;
+
                   return (
                     <div key={key} className="space-y-1">
-                      <span className="text-sm text-gray-500">{columns[key]}</span>
+                      <span className="text-sm text-gray-500">
+                        {columns[key]}
+                      </span>
                       <div className="font-medium">
                         {key === "type" ? (
-                          <Badge status={String(job[key as keyof IJob])} color={String(job[key as keyof IJob]).toLowerCase()} />
-                        ) : key === "closingDate" || key === "createdAt" || key === "updatedAt" ? (
+                          <Badge
+                            status={String(job[key as keyof IJob])}
+                            color={String(job[key as keyof IJob]).toLowerCase()}
+                          />
+                        ) : key === "closingDate" ||
+                          key === "createdAt" ||
+                          key === "updatedAt" ? (
                           getDate(String(renderValue(job[key as keyof IJob])))
                         ) : (
                           renderValue(job[key as keyof IJob])
@@ -90,7 +104,9 @@ export default function JobList({
                 <ButtonComp
                   text="View Job"
                   IsWhite={true}
-                  onClick={() => onViewJobDetails && onViewJobDetails(job.id ?? "")}
+                  onClick={() =>
+                    onViewJobDetails && onViewJobDetails(job.id ?? "")
+                  }
                 />
               </div>
             </div>
@@ -102,15 +118,22 @@ export default function JobList({
                   {key === "status" || key === "type" ? (
                     <div className="flex items-center justify-center">
                       <span className="inline-block">
-                        <Badge status={String(job[key as keyof IJob])} color={String(job[key as keyof IJob]).toLowerCase()} />
+                        <Badge
+                          status={String(job[key as keyof IJob])}
+                          color={String(job[key as keyof IJob]).toLowerCase()}
+                        />
                       </span>
                     </div>
                   ) : key === "title" ? (
-                    <div className="text-lg font-semibold text-gray-600">
-                      {typeof job[key as keyof IJob] === "string" ? String(job[key as keyof IJob]) : "-"}
+                    <div className="font-semibold text-gray-600">
+                      {typeof job[key as keyof IJob] === "string"
+                        ? String(job[key as keyof IJob])
+                        : "-"}
                     </div>
-                  ) : key === "closingDate" || key === "createdAt" || key === "updatedAt" ? (
-                    <div className="text-lg font-[500]">
+                  ) : key === "closingDate" ||
+                    key === "createdAt" ||
+                    key === "updatedAt" ? (
+                    <div className=" font-[500]">
                       {getDate(String(renderValue(job[key as keyof IJob])))}
                     </div>
                   ) : key === "actionButton" ? (
@@ -118,7 +141,9 @@ export default function JobList({
                       <ButtonComp
                         text="View Job"
                         IsWhite={true}
-                        onClick={() => onViewJobDetails && onViewJobDetails(job.id ?? "")}
+                        onClick={() =>
+                          onViewJobDetails && onViewJobDetails(job.id ?? "")
+                        }
                       />
                     </div>
                   ) : (
@@ -131,8 +156,16 @@ export default function JobList({
         ))}
       </div>
 
+      {jobs.length === 0 && (
+        <SearchNotFound
+          text="Looks like there are no job listings here yet."
+          optiontext="Start posting today!"
+          optionSubText={false}
+        />
+      )}
+
       {/* Pagination Section */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 px-4 py-4 border-t mt-6">
+      <div className="md:flex flex-col md:flex-row items-center justify-between gap-4 px-4 py-4 border-t mt-6 font-shafarik hidden">
         <div className="flex items-center gap-2 text-xs sm:text-sm">
           <span className="text-gray-600">View</span>
           <select
@@ -148,7 +181,7 @@ export default function JobList({
           <span className="text-gray-600">jobs per page</span>
         </div>
 
-        <div className="flex items-center gap-2 text-xs sm:text-sm">
+        <div className="flex items-center gap-2 text-xs sm:text-sm ">
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}

@@ -17,6 +17,8 @@ export default function Application() {
   const [endDate] = useState<Date | null>();
   const [active, setActive] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   if (isLoading) {
     return <Loader />;
@@ -56,6 +58,10 @@ export default function Application() {
       tags: application.status ?? "Unknown",
     };
   });
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentPayments = data.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <>
@@ -104,10 +110,19 @@ export default function Application() {
         </div>
 
         {data.length === 0 ? (
-          <SearchNotFound text="No applicantions found" />
+          <SearchNotFound text="No applicantions found" subtext="or apply to some jobs"/>
         ) : (
           <div>
-            <SummaryTable columnNames={columnNames} data={data} isUserPhoto={false}/>
+            <SummaryTable
+              columnNames={columnNames}
+              data={data}
+              isUserPhoto={false}
+              itemsPerPage={itemsPerPage}
+              onItemsPerPageChange={setItemsPerPage}
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+              totalItems={data.length}
+            />
           </div>
         )}
       </div>
