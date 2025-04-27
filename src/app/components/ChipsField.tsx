@@ -1,4 +1,4 @@
-import { Chips } from "primereact/chips";
+import { Chips, ChipsChangeEvent } from "primereact/chips";
 import React from "react";
 import { IChipsFieldProps } from "../Types/index";
 
@@ -13,6 +13,23 @@ const ChipsField: React.FC<IChipsFieldProps> = ({
   containerClass,
   helperText,
 }) => {
+
+  const handleChange = (e: ChipsChangeEvent) => {
+    const newValue = e.value ? e.value : [];
+    const lowercasedSet = new Set<string>();
+    const uniqueValues: string[] = [];
+
+    for (const item of newValue) {
+      const lower = item.toLowerCase();
+      if (!lowercasedSet.has(lower)) {
+        lowercasedSet.add(lower);
+        uniqueValues.push(item);
+      }
+    }
+
+    onChange(uniqueValues);
+  };
+
   return (
     <div className={containerClass}>
       <label htmlFor={label.toLowerCase()} className={labelClass}>
@@ -25,7 +42,7 @@ const ChipsField: React.FC<IChipsFieldProps> = ({
         className={className}
         itemTemplate={itemTemplate}
         value={value}
-        onChange={(e) => onChange(e.value ? e.value : [])}
+        onChange={handleChange}
         separator=","
         placeholder={placeholder}
       />
