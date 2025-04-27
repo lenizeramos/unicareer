@@ -14,107 +14,94 @@ export default function PaymentsList({
 }: PaymentsListProps) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   return (
-    <div className="mt-8 border-light">
-      <div className="overflow-x-scroll max-w-[360px] md:max-w-full md:w-full text-center">
-        <table className="w-full pe-8 ps-8 ">
-          <thead className="p-8 bg-gray-100 text-gray-600 text-sm font-semibold border-t border-b">
-            <tr>
-              {Object.values(columns).map((column, index) => (
-                <th key={index} className="text-not-focus-color p-4">
-                  {column}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {payments.map((payment, index) => (
-              <tr key={index}>
-                {Object.keys(columns).map((key, index) => (
-                  <td
-                    key={index}
-                    className="p-8 border-b border-gray-200 text-center text-title-color font-medium"
-                  >
-                    {key === "status" ? (
-                      <Badge
-                        status={String(payment[key as keyof IPayment])}
-                        color={String(payment[key as keyof IPayment])}
-                      />
-                    ) : key === "amount" ? (
-                      <div className="text-lg font-semibold text-gray-600">
-                        {payment[key as keyof IPayment]} CAD
-                      </div>
-                    ) : key === "createdAt" || key === "updatedAt" ? (
-                      <div className="text-lg font-[500] text-gray-500">
-                        {payment[key as keyof IPayment]
-                          ? new Date(
-                              String(payment[key as keyof IPayment])
-                            ).toLocaleDateString()
-                          : "-"}
-                      </div>
-                    ) : key === "invoice" && payment.invoice ? (
-                      <div className="flex justify-center">
-                        <ButtonComp
-                          text="Download Invoice"
-                          IsWhite={false}
-                          onClick={() => window.open(payment.invoice, "_blank")}
-                        />
-                      </div>
-                    ) : (
-                      payment[key as keyof IPayment]
-                    )}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="w-full mt-4 md:mt-8">
+      <div className="hidden md:grid grid-cols-4 gap-4 px-6 py-3 bg-gray-100 text-gray-600 text-sm font-semibold">
+        {Object.values(columns).map((column, index) => (
+          <div key={index} className="text-center">
+            {column}
+          </div>
+        ))}
       </div>
 
-      <div className="flex justify-between items-center p-8 border-top-light">
-        <div className="flex items-center gap-2">
-          <span className="text-lg text-not-focus-color">View</span>
+      <div className="space-y-4 md:space-y-0">
+        {payments.map((payment, index) => (
+          <div
+            key={index}
+            className="border border-gray-200 p-4 rounded-lg md:rounded-none md:border-0 md:border-b md:grid md:grid-cols-4 md:gap-4"
+          >
+            {Object.keys(columns).map((key, index) => (
+              <div key={index} className="py-2 md:py-0 text-center">
+                <div className="md:hidden text-sm text-gray-500 mb-1">
+                  {columns[key]}
+                </div>
+                {key === "status" ? (
+                  <Badge
+                    status={String(payment[key as keyof IPayment])}
+                    color={String(payment[key as keyof IPayment])}
+                  />
+                ) : key === "amount" ? (
+                  <div className="text-lg font-semibold text-gray-600">
+                    {payment[key as keyof IPayment]} CAD
+                  </div>
+                ) : key === "createdAt" || key === "updatedAt" ? (
+                  <div className="text-lg font-[500] text-gray-500">
+                    {payment[key as keyof IPayment]
+                      ? new Date(
+                          String(payment[key as keyof IPayment])
+                        ).toLocaleDateString()
+                      : "-"}
+                  </div>
+                ) : key === "invoice" && payment.invoice ? (
+                  <div className="flex justify-center">
+                    <ButtonComp
+                      text="Download Invoice"
+                      IsWhite={false}
+                      onClick={() => window.open(payment.invoice, "_blank")}
+                    />
+                  </div>
+                ) : (
+                  payment[key as keyof IPayment]
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 px-4 py-4 border-t mt-6 rounded-b-lg">
+        <div className="flex items-center gap-2 text-xs sm:text-sm">
+          <span className="text-gray-600">View</span>
           <select
-            className="border-light rounded p-2"
+            className="rounded px-2 py-1 text-xs sm:text-sm border-light"
             value={itemsPerPage}
             onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
           >
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={50}>50</option>
+            {[5, 10, 20, 50].map((val) => (
+              <option key={val} value={val}>
+                {val}
+              </option>
+            ))}
           </select>
-          <span className="text-lg text-not-focus-color">
-            payments per page
-          </span>
+          <span className="text-gray-600">payments per page</span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 text-xs sm:text-sm">
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="p-2 rounded disabled:opacity-50"
+            className="p-1.5 sm:p-2 rounded disabled:opacity-50"
           >
-            <FaArrowLeft />
+            <FaArrowLeft className="w-3 h-3 sm:w-4 sm:h-4" />
           </button>
-
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
-              key={page}
-              onClick={() => onPageChange(page)}
-              className={`w-8 h-8 rounded ${
-                currentPage === page ? "bg-primary text-white" : ""
-              }`}
-            >
-              {page}
-            </button>
-          ))}
-
+          <span className="text-gray-700">
+            Page {currentPage} of {totalPages}
+          </span>
           <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="p-2 rounded disabled:opacity-50"
+            className="p-1.5 sm:p-2 rounded disabled:opacity-50"
           >
-            <FaArrowRight />
+            <FaArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
           </button>
         </div>
       </div>

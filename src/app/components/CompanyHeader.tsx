@@ -1,3 +1,4 @@
+import { usePathname } from "next/navigation";
 import { ICompanyHeader } from "../Types";
 import { styles } from "../styles";
 import ButtonComp from "./ButtonComp";
@@ -10,8 +11,11 @@ export default function CompanyHeader({
   button,
   isDashboard = true,
 }: ICompanyHeader) {
+
+  const currentPath = usePathname();
+
   return (
-    <div className="flex justify-between items-center p-2 gap-2">
+    <div className="flex justify-between items-center p-2 gap-2 mb-8">
       <div className="flex items-center xs:gap-2">
         {isDashboard && (
           <FileDisplay
@@ -27,7 +31,7 @@ export default function CompanyHeader({
           <h2 className={`${styles.titlePages}`}>{name}</h2>
         </div>
       </div>
-      {button && (
+      {currentPath !== "/dashboard/company/postjob" && button && (
         <ButtonComp
           text={button.text}
           IsWhite={button.IsWhite}

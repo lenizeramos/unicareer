@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from "@/app/context/store";
 import { clearJobToEdit } from "@/app/context/slices/jobToEditSlices";
 import Loader from "./Loader";
 
-export default function CompanyHeaderPaymentButton() {
+export default function CompanyHeaderPaymentButton({ isDashboard, pageName }: { isDashboard: boolean, pageName: string }) {
   const router = useRouter();
   const [showPaymentButton, setShowPaymentButton] = useState(true);
   const dispatch = useDispatch<AppDispatch>();
@@ -97,8 +97,9 @@ export default function CompanyHeaderPaymentButton() {
   return (
     <CompanyHeader
       image="/img/img.png"
-      name={company?.name || ""}
+      name={pageName}
       userId={company.userId}
+      isDashboard={isDashboard}
       button={{
         text: buttonText,
         IsWhite: false,

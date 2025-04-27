@@ -20,7 +20,7 @@ import ApplicationStatusButton from "@/app/components/ApplicationStatusButton";
 import FileDisplay from "@/app/components/FileDisplay";
 
 const InfoSection = ({ title, children, className = "" }: InfoSectionProps) => (
-  <div className={`bg-white shadow rounded-lg p-6 mb-6 ${className}`}>
+  <div className={`bg-white shadow rounded-lg p-6 mb-6 ${className} font-monomakh`}>
     <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-4 mb-6">{title}</h2>
     {children}
   </div>
@@ -28,11 +28,11 @@ const InfoSection = ({ title, children, className = "" }: InfoSectionProps) => (
 
 const InfoItem = ({ label, value }: InfoItemProps) => (
   <div className="mb-4">
-    <h4 className="text-sm font-medium text-gray-600 mb-1">{label}</h4>
+    <h4 className="text-sm font-medium text-gray-600 mb-1 font-shafarik">{label}</h4>
     {typeof value === "string" || typeof value === "number" ? (
-      <p className="text-gray-800 font-medium">{value || "N/A"}</p>
+      <p className="text-gray-800 font-medium font-shafarik">{value || "N/A"}</p>
     ) : (
-      value || <p className="text-gray-800 font-medium">N/A</p>
+      value || <p className="text-gray-800 font-medium font-shafarik">N/A</p>
     )}
   </div>
 );
@@ -77,7 +77,7 @@ const ApplicantDetailsPage = () => {
   }, [applicationId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center items-center h-screen font-shafarik">Loading...</div>;
   }
 
   const candidate = application?.candidate;
@@ -103,11 +103,11 @@ const ApplicantDetailsPage = () => {
     : "N/A";
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="min-h-screen">
       <Toast ref={toast} />
       <ConfirmDialog />
 
-      <CompanyHeaderPaymentButton />
+      <CompanyHeaderPaymentButton isDashboard={false} pageName="Applicant Details" />
       <div className={styles.borderBottomLight} />
 
       <div className="container mx-auto px-4 py-8">
@@ -116,7 +116,7 @@ const ApplicantDetailsPage = () => {
           className="inline-flex items-center text-gray-700 hover:text-gray-900 transition-colors mb-6"
         >
           <GoArrowLeft className="text-xl mr-2" />
-          <span className="text-2xl font-semibold">Applicant Details</span>
+          <span className="text-xl font-semibold font-monomakh">Applicant Details</span>
         </Link>
 
         <div className="flex flex-col md:flex-row gap-6">
@@ -133,17 +133,17 @@ const ApplicantDetailsPage = () => {
                     fallbackImage={candidate?.user?.photo || ""}
                   />
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900">{fullName}</h3>
+                <h3 className="text-3xl font-bold text-gray-900 font-monomakh">{fullName}</h3>
               </div>
 
               <div className="bg-gray-50 rounded-lg p-4 my-6">
-                <h4 className="text-lg font-semibold text-gray-800 mb-2">Application Details</h4>
-                <p className="text-gray-600 text-sm mb-3">
+                <h4 className="text-lg font-semibold text-gray-800 mb-2 font-monomakh">Application Details</h4>
+                <p className="text-gray-600 text-sm mb-3 font-shafarik">
                   Applied on: {application?.appliedAt ? new Date(application.appliedAt).toLocaleDateString() : "N/A"}
                 </p>
                 <div className="space-y-1">
-                  <h5 className="font-medium text-gray-800">{capitalize(job?.title)}</h5>
-                  <p className="text-sm text-gray-600">
+                  <h5 className="font-medium text-gray-800 font-shafarik">{capitalize(job?.title)}</h5>
+                  <p className="text-sm text-gray-600 font-shafarik">
                     {capitalize(Array.isArray(job?.categories) ? job.categories.join(", ") : job?.categories)} - {capitalize(job?.type)}
                   </p>
                 </div>
@@ -164,34 +164,34 @@ const ApplicantDetailsPage = () => {
               </div>
 
               <div className="border-t border-gray-200 pt-6">
-                <h4 className="text-lg font-semibold text-gray-800 mb-4">Contact Information</h4>
+                <h4 className="text-lg font-semibold text-gray-800 mb-4 font-monomakh">Contact Information</h4>
                 <ul className="space-y-3">
                   {user?.email && (
                     <ContactInfoItem
-                      icon={<FaEnvelope className="text-gray-600" />}
+                      icon={<FaEnvelope className="text-gray-600 font-shafarik" />}
                       value={user?.email}
-                      className="hover:text-blue-600 transition-colors duration-300"
+                      className="hover:text-blue-600 transition-colors duration-300 font-shafarik"
                     />
                   )}
                   {user?.linkedIn && (
                     <ContactInfoItem
                       icon={<FaLinkedin className="text-gray-600" />}
                       value={user?.linkedIn}
-                      className="hover:text-blue-600 transition-colors duration-300"
+                      className="hover:text-blue-600 transition-colors duration-300 font-shafarik"
                     />
                   )}
                   {user?.twitter && (
                     <ContactInfoItem
                       icon={<FaTwitter className="text-gray-600" />}
                       value={user?.twitter}
-                      className="hover:text-blue-600 transition-colors duration-300"
+                      className="hover:text-blue-600 transition-colors duration-300 font-shafarik"
                     />
                   )}
                   {user?.website && (
                     <ContactInfoItem
                       icon={<FaGlobe className="text-gray-600" />}
                       value={user?.website}
-                      className="hover:text-blue-600 transition-colors duration-300"
+                      className="hover:text-blue-600 transition-colors duration-300 font-shafarik"
                     />
                   )}
                 </ul>
@@ -209,7 +209,7 @@ const ApplicantDetailsPage = () => {
                     value={
                       <div className="space-y-1">
                         {candidate.languages.map((lang, index) => (
-                          <span key={index} className="block text-gray-700">
+                          <span key={index} className="block text-gray-700 font-shafarik">
                             {capitalize(lang.name)} - {capitalize(lang.level)}
                           </span>
                         ))}
@@ -221,7 +221,7 @@ const ApplicantDetailsPage = () => {
                   <InfoItem
                     label="City"
                     value={
-                      <span className="whitespace-pre-line">{user.city}</span>
+                      <span className="whitespace-pre-line font-shafarik">{user.city}</span>
                     }
                   />
                 )}
@@ -233,7 +233,7 @@ const ApplicantDetailsPage = () => {
                 label="About"
                 value={
                   candidate?.bio && (
-                    <p className="text-gray-700 leading-relaxed">{candidate.bio}</p>
+                    <p className="text-gray-700 leading-relaxed font-shafarik">{candidate.bio}</p>
                   )
                 }
               />
@@ -251,7 +251,7 @@ const ApplicantDetailsPage = () => {
                           {candidate.skills.map((skill, i) => (
                             <span
                               key={i}
-                              className="px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full hover:bg-gray-200 transition-colors duration-300"
+                              className="px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full hover:bg-gray-200 transition-colors duration-300 font-shafarik"
                             >
                               {skill}
                             </span>

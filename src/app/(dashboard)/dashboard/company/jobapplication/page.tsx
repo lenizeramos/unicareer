@@ -119,7 +119,7 @@ export default function ApplicationsPage() {
 
   return (
     <>
-      <CompanyHeaderPaymentButton />
+      <CompanyHeaderPaymentButton isDashboard={false} pageName="Job Applications" />
       <div className={styles.borderBottomLight}></div>
 
       <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
