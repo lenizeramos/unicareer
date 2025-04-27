@@ -285,7 +285,7 @@ export {
 
 const classNameDivContainer = "flex flex-col lg:flex-row lg:items-start";
 const classNameDivContainerTextArea = "md:col-span-2 space-y-2";
-const classNameLabel = "text-sm font-semibold text-gray-700 lg:w-1/5 lg:pr-4";
+const classNameLabel = "text-lg font-semibold text-gray-700 lg:w-1/5 lg:pr-4";
 const classNameDivLgWidth = "lg:w-4/5";
 const classNameField =
   "w-full px-4 py-2 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4640de] focus:border-transparent transition";

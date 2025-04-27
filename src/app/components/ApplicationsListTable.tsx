@@ -157,7 +157,7 @@ const ApplicationsListTable = ({
         {applications.map((application) => (
           <div
             key={application.id}
-            className="border border-gray-200 p-3 sm:p-4 rounded-lg md:rounded-none md:border-0 md:border-b md:grid md:grid-cols-6 md:gap-4"
+            className="border border-gray-200 p-3 sm:p-4 rounded-lg md:rounded-none md:border-0 md:border-b md:grid md:grid-cols-6 md:gap-4 items-center"
           >
             <div className="flex items-center gap-2 sm:gap-3 justify-center mb-3 md:mb-0">
               <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-gray-200 flex items-center justify-center">

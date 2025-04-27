@@ -95,7 +95,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
     <div className="w-full flex justify-content-center">
       <Stepper ref={stepperRef}>
         <StepperPanel header="Step 1/3: Job Info">
-          <div className="flex flex-col space-y-4 h-12rem font-shafarik">
+          <div className="flex flex-col space-y-4 h-12rem font-shafarik pt-2 md:pt-0">
             <div className={classNamePadding}>
               <InputField
                 label="Job Title"
@@ -109,7 +109,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 required
                 maxLength={500}
                 classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
-                classNameLabel={classNameLabel + " text-lg font-shafarik"}
+                classNameLabel={classNameLabel + " font-shafarik"}
                 classNameDivLgWidth={classNameDivLgWidth}
                 classNameField={classNameField + " text-lg font-shafarik"}
               />

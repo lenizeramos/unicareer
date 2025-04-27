@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import DeleteJobButton from "@/app/components/DeleteJobButton";
+import Loader from "@/app/components/Loader";
 
 const JobDetailsPage = () => {
   const toastReact = useRef<Toast>(null);
@@ -35,9 +36,7 @@ const JobDetailsPage = () => {
       const fetchJobById = async (jobId: string) => {
         try {
           setLoading(true);
-          const response = await fetch(
-            `/api/job/${jobId}`
-          );
+          const response = await fetch(`/api/job/${jobId}`);
           if (!response.ok) throw new Error("Failed to fetch application data");
           const job = await response.json();
 
@@ -54,11 +53,7 @@ const JobDetailsPage = () => {
   }, [jobId]);
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        Loading...
-      </div>
-    );
+    return <Loader />;
   }
 
   if (!job) {
@@ -111,23 +106,29 @@ const JobDetailsPage = () => {
       <div className={styles.borderBottomLight} />
 
       <Link
-          href="/dashboard/company/joblisting"
-          className="inline-flex items-center text-gray-700 hover:text-gray-900 transition-colors mb-6 px-4 pt-8"
-        >
-          <GoArrowLeft className="text-xl mr-2" />
-          <span className="text-xl font-semibold font-monomakh">Back to Jobs</span>
-        </Link>
+        href="/dashboard/company/joblisting"
+        className="inline-flex items-center text-gray-700 hover:text-gray-900 transition-colors mb-6 px-4 pt-8"
+      >
+        <GoArrowLeft className="text-xl mr-2" />
+        <span className="text-xl font-semibold font-monomakh">
+          Back to Jobs
+        </span>
+      </Link>
       <div className="mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="bg-gray-50 px-6 py-4 border-b">
             <div className="flex justify-between items-start">
-              <h1 className="text-2xl font-bold text-gray-800 font-monomakh">{job.title}</h1>
+              <h1 className="text-2xl font-bold text-gray-800 font-monomakh">
+                {job.title}
+              </h1>
               <div className="flex items-center gap-2 text-gray-600 text-sm font-medium">
                 <FaUser className="w-5 h-5" />
                 <span className="text-2xl font-extrabold text-gray-600">
                   {job.totalApplications}
                 </span>
-                <span className="text-lg text-gray-500 font-shafarik">Applications</span>
+                <span className="text-lg text-gray-500 font-shafarik">
+                  Applications
+                </span>
               </div>
               {job.status && (
                 <div className="flex items-center gap-4">
@@ -216,12 +217,16 @@ const JobDetailsPage = () => {
                   </section>
 
                   <section className="mb-6">
-                    <h3 className="font-medium text-gray-800 mb-3 font-monomakh">Benefits</h3>
+                    <h3 className="font-medium text-gray-800 mb-3 font-monomakh">
+                      Benefits
+                    </h3>
                     <ul className="space-y-2">
                       {job.benefits?.map((benefit, index) => (
                         <li key={index} className="flex items-center">
                           <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                          <span className="text-gray-700 font-shafarik">{benefit}</span>
+                          <span className="text-gray-700 font-shafarik">
+                            {benefit}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -239,7 +244,9 @@ const JobDetailsPage = () => {
                   </section>
 
                   <section className="mt-8 pt-4 border-t border-gray-200">
-                    <h3 className="font-medium text-gray-800 mb-3 font-monomakh">Actions</h3>
+                    <h3 className="font-medium text-gray-800 mb-3 font-monomakh">
+                      Actions
+                    </h3>
                     <div className="flex flex-row justify-between items-center gap-4">
                       <EditJobButton
                         jobApplications={job.totalApplications ?? 0}

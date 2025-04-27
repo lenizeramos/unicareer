@@ -16,7 +16,7 @@ export default function PostJobPage() {
   const jobToEdit = useSelector(
     (state: RootState) => state.jobToEdit.jobToEdit
   );
-  const pageTitle = jobToEdit ? "Edit Job" : "Post a Job";
+  const pageTitle = jobToEdit ? "Edit Job" : "Back";
   const previousPage = jobToEdit
     ? `/dashboard/company/jobdetails/${jobToEdit.id}`
     : "/dashboard/company/joblisting";
