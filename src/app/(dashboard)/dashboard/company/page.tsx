@@ -118,7 +118,7 @@ const DashboardPage = () => {
       <div>
         <CompanyHeaderPaymentButton />
         <DashboardWelcome
-          greeting={`Hello, ${company?.name}`}
+          greeting={`Welcome!`}
           message="Track how your job postings are performing"
           updateDate={setDateRange}
         />
