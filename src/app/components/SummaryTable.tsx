@@ -18,7 +18,7 @@ const SummaryTable = ({ columnNames, data, isUserPhoto }: ISummaryTable) => {
     const createDate = new Date(date);
     const month = monthNames[createDate.getMonth()];
     const year = createDate.getFullYear();
-    return `${createDate.getDate()} ${month} ${year}`;
+    return `${createDate.getDate()} ${month}, ${year}`;
   };
   const handleOnClick = (id: string | undefined) => {
     if (id) {
