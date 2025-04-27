@@ -13,7 +13,12 @@ const ApplicationStatusButton = ({
 }: IStatusButtonProps) => {
   const handleStatusChange = () => {
     confirmDialog({
-      message: `Do you want to change status to ${targetStatus.toLowerCase()}?`,
+      message: (
+        <div>
+          <p>Do you want to change the status of this application?</p>
+          <span className="text-sm text-gray-500">The candidate will be notified.</span>
+        </div>
+      ),
       header: `${label} Confirmation`,
       icon: "pi pi-exclamation-triangle",
       defaultFocus: "accept",
