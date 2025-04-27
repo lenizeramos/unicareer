@@ -1,6 +1,7 @@
 import prisma from "./prisma";
 import { Job } from "../types/index";
 import { getCompanyByClerkId } from "@/Lib/company";
+import { IJob } from "@/app/Types";
 
 export async function createJob(data: Job) {
   try {
@@ -32,7 +33,9 @@ export async function createJob(data: Job) {
 export async function getJobByCompanyId(
   companyId: string,
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
+  skip?: number,
+  take?: number
 ) {
   try {
     const jobs = await prisma.job.findMany({
@@ -45,14 +48,40 @@ export async function getJobByCompanyId(
         },
       },
       orderBy: { createdAt: "desc" },
+      skip: skip,
+      take: take
     });
 
-    const jobsWithStatus = jobs.map((job) => ({
+    const jobsWithStatus = jobs.map((job: IJob) => ({
       ...job,
       status:
         job.closingDate && job.closingDate > new Date() ? "OPEN" : "CLOSED",
     }));
     return jobsWithStatus;
+  } catch (error) {
+    console.error("Error fetching jobs:", error);
+    throw new Error("Failed to retrieve jobs due to database issue.");
+  }
+}
+
+export async function getTotalJobByCompanyId(
+  companyId: string,
+  startDate?: Date,
+  endDate?: Date
+) {
+  try {
+    const totalJobs = await prisma.job.count({
+      where: {
+        companyId: companyId,
+        deleted: false,
+        createdAt: {
+          ...(startDate && { gte: startDate }),
+          ...(endDate && { lte: endDate }),
+        },
+      },
+    });
+
+    return totalJobs;
   } catch (error) {
     console.error("Error fetching jobs:", error);
     throw new Error("Failed to retrieve jobs due to database issue.");
@@ -86,7 +115,7 @@ export async function getLastJobsByCompanyId(
       take: limit,
     });
 
-    const jobsWithStatus = jobs.map((job) => ({
+    const jobsWithStatus = jobs.map((job: IJob) => ({
       ...job,
       status:
         job.closingDate && job.closingDate > new Date() ? "OPEN" : "CLOSED",
@@ -287,7 +316,7 @@ export async function getJobsByType(
       result[type] = 0;
     });
 
-    jobTypesFromDB.forEach(({ type, _count }) => {
+    jobTypesFromDB.forEach(({ type, _count }: { type: string; _count: { type: number } }) => {
       if (type && allJobTypes.includes(type.toLowerCase())) {
         result[type.toLowerCase()] = _count.type;
       }
