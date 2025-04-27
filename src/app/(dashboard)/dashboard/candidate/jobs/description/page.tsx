@@ -190,7 +190,7 @@ export default function JobDescription() {
           <div className="flex flex-col gap-5 lg:w-[55%]">
             <div className="lg:pr-0 md:pr-30">
               <h2 className={`${styles.JobDescriptionTitle}`}>Description</h2>
-              <p className={`${styles.JobDescriptionText} text-justify`}>
+              <p className={`${styles.JobDescriptionText}`}>
                 {job.description}
               </p>
             </div>

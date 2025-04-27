@@ -195,7 +195,7 @@ function RegisterContent() {
         ) : formType === "company" ? (
           <CompanyForm onSubmit={handleCompanyFormSubmit} />
         ) : (
-          <p>Invalid role or missing parameter.</p>
+          <p className="font-shafarik">Invalid role or missing parameter.</p>
         )}
       </div>
     </div>

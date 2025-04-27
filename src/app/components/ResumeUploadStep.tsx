@@ -64,7 +64,7 @@ export default function ResumeUploadStep({
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">
+      <h2 className="text-2xl font-bold mb-6 text-center font-monomakh">
         Upload Your Resume
       </h2>
 
@@ -90,18 +90,20 @@ export default function ResumeUploadStep({
         <div className="mt-4 p-3 bg-red-50 text-red-700 rounded">{error}</div>
       )}
 
-      <div className="mt-6 text-center">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            onSkip();
-          }}
-          className="text-gray-600 hover:text-gray-800 underline"
-          disabled={isProcessing}
-        >
-          Skip this step
-        </button>
-      </div>
+      {!isProcessing && (
+        <div className="mt-6 text-center">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              onSkip();
+            }}
+            className="text-gray-600 hover:text-gray-800 underline font-shafarik"
+            disabled={isProcessing}
+          >
+            Skip this step
+          </button>
+        </div>
+      )}
     </div>
   );
 }

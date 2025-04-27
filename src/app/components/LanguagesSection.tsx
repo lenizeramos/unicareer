@@ -58,7 +58,7 @@ const LanguagesSection: React.FC<LanguagesProps> = ({
             <IoMdTrash />
           </button>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid xs:grid-cols-2 gap-4">
             <div>
               <label className={classNameLabel + " text-lg font-shafarik"} htmlFor={`language-${index}`}>
                 Language

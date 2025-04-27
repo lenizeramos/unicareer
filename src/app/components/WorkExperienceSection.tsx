@@ -90,7 +90,7 @@ const WorkExperienceSection: React.FC<WorkExperienceProps> = ({
             <IoMdTrash />
           </button>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid xs:grid-cols-2 gap-4">
             <InputField
               label="Company"
               id={`company-${index}`}

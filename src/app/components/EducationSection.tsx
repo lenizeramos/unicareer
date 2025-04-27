@@ -99,7 +99,7 @@ const EducationSection: React.FC<EducationProps> = ({
             classNameField={classNameField + " text-lg font-shafarik"}
           />
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid xs:grid-cols-2 gap-4">
             <InputField
               label="Degree"
               id={`degree-${index}`}

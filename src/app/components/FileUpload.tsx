@@ -96,12 +96,12 @@ export default function FileUpload({
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4 font-monomakh">{uploadText}</h2>
+    <div className="max-w-2xl mx-auto mt-8">
+      <h2 className="md:text-xl mb-4 font-monomakh text-center">{uploadText}</h2>
       <div className="space-y-4">
         <div className="flex items-center justify-center w-full">
-          <label className="flex flex-col w-full h-32 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300 font-shafarik">
-            <div className="flex flex-col items-center justify-center pt-7">
+          <label className="flex flex-col w-[90%] xs:h-32 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300 font-shafarik">
+            <div className="flex flex-col items-center justify-center pt-5">
               {isUploading ? (
                 <p className="text-sm text-gray-400 font-shafarik">{uploadingText}</p>
               ) : (
@@ -120,7 +120,7 @@ export default function FileUpload({
                       d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                     />
                   </svg>
-                  <p className="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600 font-shafarik">
+                  <p className="pt-3 px-2 text-sm tracking-wider text-gray-400 group-hover:text-gray-600 font-shafarik text-justify">
                     {uploadText}
                   </p>
                 </>
