@@ -4,25 +4,13 @@ import { FaCheckCircle, FaPlus } from "react-icons/fa";
 import { styles } from "@/app/styles";
 import ButtonComp from "@/app/components/ButtonComp";
 import { useRouter } from "next/navigation";
+import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 
 const PaymentSuccess = () => {
   const router = useRouter();
-  const handleButtonClick = () => {
-    router.push("/dashboard/company/postjob");
-  };
   return (
     <>
-      <CompanyHeader
-        image="/img/img.png"
-        name="Nomad"
-        button={{
-          text: "Post a Job",
-          IsWhite: false,
-          width: "w-xs",
-          icon: <FaPlus />,
-          onClick: handleButtonClick,
-        }}
-      />
+      <CompanyHeaderPaymentButton isDashboard={false} pageName="Payment Successful" />
       <div className={`${styles.borderBottomLight} `}></div>
       <div className="flex flex-col items-center h-screen p-4 justify-center">
         <div className="bg-white shadow-lg rounded-lg p-6 max-w-sm w-full border border-gray-200">

@@ -1,6 +1,6 @@
 "use client";
 import { styles } from "@/app/styles";
-import CompanyHeader from "@/app/components/CompanyHeader";
+import CompanyHeaderPaymentButton from "@/app/components/CompanyHeaderPaymentButton";
 import JobForm from "@/app/components/JobForm";
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
@@ -94,15 +94,16 @@ export default function PostJobPage() {
   );
   return (
     <>
-      <CompanyHeader image="/img/company_logo.png" name="Nomad" />
+      <CompanyHeaderPaymentButton isDashboard={false} pageName="Post a Job" />
       <div className={styles.borderBottomLight}></div>
 
-      <Link href={previousPage}>
-        <div className="flex items-center text-2xl space-x-2">
-          <GoArrowLeft className="text-xl" />
-          <p>{pageTitle}</p>
-        </div>
-      </Link>
+      <Link
+          href={previousPage}
+          className="inline-flex items-center text-gray-700 hover:text-gray-900 transition-colors mb-6 pt-8 pb-2"
+        >
+          <GoArrowLeft className="text-xl mr-2" />
+          <span className="text-xl font-semibold font-monomakh">{pageTitle}</span>
+        </Link>
 
       <JobForm onClick={handleJobSubmit} initialData={jobToEdit || undefined} />
     </>
