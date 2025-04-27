@@ -109,7 +109,7 @@ export default function FindJobs() {
   const handleOnClickModal = () => {
     setModalOpen(false);
   };
-  console.log(filters);
+
   return (
     <>
       <DashboardNavbar

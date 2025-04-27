@@ -74,7 +74,7 @@ export default function CandidatePage() {
         button={{ text: "Back to home page", IsWhite: true }}
       />
       <DashboardWelcome
-        greeting={`Good Morning, ${candidate.firstName}`}
+        greeting={`Welcome, ${candidate.firstName}`}
         message="Here is what's happening with your job applications "
         updateDate={setDateRange}
       />

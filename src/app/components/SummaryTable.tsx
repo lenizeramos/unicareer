@@ -28,7 +28,7 @@ const SummaryTable = ({ columnNames, data, isUserPhoto }: ISummaryTable) => {
   return (
     <>
       <div className="flex flex-col w-full mt-5">
-        <div className="sm:grid md:[grid-template-columns:80px_2fr_2fr_1fr_1fr] [grid-template-columns:30px_1.5fr_1.5fr_0.7fr_1fr] gap-4 p-3 border-b bg-gray-50 font-semibold text-lg hidden items-center">
+        <div className="sm:grid md:[grid-template-columns:30px_2fr_2fr_1fr_1fr] [grid-template-columns:20px_1.5fr_1.5fr_0.7fr_1fr] gap-4 p-3 border-b bg-gray-50 font-semibold text-lg hidden items-center">
           {columnNames.map((column, index) => {
             return (
               <p key={index} className="font-shafarik">
@@ -43,7 +43,7 @@ const SummaryTable = ({ columnNames, data, isUserPhoto }: ISummaryTable) => {
           );
           return (
             <div
-              className="sm:grid md:[grid-template-columns:80px_2fr_2fr_1fr_1fr] sm:[grid-template-columns:30px_1.5fr_1.5fr_0.7fr_1fr] xs:gap-4 gap-10 py-3 sm:border-b border border-gray-100 text-[17px] px-3 items-center flex justify-center font-shafarik"
+              className="sm:grid md:[grid-template-columns:30px_2fr_2fr_1fr_1fr] sm:[grid-template-columns:20px_1.5fr_1.5fr_0.7fr_1fr] xs:gap-4 gap-10 py-3 sm:border-b border border-gray-100 text-[17px] px-3 items-center flex justify-center font-shafarik"
               key={index}
             >
               <p className="w-fit sm:block hidden">{index + 1}</p>

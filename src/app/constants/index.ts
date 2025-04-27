@@ -201,7 +201,7 @@ const statusTags = [
   },
   {
     id: "cancelled_job",
-    type: "Job_Unavailable",
+    type: "Unavailable",
     styles: `text-gray-600 border  border-gray-600] rounded-full w-fit px-2 py-1 font-monomakh sm:text-[14px] text-[10px]`,
   },
 ];

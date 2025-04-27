@@ -10,13 +10,17 @@ import { BsSearch } from "react-icons/bs";
 import SummaryTable from "@/app/components/SummaryTable";
 import SearchNotFound from "@/app/components/SearchNotFound";
 import DashboardWelcome from "@/app/components/DashboardWelcome";
+import { AiOutlineAlignCenter } from "react-icons/ai";
+import { TbZoomReset } from "react-icons/tb";
 
 export default function Application() {
   const { candidate, isLoading } = useCandidateData();
 
-  const [endDate, setEndDate] = useState<Date | null>();
+  const [endDate] = useState<Date | null>();
   const [active, setActive] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const [filter, setFilter] = useState("")
 
   if (isLoading) {
     return <Loader />;
@@ -56,6 +60,10 @@ export default function Application() {
       tags: application.status ?? "Unknown",
     };
   });
+  function setModalOpen(arg0: boolean): void {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <>
       <DashboardNavbar
@@ -67,7 +75,7 @@ export default function Application() {
         message="Here is job applications status "
       />
       <div className="mt-3">
-        <div className="font-shafarik flex md:gap-20 sm:gap-15 gap-5 sm:text-lg text-[14px] border-b-[1px] border-gray-200 px-3 pt-3">
+        <div className="font-shafarik lg:flex lg:gap-10 sm:text-lg border-b-[1px] border-gray-200 px-3 pt-3 hidden">
           {statusTags.map((status, index) => {
             return (
               <p
@@ -85,10 +93,12 @@ export default function Application() {
             );
           })}
         </div>
+
         <div className="mt-10 px-3 flex justify-between">
           <h2 className="font-semibold font-shafarik text-xl">
             Applications History
           </h2>
+
           <div className="flex items-center border rounded-xl p-1 border-gray-400 w-fit h-fit">
             <BsSearch color="#99a1af" />
             <input
@@ -99,6 +109,7 @@ export default function Application() {
             />
           </div>
         </div>
+
         {data.length === 0 ? (
           <SearchNotFound text="No applicantions found" />
         ) : (
