@@ -29,7 +29,7 @@ const ProfilePage = () => {
         button={{ text: "Back to dashboard", IsWhite: true }}
       />
       <div className="flex flex-col md:flex-row gap-4 font-shafarik">
-        <div className="flex flex-col gap-6 md:p-6">
+        <div className="flex flex-col md:w-2/3 gap-6 md:p-6">
           <div className="p-4 md:p-6 relative shadow-xl rounded-2xl">
             <div
               className="absolute top-0 left-0 w-full md:h-24 h-18 bg-cover bg-center rounded-t-2xl"
@@ -68,14 +68,14 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="p-6 w-fit border border-gray-200">
+          <div className="p-6 w-full border border-gray-200">
             <h4 className={`${styles.sectionHeadText}`}>About Me</h4>
             <p className="text-gray-700 ">
               {candidate?.bio || "No bio available"}
             </p>
           </div>
 
-          <div className="p-6 w-fit border border-gray-200">
+          <div className="p-6 w-full border border-gray-200">
             <h4 className={`${styles.sectionHeadText}`}>Experiences</h4>
             <div className="mt-4 space-y-4">
               {candidate?.workExperience?.map((exp) => (
@@ -101,7 +101,7 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="p-6 w-fit border border-gray-200">
+          <div className="p-6 w-full border border-gray-200">
             <h4 className={`${styles.sectionHeadText}`}>Education</h4>
             <div className="mt-4 space-y-4">
               {candidate?.education?.map((edu) => (
@@ -168,13 +168,13 @@ const ProfilePage = () => {
             <div className="text-sm">
               <div className="flex gap-2 items-center">
                 <FaGlobe className="text-gray-600"/>
-                <h1 className="text-gray-800 font-semibold">Website </h1>
+                <h4 className="text-gray-800 font-semibold">Website:</h4>{" "}
               </div>
               <a
                 className=" text-blue-600 hover:underline cursor-pointer"
                 href={`${candidate?.user?.website}`}
               >
-                {candidate?.user?.website || "Not provided"}
+                {candidate?.user?.website || ""}
               </a>
             </div>
           </div>
@@ -184,25 +184,25 @@ const ProfilePage = () => {
             <div className="text-sm gap-2">
               <div className="flex gap-2 items-center">
                 <FaTwitter className="text-gray-600" />
-                <h1 className="text-gray-800 font-semibold">Twitter </h1>
+                <h4 className="text-gray-800 font-semibold">Twitter:</h4>{" "}
               </div>
               <a
                 href={`${candidate?.user?.twitter}`}
                 className="text-blue-600 hover:underline cursor-pointer"
               >
-                {candidate?.user?.twitter || "Not provided"}
+                {candidate?.user?.twitter || ""}
               </a>
             </div>
             <div className="text-sm">
               <div className=" flex gap-2 items-center">
                 <FaLinkedinIn className="text-gray-600" />
-                <h1 className="text-gray-800 font-semibold">Linkedin</h1>
+                <h4 className="text-gray-800 font-semibold">Linkedin:</h4>{" "}
               </div>
               <a
                 href={`${candidate?.user?.linkedIn}`}
                 className="text-blue-600 hover:underline cursor-pointer"
               >
-                {candidate?.user?.linkedIn || "Not provided"}
+                {candidate?.user?.linkedIn || ""}
               </a>
             </div>
           </div>
