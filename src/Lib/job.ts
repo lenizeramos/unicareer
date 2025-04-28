@@ -1,7 +1,6 @@
 import prisma from "./prisma";
 import { Job } from "../types/index";
 import { getCompanyByClerkId } from "@/Lib/company";
-import { IJob } from "@/app/Types";
 
 export async function createJob(data: Job) {
   try {
@@ -52,7 +51,7 @@ export async function getJobByCompanyId(
       take: take
     });
 
-    const jobsWithStatus = jobs.map((job: IJob) => ({
+    const jobsWithStatus = jobs.map((job) => ({
       ...job,
       status:
         job.closingDate && job.closingDate > new Date() ? "OPEN" : "CLOSED",
@@ -115,7 +114,7 @@ export async function getLastJobsByCompanyId(
       take: limit,
     });
 
-    const jobsWithStatus = jobs.map((job: IJob) => ({
+    const jobsWithStatus = jobs.map((job) => ({
       ...job,
       status:
         job.closingDate && job.closingDate > new Date() ? "OPEN" : "CLOSED",
@@ -316,7 +315,7 @@ export async function getJobsByType(
       result[type] = 0;
     });
 
-    jobTypesFromDB.forEach(({ type, _count }: { type: string; _count: { type: number } }) => {
+    jobTypesFromDB.forEach(({ type, _count }: { type: string | null; _count: { type: number } }) => {
       if (type && allJobTypes.includes(type.toLowerCase())) {
         result[type.toLowerCase()] = _count.type;
       }
@@ -411,21 +410,6 @@ export async function getJobsCount(startDate?: Date, endDate?: Date) {
     throw new Error("Failed to count jobs due to database issue.");
   }
 }
-
-/* export async function getDeletedJobsCount(startDate?: Date, endDate?: Date) {
-  try {
-    return await prisma.job.count({
-      where: {
-        deleted: true,
-        ...(startDate && { createdAt: { gte: startDate } }),
-        ...(endDate && { createdAt: { lte: endDate } }),
-      },
-    });
-  } catch (error) {
-    console.error("Error counting deleted jobs:", error);
-    throw new Error("Failed to count deleted jobs due to database issue.");
-  }
-} */
 
 export async function getJobsWithHiredApplicationsCount(
   startDate?: Date,
