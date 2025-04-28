@@ -16,6 +16,7 @@ export default function CompanyPage() {
   const [totalJobs, setTotalJobs] = useState<number>(0);
   const [startDate, setStartDate] = useState<Date | null>();
   const [endDate, setEndDate] = useState<Date | null>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleViewJobDetails = (id: string) => {
     router.push(`/dashboard/company/jobdetails/${id}`);
@@ -34,9 +35,9 @@ export default function CompanyPage() {
   };
 
   useEffect(() => {
-    
     const fetchCompanyJobs = async () => {
       try {
+        setIsLoading(true);
 
         const params = new URLSearchParams({
           skip: ((currentPage - 1) * itemsPerPage).toString(),
@@ -51,10 +52,11 @@ export default function CompanyPage() {
         const response = await fetch(`/api/company/jobs?${params.toString()}`);
 
         if (!response.ok) throw new Error("Failed to fetch company jobs");
-        const {jobs, totalJobs} = await response.json();
+        const { jobs, totalJobs } = await response.json();
 
         setCompanyJobs(jobs);
-        setTotalJobs(totalJobs)
+        setTotalJobs(totalJobs);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching job:", error);
         throw error;
@@ -115,6 +117,7 @@ export default function CompanyPage() {
         onPageChange={setCurrentPage}
         totalItems={totalJobs}
         onViewJobDetails={handleViewJobDetails}
+        isLoading={isLoading}
       />
     </>
   );
