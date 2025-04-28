@@ -80,7 +80,6 @@ export interface Candidate {
   skills: string[];
   resume?: string;
   bio?: string;
-  website?: string;
   education?: Array<{
     institution: string;
     degree: string;
@@ -113,11 +112,3 @@ export interface Application {
   status?: string;
   appliedAt?: string;
 }
-
-
-/* export interface CandidateRegistrationData {
-  firstName: string;
-  lastName: string;
-  photo: File | null;
-  role?: 'CANDIDATE';
-} */

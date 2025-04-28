@@ -31,7 +31,6 @@ export async function createCandidate(data: Candidate, userId: string) {
         skills: data.skills || [],
         resume: data.resume,
         bio: data.bio,
-        website: data.website,
         education: data.education?.length ? {
           createMany: { data: data.education.map(edu => ({
             institution: edu.institution,
@@ -105,7 +104,6 @@ export async function updateCandidate(data: Candidate) {
         lastName: data.lastName,
         skills: data.skills,
         bio: data.bio,
-        website: data.website
       }
     });
   } catch (error) {

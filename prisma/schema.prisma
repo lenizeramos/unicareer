@@ -45,7 +45,6 @@ model Candidate {
   skills         String[]
   resume         String?
   bio            String?
-  website        String?
   education      Education[]
   workExperience WorkExperience[]
   languages      Language[]

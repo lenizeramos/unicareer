@@ -1,10 +1,12 @@
+import { IUsers } from "@/app/Types/slices";
+
 export interface ResumeData {
   id?: string;
   firstName: string;
   lastName: string;
   skills: string[];
   bio?: string;
-  website?: string;
+  user?: IUsers;
   education?: EducationData[];
   workExperience?: WorkExperienceData[];
   languages?: LanguageData[];

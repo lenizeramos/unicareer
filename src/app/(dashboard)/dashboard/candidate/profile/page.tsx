@@ -167,12 +167,13 @@ const ProfilePage = () => {
             </p>
             <div className="text-sm">
               <div className="flex gap-2 items-center">
-                <FaGlobe className="text-gray-600"/>
+                <FaGlobe className="text-gray-600" />
                 <h4 className="text-gray-800 font-semibold">Website:</h4>{" "}
               </div>
               <a
                 className=" text-blue-600 hover:underline cursor-pointer"
                 href={`${candidate?.user?.website}`}
+                target="_blank"
               >
                 {candidate?.user?.website || ""}
               </a>
@@ -189,6 +190,7 @@ const ProfilePage = () => {
               <a
                 href={`${candidate?.user?.twitter}`}
                 className="text-blue-600 hover:underline cursor-pointer"
+                target="_blank"
               >
                 {candidate?.user?.twitter || ""}
               </a>
@@ -201,6 +203,7 @@ const ProfilePage = () => {
               <a
                 href={`${candidate?.user?.linkedIn}`}
                 className="text-blue-600 hover:underline cursor-pointer"
+                target="_blank"
               >
                 {candidate?.user?.linkedIn || ""}
               </a>
