@@ -11,7 +11,6 @@ import SelectField from "./SelectField";
 import SalaryRangeSlider from "./SalaryRangeSlider";
 import {
   classNameDivContainer,
-  classNameLabel,
   classNameDivLgWidth,
   classNameField,
   classNamePadding,
@@ -92,10 +91,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
   };
 
   return (
-    <div className="w-full flex justify-content-center">
+    <div className="w-full flex justify-center">
       <Stepper ref={stepperRef}>
         <StepperPanel header="Step 1/3: Job Info">
-          <div className="flex flex-col space-y-4 h-12rem">
+          <div className="flex flex-col space-y-4 font-shafarik pt-2 md:pt-0">
             <div className={classNamePadding}>
               <InputField
                 label="Job Title"
@@ -107,11 +106,11 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="E.g. Software Engineer"
                 required
-                maxLength={500}
-                classNameDivContainer={classNameDivContainer}
-                classNameLabel={classNameLabel}
+                maxLength={100}
+                classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
+                classNameLabel={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
                 classNameDivLgWidth={classNameDivLgWidth}
-                classNameField={classNameField}
+                classNameField={classNameField + " text-lg font-shafarik"}
               />
             </div>
 
@@ -125,9 +124,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 minDate={toLocalISOString(new Date())}
                 value={closingDate ? toLocalISOString(closingDate) : ""}
                 onChange={handleDateChange}
-                classNameDivContainer={classNameDivContainer}
-                classNameLabel={classNameLabel}
-                classNameField={classNameField}
+                classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
+                classNameLabel={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
+                classNameField={classNameField + " text-lg font-shafarik"}
+                required={true}
               />
             </div>
 
@@ -144,10 +144,11 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                   label: option,
                   key: index,
                 }))}
-                classNameDivContainer={classNameDivContainer}
-                classNameLabel={classNameLabel}
+                classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
+                classNameLabel={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
                 classNameDivLgWidth={classNameDivLgWidth}
-                classNameField={classNameField}
+                classNameField={classNameField + " text-lg font-shafarik"}
+                required={true}
               />
             </div>
 
@@ -164,17 +165,18 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                   label: option,
                   key: index,
                 }))}
-                classNameDivContainer={classNameDivContainer}
-                classNameLabel={classNameLabel}
-                classNameDivLgWidth={classNameDivLgWidth}
-                classNameField={classNameField}
+                classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
+                classNameLabel={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
+                classNameDivLgWidth={classNameDivLgWidth + "lg:w-4/5"}
+                classNameField={classNameField + " text-lg font-shafarik"}
+                required={true}
               />
             </div>
 
             <div className={classNamePadding}>
               <SalaryRangeSlider
                 label="Salary - Per hour"
-                small="Select the range salary, choose the minimun and maximun salary per hour"
+                small="Select the range salary, change the minimun and maximun salary per hour"
                 id="salaryRange"
                 min={10}
                 max={100}
@@ -183,9 +185,9 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                 onChange={(newValues: number[]) =>
                   setSalary(newValues as [number, number])
                 }
-                classNameDivContainer={classNameDivContainer}
-                classNameLabel={classNameLabel}
-                classNameDivLgWidth={classNameDivLgWidth}
+                classNameDivContainer={classNameDivContainer + "font-shafarik"}
+                classNameLabel={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
+                classNameDivLgWidth={"lg:w-4/5"}
               />
             </div>
 
@@ -202,10 +204,11 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
                   label: option,
                   key: index,
                 }))}
-                classNameDivContainer={classNameDivContainer}
-                classNameLabel={classNameLabel}
+                classNameDivContainer={classNameDivContainer + " text-lg font-shafarik"}
+                classNameLabel={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
                 classNameDivLgWidth={classNameDivLgWidth}
-                classNameField={classNameField}
+                classNameField={classNameField + " text-lg font-shafarik"}
+                required={true}
               />
             </div>
 
@@ -213,12 +216,12 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               label="Skills for this position"
               value={skills}
               onChange={setSkills}
-              className="lg:w-4/5 text-gray-700 rounded-md"
+              className="lg:w-4/5 text-gray-700 rounded-md font-shafarik"
               containerClass={`${classNameDivContainer} ${classNamePadding}`}
-              labelClass={classNameLabel}
-              helperText="Enter relevant skills for the position"
+              labelClass={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
+              helperText="Enter relevant skills for the position - max 100 skills - comma ',' separated."
               itemTemplate={(skill) => (
-                <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
+                <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2 font-shafarik">
                   {skill}
                 </div>
               )}
@@ -245,11 +248,12 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter job description here..."
-              maxLength={500}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
+              maxLength={1000}
+              classNameDivContainer={classNameDivContainer + " font-shafarik"}
+              classNameLabel={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
               classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
+              classNameField={classNameField + " font-shafarik"}
+              required={true}
             />
             <InputField
               label="Location"
@@ -261,10 +265,10 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               onChange={(e) => setLocation(e.target.value)}
               placeholder="Enter job location..."
               maxLength={100}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
+              classNameDivContainer={classNameDivContainer + " font-shafarik"}
+              classNameLabel={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
               classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
+              classNameField={classNameField + " font-shafarik"}
             />
             <TextAreaField
               label="Responsibilities"
@@ -274,11 +278,11 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               value={responsibilities}
               onChange={(e) => setResponsibilities(e.target.value)}
               placeholder="Enter key responsibilities here..."
-              maxLength={500}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
+              maxLength={1000}
+              classNameDivContainer={classNameDivContainer + " font-shafarik"}
+              classNameLabel={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
               classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
+              classNameField={classNameField + " font-shafarik"}
             />
             <TextAreaField
               label="Who You Are"
@@ -288,11 +292,11 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               value={whoYouAre}
               onChange={(e) => setWhoYouAre(e.target.value)}
               placeholder="Describe who the ideal candidate is..."
-              maxLength={500}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
+              maxLength={1000}
+              classNameDivContainer={classNameDivContainer + " font-shafarik"}
+              classNameLabel={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
               classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
+              classNameField={classNameField + " font-shafarik"}
             />
             <TextAreaField
               label="Nice To Have"
@@ -303,11 +307,11 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               value={niceToHave}
               onChange={(e) => setNiceToHave(e.target.value)}
               placeholder="Enter any nice-to-have qualifications here..."
-              maxLength={500}
-              classNameDivContainer={classNameDivContainer}
-              classNameLabel={classNameLabel}
+              maxLength={1000}
+              classNameDivContainer={classNameDivContainer + " font-shafarik"}
+              classNameLabel={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
               classNameDivLgWidth={classNameDivLgWidth}
-              classNameField={classNameField}
+              classNameField={classNameField + " font-shafarik"}
             />
           </div>
 
@@ -332,12 +336,12 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
             label="Benefits"
             value={benefits}
             onChange={setBenefits}
-            className="lg:w-4/5 text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            containerClass={classNameDivContainer}
-            labelClass={classNameLabel}
-            helperText="Encourage more people to apply by sharing the attractive rewards and benefits you offer your employees"
+            className="lg:w-4/5 text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-shafarik"
+            containerClass={classNameDivContainer + " font-shafarik"}
+            labelClass={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
+            helperText="Encourage more people to apply by sharing the attractive rewards and benefits you offer your employees - max 100 benefits - comma ',' separated"
             itemTemplate={(benefit) => (
-              <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
+              <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2 font-shafarik">
                 {benefit}
               </div>
             )}
