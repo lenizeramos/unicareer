@@ -2,6 +2,8 @@
 import { FaUser, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import { CandidateListTableProps } from "../Types";
+import Loader from "./Loader";
+import SearchNotFound from "./SearchNotFound";
 
 const CandidatesListTable = ({
   candidates,
@@ -53,7 +55,7 @@ const CandidatesListTable = ({
                 </div>
                 <div>
                   <div className="text-xs sm:text-sm font-medium text-gray-800">
-                  {candidate?.firstName} {candidate?.lastName}
+                    {candidate?.firstName} {candidate?.lastName}
                   </div>
                 </div>
               </div>
@@ -65,8 +67,6 @@ const CandidatesListTable = ({
                   ? `${candidate?.user?.city}, ${candidate?.user?.province}`
                   : candidate?.user?.city || candidate?.user?.province || "N/A"}
               </div>
-
-              
 
               <div className="flex items-center justify-center text-xs sm:text-sm py-2 md:py-0">
                 {candidate?.createdAt
@@ -84,9 +84,11 @@ const CandidatesListTable = ({
 
       {candidates.length === 0 && (
         <div className="text-center text-gray-500 text-sm py-6">
-          {isLoading
-            ? "Loading candidates..."
-            : "No candidates found matching your search"}
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <SearchNotFound text="No candidates found matching your search" />
+          )}
         </div>
       )}
 

@@ -2,6 +2,8 @@
 import { FaUser, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import { CompanyListTableProps } from "../Types";
+import Loader from "./Loader";
+import SearchNotFound from "./SearchNotFound";
 
 const CompanyListTable = ({
   companies,
@@ -86,9 +88,9 @@ const CompanyListTable = ({
       {companies.length === 0 && (
         <div className="text-center text-gray-500 text-sm py-6">
            {isLoading ? (
-        "Loading companies..."
+        <Loader />
       ) : (
-        "No companies found matching your search"
+        <SearchNotFound text="No companies found matching your search"/>
       )}
         </div>
       )}

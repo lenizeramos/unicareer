@@ -216,7 +216,7 @@ export default function JobDescription() {
             </div>
           </div>
 
-          <div className=" flex lg:flex-col xs:flex-row flex-col lg:justify-start md:justify-evenly justify-between md:gap-0 gap-5 border-t border-gray-100 pt-5 lg:pt-0 lg:border-0">
+          <div className=" flex lg:flex-col xs:flex-row flex-col md:gap-0 gap-5 border-t border-gray-100 pt-5 lg:pt-0 lg:border-0 mx-auto">
             <div className="flex flex-col gap-4 ">
               <h2 className={`${styles.JobDescriptionTitle}`}>
                 About this role
@@ -246,7 +246,7 @@ export default function JobDescription() {
                 </p>
               </div>
             </div>
-            <div className="lg:hidden w-0.5  bg-gray-200 hidden md:flex" />
+            <div className="lg:hidden w-0.5  bg-gray-200 hidden md:flex mx-auto" />
 
             <div className="lg:border-y-[1px] border-gray-200 lg:py-10 sm:mt-0 mt-5">
               <h2 className={`${styles.JobDescriptionTitle}`}>Categories</h2>
