@@ -11,6 +11,7 @@ export default function CandidatesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [candidates, setCandidates] = useState<ICandidate[]>([]);
+  const [totalCandidates, setTotalCandidates] = useState<number>(0);
   const [startDate, setStartDate] = useState<Date | null>();
   const [endDate, setEndDate] = useState<Date | null>();
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,33 +25,35 @@ export default function CandidatesPage() {
   };
 
   useEffect(() => {
-    let queryParams = "";
-    if (startDate && endDate) {
-      queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
-    }
-    if (searchTerm && searchTerm.length > 2) {
-      queryParams += queryParams
-        ? `&search=${encodeURIComponent(searchTerm)}`
-        : `?search=${encodeURIComponent(searchTerm)}`;
-    }
     const fetchCandidates = async () => {
       try {
-        const response = await fetch(`/api/admin/candidates${queryParams}`);
+        const params = new URLSearchParams({
+          skip: ((currentPage - 1) * itemsPerPage).toString(),
+          take: itemsPerPage.toString(),
+        });
+
+        if (startDate && endDate) {
+          params.append("startDate", startDate.toISOString());
+          params.append("endDate", endDate.toISOString());
+        }
+
+        if (searchTerm && searchTerm.length > 2) {
+          params.append("search", searchTerm);
+        }
+
+        const response = await fetch(`/api/admin/candidates?${params.toString()}`);
         if (!response.ok) throw new Error("Failed to fetch candidates");
-        const candidates = await response.json();
+        const {candidates, totalCandidates} = await response.json();
 
         setCandidates(candidates);
+        setTotalCandidates(totalCandidates)
       } catch (error) {
         console.error("Error fetching candidates:", error);
         throw error;
       }
     };
     fetchCandidates();
-  }, [startDate, endDate, searchTerm]);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentCandidates = candidates.slice(indexOfFirstItem, indexOfLastItem);
+  }, [startDate, endDate, searchTerm, currentPage, itemsPerPage ]);
 
   const getDate = (date: Date | undefined | null) => {
     if (!date) {
@@ -70,7 +73,7 @@ export default function CandidatesPage() {
       <div className="flex xs:flex-row flex-col gap-y-5 justify-between xs:items-center border border-gray-200 px-5 py-8 w-full">
         <div>
           <p className={`${styles.JobDescriptionText}`}>
-          See all the candidates below{" "}
+            See all the candidates below{" "}
             {startDate && endDate && (
               <>
                 from {getDate(startDate)} - {getDate(endDate)}
@@ -82,13 +85,16 @@ export default function CandidatesPage() {
       </div>
 
       <CandidatesListTable
-        candidates={currentCandidates}
+        candidates={candidates}
         columns={columns}
         itemsPerPage={itemsPerPage}
-        onItemsPerPageChange={setItemsPerPage}
+        onItemsPerPageChange={(value) => {
+          setCurrentPage(1);
+          setItemsPerPage(value);
+        }}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-        totalItems={candidates.length}
+        totalItems={totalCandidates}
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
         isLoading={true}

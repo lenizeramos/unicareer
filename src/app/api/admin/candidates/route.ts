@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
 import { getUserByClerkId } from "@/Lib/server/usersService";
-import { getAllCandidates } from "@/Lib/candidate";
+import { getAllCandidates, getTotalCandidates } from "@/Lib/candidate";
 
 export async function GET(req: NextRequest) {
   try {
@@ -24,12 +24,22 @@ export async function GET(req: NextRequest) {
     const endDate = endDateParam ? new Date(endDateParam) : undefined;
     const searchTerm = searchTermParam ? searchTermParam : undefined;
 
-    const applications = await getAllCandidates(
+    const skip = Number(req.nextUrl.searchParams.get("skip"));
+    const take = Number(req.nextUrl.searchParams.get("take"));
+
+    const candidates = await getAllCandidates(
+      startDate,
+      endDate,
+      searchTerm,
+      skip,
+      take
+    );
+    const totalCandidates = await getTotalCandidates(
       startDate,
       endDate,
       searchTerm
     );
-    return NextResponse.json(applications);
+    return NextResponse.json({ candidates, totalCandidates });
   } catch (error) {
     console.error("Error", error);
     return new NextResponse("Error", { status: 500 });

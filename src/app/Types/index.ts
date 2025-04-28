@@ -182,6 +182,7 @@ export interface JobListProps extends IJobList {
   onPageChange: (page: number) => void;
   totalItems: number;
   onViewJobDetails: (id: string) => void;
+  isLoading: boolean;
 }
 
 export interface IPayment {

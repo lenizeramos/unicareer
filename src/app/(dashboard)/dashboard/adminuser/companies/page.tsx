@@ -11,6 +11,7 @@ export default function CompaniesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [companies, setCompanies] = useState<ICompany[]>([]);
+  const [totalCompanies, setTotalCompanies] = useState<number>(0);
   const [startDate, setStartDate] = useState<Date | null>();
   const [endDate, setEndDate] = useState<Date | null>();
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,33 +25,34 @@ export default function CompaniesPage() {
   };
 
   useEffect(() => {
-    let queryParams = "";
-    if (startDate && endDate) {
-      queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
-    }
-    if (searchTerm && searchTerm.length > 2) {
-      queryParams += queryParams
-        ? `&search=${encodeURIComponent(searchTerm)}`
-        : `?search=${encodeURIComponent(searchTerm)}`;
-    }
-    const fetchCompanies = async () => {
+        const fetchCompanies = async () => {
       try {
-        const response = await fetch(`/api/admin/companies${queryParams}`);
+        const params = new URLSearchParams({
+          skip: ((currentPage - 1) * itemsPerPage).toString(),
+          take: itemsPerPage.toString(),
+        });
+
+        if (startDate && endDate) {
+          params.append("startDate", startDate.toISOString());
+          params.append("endDate", endDate.toISOString());
+        }
+
+        if (searchTerm && searchTerm.length > 2) {
+          params.append("search", searchTerm);
+        }
+        const response = await fetch(`/api/admin/companies?${params.toString()}`);
         if (!response.ok) throw new Error("Failed to fetch companies");
-        const companies = await response.json();
+        const {companies, totalCompanies} = await response.json();
 
         setCompanies(companies);
+        setTotalCompanies(totalCompanies)
       } catch (error) {
         console.error("Error fetching companies:", error);
         throw error;
       }
     };
     fetchCompanies();
-  }, [startDate, endDate, searchTerm]);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentCompanies = companies.slice(indexOfFirstItem, indexOfLastItem);
+  }, [startDate, endDate, searchTerm, currentPage, itemsPerPage]);
 
   const getDate = (date: Date | undefined | null) => {
     if (!date) {
@@ -82,13 +84,16 @@ export default function CompaniesPage() {
       </div>
 
       <CompanyListTable
-        companies={currentCompanies}
+        companies={companies}
         columns={columns}
         itemsPerPage={itemsPerPage}
-        onItemsPerPageChange={setItemsPerPage}
+        onItemsPerPageChange={(value) => {
+          setCurrentPage(1);
+          setItemsPerPage(value);
+        }}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-        totalItems={companies.length}
+        totalItems={totalCompanies}
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
         isLoading={true}

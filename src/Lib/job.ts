@@ -32,7 +32,9 @@ export async function createJob(data: Job) {
 export async function getJobByCompanyId(
   companyId: string,
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
+  skip?: number,
+  take?: number
 ) {
   try {
     const jobs = await prisma.job.findMany({
@@ -45,6 +47,8 @@ export async function getJobByCompanyId(
         },
       },
       orderBy: { createdAt: "desc" },
+      skip: skip,
+      take: take
     });
 
     const jobsWithStatus = jobs.map((job) => ({
@@ -56,6 +60,30 @@ export async function getJobByCompanyId(
   } catch (error) {
     console.error("Error fetching jobs:", error);
     throw new Error("Failed to retrieve jobs due to database issue.");
+  }
+}
+
+export async function getTotalJobByCompanyId(
+  companyId: string,
+  startDate?: Date,
+  endDate?: Date
+) {
+  try {
+    const totalJobs = await prisma.job.count({
+      where: {
+        companyId: companyId,
+        deleted: false,
+        createdAt: {
+          ...(startDate && { gte: startDate }),
+          ...(endDate && { lte: endDate }),
+        },
+      },
+    });
+
+    return totalJobs;
+  } catch (error) {
+    console.error("Error fetching jobs count:", error);
+    throw new Error("Failed to retrieve jobs count due to database issue.");
   }
 }
 
@@ -287,7 +315,7 @@ export async function getJobsByType(
       result[type] = 0;
     });
 
-    jobTypesFromDB.forEach(({ type, _count }) => {
+    jobTypesFromDB.forEach(({ type, _count }: { type: string | null; _count: { type: number } }) => {
       if (type && allJobTypes.includes(type.toLowerCase())) {
         result[type.toLowerCase()] = _count.type;
       }
@@ -382,21 +410,6 @@ export async function getJobsCount(startDate?: Date, endDate?: Date) {
     throw new Error("Failed to count jobs due to database issue.");
   }
 }
-
-/* export async function getDeletedJobsCount(startDate?: Date, endDate?: Date) {
-  try {
-    return await prisma.job.count({
-      where: {
-        deleted: true,
-        ...(startDate && { createdAt: { gte: startDate } }),
-        ...(endDate && { createdAt: { lte: endDate } }),
-      },
-    });
-  } catch (error) {
-    console.error("Error counting deleted jobs:", error);
-    throw new Error("Failed to count deleted jobs due to database issue.");
-  }
-} */
 
 export async function getJobsWithHiredApplicationsCount(
   startDate?: Date,

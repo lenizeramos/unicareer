@@ -64,7 +64,9 @@ export async function getCandidateCount(startDate?: Date, endDate?: Date) {
 export async function getAllCandidates(
   startDate?: Date,
   endDate?: Date,
-  searchTerm?: string
+  searchTerm?: string,
+  skip?: number,
+  take?: number
 ) {
   try {
     const candidates =  await prisma.candidate.findMany({
@@ -112,6 +114,8 @@ export async function getAllCandidates(
       orderBy: {
         createdAt: "desc",
       },
+      skip: skip,
+      take: take
     });
 
     return candidates.map(candidate => ({
@@ -122,5 +126,36 @@ export async function getAllCandidates(
   } catch (error) {
     console.error("Error getting candidates:", error);
     throw new Error("Failed to get candidates due to database issue.");
+  }
+}
+
+export async function getTotalCandidates(
+  startDate?: Date,
+  endDate?: Date,
+  searchTerm?: string,
+) {
+  try {
+    const totalCandidates =  await prisma.candidate.count({
+      where: {
+        ...(startDate && { createdAt: { gte: startDate } }),
+        ...(endDate && { createdAt: { lte: endDate } }),
+        ...(searchTerm && {
+          OR: [
+            {
+              firstName: { contains: searchTerm, mode: "insensitive" },
+            },
+            {
+              lastName: { contains: searchTerm, mode: "insensitive" },
+            },
+            { user: { email: { contains: searchTerm, mode: "insensitive" } } },
+          ],
+        }),
+      },
+    });
+
+    return totalCandidates;
+  } catch (error) {
+    console.error("Error getting candidates count:", error);
+    throw new Error("Failed to get candidates count due to database issue.");
   }
 }
