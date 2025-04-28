@@ -4,6 +4,20 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      // Server-side configuration
+      return config;
+    } else {
+      // Client-side configuration
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        canvas: false,
+        encoding: false
+      };
+    }
+    return config;
+  },
   images: {
     remotePatterns: [
       {

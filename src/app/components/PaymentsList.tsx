@@ -3,7 +3,6 @@ import { IPayment, PaymentsListProps } from "../Types";
 import Badge from "./Badge";
 import ButtonComp from "./ButtonComp";
 import SearchNotFound from "./SearchNotFound";
-import Loader from "./Loader";
 
 export default function PaymentsList({
   payments,

@@ -27,8 +27,7 @@ const EditClosingDateForm = ({
       <div className="mb-4">
         <h3 className="text-lg font-semibold mb-4 font-monomakh">Update Closing Date</h3>
         <span className="font-shafarik">
-        This job has received applications. You can update the closing date, but other details can’t be changed.
-        New Closing Date
+        This job has received applications. You can update the closing date, but other details cannot be changed.
         </span>
       </div>
 

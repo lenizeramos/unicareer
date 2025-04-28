@@ -75,7 +75,9 @@ export async function getCompanyCount(startDate?: Date, endDate?: Date) {
 export async function getAllCompanies(
   startDate?: Date,
   endDate?: Date,
-  searchTerm?: string
+  searchTerm?: string,
+  skip?: number,
+  take?: number
 ) {
   try {
     const companies =  await prisma.company.findMany({
@@ -113,6 +115,8 @@ export async function getAllCompanies(
       orderBy: {
         createdAt: "desc",
       },
+      skip: skip,
+      take: take
     });
 
     return companies.map(company => ({
@@ -128,3 +132,31 @@ export async function getAllCompanies(
   }
 }
 
+
+export async function getTotalCompanies(
+  startDate?: Date,
+  endDate?: Date,
+  searchTerm?: string,
+) {
+  try {
+    const totalCompanies =  await prisma.company.count({
+      where: {
+        ...(startDate && { createdAt: { gte: startDate } }),
+        ...(endDate && { createdAt: { lte: endDate } }),
+        ...(searchTerm && {
+          OR: [
+            {
+              name: { contains: searchTerm, mode: "insensitive" },
+            },
+            { user: { email: { contains: searchTerm, mode: "insensitive" } } },
+          ],
+        }),
+      },
+    });
+
+    return totalCompanies;
+  } catch (error) {
+    console.error("Error getting companies count:", error);
+    throw new Error("Failed to get companies count due to database issue.");
+  }
+}

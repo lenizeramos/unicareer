@@ -76,6 +76,11 @@ export async function GET(req: NextRequest) {
               firstName: true,
               lastName: true,
               skills: true,
+              user: {
+                select: {
+                  id: true
+                }
+              }
             },
           },
           job: {
@@ -100,6 +105,7 @@ export async function GET(req: NextRequest) {
         candidate: {
           firstName: app.candidate.firstName,
           lastName: app.candidate.lastName,
+          userId: app.candidate.user?.id
         },
         job: {
           title: app.job.title,

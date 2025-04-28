@@ -2,7 +2,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import ButtonComp from "@/app/components/ButtonComp";
-import { FaPlus, FaLinkedinIn, FaTwitter, FaGlobe } from "react-icons/fa";
+import { FaLinkedinIn, FaTwitter, FaGlobe } from "react-icons/fa";
 import { styles } from "@/app/styles";
 import FileDisplay from "@/app/components/FileDisplay";
 import { useDispatch, useSelector } from "react-redux";

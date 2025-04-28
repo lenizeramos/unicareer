@@ -33,10 +33,12 @@ export async function GET(request: Request) {
         });
 
         if (!user?.candidate?.id) {
-          return NextResponse.json(
-            { error: "File not found" },
-            { status: 404 }
-          );
+          const userProfileImage = await prisma.userProfileImage.findFirst({
+            where: { userId: userId },
+            orderBy: { createdAt: "desc" },
+          });
+          file = userProfileImage;
+          break;
         }
 
         const userProfileImage = await prisma.userProfileImage.findFirst({

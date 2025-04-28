@@ -5,6 +5,7 @@ import Badge from "./Badge";
 import ButtonComp from "./ButtonComp";
 import { monthNames } from "../constants";
 import SearchNotFound from "./SearchNotFound";
+import Loader from "./Loader";
 
 export default function JobList({
   jobs,
@@ -15,6 +16,7 @@ export default function JobList({
   onPageChange,
   totalItems,
   onViewJobDetails,
+  isLoading,
 }: JobListProps) {
   const getDate = (date: string) => {
     const createDate = new Date(date);
@@ -32,9 +34,12 @@ export default function JobList({
     return "-";
   };
 
+  if (jobs.length === 0) {
+    currentPage = 0;
+  }
+
   return (
     <div className="mt-8 border-light">
-      {/* Desktop Headers - Hidden on Mobile */}
       <div className="hidden md:grid grid-cols-9 gap-4 px-6 py-3 bg-gray-100 text-gray-600 text-sm font-semibold">
         {Object.values(columns).map((column, index) => (
           <div key={index} className="text-center">
@@ -43,16 +48,13 @@ export default function JobList({
         ))}
       </div>
 
-      {/* Card Layout */}
       <div className="space-y-4 md:space-y-0">
         {jobs.map((job, index) => (
           <div
             key={index}
             className="bg-white shadow-sm border border-gray-200 p-6 rounded-lg md:rounded-none md:border-0 md:border-b md:grid md:grid-cols-9 md:gap-4"
           >
-            {/* Mobile Card Layout */}
             <div className="md:hidden space-y-4">
-              {/* Header Section */}
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-semibold text-gray-800">
                   {String(job.title || "-")}
@@ -65,7 +67,6 @@ export default function JobList({
                 </div>
               </div>
 
-              {/* Info Grid */}
               <div className="grid grid-cols-2 gap-4">
                 {Object.keys(columns).map((key) => {
                   if (
@@ -99,7 +100,6 @@ export default function JobList({
                 })}
               </div>
 
-              {/* Action Button */}
               <div className="pt-2">
                 <ButtonComp
                   text="View Job"
@@ -111,7 +111,6 @@ export default function JobList({
               </div>
             </div>
 
-            {/* Desktop Grid View */}
             <div className="hidden md:contents">
               {Object.keys(columns).map((key, index) => (
                 <div key={index} className="py-4 text-center">
@@ -157,14 +156,19 @@ export default function JobList({
       </div>
 
       {jobs.length === 0 && (
-        <SearchNotFound
-          text="Looks like there are no job listings here yet."
-          optiontext="Start posting today!"
-          optionSubText={false}
-        />
+        <div className="text-center text-gray-500 text-sm py-6">
+          {isLoading ? (
+           <Loader />
+          ) : (
+            <SearchNotFound
+              text="Looks like there are no job listings here yet."
+              optiontext="Start posting today!"
+              optionSubText={false}
+            />
+          )}
+        </div>
       )}
 
-      {/* Pagination Section */}
       <div className="md:flex flex-col md:flex-row items-center justify-between gap-4 px-4 py-4 border-t mt-6 font-shafarik hidden">
         <div className="flex items-center gap-2 text-xs sm:text-sm">
           <span className="text-gray-600">View</span>

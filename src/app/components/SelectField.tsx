@@ -9,7 +9,7 @@ const SelectField: React.FC<ISelectFieldProps> = ({
   value,
   onChange,
   options,
-  required = false,
+  required,
   className = "",
   classNameDivContainer = "",
   classNameLabel = "",
@@ -31,6 +31,7 @@ const SelectField: React.FC<ISelectFieldProps> = ({
           value={value}
           onChange={onChange}
           className={`${classNameField} ${className}`}
+          required={required}
         >
           <option value="" disabled>
             Select an option

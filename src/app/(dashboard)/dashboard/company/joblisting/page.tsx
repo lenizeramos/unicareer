@@ -13,8 +13,10 @@ export default function CompanyPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [companyJobs, setCompanyJobs] = useState<IJob[]>([]);
+  const [totalJobs, setTotalJobs] = useState<number>(0);
   const [startDate, setStartDate] = useState<Date | null>();
   const [endDate, setEndDate] = useState<Date | null>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleViewJobDetails = (id: string) => {
     router.push(`/dashboard/company/jobdetails/${id}`);
@@ -33,36 +35,35 @@ export default function CompanyPage() {
   };
 
   useEffect(() => {
-    let queryParams = "";
-    if (startDate && endDate) {
-      queryParams += `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
-    }
-
     const fetchCompanyJobs = async () => {
       try {
-        const response = await fetch(`/api/company/jobs${queryParams}`);
+        setIsLoading(true);
+
+        const params = new URLSearchParams({
+          skip: ((currentPage - 1) * itemsPerPage).toString(),
+          take: itemsPerPage.toString(),
+        });
+
+        if (startDate && endDate) {
+          params.append("startDate", startDate.toISOString());
+          params.append("endDate", endDate.toISOString());
+        }
+
+        const response = await fetch(`/api/company/jobs?${params.toString()}`);
+
         if (!response.ok) throw new Error("Failed to fetch company jobs");
-        const jobs = await response.json();
+        const { jobs, totalJobs } = await response.json();
 
         setCompanyJobs(jobs);
+        setTotalJobs(totalJobs);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching job:", error);
         throw error;
       }
     };
     fetchCompanyJobs();
-  }, [startDate, endDate]);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentJobs = companyJobs
-    .slice(indexOfFirstItem, indexOfLastItem)
-    .map((job) => ({
-      ...job,
-      categories: Array.isArray(job.categories)
-        ? job.categories.join(", ")
-        : job.categories,
-    }));
+  }, [startDate, endDate, currentPage, itemsPerPage]);
 
   const getDate = (date: Date | undefined | null) => {
     if (!date) {
@@ -105,14 +106,18 @@ export default function CompanyPage() {
       </div>
 
       <JobList
-        jobs={currentJobs}
+        jobs={companyJobs}
         columns={columns}
         itemsPerPage={itemsPerPage}
-        onItemsPerPageChange={setItemsPerPage}
+        onItemsPerPageChange={(value) => {
+          setCurrentPage(1);
+          setItemsPerPage(value);
+        }}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-        totalItems={companyJobs.length}
+        totalItems={totalJobs}
         onViewJobDetails={handleViewJobDetails}
+        isLoading={isLoading}
       />
     </>
   );

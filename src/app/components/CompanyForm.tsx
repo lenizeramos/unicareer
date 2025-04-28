@@ -7,6 +7,7 @@ import ButtonComp from "@/app/components/ButtonComp";
 import {
   classNameDivContainerTextArea,
   classNameField,
+  classNameLabel,
 } from "@/app/constants/index";
 import FileUpload from "./FileUpload";
 import SelectField from "./SelectField";
@@ -145,52 +146,59 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
   ];
 
   return (
-    <>
-      <h1 className="text-2xl font-bold text-center mb-6">
-        Company Information
-      </h1>
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-md mx-auto p-4 bg-white shadow-lg rounded-lg space-y-4"
-      >
-        <InputField
-          label="Company Name"
-          id="name"
-          name="name"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          maxLength={100}
-          classNameDivContainer="flex flex-col"
-          classNameLabel="text-sm font-semibold text-gray-700"
-          classNameField={classNameField}
-        />
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-7xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-8"
+    >
+      {/* Personal Information Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Left Column */}
+        <div className="space-y-6">
+          <InputField
+            label="Company Name"
+            id="name"
+            name="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            maxLength={100}
+            classNameDivContainer="flex flex-col"
+            classNameLabel={classNameLabel + " text-[20px] font-shafarik inline-flex items-center"}
+            classNameField={classNameField + " text-[20px] font-shafarik"}
+          />
 
-        <FileUpload
-          allowedFileTypes={["image/jpeg", "image/png"]}
-          apiRoute="/api/upload"
-          modelName="userProfileImage"
-          fieldName="fileKey"
-          userId={userId}
-          uploadText="Upload the logo of your company"
-          maxSizeMB={5}
-          onUploadComplete={() => {}}
-        />
+          <TextAreaField
+            label="Bio"
+            id="bio"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            rows={4}
+            name="bio"
+            maxLength={500}
+            classNameDivContainer={classNameDivContainerTextArea}
+            classNameLabel={classNameLabel + " text-[20px] font-shafarik"}
+            classNameField={classNameField + " text-[20px] font-shafarik"}
+          />
+        </div>
 
-        <TextAreaField
-          label="Bio"
-          id="bio"
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
-          rows={4}
-          name="bio"
-          maxLength={500}
-          classNameDivContainer={classNameDivContainerTextArea}
-          classNameLabel="text-sm font-semibold text-gray-700"
-          classNameField={classNameField}
-        />
+        {/* Right Column */}
+        <div className="flex items-center justify-center">
+          <FileUpload
+            allowedFileTypes={["image/jpeg", "image/png"]}
+            apiRoute="/api/upload"
+            modelName="userProfileImage"
+            fieldName="fileKey"
+            userId={userId}
+            uploadText="Upload the logo of your company"
+            maxSizeMB={5}
+            onUploadComplete={() => {}}
+          />
+        </div>
+      </div>
 
+      {/* Address Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <InputField
           label="Street Address"
           id="streetAddress"
@@ -199,8 +207,8 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           value={streetAddress}
           onChange={(e) => setStreetAddress(e.target.value)}
           classNameDivContainer="flex flex-col"
-          classNameLabel="text-sm font-semibold text-gray-700"
-          classNameField={classNameField}
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
         />
 
         <InputField
@@ -211,8 +219,8 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           value={city}
           onChange={(e) => setCity(e.target.value)}
           classNameDivContainer="flex flex-col"
-          classNameLabel="text-sm font-semibold text-gray-700"
-          classNameField={classNameField}
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
         />
 
         <SelectField
@@ -223,8 +231,8 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           onChange={(e) => setProvince(e.target.value)}
           options={canadianProvinces}
           classNameDivContainer="flex flex-col"
-          classNameLabel="text-sm font-semibold text-gray-700"
-          classNameField={classNameField}
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
         />
 
         <InputField
@@ -234,10 +242,10 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           type="text"
           value="Canada"
           onChange={() => {}}
-          classNameDivContainer="flex flex-col"
-          classNameLabel="text-sm font-semibold text-gray-700"
-          classNameField={classNameField}
           disabled={true}
+          classNameDivContainer="flex flex-col"
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
         />
 
         <InputField
@@ -248,10 +256,13 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           value={postalCode}
           onChange={(e) => setPostalCode(e.target.value)}
           classNameDivContainer="flex flex-col"
-          classNameLabel="text-sm font-semibold text-gray-700"
-          classNameField={classNameField}
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
         />
+      </div>
 
+      {/* Company Details Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <SelectField
           label="Company Size"
           id="size"
@@ -260,8 +271,8 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           onChange={(e) => setSize(e.target.value)}
           options={companySizes}
           classNameDivContainer="flex flex-col"
-          classNameLabel="text-sm font-semibold text-gray-700"
-          classNameField={classNameField}
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
         />
 
         <SelectField
@@ -272,8 +283,8 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           onChange={(e) => setIndustry(e.target.value)}
           options={industries}
           classNameDivContainer="flex flex-col"
-          classNameLabel="text-sm font-semibold text-gray-700"
-          classNameField={classNameField}
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
         />
 
         <InputField
@@ -284,10 +295,13 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           value={foundedYear}
           onChange={(e) => setFoundedYear(e.target.value)}
           classNameDivContainer="flex flex-col"
-          classNameLabel="text-sm font-semibold text-gray-700"
-          classNameField={classNameField}
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
         />
+      </div>
 
+      {/* Social Links Section */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <InputField
           label="Website"
           id="website"
@@ -297,9 +311,10 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           onChange={(e) => setWebsite(e.target.value)}
           placeholder="https://example.com"
           classNameDivContainer="flex flex-col"
-          classNameLabel="text-sm font-semibold text-gray-700"
-          classNameField={classNameField}
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
         />
+
         <InputField
           label="LinkedIn"
           id="linkedIn"
@@ -309,8 +324,8 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           onChange={(e) => setLinkedIn(e.target.value)}
           placeholder="https://linkedin.com/company/example"
           classNameDivContainer="flex flex-col"
-          classNameLabel="text-sm font-semibold text-gray-700"
-          classNameField={classNameField}
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
         />
 
         <InputField
@@ -322,23 +337,22 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           onChange={(e) => setTwitter(e.target.value)}
           placeholder="https://twitter.com/example"
           classNameDivContainer="flex flex-col"
-          classNameLabel="text-sm font-semibold text-gray-700"
-          classNameField={classNameField}
+          classNameLabel="text-[20px] font-shafarik"
+          classNameField={classNameField + " text-[20px] font-shafarik"}
         />
+      </div>
 
+      {/* Tools & Benefits Section */}
+      <div className="space-y-6">
         <ChipsField
           label="Tools & Technologies"
           value={toolsAndTechnologies}
           onChange={setToolsAndTechnologies}
-          className="w-full text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          containerClass="flex flex-col"
-          labelClass="text-sm font-semibold text-gray-700"
+          className="w-full text-gray-700 rounded-lg"
+          containerClass="space-y-2"
+          labelClass="text-[20px] font-shafarik"
           helperText="List the technologies or tools relevant to this role."
-          itemTemplate={(tech) => (
-            <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
-              {tech}
-            </div>
-          )}
+          itemTemplate={(tech) => <div>{tech}</div>}
           placeholder="E.g., React, Node.js, AWS"
         />
 
@@ -346,23 +360,19 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           label="Benefits"
           value={benefits}
           onChange={setBenefits}
-          className="w-full text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          containerClass="flex flex-col"
-          labelClass="text-sm font-semibold text-gray-700"
-          helperText="Highlight what makes your company a great place to work—supportive culture, flexible work environment, or unique perks."
-          itemTemplate={(benefit) => (
-            <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2">
-              {benefit}
-            </div>
-          )}
+          className="w-full text-gray-700 rounded-lg"
+          containerClass="space-y-2"
+          labelClass="text-[20px] font-shafarik"
+          helperText="Highlight what makes your company a great place to work."
+          itemTemplate={(benefit) => <div>{benefit}</div>}
           placeholder="E.g., Collaborative Culture, Remote Friendly, Team Events"
         />
+      </div>
 
-        <div className="flex justify-end">
-          <ButtonComp text="Submit" IsWhite={false} width="w-full md:w-auto" />
-        </div>
-      </form>
-    </>
+      <div className="flex justify-end pt-6">
+        <ButtonComp text="Submit" IsWhite={false} width="w-full md:w-auto" />
+      </div>
+    </form>
   );
 };
 
