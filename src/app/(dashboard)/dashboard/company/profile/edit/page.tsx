@@ -9,6 +9,8 @@ import { ICompany } from "@/app/Types/slices";
 import Loader from "@/app/components/Loader";
 import { useRouter } from "next/navigation";
 import CompanyHeader from "@/app/components/CompanyHeader";
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import Link from "next/link";
 
 const EditCompanyProfile = () => {
   const router = useRouter();
@@ -44,11 +46,20 @@ const EditCompanyProfile = () => {
 
   return (
     <>
-      <CompanyHeader
-        image="/img/img.png"
-        name="Edit Profile"
-        isDashboard={false}
-      />
+      <div className="flex justify-between">
+        <CompanyHeader
+          image="/img/img.png"
+          name="Edit Profile"
+          isDashboard={false}
+        />
+        <Link
+          href={"/dashboard/company/profile"}
+          className="flex justify-end pr-6"
+        >
+          <IoIosCloseCircleOutline className="text-3xl text-gray-600 hover:text-red-500 transition-colors duration-200" />
+        </Link>
+      </div>
+
       <CompanyForm onSubmit={handleCompanyFormSubmit} initialData={company} />
     </>
   );

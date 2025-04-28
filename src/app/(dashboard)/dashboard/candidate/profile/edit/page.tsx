@@ -10,11 +10,15 @@ import Loader from "@/app/components/Loader";
 import { useRouter } from "next/navigation";
 import DashboardNavbar from "@/app/components/DashboardNavbar";
 import { styles } from "@/app/styles";
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import Link from "next/link";
 
 const EditCandidateProfile = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const candidate = useSelector((state: RootState) => state.candidateState.candidate);
+  const candidate = useSelector(
+    (state: RootState) => state.candidateState.candidate
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -45,14 +49,25 @@ const EditCandidateProfile = () => {
 
   return (
     <>
-      <DashboardNavbar
-          title="Edit Profile"
-          button={{ text: "Back to dashboard", IsWhite: true }}
-      />
+      <div className="flex justify-between">
+        <DashboardNavbar title="Edit Profile" />
+        <Link
+          href={"/dashboard/candidate/profile"}
+          className="flex justify-end pr-6"
+        >
+          <IoIosCloseCircleOutline className="text-3xl text-gray-600 hover:text-red-500 transition-colors duration-200" />
+        </Link>
+      </div>
+
       <div
-            className={`${styles.sectionSubText} border-b-[1px] border-gray-300 pb-5 flex justify-center mb-10 w-full`}
+        className={`${styles.sectionSubText} border-b-[1px] border-gray-300 pb-5 flex justify-center mb-10 w-full`}
       ></div>
-      {<CandidateForm onSubmit={handleCandidateFormSubmit} initialData={candidate} />}
+      {
+        <CandidateForm
+          onSubmit={handleCandidateFormSubmit}
+          initialData={candidate}
+        />
+      }
     </>
   );
 };
