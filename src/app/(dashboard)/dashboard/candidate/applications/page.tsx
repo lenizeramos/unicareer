@@ -59,10 +59,6 @@ export default function Application() {
     };
   });
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentPayments = data.slice(indexOfFirstItem, indexOfLastItem);
-
   return (
     <>
       <DashboardNavbar
