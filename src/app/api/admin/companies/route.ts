@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getClerkUserId } from "@/utils/user";
 import { getUserByClerkId } from "@/Lib/server/usersService";
-import { getAllCompanies } from "@/Lib/company";
+import { getAllCompanies, getTotalCompanies } from "@/Lib/company";
 
 export async function GET(req: NextRequest) {
   try {
@@ -24,12 +24,23 @@ export async function GET(req: NextRequest) {
     const endDate = endDateParam ? new Date(endDateParam) : undefined;
     const searchTerm = searchTermParam ? searchTermParam : undefined;
 
-    const applications = await getAllCompanies(
+    const skip = Number(req.nextUrl.searchParams.get("skip"));
+    const take = Number(req.nextUrl.searchParams.get("take"));
+
+    const companies = await getAllCompanies(
       startDate,
       endDate,
-      searchTerm
+      searchTerm,
+      skip,
+      take
     );
-    return NextResponse.json(applications);
+
+    const totalCompanies = await getTotalCompanies(
+          startDate,
+          endDate,
+          searchTerm
+        );
+    return NextResponse.json({companies, totalCompanies});
   } catch (error) {
     console.error("Error", error);
     return new NextResponse("Error", { status: 500 });

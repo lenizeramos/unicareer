@@ -88,7 +88,10 @@ export default function CandidatesPage() {
         candidates={candidates}
         columns={columns}
         itemsPerPage={itemsPerPage}
-        onItemsPerPageChange={setItemsPerPage}
+        onItemsPerPageChange={(value) => {
+          setCurrentPage(1);
+          setItemsPerPage(value);
+        }}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
         totalItems={totalCandidates}
