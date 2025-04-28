@@ -29,6 +29,7 @@ export default function ApplicationsPage() {
   const [startDate, setStartDate] = useState<Date | null>();
   const [endDate, setEndDate] = useState<Date | null>();
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleViewProfile = (id: string) => {
     router.push(`/dashboard/company/applicantdetails/${id}`);
@@ -45,6 +46,7 @@ export default function ApplicationsPage() {
 
   useEffect(() => {
     const fetchCompanyApplications = async () => {
+      setIsLoading(true);
       try {
         let queryParams = "";
         if (startDate && endDate) {
@@ -86,6 +88,8 @@ export default function ApplicationsPage() {
         setApplications(applications);
       } catch (error) {
         console.error("Error fetching applications:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchCompanyApplications();
@@ -97,15 +101,6 @@ export default function ApplicationsPage() {
     indexOfFirstItem,
     indexOfLastItem
   );
-
-  console.log('Pagination Debug:', {
-    total: applications.length,
-    currentPage,
-    itemsPerPage,
-    indexOfFirstItem,
-    indexOfLastItem,
-    currentApplications
-  });
 
   const getDate = (date: Date | undefined | null) => {
     if (!date) {
@@ -147,7 +142,7 @@ export default function ApplicationsPage() {
         onViewProfile={handleViewProfile}
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
-        isLoading={true}
+        isLoading={isLoading}
       />
     </>
   );

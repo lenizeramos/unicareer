@@ -14,6 +14,7 @@ import { IApplication } from "../Types/slices";
 import { useState } from "react";
 import SearchNotFound from "./SearchNotFound";
 import Loader from "./Loader";
+import FileDisplay from "./FileDisplay";
 
 interface Compatibility {
   score: number;
@@ -88,6 +89,7 @@ const ApplicationsListTable = ({
   onSearchChange,
   isLoading,
 }: ApplicationsListTableProps) => {
+  console.log(applications);
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const getStatusColor = (status: IApplication["status"]) => {
@@ -183,9 +185,14 @@ const ApplicationsListTable = ({
             className="border border-gray-200 p-3 sm:p-4 rounded-lg md:rounded-none md:border-0 md:border-b md:grid md:grid-cols-6 md:gap-4 items-center"
           >
             <div className="flex items-center gap-2 sm:gap-3 justify-center mb-3 md:mb-0">
-              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                <FaUser className="text-gray-500 text-xs sm:text-sm" />
-              </div>
+              <FileDisplay
+                modelName="userProfileImage"
+                userId={application.candidate?.userId || ""}
+                width={32}
+                height={32}
+                className="rounded-full overflow-hidden"
+                fallbackImage="/img/no_user_image.png"
+              />
               <div>
                 <div className="text-xs sm:text-sm font-medium text-gray-800">
                   {application.candidate?.firstName}{" "}
@@ -220,17 +227,15 @@ const ApplicationsListTable = ({
         ))}
       </div>
 
-      {applications.length === 0 ? (
-        <SearchNotFound text="No applications found." optionSubText={false} />
-      ) : (
+      {isLoading ? (
         <div className="text-center text-gray-500 text-sm py-6">
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <SearchNotFound text="No applications found matching your search" />
-          )}
+          <Loader />
         </div>
-      )}
+      ) : applications.length === 0 ? (
+        <div className="text-center text-gray-500 text-sm py-6">
+          <SearchNotFound text={searchTerm ? "No applications found matching your search" : "No applications found."} optionSubText={false} />
+        </div>
+      ) : null}
 
       <div className="md:flex flex-col md:flex-row items-center justify-between gap-4 px-2 sm:px-4 py-4 border-t mt-6 rounded-b-lg font-shafarik hidden">
         <div className="flex items-center gap-2 text-xs sm:text-sm">

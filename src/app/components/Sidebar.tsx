@@ -66,7 +66,7 @@ export default function Sidebar({
   const handleSignOut = () => {
     signOut();
   };
-  console.log(user);
+
   return (
     <>
       {isOpen && (
