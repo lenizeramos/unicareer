@@ -67,7 +67,7 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="bg-white shadow-md rounded-2xl p-6 mb-6">
+          <div className="p-6 w-full border border-gray-200">
             <div className="flex justify-between">
               <h4 className={styles.sectionHeadText}>About Me</h4>
             </div>
@@ -76,9 +76,9 @@ const ProfilePage = () => {
             </p>
           </div>
 
-          <div className="bg-white shadow-md rounded-2xl p-6 mb-6">
+          <div className="p-6 w-full border border-gray-200">
             <div className="flex justify-between">
-              <h4 className="font-semibold">Experiences</h4>
+              <h4 className={`${styles.sectionHeadText}`}>Experiences</h4>
             </div>
             <div className="mt-4 space-y-4">
               {candidate?.workExperience?.map((exp) => (
@@ -106,9 +106,9 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="bg-white shadow-md rounded-2xl p-6 mb-6">
+          <div className="p-6 w-full border border-gray-200">
             <div className="flex justify-between">
-              <h4 className="font-semibold">Education</h4>
+              <h4 className={`${styles.sectionHeadText}`}>Education</h4>
             </div>
             <div className="mt-4 space-y-4">
               {candidate?.education?.map((edu) => (
@@ -134,8 +134,8 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="bg-white shadow-md rounded-2xl p-6 mb-6">
-            <h4 className="font-semibold">Skills</h4>
+          <div className="p-6 w-full border border-gray-200">
+            <h4 className={`${styles.sectionHeadText}`}>Skills</h4>
             <div className="mt-4 flex flex-wrap gap-2">
               {candidate?.skills?.map((skill) => (
                 <span
@@ -148,8 +148,8 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="bg-white shadow-md rounded-2xl p-6 mb-6">
-            <h4 className="font-semibold">Languages</h4>
+          <div className="p-6 w-full border border-gray-200">
+            <h4 className={`${styles.sectionHeadText}`}>Languages</h4>
             <div className="mt-4 flex flex-wrap gap-2">
               {candidate?.languages?.map((lang) => (
                 <span
