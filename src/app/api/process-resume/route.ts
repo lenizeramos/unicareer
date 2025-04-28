@@ -64,7 +64,6 @@ export async function POST(request: Request) {
             lastName: extractedData.lastName,
             skills: extractedData.skills,
             bio: extractedData.bio,
-            website: extractedData.website,
           },
         });
 
