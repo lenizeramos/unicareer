@@ -17,9 +17,9 @@ export async function analyzeResume(text: string): Promise<ResumeData> {
     - province (state/region)
     - country ("Canada")
     - postalCode
-    - website (URL)
-    - linkedIn (URL)
-    - twitter (URL)
+    - website (a fully qualified URL, starting with https://)
+    - linkedIn (a fully qualified URL, starting with https://)
+    - twitter (a fully qualified URL, starting with https://)
   - Education history (array of objects with: institution, degree, fieldOfStudy, country, startDate, endDate)
   - Work experience (array of objects with: company, position, country, startDate, endDate, description)
   - Languages (array of objects with: name, level [BEGINNER, INTERMEDIATE, ADVANCED, NATIVE])
@@ -52,13 +52,11 @@ Format the result strictly as a **single JSON object** using **double-quoted** p
 - Dates must be in ISO format (YYYY-MM-DD).
 - Language names must be spoken languages only (e.g., English, Spanish, Portuguese).
 - Language levels must be exactly: BEGINNER, INTERMEDIATE, ADVANCED, or NATIVE.
+- Always ensure website, LinkedIn, and Twitter fields are full URLs starting with "https://". If protocol is missing, add "https://" automatically.
 - Do not invent or guess missing information. Only extract what's explicitly present.
 
 Resume text:
   ${text}`;
-
-  console.log(text);
-  console.log(prompt);
   const completion = await openai.chat.completions.create({
     messages: [
       {
