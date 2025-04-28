@@ -5,6 +5,7 @@ import Badge from "./Badge";
 import ButtonComp from "./ButtonComp";
 import { monthNames } from "../constants";
 import SearchNotFound from "./SearchNotFound";
+import Loader from "./Loader";
 
 export default function JobList({
   jobs,
@@ -157,7 +158,7 @@ export default function JobList({
       {jobs.length === 0 && (
         <div className="text-center text-gray-500 text-sm py-6">
           {isLoading ? (
-            "Loading applications..."
+           <Loader />
           ) : (
             <SearchNotFound
               text="Looks like there are no job listings here yet."

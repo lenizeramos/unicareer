@@ -53,11 +53,6 @@ const ChipsField: React.FC<IChipsFieldProps> = ({
         />
         <div className="bg-blue-200"></div>
       </div>
-      <div>
-        <p className="text-xs text-gray-500 mt-1 text-right">
-          {value.length}/{maxLength}
-        </p>
-      </div>
     </>
   );
 };
