@@ -21,6 +21,7 @@ const ButtonComp = ({
           isDissable ? styles.buttonDisable : styles.button
         }`}
         onClick={onClick}
+        disabled={isDissable}
       >
         {icon}
         {text}
