@@ -21,26 +21,24 @@ export default function FileDisplay({
 
   useEffect(() => {
     const fetchFile = async () => {
-      console.log("Fetching file for userId:", userId, "modelName:", modelName);
       try {
         const response = await fetch(
           `/api/get-file?modelName=${modelName}&userId=${userId}`
         );
 
         if (response.status === 404) {
-          console.log("File not found for user:", userId);
           setFileData(null);
           return;
         }
 
         if (!response.ok) throw new Error("Failed to fetch file");
         const data = await response.json();
-        console.log("File data received:", data);
         setFileData(data);
       } catch (error) {
         console.error("Error:", error);
       } finally {
         setLoading(false);
+        /* console.clear() */
       }
     };
 

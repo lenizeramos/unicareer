@@ -92,7 +92,7 @@ export default function FindJobs() {
     key: string,
     value: string | { min: number; max: number }
   ) => {
-    console.log(typeof value, key);
+    /* console.log(typeof value, key); */
     if (key === "salary" && typeof value === "number") {
       setFilters((prevFilters) => ({
         ...prevFilters,
