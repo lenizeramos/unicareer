@@ -25,11 +25,36 @@ export default function Home() {
   const router = useRouter();
   const { user } = useClerk();
   const userRole = user?.publicMetadata?.role as string;
+/* const [jobs, setJobs] = useState<Ijobs[]>([]) */
+
+
   useEffect(() => {
     if (jobs.length === 0) {
       dispatch(fetchAllJobs());
     }
   }, [jobs.length, dispatch]);
+
+  /* useEffect(() => {
+    const fetchRecentJobs = async () => {
+      try {
+        const params = new URLSearchParams({
+          take: (6).toString(),
+        });
+
+        const response = await fetch(
+          `/api/job/get-recent?${params.toString()}`
+        );
+        if (!response.ok) throw new Error("Failed to fetch recent jobs");
+        const { jobs } = await response.json();
+
+        setJobs(jobs);
+      } catch (error) {
+        console.error("Error fetching recent jobs:", error);
+        throw error;
+      }
+    };
+    fetchRecentJobs();
+  }, []); */
 
   const jobsWithStatus = jobs.filter(
     (job) => new Date(job.closingDate) > new Date()
