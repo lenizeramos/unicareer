@@ -1,8 +1,8 @@
 import { Chips, ChipsChangeEvent } from "primereact/chips";
-import React from "react";
+import React, {useRef} from "react";
 import { IChipsFieldProps } from "../Types/index";
 
-const maxLength = 100;
+const maxLength = 10;
 
 const ChipsField: React.FC<IChipsFieldProps> = ({
   label,
@@ -15,6 +15,8 @@ const ChipsField: React.FC<IChipsFieldProps> = ({
   containerClass,
   helperText,
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const handleChange = (e: ChipsChangeEvent) => {
     const newValue = e.value ? e.value : [];
     const lowercasedSet = new Set<string>();
@@ -34,6 +36,32 @@ const ChipsField: React.FC<IChipsFieldProps> = ({
     onChange(uniqueValues);
   };
 
+  const handleBlur = () => {
+    const inputValue = inputRef.current?.value.trim();
+    if (inputValue) {
+      const updated = [...(value || []), inputValue];
+      const lowercasedSet = new Set<string>();
+      const uniqueValues: string[] = [];
+
+      for (const item of updated) {
+        const lower = item.toLowerCase();
+        if (!lowercasedSet.has(lower)) {
+          lowercasedSet.add(lower);
+          uniqueValues.push(item);
+        }
+      }
+
+      if (uniqueValues.length <= maxLength) {
+        onChange(uniqueValues);
+      }
+      
+    
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
+    }
+  };
+
   return (
     <>
       <div className={containerClass}>
@@ -50,6 +78,8 @@ const ChipsField: React.FC<IChipsFieldProps> = ({
           onChange={handleChange}
           separator=","
           placeholder={placeholder}
+          onBlur={handleBlur}
+          inputRef={inputRef}
         />
         <div className="bg-blue-200"></div>
       </div>
