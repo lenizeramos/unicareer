@@ -88,7 +88,6 @@ const ApplicationsListTable = ({
   onSearchChange,
   isLoading,
 }: ApplicationsListTableProps) => {
-  console.log(applications);
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const getStatusColor = (status: IApplication["status"]) => {
