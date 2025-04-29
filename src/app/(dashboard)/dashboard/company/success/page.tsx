@@ -9,9 +9,12 @@ const PaymentSuccess = () => {
   const router = useRouter();
   return (
     <>
-      <CompanyHeaderPaymentButton isDashboard={false} pageName="Payment Successful" />
+      <CompanyHeaderPaymentButton
+        isDashboard={false}
+        pageName="Payment Successful"
+      />
       <div className={`${styles.borderBottomLight} `}></div>
-      <div className="flex flex-col items-center h-screen p-4 justify-center">
+      <div className="flex flex-col items-center h-full w-[80%] p-4 justify-center fixed">
         <div className="bg-white shadow-lg rounded-lg p-6 max-w-sm w-full border border-gray-200">
           <div className="flex justify-center">
             <FaCheckCircle className="text-green-500 text-6xl mb-4" />

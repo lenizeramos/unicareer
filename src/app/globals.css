@@ -26,6 +26,10 @@ body {
   text-shadow: 0px 1px 0px #98a1ae;
 }
 
+.cl-logoImage {
+  scale: 2;
+}
+
 .btnAuth:active {
   position: relative;
   top: 1px;

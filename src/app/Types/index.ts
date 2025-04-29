@@ -49,7 +49,7 @@ export interface ICards {
   skills?: string[] | string;
   level?: string;
   type?: string;
-  categories?: string[] | string;
+  categories?: string;
   salaryMin?: number;
   salaryMax?: number;
   responsibilities?: string;
@@ -67,6 +67,7 @@ export interface ICards {
   progress?: string;
   total?: number;
   date?: string;
+  hasApplied?: boolean;
 }
 
 export interface IProgressBarProps {

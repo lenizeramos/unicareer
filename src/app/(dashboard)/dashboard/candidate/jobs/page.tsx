@@ -17,6 +17,7 @@ import Loader from "@/app/components/Loader";
 import { AiOutlineAlignCenter } from "react-icons/ai";
 import Modal from "@/app/components/Modal";
 import { TbZoomReset } from "react-icons/tb";
+import { useCandidateData } from "@/Lib/client/candidate";
 
 export default function FindJobs() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -25,6 +26,8 @@ export default function FindJobs() {
   const { jobs, loading } = useSelector(
     (state: RootState) => state.jobs as IJobsState
   );
+
+  const { candidate } = useCandidateData();
 
   useEffect(() => {
     if (jobs.length === 0) {
@@ -81,6 +84,13 @@ export default function FindJobs() {
       matchesJobLevel
     );
   });
+
+  if (!candidate) {
+    return;
+  }
+
+  console.log(jobs, candidate);
+  
   const handleFilterChange = (
     key: string,
     value: string | { min: number; max: number }
@@ -218,10 +228,7 @@ export default function FindJobs() {
                             ? (
                                 filter.array as { min: number; max: number }[]
                               ).map((option, index) => (
-                                <option
-                                  key={index}
-                                  value={option.max}
-                                >
+                                <option key={index} value={option.max}>
                                   {option.min} - {option.max}
                                 </option>
                               ))

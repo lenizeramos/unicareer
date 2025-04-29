@@ -27,12 +27,12 @@ export default function CompanyChart({
 
   useEffect(() => {
     const Data =
-      totalApplications && totalJobView
+      totalApplications || totalJobView
         ? [totalApplications, totalJobView]
         : [inReview, Interviewed, Unsuitable, Hired, Cancelled];
     
     const labels =
-      totalApplications && totalJobView
+      totalApplications || totalJobView
         ? ["Total Applications", "Job View"]
         : ["In Review", "Interviewed", "Unsuitable", "Hired", "Job Unavailable"];
 

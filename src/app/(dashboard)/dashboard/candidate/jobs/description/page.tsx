@@ -20,6 +20,9 @@ import { toast } from "sonner";
 import Loader from "@/app/components/Loader";
 import FileDisplay from "@/app/components/FileDisplay";
 import SearchNotFound from "@/app/components/SearchNotFound";
+import { FaMoneyBillWave } from "react-icons/fa";
+import { RiCheckboxBlankCircleFill } from "react-icons/ri";
+
 
 export default function JobDescription() {
   const router = useRouter();
@@ -86,6 +89,7 @@ export default function JobDescription() {
       </>
     );
   }
+
   const getDate = (date: string) => {
     const createDate = new Date(date);
     const month = monthNames[createDate.getMonth()];
@@ -97,7 +101,7 @@ export default function JobDescription() {
   const application =
     candidate.applications &&
     candidate.applications.some((item) => item.jobId === job.id);
-    
+
   const handleApplicationSubmit = async () => {
     if (!candidate) {
       console.error("No candidate ID available");
@@ -169,7 +173,7 @@ export default function JobDescription() {
               <div className="md:pl-10 md:border-l-[1px] border-gray-200 md:w-[8rem] w-full">
                 {application ? (
                   <ButtonComp
-                    text="Apply"
+                    text="Applied"
                     IsWhite={false}
                     width="w-full"
                     isDissable={true}
@@ -216,9 +220,9 @@ export default function JobDescription() {
             </div>
           </div>
 
-          <div className=" flex lg:flex-col xs:flex-row flex-col md:gap-0 gap-5 border-t border-gray-100 pt-5 lg:pt-0 lg:border-0 mx-auto">
-            <div className="flex flex-col gap-4 ">
-              <h2 className={`${styles.JobDescriptionTitle}`}>
+          <div className=" flex lg:flex-col flex-col md:gap-0 gap-5 border-t border-gray-100 pt-5 lg:pt-0 lg:border-0 mx-auto lg:w-1/3">
+            <div className="flex flex-col gap-4 pb-5 ">
+              <h2 className={`font-semibold font-monomakh sm:text-3xl text-xl`}>
                 About this role
               </h2>
               <div className="flex gap-4 ">
@@ -241,62 +245,47 @@ export default function JobDescription() {
               </div>
               <div className="flex gap-4">
                 <p className={`${styles.JobDescriptionText}`}>Salary</p>
-                <p className={`${styles.JobDescriptionText} font-bold`}>
-                  {job.salaryMin} - {job.salaryMax} CAD/hour
+                <p
+                  className={`${styles.JobDescriptionText} font-bold flex gap-2 items-center`}
+                >
+                  <FaMoneyBillWave /> ${job.salaryMin} - $ {job.salaryMax}
                 </p>
               </div>
             </div>
-            <div className="lg:hidden w-0.5  bg-gray-200 hidden md:flex mx-auto" />
 
-            <div className="lg:border-y-[1px] border-gray-200 lg:py-10 sm:mt-0 mt-5">
-              <h2 className={`${styles.JobDescriptionTitle}`}>Categories</h2>
-              <div className="flex gap-2 justify-center">
-                {Array.isArray(job.categories) ? (
-                  job.categories.map((item, index) => {
-                    const stylesTag = jobsCategories.find(
-                      (categ) => categ.title === item
-                    );
-                    return (
-                      <TagComp
-                        bgColor={`${stylesTag?.bgColor}`}
-                        textColor={`${stylesTag?.textColor}`}
-                        text={`${stylesTag?.title}`}
-                        key={index}
-                      />
-                    );
-                  })
-                ) : (
-                  <TagComp
-                    bgColor={`${
-                      jobsCategories.find(
-                        (style) => style.title.toLowerCase() === category
-                      )?.bgColor
-                    }`}
-                    textColor={`${
-                      jobsCategories.find(
-                        (style) => style.title.toLowerCase() === category
-                      )?.textColor
-                    }`}
-                    text={`${
-                      jobsCategories.find(
-                        (style) => style.title.toLowerCase() === category
-                      )?.title
-                    }`}
-                  />
-                )}
+            <div className="">
+              <div className="flex gap-5 items-center border-y-[1px] border-gray-200 py-5">
+                <h2 className={`font-semibold font-monomakh sm:text-3xl text-xl`}>Category</h2>
+                <TagComp
+                  bgColor={`${
+                    jobsCategories.find(
+                      (style) => style.title.toLowerCase() === category
+                    )?.bgColor
+                  }`}
+                  textColor={`${
+                    jobsCategories.find(
+                      (style) => style.title.toLowerCase() === category
+                    )?.textColor
+                  }`}
+                  text={`${
+                    jobsCategories.find(
+                      (style) => style.title.toLowerCase() === category
+                    )?.title
+                  }`}
+                />
               </div>
 
-              <div className="md:hidden mt-10">
+              <div className="pt-5">
                 <h2 className={`${styles.JobDescriptionTitle}`}>
                   Required Skills
                 </h2>
-                <div className="flex gap-5 flex-wrap justify-center">
+                <div className="flex gap-2 flex-wrap">
                   {Array.isArray(job.skills) ? (
                     job.skills.map((item, index) => {
                       return (
                         <div
                           key={index}
-                          className={`${styles.sectionSubText} p-2 w-fit rounded-full mb-2 ${stylesTags[index]}`}
+                          className={`p-2 w-fit rounded-full text-gray-700 bg-gray-100 font-shafarik`}
                         >
                           {item}
                         </div>
@@ -311,7 +300,7 @@ export default function JobDescription() {
 
             <div className="lg:hidden w-0.5  bg-gray-200 md:flex hidden" />
 
-            <div className="lg:py-5 md:block hidden">
+            {/* <div className="lg:py-5 md:block hidden">
               <h2 className={`${styles.JobDescriptionTitle}`}>
                 Required Skills
               </h2>
@@ -331,9 +320,10 @@ export default function JobDescription() {
                   <div />
                 )}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
+
         <div className="border-t-[1px] border-gray-200 pt-4">
           <h2 className={`${styles.JobDescriptionTitle} text-4xl`}>
             Perks & Benefits

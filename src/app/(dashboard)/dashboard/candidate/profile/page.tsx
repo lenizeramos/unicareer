@@ -2,7 +2,10 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import ButtonComp from "@/app/components/ButtonComp";
-import { FaLinkedinIn, FaTwitter, FaGlobe } from "react-icons/fa";
+import { FaLinkedinIn, FaGlobe } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { IoLogoLinkedin } from "react-icons/io5";
 import { styles } from "@/app/styles";
 import FileDisplay from "@/app/components/FileDisplay";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,7 +52,7 @@ const ProfilePage = () => {
               <div className="flex flex-col flex-1">
                 <h3 className="md:text-3xl text-lg font-bold font-monomakh">{`${candidate?.firstName} ${candidate?.lastName}`}</h3>
                 {candidate?.user?.city && (
-                  <span className="px-2 py-1 bg-gray-100 text-[#49286b] md:text-md text-[10px] rounded-full font-shafarik w-fit">
+                  <span className="px-2 py-1 bg-gray-100 text-[#49286b] md:text-base text-[10px] rounded-full font-shafarik w-fit">
                     {candidate.user.city && `${candidate.user.city}`}{" "}
                     {candidate.user.province && `, ${candidate.user.province}`}
                   </span>
@@ -156,7 +159,7 @@ const ProfilePage = () => {
           </div>
         </div>
 
-        <aside className=" md:w-1/3 w-fit bg-gray-50 space-y-5 md:mt-6 p-6">
+        <aside className=" md:w-1/3 w-full bg-gray-50 space-y-5 md:mt-6 p-6 h-fit md:rounded-2xl">
           <div className="overflow-hidden text-ellipsis">
             <h4 className={`${styles.sectionHeadText} md:text-center mb-2`}>
               Additional Details
@@ -165,27 +168,29 @@ const ProfilePage = () => {
               <strong className="text-gray-800">Email:</strong>{" "}
               {candidate?.user?.email}
             </p>
-            <div className="text-sm">
-              <div className="flex gap-2 items-center">
-                <FaGlobe className="text-gray-600" />
-                <h4 className="text-gray-800 font-semibold">Website:</h4>{" "}
+            {candidate?.user?.website && (
+              <div className="text-sm">
+                <div className="flex gap-2 items-center">
+                  <FaGlobe className="text-gray-600" />
+                  <h4 className="text-gray-800 font-semibold">Website</h4>{" "}
+                </div>
+                <a
+                  className=" text-blue-600 hover:underline cursor-pointer"
+                  href={`${candidate.user.website}`}
+                  target="_blank"
+                >
+                  {candidate.user.website || ""}
+                </a>
               </div>
-              <a
-                className=" text-blue-600 hover:underline cursor-pointer"
-                href={`${candidate?.user?.website}`}
-                target="_blank"
-              >
-                {candidate?.user?.website || ""}
-              </a>
-            </div>
+            )}
           </div>
 
           <div className="truncate overflow-hidden text-ellipsis">
             <h4 className={`${styles.sectionHeadText} mb-2`}>Social Links</h4>
             <div className="text-sm gap-2">
               <div className="flex gap-2 items-center">
-                <FaTwitter className="text-gray-600" />
-                <h4 className="text-gray-800 font-semibold">Twitter:</h4>{" "}
+                <FaSquareXTwitter />
+                <h4 className="text-gray-800 font-semibold">X</h4>{" "}
               </div>
               <a
                 href={`${candidate?.user?.twitter}`}
@@ -197,8 +202,8 @@ const ProfilePage = () => {
             </div>
             <div className="text-sm">
               <div className=" flex gap-2 items-center">
-                <FaLinkedinIn className="text-gray-600" />
-                <h4 className="text-gray-800 font-semibold">Linkedin:</h4>{" "}
+                <IoLogoLinkedin className="text-blue-500" />
+                <h4 className="text-gray-800 font-semibold">Linkedin</h4>{" "}
               </div>
               <a
                 href={`${candidate?.user?.linkedIn}`}

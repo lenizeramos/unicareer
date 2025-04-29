@@ -193,7 +193,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
 
             <div className={classNamePadding}>
               <SelectField
-                label="Categories"
+                label="Category"
                 small="Select the category that best fits the role"
                 id="categories"
                 name="categories"

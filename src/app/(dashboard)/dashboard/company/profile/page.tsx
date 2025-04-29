@@ -7,11 +7,10 @@ import {
   FaMapMarkerAlt,
   FaIndustry,
   FaGlobe,
-  FaTwitter,
   FaLinkedinIn,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
-import BenefitCard from "@/app/components/BenefitCard";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import CompanyHeader from "@/app/components/CompanyHeader";
 import { FaPlus } from "react-icons/fa";
@@ -20,6 +19,7 @@ import { AppDispatch, RootState } from "@/app/context/store";
 import { useEffect } from "react";
 import { fetchCompany } from "@/app/context/slices/companySlice";
 import { ICards, IJob } from "@/app/Types";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
 const CompanyProfile = () => {
   const router = useRouter();
@@ -82,9 +82,9 @@ const CompanyProfile = () => {
   const companySocialMedia = [
     {
       href: company?.twitter ? `https://twitter.com/${company.twitter}` : "#",
-      icon: FaTwitter,
-      iconStyles: "bg-blue-400 hover:bg-blue-500",
-      label: "Twitter",
+      icon: FaXTwitter,
+      iconStyles: "bg-black hover:bg-gray-600",
+      label: "X (Twitter)",
     },
     {
       href: company?.linkedIn || "#",
@@ -105,7 +105,7 @@ const CompanyProfile = () => {
       label: "Website",
     },
   ];
-
+console.log(company?.benefits)
   return (
     <div className="bg-white shadow-lg rounded-lg p-6">
       <CompanyHeader
@@ -140,7 +140,7 @@ const CompanyProfile = () => {
 
       <hr className="my-4 border-t border-gray-200 w-full" />
 
-      <div className="flex sm:flex-row flex-col gap-8 relative">
+      <div className="flex lg:flex-row flex-col gap-8 relative">
         <div className="flex-1">
           <h3 className="xs:text-2xl text-xl font-semibold mb-3 font-monomakh">
             About the company
@@ -177,30 +177,30 @@ const CompanyProfile = () => {
               <h3 className="xs:text-2xl text-xl font-semibold mb-6 font-monomakh">
                 Benefits & Perks
               </h3>
-              <div className="flex flex-col md:flex-row gap-6">
+              <div className="grid sm:grid-cols-2 grid-cols-1 items-center gap-5">
                 {company.benefits.map((benefit, index) => (
-                  <BenefitCard
-                    key={index}
-                    title={benefit}
-                    backgroundColor={"bg-blue-200"}
-                  />
+                  <div key={index} className="shadow-md flex p-4 gap-2">
+                    <IoIosCheckmarkCircleOutline className="text-green-700" />
+                    <p className="font-shafarik">{benefit}</p>
+                  </div>
                 ))}
               </div>
             </div>
           )}
+          {cards.length > 0 && (
+            <div className="mt-8">
+              <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+                <h3 className="xs:text-2xl text-xl font-semibold font-monomakh">
+                  Open Positions
+                </h3>
+              </div>
 
-          <div className="mt-8">
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-              <h3 className="xs:text-2xl text-xl font-semibold font-monomakh">
-                Open Positions
-              </h3>
+              <CardsContainer cardId="openPositions" params={cards} />
             </div>
-
-            <CardsContainer cardId="openPositions" params={cards} />
-          </div>
+          )}
         </div>
 
-        <div className="sm:w-1/3">
+        <div className="lg:w-1/3">
           <div className="lg:sticky lg:top-4 space-y-6">
             {company?.toolsAndTechnologies && (
               <div className="bg-gray-50 p-6 rounded-lg">

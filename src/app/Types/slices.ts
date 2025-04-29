@@ -9,7 +9,7 @@ export interface Ijobs {
   companyId: string;
   level: string;
   type: string;
-  categories: string | string[];
+  categories: string;
   salaryMin: number;
   salaryMax: number;
   responsibilities: string;

@@ -13,7 +13,7 @@ const JobCard = ({
   companyname,
   type,
   cardId,
-  location
+  location,
 }: ICards) => {
   return (
     <>
@@ -54,25 +54,14 @@ const JobCard = ({
         <div className="flex flex-col gap-5 justify-center">
           {cardId === "featuredJob" && (
             <div className="max-h-12 ">
-              <p className=" text-gray-500 line-clamp-3 text-xs text-justify"> {text}</p>
+              <p className=" text-gray-500 line-clamp-3 text-xs text-justify">
+                {" "}
+                {text}
+              </p>
             </div>
           )}
           <div className="flex gap-2">
-            {Array.isArray(categories) &&
-              categories.map((item, index) => {
-                const stylesTag = jobsCategories.find(
-                  (categ) => categ.title === item
-                );
-                return (
-                  <TagComp
-                    bgColor={`${stylesTag?.bgColor}`}
-                    textColor={`${stylesTag?.textColor}`}
-                    text={`${stylesTag?.title}`}
-                    key={index}
-                  />
-                );
-              })}
-            {typeof categories === "string" && (
+            {categories && (
               <TagComp
                 bgColor={`${
                   jobsCategories.find(

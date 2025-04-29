@@ -21,6 +21,7 @@ const JobResumeCards = ({
   cardId,
   location,
   styleCard,
+  hasApplied = false,
 }: ICards) => {
   const dispatch: AppDispatch = useDispatch();
   const { users } = useSelector(
@@ -88,20 +89,6 @@ const JobResumeCards = ({
               />
               <div className="w-[1px] bg-gray-300 rounded-full" />
               <div className="flex gap-2">
-                {Array.isArray(categories) &&
-                  categories.map((item, index) => {
-                    const stylesTag = jobsCategories.find(
-                      (categ) => categ.title === item
-                    );
-                    return (
-                      <TagComp
-                        bgColor={`${stylesTag?.bgColor}`}
-                        textColor={`${stylesTag?.textColor}`}
-                        text={`${stylesTag?.title}`}
-                        key={index}
-                      />
-                    );
-                  })}
                 {typeof categories === "string" && (
                   <TagComp
                     bgColor={`${
@@ -130,12 +117,21 @@ const JobResumeCards = ({
         </div>
         {cardId === "allJobs" && (
           <div className="flex flex-col gap-2">
-            <ButtonComp
-              text="See Details"
-              IsWhite={false}
-              width="w-full"
-              onClick={handleSeeDetails}
-            />
+            {!hasApplied ? (
+              <ButtonComp
+                text="See Details"
+                IsWhite={false}
+                width="w-full"
+                onClick={handleSeeDetails}
+              />
+            ) : (
+              <ButtonComp
+                text="Applied"
+                IsWhite={false}
+                width="w-full"
+                onClick={handleSeeDetails}
+              />
+            )}
           </div>
         )}
       </div>

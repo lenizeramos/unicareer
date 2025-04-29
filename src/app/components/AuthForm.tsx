@@ -126,6 +126,12 @@ const AuthForm = ({ type, role, onRoleChange }: AuthFormProps) => {
                     routing="path"
                     signUpUrl="/sign-up"
                     forceRedirectUrl="/after-sign-in"
+                    appearance={{
+                      elements: {
+                        logoBox: { width: "80px" },
+                        logoImage: { height: "auto", width: "80px", scale:1.5 },
+                      },
+                    }}
                   />
                 ) : (
                   <SignUp
