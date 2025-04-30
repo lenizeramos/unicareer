@@ -129,7 +129,9 @@ export async function getLastJobsByCompanyId(
 export async function getRecentJobs(
   limit?: number,
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
+  searchTerm?: string,
+  searchLocation?: string,
 ) {
   try {
     const referenceDate = startDate || new Date();
@@ -146,11 +148,26 @@ export async function getRecentJobs(
         ],
         ...(startDate && { createdAt: { gte: startDate } }),
         ...(endDate && { createdAt: { lte: endDate } }),
+        ...(searchTerm && {
+          OR: [
+            {
+              title: { contains: searchTerm, mode: "insensitive" },
+            },
+          ],
+        }),
+        ...(searchLocation && {
+          OR: [
+            {
+              location: { contains: searchTerm, mode: "insensitive" },
+            },
+          ],
+        }),
       },
       select: {
         title: true,          
         createdAt: true,  
-        type: true,     
+        type: true,  
+        location: true,   
         company: {          
           select: {
             name: true,
@@ -430,5 +447,33 @@ export async function getJobsWithHiredApplicationsCount(
   } catch (error) {
     console.error("Error counting jobs with hired applications:", error);
     throw new Error("Failed to count jobs with hired applications.");
+  }
+}
+
+
+export async function getCountByCategory() {
+  try {
+   
+   const result = await prisma.job.groupBy({
+      by: ['categories'],
+      _count: {
+        categories: true,
+      },
+      where: {
+        deleted: false,
+      },
+    });
+
+    return result.reduce((acc, item) => {
+      if (item.categories) {
+        const key = item.categories;
+        acc[key] = item._count.categories;
+      }
+      return acc;
+    }, {} as Record<string, number>);
+
+  } catch (error) {
+    console.error("Error fetching jobs:", error);
+    throw new Error("Failed to fetch jobs due to database issue.");
   }
 }

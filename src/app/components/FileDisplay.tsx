@@ -38,7 +38,7 @@ export default function FileDisplay({
         console.error("Error:", error);
       } finally {
         setLoading(false);
-        /* console.clear() */
+        console.clear()
       }
     };
 

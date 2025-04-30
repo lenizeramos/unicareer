@@ -1,112 +1,111 @@
 "use client";
 import { styles } from "@/app/styles";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
-/* import JobSearchForm from "@/app/components/JobSearchForm"; */
+import JobSearchForm from "@/app/components/JobSearchForm";
 import ButtonComp from "@/app/components/ButtonComp";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-/* import { AppDispatch, RootState } from "../context/store";
-import { useDispatch, useSelector } from "react-redux"; */
-import { Ijobs /* , IJobsState */ } from "../Types/slices";
-/* import { fetchAllJobs } from "../context/slices/jobSlices"; */
-/* import SearchNotFound from "../components/SearchNotFound"; */
+import { useEffect, useState, useCallback } from "react";
+import { Ijobs } from "../Types/slices";
+import SearchNotFound from "../components/SearchNotFound";
 import { useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { FaExclamationTriangle } from "react-icons/fa";
 
 export default function Home() {
-  /*  const dispatch: AppDispatch = useDispatch();
-  const { jobs } = useSelector((state: RootState) => state.jobs as IJobsState); */
-  /* const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState({
     searchTerm: "",
     searchLocation: "",
-  }); */
+  });
   const router = useRouter();
   const { user } = useClerk();
   const userRole = user?.publicMetadata?.role as string;
   const [jobs, setJobs] = useState<Ijobs[]>([]);
+  const [recentJobs, setRecentJobs] = useState<Ijobs[]>([]);
+  const [categoriesCount, setCategoriesCount] = useState<
+    Record<string, number>
+  >({});
 
-  /*  useEffect(() => {
-    if (jobs.length === 0) {
-      dispatch(fetchAllJobs());
+  const hasFilters =
+    filters.searchTerm.length > 2 || filters.searchLocation.length > 2;
+
+  const fetchSearchedJobs = useCallback(async () => {
+    try {
+      const params = new URLSearchParams({ take: "6" });
+
+      if (filters.searchTerm.length > 2) {
+        params.append("searchTitle", filters.searchTerm);
+      }
+
+      if (filters.searchLocation.length > 2) {
+        params.append("searchLocation", filters.searchLocation);
+      }
+
+      const response = await fetch(`/api/job/get-recent?${params.toString()}`);
+      if (!response.ok) throw new Error("Failed to fetch filtered jobs");
+
+      const data = await response.json();
+      setJobs(data);
+    } catch (error) {
+      console.error("Error fetching filtered jobs:", error);
     }
-  }, [jobs.length, dispatch]); */
+  }, [filters]);
+
+  const fetchInitialData = async () => {
+    try {
+      const [jobsRes, categoriesRes] = await Promise.all([
+        fetch("/api/job/get-recent?take=6"),
+        fetch("/api/job/get-count-by-category"),
+      ]);
+
+      if (!jobsRes.ok || !categoriesRes.ok)
+        throw new Error("API request failed");
+
+      const [recentJobsData, categoriesData] = await Promise.all([
+        jobsRes.json(),
+        categoriesRes.json(),
+      ]);
+
+      setRecentJobs(recentJobsData);
+      setCategoriesCount(categoriesData);
+    } catch (error) {
+      console.error("Error fetching initial data:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchRecentJobs = async () => {
-      try {
-        const params = new URLSearchParams({
-          take: (6).toString(),
-        });
+    if (hasFilters) fetchSearchedJobs();
+  }, [hasFilters, fetchSearchedJobs]);
 
-        const response = await fetch(
-          `/api/job/get-recent?${params.toString()}`
-        );
-        if (!response.ok) throw new Error("Failed to fetch recent jobs");
-        const { jobs } = await response.json();
-
-        if (jobs) {
-          setJobs(jobs);
-        }
-      } catch (error) {
-        console.error("Error fetching recent jobs:", error);
-        throw error;
-      }
-    };
-    fetchRecentJobs();
+  useEffect(() => {
+    fetchInitialData();
   }, []);
 
-  /* const jobsWithStatus = jobs.filter(
-    (job) => new Date(job.closingDate) > new Date()
-  );
-  const hasFilters = filters.searchTerm !== "" || filters.searchLocation !== "";
-
-  const filtersJobs = jobsWithStatus.filter((job) => {
-    const matchesTitle = job.location
-      .toLowerCase()
-      .includes(filters.searchLocation.toLowerCase());
-    const matchesLocation = job.title
-      .toLowerCase()
-      .includes(filters.searchTerm.toLowerCase());
-
-    return matchesTitle && matchesLocation;
-  });
   const handleFilterChange = (
     key: string,
     value: string | { min: number; max: number }
   ) => {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
-  }; */
-  const data = jobs.map((job) => {
-    return {
-      logo: job.company?.userId ?? "/img/img.png",
-      companyname: job.company?.name ?? "Unknown Company",
-      date: job.createdAt,
-      location: job.location,
-      type: job.type,
-      title: job.title,
-      categories: job.categories,
-      text: job.description,
-    };
+  };
+
+  const mapJobData = (job: Ijobs) => ({
+    logo: job.company?.userId ?? "/img/img.png",
+    companyname: job.company?.name ?? "Unknown Company",
+    date: job.createdAt,
+    location: job.location,
+    type: job.type,
+    title: job.title,
+    categories: job.categories,
+    text: job.description,
   });
 
-  const getFrequencies = (arr: Ijobs[], key: keyof Ijobs) => {
-    const freq: Record<string, number> = {};
+  const jobsData = jobs.map(mapJobData);
+  const recentJobsData = recentJobs.map(mapJobData);
 
-    arr.forEach((item) => {
-      const value = item[key];
-      if (typeof value === "string") {
-        freq[value] = (freq[value] || 0) + 1;
-      }
-    });
-
-    return freq;
-  };
-  const freqArray = Object.entries(getFrequencies(jobs, "categories")).map(
+  const freqArray = Object.entries(categoriesCount).map(
     ([category, value]) => ({
       category,
-      value,
+      value: Number(value),
     })
   );
   const handleOnClick = () => {
@@ -180,20 +179,20 @@ export default function Home() {
             <br className="sm:block hidden" /> new career heights and passionate
             about startups.
           </p>
-          {/* <JobSearchForm onFilterChange={handleFilterChange} />
+          <JobSearchForm onFilterChange={handleFilterChange} />
           {hasFilters ? (
-            filtersJobs.length === 0 ? (
+            jobs.length === 0 ? (
               <SearchNotFound text="No matching jobs found." />
             ) : (
               <CardsContainer
-                params={data}
+                params={jobsData}
                 cardId="recentPosted"
                 styles="grid grid-cols-1 sm:grid-cols-2 gap-5"
               />
             )
           ) : (
             <div />
-          )} */}
+          )}
         </div>
 
         <div className="md:p-15 p-10 flex flex-col gap-10 bg-blue-950">
@@ -211,7 +210,7 @@ export default function Home() {
             />
           </div>
         </div>
-        {jobs.length && (
+        {recentJobs.length > 0 && (
           <div className="md:p-15 p-10 flex flex-col gap-5">
             <h2
               className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
@@ -219,7 +218,7 @@ export default function Home() {
               Featured
               <span className={`${styles.heroHeadSpan}`}> jobs</span>
             </h2>
-            <CardsContainer cardId="featuredJob" params={data} />
+            <CardsContainer cardId="featuredJob" params={recentJobsData} />
           </div>
         )}
         <div className="md:p-15 p-10 w-full flex flex-col lg:flex-row bg-blue-950 justify-between">

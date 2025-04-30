@@ -4,10 +4,21 @@ import { getRecentJobs } from "@/Lib/job";
 export async function GET(req: NextRequest) {
   try {
     const limit = Number(req.nextUrl.searchParams.get("take"));
+    const searchTermParam = req.nextUrl.searchParams.get("searchTerm");
+    const searchLocationParam = req.nextUrl.searchParams.get("searchTerm");
 
-    const recentJobs = await getRecentJobs(limit);
+    const searchTerm = searchTermParam ? searchTermParam : undefined;
+    const searchLocation = searchLocationParam ? searchLocationParam : undefined;
 
-    return NextResponse.json({ recentJobs });
+    const jobs = await getRecentJobs(
+      limit,
+      undefined,
+      undefined,
+      searchTerm,
+      searchLocation
+    );
+
+    return NextResponse.json(jobs);
   } catch (error) {
     console.error("Error", error);
     return new NextResponse("Error", { status: 500 });
