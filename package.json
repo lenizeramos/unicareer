@@ -13,7 +13,7 @@
     "@aws-sdk/s3-request-presigner": "^3.772.0",
     "@clerk/elements": "^0.23.3",
     "@clerk/nextjs": "^6.12.1",
-    "@prisma/client": "^6.6.0",
+    "@prisma/client": "^6.7.0",
     "@reduxjs/toolkit": "^2.6.1",
     "@stripe/react-stripe-js": "^3.5.0",
     "@stripe/stripe-js": "^6.1.0",

@@ -61,7 +61,7 @@ export default function ApplicationsPage() {
         const response = await fetch(`/api/company/applications${queryParams}`);
         if (!response.ok) throw new Error("Failed to fetch company applications");
         const applications = await response.json();
-        console.log('Fetched Applications:', applications);
+        
     
         if (applications.length > 0) {
           const candidatesWithoutScores = applications

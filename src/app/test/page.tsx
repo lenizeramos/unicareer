@@ -1,5 +1,4 @@
 "use client";
-/* import Image from "next/image"; */
 import ButtonComp from "../components/ButtonComp";
 import { styles } from "../styles";
 import Logo from "../components/Logo";
@@ -51,19 +50,9 @@ export default function Home() {
     if (users.length === 0) {
       dispatch(fetchUsers("candidate"));
     }
-    // if (candidate === 0) {
-    //   dispatch(fetchCandidate());
-    // }
-    // console.log('====>',candidate.length)
+   
   }, [dispatch, users.length, applications.length]);
-  // console.log(
-  //   "applications=>",
-  //   applications,
-  //   "candidate=>",
-  //   candidate.length,
-  //   "users=>",
-  //   users
-  // );
+ 
 
   return (
     <>

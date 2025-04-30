@@ -150,9 +150,9 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
       onSubmit={handleSubmit}
       className="max-w-7xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-8"
     >
-      {/* Personal Information Section */}
+    
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Left Column */}
+       
         <div className="space-y-6">
           <InputField
             label="Company Name"
@@ -182,7 +182,7 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
           />
         </div>
 
-        {/* Right Column */}
+       
         <div className="flex items-center justify-center">
           <FileUpload
             allowedFileTypes={["image/jpeg", "image/png"]}
@@ -197,7 +197,7 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
         </div>
       </div>
 
-      {/* Address Section */}
+     
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <InputField
           label="Street Address"
@@ -261,7 +261,7 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
         />
       </div>
 
-      {/* Company Details Section */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <SelectField
           label="Company Size"
@@ -300,7 +300,7 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
         />
       </div>
 
-      {/* Social Links Section */}
+     
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <InputField
           label="Website"
@@ -342,7 +342,7 @@ const CompanyForm: React.FC<ICompanyFormProps> = ({
         />
       </div>
 
-      {/* Tools & Benefits Section */}
+      
       <div className="space-y-6">
         <ChipsField
           label="Tools & Technologies"

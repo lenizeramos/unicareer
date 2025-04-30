@@ -24,13 +24,6 @@ export async function GET() {
             skills: true,
             applications: { include: { job: { include: { company: true } } } },
           },
-          // include: {
-          //   education: true,
-          //   workExperience: true,
-          //   languages: true,
-          //   documents: true,
-          //   applications: { include: { job: { include: { company: true } } } },
-          // },
         },
       },
     });

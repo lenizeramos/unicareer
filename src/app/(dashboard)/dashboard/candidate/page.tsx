@@ -71,7 +71,7 @@ export default function CandidatePage() {
   const handleOnClick = () => {
     router.push("/dashboard/candidate/applications");
   };
-  console.log(candidate.applications)
+ 
   return (
     <>
       <DashboardNavbar
