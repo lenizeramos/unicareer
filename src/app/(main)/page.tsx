@@ -1,40 +1,39 @@
 "use client";
 import { styles } from "@/app/styles";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
-import JobSearchForm from "@/app/components/JobSearchForm";
+/* import JobSearchForm from "@/app/components/JobSearchForm"; */
 import ButtonComp from "@/app/components/ButtonComp";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { AppDispatch, RootState } from "../context/store";
-import { useDispatch, useSelector } from "react-redux";
-import { Ijobs, IJobsState } from "../Types/slices";
-import { fetchAllJobs } from "../context/slices/jobSlices";
-import SearchNotFound from "../components/SearchNotFound";
+/* import { AppDispatch, RootState } from "../context/store";
+import { useDispatch, useSelector } from "react-redux"; */
+import { Ijobs /* , IJobsState */ } from "../Types/slices";
+/* import { fetchAllJobs } from "../context/slices/jobSlices"; */
+/* import SearchNotFound from "../components/SearchNotFound"; */
 import { useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { FaExclamationTriangle } from "react-icons/fa";
 
 export default function Home() {
-  const dispatch: AppDispatch = useDispatch();
-  const { jobs } = useSelector((state: RootState) => state.jobs as IJobsState);
-  const [filters, setFilters] = useState({
+  /*  const dispatch: AppDispatch = useDispatch();
+  const { jobs } = useSelector((state: RootState) => state.jobs as IJobsState); */
+  /* const [filters, setFilters] = useState({
     searchTerm: "",
     searchLocation: "",
-  });
+  }); */
   const router = useRouter();
   const { user } = useClerk();
   const userRole = user?.publicMetadata?.role as string;
-/* const [jobs, setJobs] = useState<Ijobs[]>([]) */
+  const [jobs, setJobs] = useState<Ijobs[]>([]);
 
-
-  useEffect(() => {
+  /*  useEffect(() => {
     if (jobs.length === 0) {
       dispatch(fetchAllJobs());
     }
-  }, [jobs.length, dispatch]);
+  }, [jobs.length, dispatch]); */
 
-  /* useEffect(() => {
+  useEffect(() => {
     const fetchRecentJobs = async () => {
       try {
         const params = new URLSearchParams({
@@ -47,16 +46,18 @@ export default function Home() {
         if (!response.ok) throw new Error("Failed to fetch recent jobs");
         const { jobs } = await response.json();
 
-        setJobs(jobs);
+        if (jobs) {
+          setJobs(jobs);
+        }
       } catch (error) {
         console.error("Error fetching recent jobs:", error);
         throw error;
       }
     };
     fetchRecentJobs();
-  }, []); */
+  }, []);
 
-  const jobsWithStatus = jobs.filter(
+  /* const jobsWithStatus = jobs.filter(
     (job) => new Date(job.closingDate) > new Date()
   );
   const hasFilters = filters.searchTerm !== "" || filters.searchLocation !== "";
@@ -76,8 +77,8 @@ export default function Home() {
     value: string | { min: number; max: number }
   ) => {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
-  };
-  const data = filtersJobs.map((job) => {
+  }; */
+  const data = jobs.map((job) => {
     return {
       logo: job.company?.userId ?? "/img/img.png",
       companyname: job.company?.name ?? "Unknown Company",
@@ -179,7 +180,7 @@ export default function Home() {
             <br className="sm:block hidden" /> new career heights and passionate
             about startups.
           </p>
-          <JobSearchForm onFilterChange={handleFilterChange} />
+          {/* <JobSearchForm onFilterChange={handleFilterChange} />
           {hasFilters ? (
             filtersJobs.length === 0 ? (
               <SearchNotFound text="No matching jobs found." />
@@ -192,7 +193,7 @@ export default function Home() {
             )
           ) : (
             <div />
-          )}
+          )} */}
         </div>
 
         <div className="md:p-15 p-10 flex flex-col gap-10 bg-blue-950">
@@ -210,17 +211,17 @@ export default function Home() {
             />
           </div>
         </div>
-
-        <div className="md:p-15 p-10 flex flex-col gap-5">
-          <h2
-            className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
-          >
-            Featured
-            <span className={`${styles.heroHeadSpan}`}> jobs</span>
-          </h2>
-          <CardsContainer cardId="featuredJob" params={data} />
-        </div>
-
+        {jobs.length && (
+          <div className="md:p-15 p-10 flex flex-col gap-5">
+            <h2
+              className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
+            >
+              Featured
+              <span className={`${styles.heroHeadSpan}`}> jobs</span>
+            </h2>
+            <CardsContainer cardId="featuredJob" params={data} />
+          </div>
+        )}
         <div className="md:p-15 p-10 w-full flex flex-col lg:flex-row bg-blue-950 justify-between">
           <div className="flex flex-col p-6 gap-5">
             <h2
@@ -245,9 +246,10 @@ export default function Home() {
             <Image
               src="/img/CompanyDashboard.jpg"
               alt="CompanyDashboard"
-              layout="fill"
-              objectFit="cover"
-              objectPosition="left top"
+              fill
+              priority
+              sizes="(max-width: 640px) 100vw, 100vw"
+              className="object-cover object-left-top"
             />
           </div>
         </div>
