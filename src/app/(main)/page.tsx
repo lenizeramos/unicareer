@@ -210,17 +210,19 @@ export default function Home() {
             />
           </div>
         </div>
-        {recentJobs.length > 0 && (
-          <div className="md:p-15 p-10 flex flex-col gap-5">
-            <h2
-              className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
-            >
-              Featured
-              <span className={`${styles.heroHeadSpan}`}> jobs</span>
-            </h2>
+
+        <div className="md:p-15 p-10 flex flex-col gap-5">
+          <h2
+            className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
+          >
+            Featured
+            <span className={`${styles.heroHeadSpan}`}> jobs</span>
+          </h2>
+          {recentJobs.length > 0 && (
             <CardsContainer cardId="featuredJob" params={recentJobsData} />
-          </div>
-        )}
+          )}
+        </div>
+
         <div className="md:p-15 p-10 w-full flex flex-col lg:flex-row bg-blue-950 justify-between">
           <div className="flex flex-col p-6 gap-5">
             <h2

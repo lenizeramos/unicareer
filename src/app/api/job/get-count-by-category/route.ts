@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { getCountByCategory } from "@/Lib/job";
+import { getCountByJobCategory } from "@/Lib/job";
 
 export async function GET() {
   try {
-    const jobs = await getCountByCategory();
+    const jobs = await getCountByJobCategory();
 
     return NextResponse.json(jobs);
   } catch (error) {

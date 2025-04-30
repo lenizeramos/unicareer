@@ -451,7 +451,7 @@ export async function getJobsWithHiredApplicationsCount(
 }
 
 
-export async function getCountByCategory() {
+export async function getCountByJobCategory() {
   try {
    
    const result = await prisma.job.groupBy({
