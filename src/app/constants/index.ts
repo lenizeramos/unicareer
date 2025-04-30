@@ -9,7 +9,7 @@ import { LuBriefcaseBusiness } from "react-icons/lu";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FaCode } from "react-icons/fa";
 
-//test
+
 import { MdOutlineHealthAndSafety } from "react-icons/md";
 import { GiPaperBoat } from "react-icons/gi";
 import { AiTwotoneVideoCamera } from "react-icons/ai";

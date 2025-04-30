@@ -1,5 +1,4 @@
 import { NextResponse, NextRequest } from "next/server";
-/* import { updateCandidate } from "@/Lib/server/usersService"; */
 import { getClerkUserId } from "@/utils/user";
 
 import prisma from "@/Lib/prisma";
@@ -14,7 +13,6 @@ export async function POST(request: NextRequest) {
     const { user, education, workExperience, languages,...candidate } = await request.json();
     delete candidate.id;
 
-    /* const updatedUser = await updateCandidate({ ...userData, userId }); */
     const updatedUser = await prisma.user.update({
       where: { clerkId: userId },
       data: {

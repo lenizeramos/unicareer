@@ -18,7 +18,6 @@ import {
   waitForUserRole,
 } from "@/Lib/client/usersService";
 import { ICandidate, ICompany } from "../Types/slices";
-/* import { CandidateFormData } from "@/app/Types/index" */
 
 function RegisterContent() {
   const searchParams = useSearchParams();
@@ -188,7 +187,6 @@ function RegisterContent() {
               {
                 ...candidateData,
                 id: candidateId,
-                //email: user?.emailAddresses[0]?.emailAddress
               } as ICandidate
             }
           />

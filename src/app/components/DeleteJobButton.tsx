@@ -2,7 +2,6 @@
 import { confirmDialog } from "primereact/confirmdialog";
 import { toast } from "sonner";
 import ButtonComp from "./ButtonComp";
-/* import { IStatusButtonProps } from "@/app/Types/index"; */
 import { useRouter } from "next/navigation";
 
 interface IDeleteJobButtonProps {

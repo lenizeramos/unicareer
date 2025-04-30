@@ -1,4 +1,3 @@
-/* import { ResumeData } from "@/types/resume"; */
 import React, { Dispatch, SetStateAction } from "react";
 import { IApplication, ICandidate, ICompany } from "./slices";
 
@@ -336,16 +335,6 @@ export interface IDashboardData {
   companyJobs: IJob[];
 }
 
-/* export interface ApplicationsListProps {
-  applications: Application[];
-  columns: { [key: string]: string };
-  itemsPerPage: number;
-  onItemsPerPageChange: (value: number) => void;
-  currentPage: number;
-  onPageChange: (page: number) => void;
-  totalItems: number;
-  onViewProfile?: (id: string) => void;
-} */
 
 export interface ApplicationsListTableProps {
   applications: IApplication[];
