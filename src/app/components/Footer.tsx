@@ -14,6 +14,22 @@ import { useState } from "react";
 const Footer = () => {
   const [email, setEmail] = useState("");
   const handleOnclick = () => {
+    const emailRegex =
+      /(^)(([A-Za-z0-9!#-&*--\/=?^_`{|}~][.]{0,1})+@[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)*\.[A-Za-z0-9]{2,})($)/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address.", {
+        style: {
+          background: "#202430",
+          borderRadius: "8px",
+          padding: "16px",
+          color: "#f87171",
+        },
+        duration: 3000,
+        position: "top-center",
+      });
+      return;
+    }
+
     setEmail("");
     toast(
       <div className="flex items-center gap-3">

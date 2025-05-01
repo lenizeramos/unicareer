@@ -25,7 +25,7 @@ export default function CompaniesPage() {
   };
 
   useEffect(() => {
-        const fetchCompanies = async () => {
+    const fetchCompanies = async () => {
       try {
         const params = new URLSearchParams({
           skip: ((currentPage - 1) * itemsPerPage).toString(),
@@ -40,12 +40,14 @@ export default function CompaniesPage() {
         if (searchTerm && searchTerm.length > 2) {
           params.append("search", searchTerm);
         }
-        const response = await fetch(`/api/admin/companies?${params.toString()}`);
+        const response = await fetch(
+          `/api/admin/companies?${params.toString()}`
+        );
         if (!response.ok) throw new Error("Failed to fetch companies");
-        const {companies, totalCompanies} = await response.json();
+        const { companies, totalCompanies } = await response.json();
 
         setCompanies(companies);
-        setTotalCompanies(totalCompanies)
+        setTotalCompanies(totalCompanies);
       } catch (error) {
         console.error("Error fetching companies:", error);
         throw error;

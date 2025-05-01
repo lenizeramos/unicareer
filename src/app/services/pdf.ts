@@ -4,10 +4,10 @@ import { TextItem } from 'pdfjs-dist/types/src/display/api';
 
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
   try {
-    // Set worker
+    
     pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
     
-    // Convert Buffer to Uint8Array
+    
     const uint8Array = new Uint8Array(buffer);
     
     const loadingTask = pdfjsLib.getDocument({ data: uint8Array });

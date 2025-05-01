@@ -12,6 +12,9 @@ const ApplicationStatusButton = ({
   setStatus,
 }: IStatusButtonProps) => {
   const handleStatusChange = () => {
+    if (currentStatus === targetStatus) {
+      return
+    }
     confirmDialog({
       message: (
         <div>
@@ -38,7 +41,7 @@ const ApplicationStatusButton = ({
           if (!res.ok) throw new Error("Error updating status");
 
           setStatus(targetStatus);
-          toast.success(`Status updated to ${targetStatus.toLowerCase()}!`);
+          toast.success(`Status updated!`);
         } catch (error) {
           toast.error("Error updating status: " + error);
         }
@@ -52,7 +55,11 @@ const ApplicationStatusButton = ({
       IsWhite={false}
       width="w-full"
       onClick={handleStatusChange}
-      isDissable={currentStatus === targetStatus}
+      isDissable={
+        currentStatus === targetStatus ||
+        currentStatus === "HIRED" ||
+        currentStatus === "REJECTED"
+      }
     />
   );
 };

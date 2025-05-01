@@ -1,5 +1,4 @@
 "use client";
-/* import Image from "next/image"; */
 import ButtonComp from "../components/ButtonComp";
 import { styles } from "../styles";
 import Logo from "../components/Logo";

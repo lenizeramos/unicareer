@@ -122,9 +122,9 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
       onSubmit={handleSubmit}
       className="max-w-7xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-8"
     >
-      {/* Personal Information Section */}
+    
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Left Column */}
+       
         <div className="space-y-6">
           <InputField
             label="First Name"
@@ -168,7 +168,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
           />
         </div>
 
-        {/* Right Column */}
+       
         <div className="flex items-center justify-center">
           <FileUpload
             allowedFileTypes={["image/jpeg", "image/png"]}
@@ -183,7 +183,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
         </div>
       </div>
 
-      {/* Address Section */}
+     
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <InputField
           label="Street Address"
@@ -247,7 +247,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
         />
       </div>
 
-      {/* Skills Section */}
+   
       <div className="space-y-6">
         <ChipsField
           label="Skills"
@@ -260,7 +260,7 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
         />
       </div>
 
-      {/* Social Links Section */}
+    
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <InputField
           label="Website"
@@ -302,7 +302,6 @@ const CandidateForm: React.FC<ICandidateFormProps> = ({
         />
       </div>
 
-      {/* Education, Work Experience, and Languages Sections */}
       <div className="space-y-8">
         <EducationSection education={education} onChange={setEducation} />
         <WorkExperienceSection

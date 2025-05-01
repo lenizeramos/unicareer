@@ -46,7 +46,7 @@ export default function FileUpload({
     try {
       setIsUploading(true);
 
-      // Validate file type
+    
       if (!allowedFileTypes.includes(file.type)) {
         throw new Error(
           `Please upload one of these formats: ${allowedFileTypes
@@ -55,7 +55,7 @@ export default function FileUpload({
         );
       }
 
-      // Validate file size
+     
       if (file.size > maxSizeMB * 1024 * 1024) {
         throw new Error(`File size should be less than ${maxSizeMB}MB`);
       }
@@ -83,7 +83,7 @@ export default function FileUpload({
       setFileKey(data.fileKey);
       await getPresignedUrl(data.fileKey);
 
-      // Call onUploadComplete with the fileKey and file
+      
       if (onUploadComplete) {
         onUploadComplete(data.fileKey, file);
       }

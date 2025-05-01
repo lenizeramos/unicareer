@@ -11,10 +11,7 @@ export async function POST(request: Request) {
     }
 
     const body: ICompany = await request.json();
-
-    // Separate user data from company data
     const {
-      // Company-specific fields
       name,
       bio,
       size,
@@ -22,8 +19,6 @@ export async function POST(request: Request) {
       foundedYear,
       toolsAndTechnologies,
       benefits,
-
-      // User fields (shared or user-specific)
 
       streetAddress,
       city,

@@ -90,6 +90,17 @@ const ApplicationsListTable = ({
 }: ApplicationsListTableProps) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
+  const getStatusLabel = (status: IApplication["status"]) => {
+    const labels = {
+      PENDING: "Pending",
+      INTERVIEWED: "Interview",
+      REJECTED: "Rejected",
+      HIRED: "Hired",
+      CANCELLED_JOB: "Cancelled Job",
+    };
+    return labels[status] || status;
+  };
+
   const getStatusColor = (status: IApplication["status"]) => {
     const colors = {
       PENDING: "border-PENDING text-PENDING",
@@ -207,7 +218,7 @@ const ApplicationsListTable = ({
             </div>
             <div className="text-center py-2 md:py-0">
               <Badge
-                status={application.status}
+                status={getStatusLabel(application.status)}
                 color={getStatusColor(application.status)}
               />
             </div>

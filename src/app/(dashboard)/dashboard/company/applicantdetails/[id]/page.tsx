@@ -18,6 +18,7 @@ import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import ApplicationStatusButton from "@/app/components/ApplicationStatusButton";
 import FileDisplay from "@/app/components/FileDisplay";
+import Loader from "@/app/components/Loader";
 
 const InfoSection = ({ title, children, className = "" }: InfoSectionProps) => (
   <div className={`bg-white shadow rounded-lg p-6 mb-6 ${className} font-monomakh`}>
@@ -77,7 +78,7 @@ const ApplicantDetailsPage = () => {
   }, [applicationId]);
 
   if (loading) {
-    return <div className="flex justify-center items-center h-screen font-shafarik">Loading...</div>;
+    return <Loader />;
   }
 
   const candidate = application?.candidate;

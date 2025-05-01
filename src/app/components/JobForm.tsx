@@ -219,7 +219,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
               className="lg:w-4/5 text-gray-700 rounded-md font-shafarik"
               containerClass={`${classNameDivContainer} ${classNamePadding}`}
               labelClass={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
-              helperText="Enter relevant skills for the position - max 100 skills - comma ',' separated."
+              helperText="Enter relevant skills for the position - max 10 skills (comma ',' separated)"
               itemTemplate={(skill) => (
                 <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2 font-shafarik">
                   {skill}
@@ -339,7 +339,7 @@ const JobForm: React.FC<IJobFormProps> = ({ onClick, initialData }) => {
             className="lg:w-4/5 text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-shafarik"
             containerClass={classNameDivContainer + " font-shafarik"}
             labelClass={"text-lg font-semibold text-gray-700 font-shafarik lg:w-1/5"}
-            helperText="Encourage more people to apply by sharing the attractive rewards and benefits you offer your employees - max 100 benefits - comma ',' separated"
+            helperText="Encourage more people to apply by sharing the attractive rewards and benefits you offer your employees - max 10 benefits (comma ',' separated)"
             itemTemplate={(benefit) => (
               <div className="text-gray-700 px-3 py-1 text-sm font-medium flex items-center mr-2 font-shafarik">
                 {benefit}
