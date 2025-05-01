@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import DashboardNavbar from "../../../../../components/DashboardNavbar";
 import ButtonComp from "@/app/components/ButtonComp";
 import { styles } from "@/app/styles";
-import { jobsCategories, monthNames, stylesTags } from "@/app/constants";
+import { jobsCategories, monthNames } from "@/app/constants";
 import { CiCircleCheck } from "react-icons/ci";
 import TagComp from "@/app/components/TagComp";
 import { AppDispatch, RootState } from "@/app/context/store";
