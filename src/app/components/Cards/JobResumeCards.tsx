@@ -21,7 +21,6 @@ const JobResumeCards = ({
   cardId,
   location,
   styleCard,
-  hasApplied = false,
 }: ICards) => {
   const dispatch: AppDispatch = useDispatch();
   const { users } = useSelector(
@@ -117,21 +116,12 @@ const JobResumeCards = ({
         </div>
         {cardId === "allJobs" && (
           <div className="flex flex-col gap-2">
-            {!hasApplied ? (
-              <ButtonComp
-                text="See Details"
-                IsWhite={false}
-                width="w-full"
-                onClick={handleSeeDetails}
-              />
-            ) : (
-              <ButtonComp
-                text="Applied"
-                IsWhite={false}
-                width="w-full"
-                onClick={handleSeeDetails}
-              />
-            )}
+            <ButtonComp
+              text="See Details"
+              IsWhite={false}
+              width="w-full"
+              onClick={handleSeeDetails}
+            />
           </div>
         )}
       </div>

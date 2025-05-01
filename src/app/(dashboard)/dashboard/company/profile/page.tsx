@@ -105,7 +105,6 @@ const CompanyProfile = () => {
       label: "Website",
     },
   ];
-console.log(company?.benefits)
   return (
     <div className="bg-white shadow-lg rounded-lg p-6">
       <CompanyHeader

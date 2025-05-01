@@ -9,7 +9,7 @@ import { filtersValues } from "@/app/constants";
 import FilterJobs from "@/app/components/FilterJobs";
 import CardsContainer from "@/app/components/Cards/CardsContainer";
 import { AppDispatch, RootState } from "@/app/context/store";
-import { IJobsState } from "@/app/Types/slices";
+import { ICandidateState, IJobsState } from "@/app/Types/slices";
 import { useEffect, useState } from "react";
 import { fetchAllJobs } from "@/app/context/slices/jobSlices";
 import SearchNotFound from "@/app/components/SearchNotFound";
@@ -17,7 +17,7 @@ import Loader from "@/app/components/Loader";
 import { AiOutlineAlignCenter } from "react-icons/ai";
 import Modal from "@/app/components/Modal";
 import { TbZoomReset } from "react-icons/tb";
-import { useCandidateData } from "@/Lib/client/candidate";
+import { fetchCandidate } from "@/app/context/slices/candidateSlice";
 
 export default function FindJobs() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -26,15 +26,20 @@ export default function FindJobs() {
   const { jobs, loading } = useSelector(
     (state: RootState) => state.jobs as IJobsState
   );
-
-  const { candidate } = useCandidateData();
+  const { candidate } = useSelector(
+    (state: RootState) => state.candidateState as ICandidateState
+  );
 
   useEffect(() => {
     if (jobs.length === 0) {
       dispatch(fetchAllJobs());
     }
   }, [jobs.length, dispatch]);
-
+  useEffect(() => {
+    if (!candidate) {
+      dispatch(fetchCandidate());
+    }
+  }, [candidate, dispatch]);
   const [filters, setFilters] = useState({
     searchTerm: "",
     searchLocation: "",
@@ -54,43 +59,49 @@ export default function FindJobs() {
   const jobsWithStatus = jobs.filter(
     (job) => new Date(job.closingDate) > new Date()
   );
-  const filtersJobs = jobsWithStatus.filter((job) => {
-    const matchesSearchTerm = job.location
-      .toLowerCase()
-      .includes(filters.searchLocation.toLowerCase());
-    const matchesLocation = job.title
-      .toLowerCase()
-      .includes(filters.searchTerm.toLowerCase());
-    const matchesJobType = filters.jobType
-      ? job.type.toLowerCase() === filters.jobType.toLowerCase()
-      : true;
-    const matchesCategory = filters.category
-      ? job.categories === filters.category.toLowerCase()
-      : true;
-    const matchesSalary = getValue(filters.salary.max)
-      ? job.salaryMax >= getValue(filters.salary.min) &&
-        job.salaryMax <= getValue(filters.salary.max)
-      : true;
-    const matchesJobLevel = filters.jobLevel
-      ? job.level.toLowerCase() === filters.jobLevel.toLowerCase()
-      : true;
 
-    return (
-      matchesSearchTerm &&
-      matchesLocation &&
-      matchesJobType &&
-      matchesCategory &&
-      matchesSalary &&
-      matchesJobLevel
-    );
-  });
+  const filtersJobs = jobsWithStatus
+    .filter((job) => {
+      const matchesSearchTerm = job.location
+        .toLowerCase()
+        .includes(filters.searchLocation.toLowerCase());
+      const matchesLocation = job.title
+        .toLowerCase()
+        .includes(filters.searchTerm.toLowerCase());
+      const matchesJobType = filters.jobType
+        ? job.type.toLowerCase() === filters.jobType.toLowerCase()
+        : true;
+      const matchesCategory = filters.category
+        ? job.categories === filters.category.toLowerCase()
+        : true;
+      const matchesSalary = getValue(filters.salary.max)
+        ? job.salaryMax >= getValue(filters.salary.min) &&
+          job.salaryMax <= getValue(filters.salary.max)
+        : true;
+      const matchesJobLevel = filters.jobLevel
+        ? job.level.toLowerCase() === filters.jobLevel.toLowerCase()
+        : true;
+
+      return (
+        matchesSearchTerm &&
+        matchesLocation &&
+        matchesJobType &&
+        matchesCategory &&
+        matchesSalary &&
+        matchesJobLevel
+      );
+    })
+    .sort((a, b) => {
+
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+      return dateB.getTime() - dateA.getTime(); 
+    });
 
   if (!candidate) {
     return;
   }
 
-  console.log(jobs, candidate);
-  
   const handleFilterChange = (
     key: string,
     value: string | { min: number; max: number }

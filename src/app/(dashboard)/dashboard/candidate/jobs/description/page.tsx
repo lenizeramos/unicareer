@@ -21,7 +21,6 @@ import Loader from "@/app/components/Loader";
 import FileDisplay from "@/app/components/FileDisplay";
 import SearchNotFound from "@/app/components/SearchNotFound";
 import { FaMoneyBillWave } from "react-icons/fa";
-import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 
 
 export default function JobDescription() {
