@@ -2,8 +2,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import ButtonComp from "@/app/components/ButtonComp";
-import { FaLinkedinIn, FaGlobe } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaGlobe } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { IoLogoLinkedin } from "react-icons/io5";
 import { styles } from "@/app/styles";
