@@ -33,7 +33,7 @@ const JobSearchForm = ({
     setSearchLocation("");
   };
   return (
-    <div className="flex flex-col sm:flex-row p-4 rounded-xl bg-gray-200 gap-y-5 justify-center items-center sm:max-w-[800px] max-w-[300px] sm:gap-3 sm:mx-0 mx-auto">
+    <div className="flex flex-col sm:flex-row p-4 rounded-xl bg-gray-200 gap-y-5 justify-center items-center sm:max-w-[800px] max-w-[300px] sm:gap-3 sm:mx-0 mx-auto z-100">
       <div className="w-fit flex gap-2 border-b sm:border-x border-gray-300 rounded-xl items-center">
         <CiSearch className="text-gray-400" size={25} />
         <input

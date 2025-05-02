@@ -11,6 +11,8 @@ import { useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { FaExclamationTriangle } from "react-icons/fa";
+import { BackgroundLines } from "@/app/components/UI/background-lines";
+import FloatingImagesGrid from "@/app/components/UI/images-carousel";
 
 export default function Home() {
   const [filters, setFilters] = useState({
@@ -164,22 +166,29 @@ export default function Home() {
   };
   return (
     <>
-      <div className="bg-landingDark flex flex-col gap-5">
-        <div className="md:p-15 p-10 flex flex-col gap-7">
-          <h1
-            className={`${styles.heroHeadTextDark} md:text-[6rem] sm:text-[5rem] xs:text-[4rem] text-[3rem] flex flex-col`}
-          >
-            Discover more than
-            <span className={`${styles.heroHeadSpan}`}>5000+ Jobs</span>
-          </h1>
-          <p
-            className={`${styles.heroSubText}  text-gray-400 md:text-2xl sm:text-xl xs:text-base text-sm text-justify`}
-          >
-            Great platform for the job seeker that searching for{" "}
-            <br className="sm:block hidden" /> new career heights and passionate
-            about startups.
-          </p>
-          <JobSearchForm onFilterChange={handleFilterChange} />
+      <div className="bg-blue-950 flex flex-col gap-5">
+        <div className="pt-10 px-10 md:pt-15 md:px-15 flex flex-col md:flex-row items-center gap-7 m-h-[630px]">
+          <div className="flex-1">
+            <BackgroundLines className="flex items-left w-full flex-col [&>svg]:absolute [&>svg]:inset-0">
+              <h1
+                className={`${styles.heroHeadTextDark} md:text-[6rem] sm:text-[5rem] xs:text-[4rem] text-[3rem] flex flex-col relative`}
+              >
+                Discover more than
+                <span className={`${styles.heroHeadSpan}`}>5000+ Jobs</span>
+              </h1>
+              <p
+                className={`${styles.heroSubText} text-gray-400 md:text-2xl sm:text-xl xs:text-base text-sm text-justify relative mb-10`}
+              >
+                Great platform for the job seeker that searching for{" "}
+                <br className="sm:block hidden" /> new career heights and passionate
+                about startups.
+              </p>
+            </BackgroundLines>
+            <JobSearchForm onFilterChange={handleFilterChange} />
+          </div>
+          
+          <FloatingImagesGrid />
+          
           {hasFilters ? (
             jobs.length === 0 ? (
               <SearchNotFound text="No matching jobs found." />
@@ -195,7 +204,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="md:p-15 p-10 flex flex-col gap-10 bg-blue-950">
+        <div className="md:p-15 p-10 flex flex-col gap-10 bg-landingDark">
           <h2
             className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
           >
@@ -223,7 +232,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="md:p-15 p-10 w-full flex flex-col lg:flex-row bg-blue-950 justify-between">
+        <div className="md:p-15 p-10 w-full flex flex-col lg:flex-row bg-landingDark justify-between">
           <div className="flex flex-col p-6 gap-5">
             <h2
               className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}

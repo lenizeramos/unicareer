@@ -50,7 +50,7 @@ const Footer = () => {
     );
   };
   return (
-    <footer className="bg-[#202430] text-gray-300 md:p-15 p-10 text-left font-shafarik">
+    <footer className="bg-blue-950 text-gray-300 md:p-15 p-10 text-left font-shafarik">
       <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-8">
         <div className="flex flex-col items-start wide-column gap-5">
           <Logo isLanding={true} />
