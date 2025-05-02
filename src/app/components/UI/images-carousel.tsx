@@ -26,18 +26,32 @@ const shuffleArray = (array: string[]) => {
   return shuffled;
 };
 
+const createNonRepeatingSequence = (images: string[], repetitions: number) => {
+  const result: string[] = [];
+  for (let i = 0; i < repetitions; i++) {
+    const shuffled = shuffleArray([...images]);
+    if (i > 0 && result[result.length - 1] === shuffled[0]) {
+      const temp = shuffled[0];
+      shuffled[0] = shuffled[shuffled.length - 1];
+      shuffled[shuffled.length - 1] = temp;
+    }
+    result.push(...shuffled);
+  }
+  return result;
+};
+
 export const FloatingImagesGrid = () => {
 
   const firstHalf = IMAGES.slice(0, IMAGES.length / 2);
   const secondHalf = IMAGES.slice(IMAGES.length / 2);
   
-  const randomImagesDown = [...shuffleArray(firstHalf), ...shuffleArray(firstHalf), ...shuffleArray(firstHalf)];
-  const randomImagesUp = [...shuffleArray(secondHalf), ...shuffleArray(secondHalf), ...shuffleArray(secondHalf)];
+  const randomImagesDown = createNonRepeatingSequence(firstHalf, 3);
+  const randomImagesUp = createNonRepeatingSequence(secondHalf, 3);
 
   return (
     <div className="md:hidden lg:block flex-1 relative gap-4 overflow-hidden h-[700px] images-carousel-landing">
-      <div className="grid grid-cols-2 gap-8 -mx-6">
-        <div className="flex flex-col gap-4 animate-scroll-down items-end">
+      <div className="grid grid-cols-2 gap-8 -mx-6 [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_70%,transparent_95%)]">
+        <div className="flex flex-col gap-4 animate-scroll-down items-end [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_70%,transparent_95%)]">
           {randomImagesDown.map((src, index) => (
             <div
               key={`down-${index}`}

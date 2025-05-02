@@ -166,7 +166,7 @@ export default function Home() {
   };
   return (
     <>
-      <div className="bg-blue-950 flex flex-col gap-5">
+      <div className="bg-landingDark flex flex-col gap-5">
         <div className="pt-10 px-10 md:pt-15 md:px-15 flex flex-col md:flex-row items-center gap-7 m-h-[630px]">
           <div className="flex-1">
             <BackgroundLines className="flex items-left w-full flex-col [&>svg]:absolute [&>svg]:inset-0">
@@ -204,7 +204,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="md:p-15 p-10 flex flex-col gap-10 bg-landingDark">
+        <div className="md:p-15 p-10 flex flex-col gap-10 bg-blue-950">
           <h2
             className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
           >
@@ -232,7 +232,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="md:p-15 p-10 w-full flex flex-col lg:flex-row bg-landingDark justify-between">
+        <div className="md:p-15 p-10 w-full flex flex-col lg:flex-row bg-blue-950 justify-between">
           <div className="flex flex-col p-6 gap-5">
             <h2
               className={`${styles.titleSectionSize} ${styles.sectionHeadText} text-white`}
