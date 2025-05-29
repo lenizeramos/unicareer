@@ -1,0 +1,546 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #4640de;
+}
+
+body {
+  font-family: Inter, sans-serif;
+  background-color: var(--body-background);
+}
+
+.text-focus-color {
+  color: var(--text-focus);
+}
+
+.text-not-focus-color {
+  color: var(--text-not-focus);
+}
+
+.sidebar {
+  background-color: var(--background);
+}
+
+.btnAuth {
+  box-shadow: 0px 10px 14px -7px #98a1ae;
+  text-shadow: 0px 1px 0px #98a1ae;
+}
+
+.cl-logoImage {
+  scale: 2;
+}
+
+.btnAuth:active {
+  position: relative;
+  top: 1px;
+}
+
+.menu-item:hover {
+  background-color: var(--item-focus);
+  color: var(--text-focus);
+}
+
+.menu-item:hover span {
+  color: var(--text-focus);
+}
+
+.menu-item-no-focus-line {
+  padding-left: 4px;
+}
+
+.menu-item-focus-line {
+  border-left: 4px solid var(--text-focus);
+}
+
+.hover-icon-parent:hover .icon-hover {
+  color: var(--text-focus);
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  border: 3px solid;
+  border-color: #4640de #4640de transparent transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.loader::after,
+.loader::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: 3px solid;
+  border-color: transparent transparent #b1aff1 #b1aff1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  animation: rotationBack 0.5s linear infinite;
+  transform-origin: center center;
+}
+.loader::before {
+  width: 32px;
+  height: 32px;
+  border-color: #4640de #4640de transparent transparent;
+  animation: rotation 1.5s linear infinite;
+}
+
+.loader2 {
+  width: 48px;
+  height: 48px;
+  display: block;
+  margin: 20px auto;
+  position: relative;
+  border: 3px solid #e5e7eb;
+  border-radius: 50%;
+  box-sizing: border-box;
+  animation: animloader 2s linear infinite;
+}
+.loader2::after {
+  content: "";
+  box-sizing: border-box;
+  width: 6px;
+  height: 24px;
+  background: #e5e7eb;
+  transform: rotate(-45deg);
+  position: absolute;
+  bottom: -20px;
+  left: 46px;
+}
+.loader3 {
+  color: #e5e7eb;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+}
+.loader3::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+  position: absolute;
+  bottom: 10px;
+  right: -5px;
+  box-sizing: border-box;
+  animation: animloader2 1s linear infinite;
+}
+
+.logo {
+  animation: 15s starRotate linear infinite;
+}
+
+.modal {
+  animation: "fadeIn 0.3s ease-out";
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes animloader2 {
+  0% {
+    box-shadow: 10px 0 rgba(255, 255, 255, 0), 20px 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow: 10px 0 #e5e7eb, 20px 0 rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 10px 0 #e5e7eb, 20px 0 #e5e7eb;
+  }
+}
+
+@keyframes animloader {
+  0% {
+    transform: translate(-10px, -10px);
+  }
+  25% {
+    transform: translate(-10px, 10px);
+  }
+  50% {
+    transform: translate(10px, 10px);
+  }
+  75% {
+    transform: translate(10px, -10px);
+  }
+  100% {
+    transform: translate(-10px, -10px);
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes starRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+
+@font-face {
+  font-family: "Big_Shoulder_Stencil";
+  src: url("/Fonts/Big_Shoulders_Stencil/BigShouldersStencil-VariableFont_opsz\,wght.ttf")
+    format("truetype");
+  font-weight: medium;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Big_Shoulders_Inline";
+  src: url("/Fonts/Big_Shoulders_Inline/BigShouldersInline-VariableFont_opsz\,wght.ttf")
+    format("truetype");
+  font-weight: medium;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Monomakh";
+  src: url("/Fonts/Monomakh/Monomakh-Regular.ttf") format("truetype");
+  font-weight: medium;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Shafarik";
+  src: url("/Fonts/Shafarik/Shafarik-Regular.ttf") format("truetype");
+  font-weight: medium;
+  font-style: normal;
+}
+
+@theme {
+  --font-bigShoulderStencil: "Big_Shoulder_Stencil", sans-serif;
+  --font-bigShoulderInline: "Big_Shoulders_Inline", sans-serif;
+  --font-shafarik: "Shafarik", sans-serif;
+  --font-monomakh: "Monomakh", sans-serif;
+  --color-landingDark: #202430;
+  --color-span: #26a4ff;
+  --color-primary: #4640de;
+  --color-menuItem: #7c8493;
+  --color-menuItemFocus: #e9ebfd;
+  --color-textTitle: #25324b;
+  --color-lightBackground: #f8f8fd;
+  --color-openColor: #56cdad;
+  --color-closedColor: #ff6550;
+  --color-pendingColor: #ffb836;
+  --color-cancelledJobColor: #bd1522;
+  --color-hiredColor: #027d73;
+  --color-interviewedColor: var(--color-primary);
+  --color-rejectedColor: var(--color-closedColor);
+  --color-fulltimeColor: #ec4899;
+  --color-parttimeColor: #22c55e;
+  --color-freelanceColor: #a855f7;
+  --color-contractColor: #ef4444;
+  --color-internshipColor: #eab308;
+  --color-remoteColor: #3b82f6;
+  --breakpoint-xs: 30rem;
+  --color-borders: #d2d6ff;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.logo-gradient {
+  background-image: linear-gradient(
+    to right,
+    #1f70b7,
+    #61246c,
+    #bd1522,
+    #f29100,
+    #39a934,
+    #027d73
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.logo-gradient-landing {
+  background-image: linear-gradient(
+    to right,
+    #019ee2,
+    #81358a,
+    #e20714,
+    #f8b133,
+    #95c022,
+    #01a099
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.companyName-gradient {
+  background-image: linear-gradient(
+    to right,
+    #81358a,
+    #0f5a7b,
+    #79571c,
+    #87040c,
+    #013633,
+    #455810
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn:hover {
+  background-image: linear-gradient(
+    to right,
+    #019ee2,
+    #81358a,
+    #e20714,
+    #f8b133,
+    #95c022,
+    #01a099
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.border-live {
+  border-color: var(--color-liveColor);
+}
+
+.background-full-time {
+  background-color: var(--color-fulltimeColor);
+}
+.background-part-time {
+  background-color: var(--color-parttimeColor);
+}
+.background-internship {
+  background-color: var(--color-internshipColor);
+}
+.background-remote {
+  background-color: var(--color-remoteColor);
+}
+.background-contract {
+  background-color: var(--color-contractColor);
+}
+.background-freelance {
+  background-color: var(--color-freelanceColor);
+}
+.border-closed {
+  border-color: var(--color-closedColor);
+}
+
+.border-full-time {
+  border-color: var(--color-fulltimeColor);
+}
+.border-part-time {
+  border-color: var(--color-parttimeColor);
+}
+.border-internship {
+  border-color: var(--color-internshipColor);
+}
+.border-remote {
+  border-color: var(--color-remoteColor);
+}
+.border-contract {
+  border-color: var(--color-contractColor);
+}
+.border-freelance {
+  border-color: var(--color-freelanceColor);
+}
+
+.border-COMPLETED {
+  border-color: var(--color-openColor);
+  color: var(--color-openColor);
+}
+
+.border-PENDING {
+  border-color: var(--color-pendingColor);
+  color: var(--color-pendingColor);
+}
+
+.border-cancelledJob {
+  border-color: var(--color-cancelledJobColor);
+}
+.border-hired {
+  border-color: var(--color-hiredColor);
+}
+.border-PENDING {
+  border-color: var(--color-pendingColor);
+}
+
+.border-rejected {
+  border-color: var(--color-rejectedColor);
+}
+
+.border-interviewed {
+  border-color: var(--color-interviewedColor);
+}
+
+.text-PENDING {
+  color: var(--color-pendingColor);
+}
+.text-interviewed {
+  color: var(--color-interviewedColor);
+}
+
+.text-rejected {
+  color: var(--color-rejectedColor);
+}
+
+.text-cancelledJobColor {
+  color: var(--color-cancelledJobColor);
+}
+
+.text-hiredColor {
+  color: var(--color-hiredColor);
+}
+
+.text-openColor {
+  color: var(--color-openColor);
+}
+
+.text-closedColor {
+  color: var(--color-closedColor);
+}
+
+.text-full-timeColor {
+  color: var(--color-fulltimeColor);
+}
+.text-internshipColor {
+  color: var(--color-internshipColor);
+}
+.text-remoteColor {
+  color: var(--color-remoteColor);
+}
+.text-part-timeColor {
+  color: var(--color-parttimeColor);
+}
+.text-contractColor {
+  color: var(--color-contractColor);
+}
+.text-freelanceColor {
+  color: var(--color-freelanceColor);
+}
+
+/*Skills and benefit chips - PrimeReact*/
+.p-chips-multiple-container {
+  width: 100%;
+}
+
+/* SalaryRange - React-Range */
+.range-track {
+  height: 6px;
+  width: 100%;
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.range-thumb {
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 2px solid #007bff;
+  border-radius: 50%;
+  box-shadow: 0px 2px 6px #aaa;
+}
+
+/*PrimeReact - JobForm*/
+.p-stepper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* CLerk */
+.cl-formButtonPrimary {
+  font-size: 14px;
+  text-transform: none;
+  background-color: var(--color-primary);
+}
+
+.cl-formButtonPrimary:hover,
+.cl-formButtonPrimary:focus,
+.cl-formButtonPrimary:active {
+  background-color: #49247a;
+}
+
+.cl-footer {
+  display: none;
+}
+/*Skills - forms*/
+.p-chips:not(.p-disabled):hover .p-chips-multiple-container {
+  border-color: lightgray;
+}
+.p-chips:not(.p-disabled).p-focus .p-chips-multiple-container {
+  box-shadow: 0 0 0 0.05rem var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.p-chips .p-chips-multiple-container .p-chips-token {
+  color: var(--color-menuItem);
+}
+
+.profile-image-style {
+  width: 90px !important;
+  height: 90px !important;
+  border-radius: 50% !important;
+}
+
+@media (max-width: 576px) {
+  .profile-image-style {
+    width: 60px !important;
+    height: 60px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .p-stepper {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .p-stepper-action {
+    flex-direction: column;
+  }
+
+  .p-stepper-title {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+  .p-stepper-content {
+    width: 100%;
+    margin: auto;
+  }
+
+  .p-stepper-panels {
+    padding: 0;
+  }
+
+  .p-stepper-separator {
+    display: none;
+  }
+}

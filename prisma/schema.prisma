@@ -1,0 +1,281 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String             @id @default(auto()) @map("_id") @db.ObjectId
+  clerkId      String             @unique
+  email        String             @unique
+  role         Role
+  streetAddress String?
+  city          String?
+  province      String?
+  country       String?           @default("Canada")
+  postalCode    String?
+  website        String?
+  linkedIn      String?
+  twitter       String?
+  photo        String?
+  profileImage UserProfileImage[]
+  candidate    Candidate?         @relation
+  company      Company?           @relation
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  @@map("user")
+}
+
+model Candidate {
+  id             String              @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String              @unique @db.ObjectId
+  user           User                @relation(fields: [userId], references: [id])
+  firstName      String
+  lastName       String
+  skills         String[]
+  resume         String?
+  bio            String?
+  education      Education[]
+  workExperience WorkExperience[]
+  languages      Language[]
+  documents      CandidateDocument[]
+  applications   Application[]
+  jobView        JobView[]
+  compatibilityScores CompatibilityScore[]
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  @@map("candidate")
+}
+
+model Company {
+  id                String                @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String                @unique @db.ObjectId
+  user              User                  @relation(fields: [userId], references: [id])
+  name              String
+  bio               String?
+  size              String?
+  industry          String?
+  foundedYear       String?
+  toolsAndTechnologies String[]
+  benefits          String[]
+  payments          CompanyPayments[]
+  companyMembership CompanyMembership[]
+  jobs              Job[]                 @relation
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @default(now()) @updatedAt
+
+  @@map("company")
+}
+
+model Job {
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  description      String?
+  location         String?
+  skills           String[]
+  companyId        String        @db.ObjectId
+  level            String?
+  type             String?
+  categories       String?
+  salaryMin        Float?
+  salaryMax        Float?
+  responsibilities String?
+  whoYouAre        String?
+  niceToHave       String?
+  benefits         String[]
+  deleted          Boolean       @default(false)
+  company          Company       @relation(fields: [companyId], references: [id])
+  applications     Application[]
+  jobView          JobView[]
+  compatibilityScores CompatibilityScore[]
+  closingDate      DateTime?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  deletedAt DateTime?
+
+  @@map("job")
+}
+
+model JobView {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  jobId       String    @db.ObjectId
+  job         Job       @relation(fields: [jobId], references: [id])
+  candidateId String    @db.ObjectId
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  viewedAt    DateTime  @default(now())
+
+  @@unique([jobId, candidateId])
+  @@map("job_views")
+}
+
+model Application {
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
+  jobId       String            @db.ObjectId
+  job         Job               @relation(fields: [jobId], references: [id])
+  candidateId String            @db.ObjectId
+  candidate   Candidate         @relation(fields: [candidateId], references: [id])
+  status      ApplicationStatus @default(PENDING)
+  appliedAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@map("application")
+}
+
+enum ApplicationStatus {
+  PENDING
+  INTERVIEWED
+  REJECTED
+  HIRED
+  CANCELLED_JOB
+}
+
+enum Role {
+  ADMIN
+  COMPANY
+  CANDIDATE
+}
+
+model CompanyMembership {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  companyId String           @unique @db.ObjectId
+  company   Company          @relation(fields: [companyId], references: [id])
+  status    MembershipStatus @default(INACTIVE)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@map("company_membership")
+}
+
+model CompanyPayments {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  companyId       String        @db.ObjectId
+  company         Company       @relation(fields: [companyId], references: [id])
+  amount          Float
+  status          PaymentStatus @default(PENDING)
+  stripeSessionId String?
+  invoice         String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@map("company_payments")
+}
+
+enum MembershipStatus {
+  PENDING
+  ACTIVE
+  INACTIVE
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+model CandidateDocument {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  candidateId String    @db.ObjectId
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  fileKey     String
+  fileType    String
+  fileName    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("candidate_documents")
+}
+
+model UserProfileImage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  fileKey   String
+  fileType  String
+  fileName  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user_profile_images")
+}
+
+model Education {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  candidateId  String    @db.ObjectId
+  candidate    Candidate @relation(fields: [candidateId], references: [id])
+  institution  String
+  degree       String
+  fieldOfStudy String?
+  country      String?
+  startDate    DateTime
+  endDate      DateTime?
+  current      Boolean   @default(false)
+  description  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("education")
+}
+
+model WorkExperience {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  candidateId String    @db.ObjectId
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  company     String
+  position    String
+  country     String?
+  startDate   DateTime
+  endDate     DateTime?
+  current     Boolean   @default(false)
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("work_experience")
+}
+
+model Language {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  candidateId String        @db.ObjectId
+  candidate   Candidate     @relation(fields: [candidateId], references: [id])
+  name        String
+  level       LanguageLevel
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("language")
+}
+
+enum LanguageLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  NATIVE
+}
+
+model CompatibilityScore {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  jobId       String    @db.ObjectId
+  job         Job       @relation(fields: [jobId], references: [id])
+  candidateId String    @db.ObjectId
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  score       Float     
+  feedback    String    
+  recommendation String 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([jobId, candidateId])
+  @@map("compatibility_scores")
+}
