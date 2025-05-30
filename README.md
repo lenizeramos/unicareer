@@ -1,38 +1,97 @@
 > **Note:** This repository is a personal backup of coursework originally developed as part of my studies at Cornerstone College. It was cloned from a institutional and private repository to preserve my contributions and development history.
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Unicareer
 
-## Getting Started
+🔗 [Live Demo](https://unicareer.online)
 
-First, run the development server:
+Unicareer is a modern job-matching platform that connects students and recent graduates with employers using AI-driven matchmaking and a clean, intuitive interface.
+
+## 🚀 Features
+
+### 👩‍🎓 For Candidates & Students
+- Access to **personalized job listings**
+- Apply with **one click**
+- Real-time **application status updates**
+- AI-powered **resume parsing**
+- Build a **professional portfolio** and gain practical experience
+
+### 🏢 For Employers
+- Discover and connect with **qualified candidates**
+- Post and manage jobs with ease
+- AI-based **candidate-matching system**
+- Streamlined **application tracking**
+
+## 🛠 Tech Stack
+
+- **Framework**: [Next.js](https://nextjs.org/) 15 with Turbopack
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Database**: MongoDB (via Prisma)
+- **Authentication**: Clerk
+- **Storage**: AWS S3
+- **Payments**: Stripe
+- **AI Integration**: OpenAI
+- **PDF Parsing**: pdf.js-extract
+- **Charts**: Chart.js
+- **State Management**: Redux Toolkit
+- **UI Libraries**: PrimeReact, React Icons, Swiper
+
+## 📦 Scripts
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev     # Start dev server with Turbopack
+npm run build   # Build for production
+npm run start   # Start production server
+npm run lint    # Run ESLint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧪 Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The project uses the following environment variables (`.env`):
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+# Database
+DATABASE_URL="mongodb+srv://..."
 
-## Learn More
+# Clerk (Authentication)
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=...
+CLERK_SECRET_KEY=...
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up  
 
-To learn more about Next.js, take a look at the following resources:
+# Stripe (Payments)
+STRIPE_SECRET_KEY=...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=...
+STRIPE_WEBHOOK_SECRET=...
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# AWS (File Uploads)
+AWS_ACCESS_KEY_ID=...
+AWS_SECRET_ACCESS_KEY=...
+AWS_REGION=...
+S3_BUCKET_NAME=...
+NEXT_PUBLIC_S3_BASE_URL=https://...
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# OpenAI (AI features)
+OPENAI_API_KEY="..."
+```
 
-## Deploy on Vercel
+## 📁 Project Structure Highlights
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `/app`: Core pages and routing
+- `/components`: Reusable UI components
+- `/redux`: Global state management
+- `/utils`: Utility functions and helpers
+- `/api`: API routes (server-side functions)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 👥 Contributors
+
+- Leni Ramos
+- Liliana Forero 
+- Eduardo Cisneros
+- Jose Trueba
+
+
+## 📄 License
+
+This project is private and proprietary. Contact the project owner for licensing details.
